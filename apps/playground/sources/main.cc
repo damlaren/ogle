@@ -1,8 +1,15 @@
+/**
+ * @file A sandbox for trying out new features.
+ */
+
 #include <iostream>
 
 #include "ogle/math/includes/core/vector.h"
 
-using namespace std;
+/**
+ * @brief main Main entry point.
+ * @return 0 on success, something else on failure.
+ */
 
 int main() {
   ogle::math::Vector<double, 1> v1;
