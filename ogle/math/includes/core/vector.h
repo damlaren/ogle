@@ -2,8 +2,8 @@
  * @file Defines Vector class.
  */
 
-#ifndef OGLE_MATH_VECTOR_H
-#define OGLE_MATH_VECTOR_H
+#ifndef OGLE_MATH_CORE_VECTOR_H
+#define OGLE_MATH_CORE_VECTOR_H
 
 #include <assert.h>
 
@@ -116,4 +116,4 @@ class Vector {
 
 }  // namespace
 
-#endif  // OGLE_MATH_VECTOR_H
+#endif  // OGLE_MATH_CORE_VECTOR_H

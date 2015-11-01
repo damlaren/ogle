@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "vector.h"
+#include "ogle/math/includes/core/vector.h"
 
 using namespace std;
 
