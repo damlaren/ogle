@@ -1,0 +1,3 @@
+[submodule "3rdparty/styleguide"]
+	path = 3rdparty/styleguide
+	url = https://github.com/google/styleguide.git
