@@ -1,3 +1,6 @@
 [submodule "3rdparty/styleguide"]
 	path = 3rdparty/styleguide
 	url = https://github.com/google/styleguide.git
+[submodule "3rdparty\\glfw"]
+	path = 3rdparty\\glfw
+	url = https://github.com/glfw/glfw.git
