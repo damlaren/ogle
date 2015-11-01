@@ -1,5 +1,6 @@
 /**
  * @file Defines an app to display a triangle on the screen.
+ * Used to validate primitive drawing code.
  */
 
 /**
