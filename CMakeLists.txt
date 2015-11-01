@@ -7,9 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-add_subdirectory(ogle)
+add_subdirectory(libraries)
 add_subdirectory(apps)
-
-add_library(ogle ogle/sources/core.cc)
-target_link_libraries (ogle ogle_math)
-target_include_directories(ogle PUBLIC .)
