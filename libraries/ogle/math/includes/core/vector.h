@@ -1,9 +1,19 @@
+/*
+Copyright (c) 2015 damlaren
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 /**
  * @file Defines Vector class.
  */
 
-#ifndef OGLE_MATH_CORE_VECTOR_H
-#define OGLE_MATH_CORE_VECTOR_H
+#ifndef LIBRARIES_OGLE_MATH_INCLUDES_CORE_VECTOR_H_
+#define LIBRARIES_OGLE_MATH_INCLUDES_CORE_VECTOR_H_
 
 #include <assert.h>
 
@@ -30,7 +40,8 @@ class Vector {
    * @brief Default constructor.
    * Does nothing, to reduce overhead.
    */
-  Vector() noexcept {}
+  Vector() noexcept {
+  }
 
   /**
    * @brief Constructor.
@@ -39,7 +50,7 @@ class Vector {
    *   to set the Vector is required.
    */
   template <typename... U>
-  Vector(U... ts)
+  explicit Vector(U... ts)
       : data_{ts...} {
     static_assert(sizeof...(U) == K, "Wrong number of arguments.");
   }
@@ -49,8 +60,12 @@ class Vector {
    * @brief Constructor that initializes Vector from array.
    * @param data Array of values copied into vector.
    */
-  Vector(const T data[K]) { memcpy(data_, data, sizeof(data_)); }
-  Vector(T data[K]) { memcpy(data_, data, sizeof(data_)); }
+  explicit Vector(const T data[K]) {
+    memcpy(data_, data, sizeof(data_));
+  }
+  explicit Vector(T data[K]) {
+    memcpy(data_, data, sizeof(data_));
+  }
   ///@}
 
   /**
@@ -112,8 +127,8 @@ class Vector {
   T data_[K];
 };
 
-}  // namespace
+}  // namespace math
 
-}  // namespace
+}  // namespace ogle
 
-#endif  // OGLE_MATH_CORE_VECTOR_H
+#endif  // LIBRARIES_OGLE_MATH_INCLUDES_CORE_VECTOR_H_
