@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of window.h.
+ * @file Implementation of application.h.
  */
 
-#include "window/window.h"
+#include "application/application.h"

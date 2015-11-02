@@ -9,8 +9,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implements glfw_window.h.
+ * @file Implements glfw_application.h.
  */
 
-#include "window/glfw_window.h"
+#include "application/glfw_application.h"
 

@@ -12,22 +12,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines GLFWWindow class.
  */
 
-#ifndef LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_GLFW_WINDOW_H
-#define LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_GLFW_WINDOW_H
+#ifndef LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#define LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
 
-#include "window/glfw_window.h"
+#include "application/application.h"
 
 namespace ogle {
 
-namespace window {
+namespace application {
 
-class GLFWWindow : public Window {
+class GLFWApplication : public Application {
 public:
 };
 
-}  // namespace window
+}  // namespace application
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_GLFW_WINDOW_H
+#endif  // LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
 

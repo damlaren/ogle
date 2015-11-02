@@ -8,11 +8,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_WINDOW_H_
-#define LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_WINDOW_H_
+#ifndef LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
+#define LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
 
 /**
- * @file API for display window and context.
+ * @file
  *
  * Application display window and graphics API context.
  */
@@ -24,21 +24,27 @@ namespace application {
 /**
  * @brief Display context for entire application.
  *
- * Only one can be created.
+ * This includes many different concepts right now, including:
+ * 1) The display window.
+ * 2) A callback for running the application.
+ * 3) OpenGL extension querying.
+ * 4) OpenGL settings configuration.
+ *
+ * They are lumped together because with some implementations
+ * (GLFW + GLEW) these appear hard to separate.
  */
-class DisplayContext {
+class Application {
  public:
-  // resize the window...
-  // set graphics API preferences...
- private:
+
+ protected:
   /**
    * @brief Hidden constructor.
    */
-  ApplicationWindow();
+  Application();
 };
 
 }  // namespace application
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_WINDOW_H_
+#endif  // LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_
