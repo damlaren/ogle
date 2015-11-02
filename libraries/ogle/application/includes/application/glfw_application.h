@@ -8,27 +8,26 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_WINDOW_H_
-#define LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_WINDOW_H_
-
 /**
- * @file API for a generic window system.
+ * @file Defines GLFWWindow class.
  */
+
+#ifndef LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_GLFW_WINDOW_H
+#define LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_GLFW_WINDOW_H
+
+#include "window/glfw_window.h"
 
 namespace ogle {
 
 namespace window {
 
-/**
- * @brief Generic display window class.
- * A blank canvas for drawing.
- */
-class Window {
-
+class GLFWWindow : public Window {
+public:
 };
 
 }  // namespace window
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_WINDOW_H_
+#endif  // LIBRARIES_OGLE_WINDOW_INCLUDES_WINDOW_GLFW_WINDOW_H
+

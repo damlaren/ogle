@@ -1,5 +1,0 @@
-aux_source_directory(sources SRC_LIST)
-add_library(ogle_window "${SRC_LIST}")
-target_link_libraries (ogle_window glfw ${GLFW_LIBRARIES})
-target_include_directories(ogle_window PRIVATE ${PROJECT_SOURCE_DIR}/3rdparty/glfw/include)
-target_include_directories(ogle_window PUBLIC includes)
