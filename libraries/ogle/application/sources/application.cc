@@ -13,3 +13,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "application/application.h"
+
+namespace ogle {
+
+namespace application {
+
+Application::Application() {
+
+}
+
+Application::~Application() {
+
+}
+
+void Application::ApplicationLoop() {
+  do {
+  } while (ApplicationBody());
+}
+
+}  // namespace application
+
+}  // namespace ogle

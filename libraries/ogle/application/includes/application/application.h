@@ -12,9 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
 
 /**
- * @file
- *
- * Application display window and graphics API context.
+ * @file Provides Application.
  */
 
 namespace ogle {
@@ -22,25 +20,42 @@ namespace ogle {
 namespace application {
 
 /**
- * @brief Display context for entire application.
+ * @brief Display context for entire application. It's assumed only one is created.
  *
- * This includes many different concepts right now, including:
+ * This class wraps many things right now:
  * 1) The display window.
  * 2) A callback for running the application.
  * 3) OpenGL extension querying.
  * 4) OpenGL settings configuration.
  *
- * They are lumped together because with some implementations
- * (GLFW + GLEW) these appear hard to separate.
+ * This is because these facets are entangled in some implementations (GLFW + GLEW).
  */
 class Application {
- public:
-
  protected:
   /**
-   * @brief Hidden constructor.
+   * @brief Constructor.
    */
   Application();
+
+  /**
+   * @brief Destructor.
+   *
+   * Responsible for releasing all resources reserved
+   * by the Application.
+   */
+  virtual ~Application();
+
+  /**
+   * @brief Function to execute in main loop, with minimal restrictions imposed.
+   * @return true to run next loop iteration, false to stop.
+   */
+  virtual bool ApplicationBody() = 0;
+
+ public:
+  /**
+   * @brief Main loop that executes application body.
+   */
+  void ApplicationLoop();
 };
 
 }  // namespace application

@@ -17,12 +17,35 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "application/application.h"
 
+#include <memory>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 namespace ogle {
 
 namespace application {
 
+/**
+ * @brief An Application built using GLFW and GLEW.
+ *
+ * GLFW manages the window and input. GLEW manages OpenGL extensions.
+ * AFAIK, this implies that this can only be an OpenGL application.
+ */
 class GLFWApplication : public Application {
-public:
+ protected:
+  /**
+   * @brief Initializes a generic application using GLFW.
+   */
+  GLFWApplication();
+
+  ~GLFWApplication() override;
+
+  /// Set to true once GLFW & GLEW are successfully initialized.
+  bool apis_initialized_;
+
+  /// GLFW window.
+  GLFWwindow* window_;
 };
 
 }  // namespace application
