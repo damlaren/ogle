@@ -14,6 +14,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "application/glfw_application.h"
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 namespace ogle {
 
 namespace application {
@@ -37,7 +40,7 @@ GLFWApplication::GLFWApplication() : Application() {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   // TODO(damlaren): adjustable height/width/etc.
-  window_ = glfwCreateWindow(1024, 768, "TODO", nullptr, nullptr);
+  window_ = glfwCreateWindow(1024, 768, "My Window Title", nullptr, nullptr);
   if( window_ == nullptr ){
       // TODO(damlaren): log
       apis_initialized_ = false;

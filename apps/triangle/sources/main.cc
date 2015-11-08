@@ -18,6 +18,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @return 0 on success, something else on failure.
  */
 
+#include "application/glfw_application.h"
+
 int main(const int argc, const char* argv[]) {
   return 0;
 }

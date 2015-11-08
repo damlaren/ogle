@@ -19,8 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <memory>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+class GLFWwindow;
 
 namespace ogle {
 
