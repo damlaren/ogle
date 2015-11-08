@@ -9,15 +9,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of Log.
+ * @file Group header for application library.
  */
- 
-#include "util/log.h"
 
-namespace ogle {
+#ifndef LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
+#define LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
 
-namespace util {
+#include "application/application.h"
+#include "application/glfw_application.h"
 
-}  // namespace util
-
-}  // namespace ogle
+#endif  // LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_

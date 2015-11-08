@@ -6,6 +6,6 @@ target_link_libraries (ogle_application glfw ${GLFW_LIBRARIES}
 	${PROJECT_SOURCE_DIR}/3rdparty/glew-1.13.0/lib/Release/x64/glew32.lib)
 
 target_include_directories(ogle_application PRIVATE
-	${PROJECT_SOURCE_DIR}/3rdparty/glfw/include
-	${PROJECT_SOURCE_DIR}/3rdparty/glew-1.13.0/include)
+  ${PROJECT_SOURCE_DIR}/3rdparty/glfw/include
+  ${PROJECT_SOURCE_DIR}/3rdparty/glew-1.13.0/include)
 target_include_directories(ogle_application PUBLIC includes)

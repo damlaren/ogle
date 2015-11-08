@@ -9,7 +9,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Core file for math libraries.
+ * @file Stub file for math libraries.
  */
-
-#include "core/vector.h"

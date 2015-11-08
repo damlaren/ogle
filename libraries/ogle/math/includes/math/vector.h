@@ -12,12 +12,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines Vector class.
  */
 
-#ifndef LIBRARIES_OGLE_MATH_INCLUDES_CORE_VECTOR_H_
-#define LIBRARIES_OGLE_MATH_INCLUDES_CORE_VECTOR_H_
-
-#include <assert.h>
+#ifndef LIBRARIES_OGLE_MATH_INCLUDES_MATH_VECTOR_H_
+#define LIBRARIES_OGLE_MATH_INCLUDES_MATH_VECTOR_H_
 
 #include <type_traits>
+
+#include "easylogging++.h"  // NOLINT
 
 namespace ogle {
 
@@ -38,7 +38,7 @@ class Vector {
 
   /**
    * @brief Default constructor.
-   * Does nothing, to reduce overhead.
+   * Does not init values.
    */
   Vector() noexcept {
   }
@@ -75,8 +75,7 @@ class Vector {
   * @returns Reference to element in Vector.
   */
   T& operator[](VectorIndex index) {
-    // TODO(damlaren): check with glog.
-    assert(index < K);
+    CHECK(index < K) << "index past end of vector.";
     return data_[index];
   }
 
@@ -87,8 +86,7 @@ class Vector {
   * @returns Copy of element.
   */
   const T operator[](VectorIndex index) const {
-    // TODO(damlaren): check with glog.
-    assert(index < K);
+    CHECK(index < K) << "index past end of vector.";
     return data_[index];
   }
 
@@ -131,4 +129,4 @@ class Vector {
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_OGLE_MATH_INCLUDES_CORE_VECTOR_H_
+#endif  // LIBRARIES_OGLE_MATH_INCLUDES_MATH_VECTOR_H_
