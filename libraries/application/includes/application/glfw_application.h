@@ -9,13 +9,47 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Group header for application library.
+ * @file Defines GLFWWindow class.
  */
 
-#ifndef LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
-#define LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
+#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+
+#include <memory>
 
 #include "application/application.h"
-#include "application/glfw_application.h"
 
-#endif  // LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
+class GLFWwindow;
+
+namespace ogle {
+
+namespace application {
+
+/**
+ * @brief An Application built using GLFW and GLEW.
+ *
+ * GLFW manages the window and input. GLEW manages OpenGL extensions.
+ * AFAIK, this implies that this can only be an OpenGL application.
+ */
+class GLFWApplication : public Application {
+ protected:
+  /**
+   * @brief Initializes a generic application using GLFW.
+   */
+  GLFWApplication();
+
+  ~GLFWApplication() override;
+
+  /// Set to true once GLFW & GLEW are successfully initialized.
+  bool apis_initialized_;
+
+  /// GLFW window.
+  GLFWwindow* window_;
+};
+
+}  // namespace application
+
+}  // namespace ogle
+
+#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+

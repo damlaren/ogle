@@ -9,12 +9,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Group header for math library.
+ * @file Group header for application library.
  */
 
-#ifndef LIBRARIES_OGLE_MATH_INCLUDES_MATH_OGLE_MATH_H_
-#define LIBRARIES_OGLE_MATH_INCLUDES_MATH_OGLE_MATH_H_
+#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
+#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_
 
-#include "math/vector.h"
+#include "application/application.h"
+#include "application/glfw_application.h"
 
-#endif  // LIBRARIES_OGLE_MATH_INCLUDES_MATH_OGLE_MATH_H_
+#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_OGLE_APPLICATION_H_

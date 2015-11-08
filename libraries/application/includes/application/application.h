@@ -8,48 +8,58 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
+#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
+
 /**
- * @file Defines GLFWWindow class.
+ * @file Provides Application.
  */
-
-#ifndef LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-#define LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
-#include "application/application.h"
-
-#include <memory>
-
-class GLFWwindow;
 
 namespace ogle {
 
 namespace application {
 
 /**
- * @brief An Application built using GLFW and GLEW.
+ * @brief Display context for entire application. It's assumed only one is created.
  *
- * GLFW manages the window and input. GLEW manages OpenGL extensions.
- * AFAIK, this implies that this can only be an OpenGL application.
+ * This class wraps many things right now:
+ * 1) The display window.
+ * 2) A callback for running the application.
+ * 3) OpenGL extension querying.
+ * 4) OpenGL settings configuration.
+ *
+ * This is because these facets are entangled in some implementations (GLFW + GLEW).
  */
-class GLFWApplication : public Application {
+class Application {
  protected:
   /**
-   * @brief Initializes a generic application using GLFW.
+   * @brief Constructor.
    */
-  GLFWApplication();
+  Application();
 
-  ~GLFWApplication() override;
+  /**
+   * @brief Destructor.
+   *
+   * Responsible for releasing all resources reserved
+   * by the Application.
+   */
+  virtual ~Application();
 
-  /// Set to true once GLFW & GLEW are successfully initialized.
-  bool apis_initialized_;
+  /**
+   * @brief Function to execute in main loop, with minimal restrictions imposed.
+   * @return true to run next loop iteration, false to stop.
+   */
+  virtual bool ApplicationBody() = 0;
 
-  /// GLFW window.
-  GLFWwindow* window_;
+ public:
+  /**
+   * @brief Main loop that executes application body.
+   */
+  void ApplicationLoop();
 };
 
 }  // namespace application
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_OGLE_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
+#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_

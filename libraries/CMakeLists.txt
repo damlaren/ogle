@@ -1,4 +1,5 @@
-add_subdirectory(ogle)
+add_subdirectory(application)
+add_subdirectory(math)
 
 add_library(ogle sources/ogle.cc)
 target_link_libraries(ogle ogle_application ogle_math)
