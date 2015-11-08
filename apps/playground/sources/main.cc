@@ -14,7 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <iostream>
 
-#include "ogle/math/includes/core/vector.h"
+#include "ogle/ogle.h"
 
 /**
  * @brief main Main entry point.
