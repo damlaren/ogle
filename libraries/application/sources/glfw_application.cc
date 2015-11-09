@@ -45,13 +45,16 @@ GLFWApplication::GLFWApplication() : Application() {
   glfwMakeContextCurrent(window_);
   glewExperimental = true;
   if (glewInit() != GLEW_OK) {
+    glfwDestroyWindow(window_);
     glfwTerminate();
     LOG(FATAL) << "glewInit failed.";
   }
 }
 
 GLFWApplication::~GLFWApplication() {
+  glfwDestroyWindow(window_);
   glfwTerminate();
+
 }
 
 bool GLFWApplication::ApplicationBody() {
