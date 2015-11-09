@@ -14,6 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "application/glfw_application.h"
 
+#include "easylogging++.h"  // NOLINT
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
@@ -22,41 +23,39 @@ namespace ogle {
 namespace application {
 
 GLFWApplication::GLFWApplication() : Application() {
-  apis_initialized_ = true;
   window_ = nullptr;
   if (!glfwInit()) {
-    // TODO(damlaren): log
-    apis_initialized_ = false;
+    LOG(FATAL) << "Failed to init GLFW.";
   }
 
-  // TODO(damlaren): cut short here
-  // TODO(damlaren): ensure glfwTerminate called after this point
-
-  // TODO(damlaren): This should be configurable.
+  // TODO(damlaren): Hardcoded parameters should be configurable.
   glfwWindowHint(GLFW_SAMPLES, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Deprecate old stuff.
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  // TODO(damlaren): adjustable height/width/etc.
   window_ = glfwCreateWindow(1024, 768, "My Window Title", nullptr, nullptr);
-  if ( window_ == nullptr ) {
-      // TODO(damlaren): log
-      apis_initialized_ = false;
+  if (window_ == nullptr) {
+    glfwTerminate();
+    LOG(FATAL) << "Failed to create GLFW window.";
   }
 
   // TODO(damlaren): only one thread can have the context at once.
   glfwMakeContextCurrent(window_);
   glewExperimental = true;
   if (glewInit() != GLEW_OK) {
-    // TODO(damlaren): log
-    apis_initialized_ = false;
+    glfwTerminate();
+    LOG(FATAL) << "glewInit failed.";
   }
 }
 
 GLFWApplication::~GLFWApplication() {
   glfwTerminate();
+}
+
+bool GLFWApplication::ApplicationBody() {
+  return true;
 }
 
 }  // namespace application

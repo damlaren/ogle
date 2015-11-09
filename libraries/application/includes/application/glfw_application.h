@@ -32,7 +32,7 @@ namespace application {
  * AFAIK, this implies that this can only be an OpenGL application.
  */
 class GLFWApplication : public Application {
- protected:
+ public:
   /**
    * @brief Initializes a generic application using GLFW.
    */
@@ -40,9 +40,13 @@ class GLFWApplication : public Application {
 
   ~GLFWApplication() override;
 
-  /// Set to true once GLFW & GLEW are successfully initialized.
-  bool apis_initialized_;
+  /**
+   * @brief Stub application body which does nothing.
+   * @return true, always.
+   */
+  bool ApplicationBody() override;
 
+ protected:
   /// GLFW window.
   GLFWwindow* window_;
 };

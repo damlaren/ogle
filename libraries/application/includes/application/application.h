@@ -31,6 +31,12 @@ namespace application {
  * This is because these facets are entangled in some implementations (GLFW + GLEW).
  */
 class Application {
+ public:
+  /**
+   * @brief Main loop that executes application body.
+   */
+  void ApplicationLoop();
+
  protected:
   /**
    * @brief Constructor.
@@ -50,12 +56,6 @@ class Application {
    * @return true to run next loop iteration, false to stop.
    */
   virtual bool ApplicationBody() = 0;
-
- public:
-  /**
-   * @brief Main loop that executes application body.
-   */
-  void ApplicationLoop();
 };
 
 }  // namespace application
