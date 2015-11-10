@@ -33,9 +33,9 @@ namespace application {
 class Application {
  public:
   /**
-   * @brief Main loop that executes application body.
+   * @brief Executes application start, body (in a loop), and end.
    */
-  void ApplicationLoop();
+  void RunApplication();
 
  protected:
   /**
@@ -45,9 +45,7 @@ class Application {
 
   /**
    * @brief Destructor.
-   *
-   * Responsible for releasing all resources reserved
-   * by the Application.
+   * Responsible for releasing all resources reserved by the Application.
    */
   virtual ~Application();
 

@@ -38,6 +38,7 @@ GLFWApplication::GLFWApplication() : Application() {
   window_ = glfwCreateWindow(1024, 768, "My Window Title", nullptr, nullptr);
   if (window_ == nullptr) {
     glfwTerminate();
+    // TODO(damlaren): prevents destructor from being called...
     LOG(FATAL) << "Failed to create GLFW window.";
   }
 
@@ -49,16 +50,25 @@ GLFWApplication::GLFWApplication() : Application() {
     glfwTerminate();
     LOG(FATAL) << "glewInit failed.";
   }
+
+  glfwSetInputMode(window_, GLFW_STICKY_KEYS, GL_TRUE);
 }
 
 GLFWApplication::~GLFWApplication() {
   glfwDestroyWindow(window_);
   glfwTerminate();
-
 }
 
 bool GLFWApplication::ApplicationBody() {
-  return true;
+  glfwSwapBuffers(window_);
+  glfwPollEvents();
+
+  if (glfwGetKey(window_, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
+      glfwWindowShouldClose(window_) == 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 }  // namespace application

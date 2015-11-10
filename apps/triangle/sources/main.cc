@@ -20,8 +20,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "ogle/ogle.h"
 
+using GLFWApplication = ogle::application::GLFWApplication;
+
+/**
+ * @brief Application for drawing a triangle.
+ */
+class TriangleApplication : public GLFWApplication {
+ public:
+  TriangleApplication() : GLFWApplication() {
+  }
+  ~TriangleApplication() override {
+  }
+};
+
 int main(const int argc, const char* argv[]) {
-  auto app = std::make_unique<ogle::application::GLFWApplication>();
-  app->ApplicationLoop();
+  auto app = std::make_unique<GLFWApplication>();
+  app->RunApplication();
   return 0;
 }

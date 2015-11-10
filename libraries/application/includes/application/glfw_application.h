@@ -38,11 +38,15 @@ class GLFWApplication : public Application {
    */
   GLFWApplication();
 
+  /**
+   * @brief Destructor.
+   */
   ~GLFWApplication() override;
 
   /**
-   * @brief Stub application body which does nothing.
-   * @return true, always.
+   * @brief Stub application body.
+   * Does nothing except check if escape key has been pressed.
+   * @return true until escape key is pressed.
    */
   bool ApplicationBody() override;
 

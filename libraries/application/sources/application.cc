@@ -14,19 +14,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "application/application.h"
 
+#include "easylogging++.h"  // NOLINT
+
 namespace ogle {
 
 namespace application {
 
 Application::Application() {
-
 }
 
 Application::~Application() {
-
 }
 
-void Application::ApplicationLoop() {
+void Application::RunApplication() {
   do {
   } while (ApplicationBody());
 }
