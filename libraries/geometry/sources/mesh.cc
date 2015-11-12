@@ -9,18 +9,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Top-level header for ogle.
+ * @file Implementation of mesh.h.
  */
 
-#ifndef LIBRARIES_INCLUDES_OGLE_OGLE_H_
-#define LIBRARIES_INCLUDES_OGLE_OGLE_H_
+#include "geometry/mesh.h"
 
-#include "application/ogle_application.h"
-#include "geometry/ogle_geometry.h"
-#include "math/ogle_math.h"
+namespace ogle {
 
-#include "easylogging++.h"  // NOLINT
+namespace geometry {
 
-INITIALIZE_EASYLOGGINGPP
+Mesh::Mesh() :
+    num_vertices_(0), vertices_(nullptr) {
+}
 
-#endif  // LIBRARIES_INCLUDES_OGLE_OGLE_H_
+Mesh::~Mesh() {
+  delete vertices_;
+}
+
+}
+
+}

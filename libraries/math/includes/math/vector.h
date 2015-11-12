@@ -15,9 +15,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 #define LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 
-#include <type_traits>
+#include <assert.h>
 
-#include "easylogging++.h"  // NOLINT
+#include <type_traits>
 
 namespace ogle {
 
@@ -75,7 +75,7 @@ class Vector {
   * @returns Reference to element in Vector.
   */
   T& operator[](VectorIndex index) {
-    CHECK(index < K) << "index past end of vector.";
+    assert(index < K);
     return data_[index];
   }
 
@@ -86,7 +86,7 @@ class Vector {
   * @returns Copy of element.
   */
   const T operator[](VectorIndex index) const {
-    CHECK(index < K) << "index past end of vector.";
+    assert(index < K);
     return data_[index];
   }
 

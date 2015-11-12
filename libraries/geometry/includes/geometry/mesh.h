@@ -9,18 +9,45 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Top-level header for ogle.
+ * @file Defines Mesh class.
  */
 
-#ifndef LIBRARIES_INCLUDES_OGLE_OGLE_H_
-#define LIBRARIES_INCLUDES_OGLE_OGLE_H_
+#ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
+#define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
-#include "application/ogle_application.h"
-#include "geometry/ogle_geometry.h"
-#include "math/ogle_math.h"
+#include "math/vector.h"
 
-#include "easylogging++.h"  // NOLINT
+namespace ogle {
 
-INITIALIZE_EASYLOGGINGPP
+namespace geometry {
 
-#endif  // LIBRARIES_INCLUDES_OGLE_OGLE_H_
+/**
+ * @brief Geometry mesh.
+ * Takes ownership of its buffers.
+ */
+class Mesh {
+ public:
+  /**
+   * @brief Creates an empty mesh.
+   */
+  Mesh();
+
+  /**
+   * @brief Destructor.
+   * Deletes all buffers.
+   */
+  ~Mesh();
+
+ protected:
+  /// Number of vertices.
+  int num_vertices_;
+
+  /// Vertex buffer.
+  ogle::math::Vector<float, 3>* vertices_;
+};
+
+}
+
+}
+
+#endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_

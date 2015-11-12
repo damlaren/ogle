@@ -9,18 +9,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Top-level header for ogle.
+ * @file Group header for geometry library.
  */
 
-#ifndef LIBRARIES_INCLUDES_OGLE_OGLE_H_
-#define LIBRARIES_INCLUDES_OGLE_OGLE_H_
+#ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_
+#define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_
 
-#include "application/ogle_application.h"
-#include "geometry/ogle_geometry.h"
-#include "math/ogle_math.h"
+#include "geometry/mesh.h"
 
-#include "easylogging++.h"  // NOLINT
-
-INITIALIZE_EASYLOGGINGPP
-
-#endif  // LIBRARIES_INCLUDES_OGLE_OGLE_H_
+#endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_
