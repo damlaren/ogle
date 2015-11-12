@@ -38,7 +38,6 @@ GLFWApplication::GLFWApplication() : Application() {
   window_ = glfwCreateWindow(1024, 768, "My Window Title", nullptr, nullptr);
   if (window_ == nullptr) {
     glfwTerminate();
-    // TODO(damlaren): prevents destructor from being called...
     LOG(FATAL) << "Failed to create GLFW window.";
   }
 

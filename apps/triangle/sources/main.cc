@@ -31,10 +31,14 @@ class TriangleApplication : public GLFWApplication {
   }
   ~TriangleApplication() override {
   }
+
+  bool ApplicationBody() {
+    return GLFWApplication::ApplicationBody();
+  }
 };
 
 int main(const int argc, const char* argv[]) {
-  auto app = std::make_unique<GLFWApplication>();
+  auto app = std::make_unique<TriangleApplication>();
   app->RunApplication();
   return 0;
 }
