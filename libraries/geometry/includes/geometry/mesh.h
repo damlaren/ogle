@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
+#include "geometry/buffer.h"
 #include "math/vector.h"
 
 namespace ogle {
@@ -22,11 +23,14 @@ namespace ogle {
 namespace geometry {
 
 /**
- * @brief Geometry mesh.
+ * @brief 3D geometry mesh.
  * Takes ownership of its buffers.
  */
 class Mesh {
  public:
+  /// Type for a 3D Vertex buffer.
+  using VertexBuffer = Buffer<ogle::math::Vector3f>;
+
   /**
    * @brief Creates an empty mesh.
    */
@@ -38,16 +42,19 @@ class Mesh {
    */
   ~Mesh();
 
- protected:
-  /// Number of vertices.
-  int num_vertices_;
+  /**
+   * @brief Copies buffers to mesh.
+   * @param vertices Vertex buffer.
+   */
+  void SetBuffers(const VertexBuffer&& vertices);
 
+ protected:
   /// Vertex buffer.
-  ogle::math::Vector<float, 3>* vertices_;
+  VertexBuffer vertices_;
 };
 
-}
+}  // namespace geometry
 
-}
+}  // namespace ogle
 
 #endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_

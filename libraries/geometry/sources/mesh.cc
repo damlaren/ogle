@@ -19,13 +19,16 @@ namespace ogle {
 namespace geometry {
 
 Mesh::Mesh() :
-    num_vertices_(0), vertices_(nullptr) {
+    vertices_(VertexBuffer()) {
 }
 
 Mesh::~Mesh() {
-  delete vertices_;
 }
 
+void Mesh::SetBuffers(const VertexBuffer&& vertices) {
+  vertices_ = vertices;
 }
 
-}
+}  // namespace geometry
+
+}  // namespace ogle

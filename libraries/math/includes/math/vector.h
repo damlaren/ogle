@@ -125,6 +125,11 @@ class Vector {
   T data_[K];
 };
 
+///@{
+/// Shorthand types.
+using Vector3f = Vector<float,3>;
+///@}
+
 }  // namespace math
 
 }  // namespace ogle
