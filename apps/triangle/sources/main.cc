@@ -33,7 +33,13 @@ class TriangleApplication : public GLFWApplication {
   }
 
   bool ApplicationBody() {
-    return GLFWApplication::ApplicationBody();
+    if (!GLFWApplication::ApplicationBody()) {
+      return false;
+    }
+
+    ogle::VertexBuffer triangle_vertices(
+        {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
+    return true;
   }
 };
 
