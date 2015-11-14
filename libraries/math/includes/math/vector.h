@@ -17,6 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <assert.h>
 
+#include <array>
+#include <iterator>
 #include <type_traits>
 
 namespace ogle {
@@ -59,10 +61,10 @@ class Vector {
    * @param data Array of values copied into vector.
    */
   explicit Vector(const T data[K]) {
-    memcpy(data_, data, sizeof(data_));
+    std::copy(data, data + K, std::begin(data_));
   }
   explicit Vector(T data[K]) {
-    memcpy(data_, data, sizeof(data_));
+    std::copy(data, data + K, std::begin(data_));
   }
   ///@}
 
@@ -120,7 +122,7 @@ class Vector {
   ///@}
 
  private:
-  T data_[K];
+  std::array<T, K> data_;
 };
 
 ///@{
