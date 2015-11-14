@@ -51,7 +51,7 @@ class Vector {
    *   to set the Vector is required.
    */
   template <typename... U>
-  explicit Vector(U... ts)
+  Vector(U... ts)
       : data_{ts...} {
     static_assert(sizeof...(U) == K, "Wrong number of arguments.");
   }
@@ -61,10 +61,10 @@ class Vector {
    * @brief Constructor that initializes Vector from array.
    * @param data Array of values copied into vector.
    */
-  explicit Vector(const T data[K]) {
+  Vector(const T data[K]) {
     std::copy(data, data + K, std::begin(data_));
   }
-  explicit Vector(T data[K]) {
+  Vector(T data[K]) {
     std::copy(data, data + K, std::begin(data_));
   }
   ///@}
