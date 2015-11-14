@@ -20,15 +20,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+/// Type for a 3D Vertex buffer.
+using VertexBuffer = Buffer<ogle::Vector3f>;
+
 /**
  * @brief 3D geometry mesh.
  * Takes ownership of its buffers.
  */
 class Mesh {
  public:
-  /// Type for a 3D Vertex buffer.
-  using VertexBuffer = Buffer<ogle::Vector3f>;
-
   /**
    * @brief Creates an empty mesh.
    */
