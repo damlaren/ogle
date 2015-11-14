@@ -21,8 +21,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-namespace math {
-
 /**
 * @brief Geometric vectors and points.
 */
@@ -129,8 +127,6 @@ class Vector {
 /// Shorthand types.
 using Vector3f = Vector<float,3>;
 ///@}
-
-}  // namespace math
 
 }  // namespace ogle
 

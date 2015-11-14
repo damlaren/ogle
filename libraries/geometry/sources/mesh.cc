@@ -16,8 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-namespace geometry {
-
 Mesh::Mesh() :
     vertices_(VertexBuffer()) {
 }
@@ -28,7 +26,5 @@ Mesh::~Mesh() {
 void Mesh::SetBuffers(const VertexBuffer&& vertices) {
   vertices_ = vertices;
 }
-
-}  // namespace geometry
 
 }  // namespace ogle

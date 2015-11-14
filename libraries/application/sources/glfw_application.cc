@@ -20,8 +20,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-namespace application {
-
 GLFWApplication::GLFWApplication() : Application() {
   window_ = nullptr;
   if (!glfwInit()) {
@@ -69,7 +67,5 @@ bool GLFWApplication::ApplicationBody() {
     return false;
   }
 }
-
-}  // namespace application
 
 }  // namespace ogle

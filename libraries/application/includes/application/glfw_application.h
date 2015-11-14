@@ -23,8 +23,6 @@ class GLFWwindow;
 
 namespace ogle {
 
-namespace application {
-
 /**
  * @brief An Application built using GLFW and GLEW.
  *
@@ -54,8 +52,6 @@ class GLFWApplication : public Application {
   /// GLFW window.
   GLFWwindow* window_;
 };
-
-}  // namespace application
 
 }  // namespace ogle
 

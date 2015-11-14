@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "ogle/ogle.h"
 
-using GLFWApplication = ogle::application::GLFWApplication;
+using GLFWApplication = ogle::GLFWApplication;
 
 /**
  * @brief Application for drawing a triangle.

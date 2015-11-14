@@ -17,8 +17,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-namespace application {
-
 /**
  * @brief Display context for entire application. It's assumed only one is created.
  *
@@ -55,8 +53,6 @@ class Application {
    */
   virtual bool ApplicationBody() = 0;
 };
-
-}  // namespace application
 
 }  // namespace ogle
 
