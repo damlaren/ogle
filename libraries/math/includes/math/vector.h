@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <assert.h>
 
+#include <algorithm>
 #include <array>
 #include <iterator>
 #include <type_traits>
@@ -93,7 +94,9 @@ class Vector {
   /**
   * @brief Zero out the vector.
   */
-  void Clear() noexcept { memset(data_, 0, sizeof(data_)); }
+  void Clear() noexcept {
+    data_.fill(0);
+  }
 
   ///@{
   /**
@@ -127,7 +130,7 @@ class Vector {
 
 ///@{
 /// Shorthand types.
-using Vector3f = Vector<float,3>;
+using Vector3f = Vector<float, 3>;
 ///@}
 
 }  // namespace ogle
