@@ -35,9 +35,29 @@ class Buffer {
    * @brief Creates a buffer of requested size.
    * @param num_elements How many elements to reserve.
    */
-  Buffer(BufferIndex num_elements = 0) :
+  explicit Buffer(BufferIndex num_elements = 0) :
       num_elements_(num_elements) {
     data_ = new T[num_elements_];
+  }
+
+  /**
+   * @brief Creates a buffer from initializer list.
+   * @param init_list Initial elements to copy.
+   */
+  Buffer(std::initializer_list<T> init_list) :
+      num_elements_(init_list.size()) {
+    data_ = new T[init_list.size()];
+    std::copy(init_list.begin(), init_list.end(), data_);
+  }
+
+  /**
+   * @brief Creates a buffer that wraps existing array.
+   * @param data Array that is taken as Buffer storage.
+   * @param num_elements How many elements are in array.
+   */
+  Buffer(T data[], int num_elements) :
+    num_elements_(num_elements),
+    data_(data) {
   }
 
   /**
@@ -96,4 +116,3 @@ class Buffer {
 }  // namespace ogle
 
 #endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_BUFFER_H_
-
