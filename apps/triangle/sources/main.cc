@@ -20,6 +20,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "ogle/ogle.h"
 
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+
 using GLFWApplication = ogle::GLFWApplication;
 
 /**
@@ -28,8 +31,23 @@ using GLFWApplication = ogle::GLFWApplication;
 class TriangleApplication : public GLFWApplication {
  public:
   TriangleApplication() : GLFWApplication() {
+    // TODO(damlaren): Goal is to abstract this out in a separate layer.
+    glEnable (GL_DEPTH_TEST);
+    glDepthFunc (GL_LESS);
   }
   ~TriangleApplication() override {
+  }
+
+  /**
+   * @brief Renders mesh.
+   * @param mesh Mesh to render.
+   */
+  void RenderMesh(const ogle::Mesh& mesh) const {
+    GLuint vbo = 0;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, mesh.GetVertexBuffer().SizeInBytes(),
+                 mesh.GetVertexBuffer().data_, GL_STATIC_DRAW);
   }
 
   bool ApplicationBody() {
@@ -39,6 +57,8 @@ class TriangleApplication : public GLFWApplication {
 
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
+    ogle::Mesh mesh;
+    mesh.SetBuffers(std::move(triangle_vertices));
     return true;
   }
 };

@@ -1,7 +1,6 @@
 aux_source_directory(sources SRC_LIST)
 add_library(ogle_application "${SRC_LIST}")
 
-# TODO(damlaren): Multi-platform compatibility.
 add_definitions(-DGLEW_STATIC)
 target_link_libraries (ogle_application glfw ${GLFW_LIBRARIES}
   glew glu32 opengl32)

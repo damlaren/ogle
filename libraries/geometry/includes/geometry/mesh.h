@@ -46,6 +46,11 @@ class Mesh {
    */
   void SetBuffers(const VertexBuffer&& vertices);
 
+  /// temporary
+  const VertexBuffer& GetVertexBuffer() const {
+    return vertices_;
+  }
+
  protected:
   /// Vertex buffer.
   VertexBuffer vertices_;

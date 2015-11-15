@@ -20,6 +20,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+/// Type for indexing into a Buffer.
+using BufferIndex = std::uint64_t;
+
 /**
  * @brief Memory buffer class that cleans up after itself.
  *
@@ -28,9 +31,6 @@ namespace ogle {
 template<typename T>
 class Buffer {
  public:
-  /// Type for indexing into a Buffer.
-  using BufferIndex = std::size_t;
-
   /**
    * @brief Creates a buffer of requested size.
    * @param num_elements How many elements to reserve.
@@ -77,6 +77,7 @@ class Buffer {
       num_elements_(other.num_elements_) {
     data_ = other.data_;
     other.data_ = nullptr;
+    other.num_elements_ = 0;
   }
 
   /// @brief Deletes buffer.
@@ -103,7 +104,17 @@ class Buffer {
   Buffer& operator=(Buffer&& other) {
     num_elements_ = other.num_elements_;
     data_ = other.data_;
+    other.data_ = nullptr;
+    other.num_elements_ = 0;
     return *this;
+  }
+
+  /**
+   * @brief See return value.
+   * @return Return size of buffer, in bytes.
+   */
+  std::uint64_t SizeInBytes() const {
+    return num_elements_ * sizeof(T);
   }
 
   /// Number of elements stored.

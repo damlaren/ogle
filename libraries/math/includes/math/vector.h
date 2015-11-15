@@ -24,6 +24,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+/// Type for indexing into Vector.
+using VectorIndex = std::uint64_t;
+
 /**
 * @brief Geometric vectors and points.
 */
@@ -33,9 +36,6 @@ class Vector {
   static_assert(K > 0, "Vectors must be of length > 0.");
   static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
                 "Vectors must use numeric types.");
-
-  /// Type for indexing into Vector.
-  using VectorIndex = std::size_t;
 
   /**
    * @brief Default constructor.
