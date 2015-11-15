@@ -12,47 +12,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines GLFWWindow class.
  */
 
-#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_
 
-#include <memory>
+#include "renderer/window.h"
 
-#include "application/application.h"
-#include "renderer/glfw_window.h"
+class GLFWwindow;  // From GLFW.
 
 namespace ogle {
 
 /**
- * @brief An Application built using GLFW and GLEW.
+ * @brief Window implemented using GLFW.
  *
- * GLFW manages the window and input. GLEW manages OpenGL extensions.
- * AFAIK, this implies that this can only be an OpenGL application.
+ * This is a rather unfortunate name, as GLFW includes the GLFWwindow class.
+ * The ogle class is implemented using the GLFW class.
  */
-class GLFWApplication : public Application {
+class GLFWWindow : public Window {
  public:
-  /**
-   * @brief Initializes a generic application using GLFW.
-   */
-  GLFWApplication();
+  GLFWWindow();
+  ~GLFWWindow() override;
 
-  /**
-   * @brief Destructor.
-   */
-  ~GLFWApplication() override;
-
-  /**
-   * @brief Stub application body.
-   * Does nothing except check if escape key has been pressed.
-   * @return true until escape key is pressed.
-   */
-  bool ApplicationBody() override;
+  void SwapBuffers() override;
+  bool HandleWindowEvents() override;
 
  protected:
-  /// Window controlled by this application.
-  std::unique_ptr<ogle::GLFWWindow> window_;
+  /**
+   * @brief GLFW's window implementation.
+   * @details An opaque type which can't be stored in a smart pointer.
+   */
+  GLFWwindow* window_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_

@@ -27,8 +27,8 @@ class TriangleApplication : public GLFWApplication {
  public:
   TriangleApplication() : GLFWApplication() {
     // TODO(damlaren): Goal is to abstract this out in a separate layer.
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    // glEnable(GL_DEPTH_TEST);
+    // glDepthFunc(GL_LESS);
   }
   ~TriangleApplication() override {
   }
@@ -46,15 +46,13 @@ class TriangleApplication : public GLFWApplication {
   }
 
   bool ApplicationBody() {
-    if (!GLFWApplication::ApplicationBody()) {
-      return false;
-    }
-
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
-    ogle::Mesh mesh;
-    mesh.SetBuffers(std::move(triangle_vertices));
-    return true;
+    // ogle::Mesh mesh;
+    // mesh.SetBuffers(std::move(triangle_vertices));
+
+    // Do window stuff.
+    return GLFWApplication::ApplicationBody();
   }
 };
 

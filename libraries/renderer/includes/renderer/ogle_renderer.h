@@ -9,50 +9,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLFWWindow class.
+ * @file Group header for geometry library.
  */
 
-#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
 
-#include <memory>
-
-#include "application/application.h"
 #include "renderer/glfw_window.h"
+#include "renderer/window.h"
 
-namespace ogle {
-
-/**
- * @brief An Application built using GLFW and GLEW.
- *
- * GLFW manages the window and input. GLEW manages OpenGL extensions.
- * AFAIK, this implies that this can only be an OpenGL application.
- */
-class GLFWApplication : public Application {
- public:
-  /**
-   * @brief Initializes a generic application using GLFW.
-   */
-  GLFWApplication();
-
-  /**
-   * @brief Destructor.
-   */
-  ~GLFWApplication() override;
-
-  /**
-   * @brief Stub application body.
-   * Does nothing except check if escape key has been pressed.
-   * @return true until escape key is pressed.
-   */
-  bool ApplicationBody() override;
-
- protected:
-  /// Window controlled by this application.
-  std::unique_ptr<ogle::GLFWWindow> window_;
-};
-
-}  // namespace ogle
-
-#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_

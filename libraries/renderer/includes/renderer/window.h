@@ -9,50 +9,48 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLFWWindow class.
+ * @file Defines Window class.
  */
 
-#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_
 
-#include <memory>
-
-#include "application/application.h"
-#include "renderer/glfw_window.h"
+#include <exception>
 
 namespace ogle {
 
 /**
- * @brief An Application built using GLFW and GLEW.
- *
- * GLFW manages the window and input. GLEW manages OpenGL extensions.
- * AFAIK, this implies that this can only be an OpenGL application.
+ * @brief A Window that provides a rendering context.
+ * It is assumed that there is only window per application.
+ * Windows also handle events like closing and minimizing.
  */
-class GLFWApplication : public Application {
+class Window {
  public:
-  /**
-   * @brief Initializes a generic application using GLFW.
-   */
-  GLFWApplication();
+  /// Default constructor.
+  Window() = default;
+
+  /// Default destructor.
+  virtual ~Window() = default;
+
+  /// Swap buffers to display next frame.
+  virtual void SwapBuffers() = 0;
 
   /**
-   * @brief Destructor.
+   * @brief Handle events on window, like close.
+   * @return false if window should close, else true.
    */
-  ~GLFWApplication() override;
-
-  /**
-   * @brief Stub application body.
-   * Does nothing except check if escape key has been pressed.
-   * @return true until escape key is pressed.
-   */
-  bool ApplicationBody() override;
+  virtual bool HandleWindowEvents() = 0;
 
  protected:
-  /// Window controlled by this application.
-  std::unique_ptr<ogle::GLFWWindow> window_;
+  /**
+   * @brief Exception class that can be thrown if construction fails.
+   * @details This exception is intended to halt the application in case
+   * of an unrecoverable error during construction.
+   */
+  class WindowException : public std::exception {
+  };
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_

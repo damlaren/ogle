@@ -15,57 +15,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "application/glfw_application.h"
 
 #include "easylogging++.h"  // NOLINT
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
 
 namespace ogle {
 
-GLFWApplication::GLFWApplication() : Application() {
-  window_ = nullptr;
-  if (!glfwInit()) {
-    LOG(FATAL) << "Failed to init GLFW.";
-  }
-
-  // TODO(damlaren): Hardcoded parameters should be configurable.
-  glfwWindowHint(GLFW_SAMPLES, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Deprecate old stuff.
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-  window_ = glfwCreateWindow(1024, 768, "My Window Title", nullptr, nullptr);
-  if (window_ == nullptr) {
-    glfwTerminate();
-    LOG(FATAL) << "Failed to create GLFW window.";
-  }
-
-  // TODO(damlaren): only one thread can have the context at once.
-  glfwMakeContextCurrent(window_);
-  glewExperimental = true;
-  if (glewInit() != GLEW_OK) {
-    glfwDestroyWindow(window_);
-    glfwTerminate();
-    LOG(FATAL) << "glewInit failed.";
-  }
-
-  glfwSetInputMode(window_, GLFW_STICKY_KEYS, GL_TRUE);
+GLFWApplication::GLFWApplication() : Application(),
+    window_(std::make_unique<ogle::GLFWWindow>()) {
 }
 
 GLFWApplication::~GLFWApplication() {
-  glfwDestroyWindow(window_);
-  glfwTerminate();
 }
 
 bool GLFWApplication::ApplicationBody() {
-  glfwSwapBuffers(window_);
-  glfwPollEvents();
-
-  if (glfwGetKey(window_, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-      glfwWindowShouldClose(window_) == 0) {
-    return true;
-  } else {
-    return false;
-  }
+  window_->SwapBuffers();
+  return window_->HandleWindowEvents();
 }
 
 }  // namespace ogle
