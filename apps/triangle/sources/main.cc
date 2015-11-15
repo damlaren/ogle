@@ -13,11 +13,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * Used to validate primitive drawing code.
  */
 
-/**
- * @brief main Main entry point.
- * @return 0 on success, something else on failure.
- */
-
 #include "ogle/ogle.h"
 
 #include "GL/glew.h"
@@ -32,8 +27,8 @@ class TriangleApplication : public GLFWApplication {
  public:
   TriangleApplication() : GLFWApplication() {
     // TODO(damlaren): Goal is to abstract this out in a separate layer.
-    glEnable (GL_DEPTH_TEST);
-    glDepthFunc (GL_LESS);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
   }
   ~TriangleApplication() override {
   }
@@ -62,6 +57,11 @@ class TriangleApplication : public GLFWApplication {
     return true;
   }
 };
+
+/**
+ * @brief main Main entry point.
+ * @return 0 on success, something else on failure.
+ */
 
 int main(const int argc, const char* argv[]) {
   auto app = std::make_unique<TriangleApplication>();
