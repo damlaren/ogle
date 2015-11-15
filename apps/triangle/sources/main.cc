@@ -48,8 +48,8 @@ class TriangleApplication : public GLFWApplication {
   bool ApplicationBody() {
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
-    // ogle::Mesh mesh;
-    // mesh.SetBuffers(std::move(triangle_vertices));
+    ogle::Mesh mesh;
+    mesh.TakeBuffers(std::move(triangle_vertices));
 
     // Do window stuff.
     return GLFWApplication::ApplicationBody();

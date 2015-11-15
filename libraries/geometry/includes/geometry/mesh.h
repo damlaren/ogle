@@ -41,12 +41,13 @@ class Mesh {
   ~Mesh();
 
   /**
-   * @brief Copies buffers to mesh.
-   * @param vertices Vertex buffer.
+   * @brief Gives ownership of vertices to mesh.
+   * @param vertices Vertex buffer. Invalid after call.
    */
-  void SetBuffers(const VertexBuffer&& vertices);
+  void TakeBuffers(
+      VertexBuffer&& vertices);  // NOLINT
 
-  /// temporary
+  /// @return Reference to mesh vertices.
   const VertexBuffer& GetVertexBuffer() const {
     return vertices_;
   }

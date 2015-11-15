@@ -33,6 +33,9 @@ class Buffer {
  public:
   /**
    * @brief Creates a buffer of requested size.
+   *
+   * Doesn't initialize values in buffer.
+   *
    * @param num_elements How many elements to reserve.
    */
   explicit Buffer(BufferIndex num_elements = 0) :
@@ -46,8 +49,10 @@ class Buffer {
    */
   Buffer(std::initializer_list<T> init_list) :
       num_elements_(init_list.size()) {
-    data_ = new T[init_list.size()];
-    std::copy(init_list.begin(), init_list.end(), data_);
+    data_ = new T[num_elements_];
+    if (num_elements_ > 0) {
+      std::copy(init_list.begin(), init_list.end(), data_);
+    }
   }
 
   /**
@@ -55,7 +60,7 @@ class Buffer {
    * @param data Array that is taken as Buffer storage.
    * @param num_elements How many elements are in array.
    */
-  Buffer(T data[], int num_elements) :
+  Buffer(T data[], BufferIndex num_elements) :
     num_elements_(num_elements),
     data_(data) {
   }
@@ -66,42 +71,59 @@ class Buffer {
    */
   Buffer(const Buffer& other) :
       num_elements_(other.num_elements_) {
-    std::copy_n(other.data_, num_elements_, data_);
+    data_ = new T[num_elements_];
+    if (num_elements_ > 0) {
+      std::copy_n(other.data_, num_elements_, data_);
+    }
   }
 
   /**
    * @brief Move constructor.
    * @param other Buffer to take data from. Invalid afterwards.
    */
-  Buffer(Buffer&& other) :
+  Buffer(Buffer&& other) :  // NOLINT
       num_elements_(other.num_elements_) {
     data_ = other.data_;
     other.data_ = nullptr;
     other.num_elements_ = 0;
   }
 
-  /// @brief Deletes buffer.
+  /// @brief Deletes data held by buffer.
   ~Buffer() {
     delete[] data_;
   }
 
   /**
    * @brief Copy assignment operator.
+   *
+   * Deletes existing data held by this Buffer, if a different amount of
+   * space is required to hold the new contents.
+   *
    * @param other Buffer to copy contents from. Shallow.
    * @return Reference to this Buffer.
    */
   Buffer& operator=(const Buffer& other) {
-    num_elements_ = other.num_elements_;
-    std::copy_n(other.data_, num_elements_, data_);
+    if (num_elements_ != other.num_elements_) {
+      delete[] data_;
+      num_elements_ = other.num_elements_;
+      data_ = new T[num_elements_];
+    }
+    if (num_elements_ > 0) {
+      std::copy_n(other.data_, num_elements_, data_);
+    }
     return *this;
   }
 
   /**
    * @brief Move assignment operator.
+   *
+   * Deletes existing data held by this Buffer.
+   *
    * @param other Buffer to take data from. Invalid afterwards.
    * @return Reference to this Buffer.
    */
-  Buffer& operator=(Buffer&& other) {
+  Buffer& operator=(Buffer&& other) {  // NOLINT
+    delete[] data_;
     num_elements_ = other.num_elements_;
     data_ = other.data_;
     other.data_ = nullptr;
