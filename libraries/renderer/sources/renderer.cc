@@ -9,48 +9,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Window.
+ * @file Implementation of renderer.h.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_
+#include "renderer/renderer.h"
 
-#include <exception>
-
-namespace ogle {
-
-/**
- * @brief A Window that provides a rendering context.
- * It is assumed that there is only window per application.
- * Windows also handle events like closing and minimizing.
- */
-class Window {
- public:
-  /// Default constructor.
-  Window() = default;
-
-  /// Default destructor.
-  virtual ~Window() = default;
-
-  /// Swap buffers to display next frame.
-  virtual void SwapBuffers() = 0;
-
-  /**
-   * @brief Handle events on window, like close.
-   * @return false if window should close, else true.
-   */
-  virtual bool HandleWindowEvents() = 0;
-
- protected:
-  /**
-   * @brief Exception class that can be thrown if construction fails.
-   * @details This exception is intended to halt the application in case
-   * of an unrecoverable error during construction.
-   */
-  class WindowException : public std::exception {
-  };
-};
+namespace ogle{
 
 }  // namespace ogle
-
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_
