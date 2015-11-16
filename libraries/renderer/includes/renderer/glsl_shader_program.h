@@ -11,7 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /**
  * @file Defines GLSLShaderProgram.
  */
- 
+
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_PROGRAM_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_PROGRAM_H_
 
@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "renderer/shader_program.h"
 
-namespace ogle{
+namespace ogle {
 
 class GLSLShader;
 
@@ -40,11 +40,16 @@ class GLSLShaderProgram : public ShaderProgram {
   void UseProgram() override;
 
  private:
+  struct Impl;
+
   /// Precompiled vertex shader.
   std::shared_ptr<GLSLShader> vertex_shader_;
 
   /// Precompiled fragment shader.
   std::shared_ptr<GLSLShader> fragment_shader_;
+
+  /// Hidden implementation.
+  std::unique_ptr<Impl> pimpl_;
 };
 
 }  // namespace ogle

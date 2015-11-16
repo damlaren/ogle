@@ -32,6 +32,7 @@ class GLFWWindow : public Window {
   GLFWWindow();
   ~GLFWWindow() override;
 
+  void ClearWindow() override;
   void SwapBuffers() override;
   bool HandleWindowEvents() override;
 

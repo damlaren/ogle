@@ -11,29 +11,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /**
  * @file Defines GLSLShader.
  */
- 
+
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_H_
 
 #include <memory>
+#include <string>
 
 #include "renderer/shader.h"
 
-namespace ogle{
+namespace ogle {
 
 /**
  * @brief GLSL Shader.
  */
 class GLSLShader : public Shader {
  public:
+  friend class GLSLShaderProgram;
+
   GLSLShader(const std::string& shader_text, ShaderType type);
   ~GLSLShader() override;
 
  private:
-  struct GLSLShaderImpl;
+  struct Impl;
 
   /// Implementation of shaders for GLSL.
-  std::unique_ptr<GLSLShaderImpl> pimpl_;
+  std::unique_ptr<Impl> pimpl_;
 };
 
 }  // namespace ogle

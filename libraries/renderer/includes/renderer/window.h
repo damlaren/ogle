@@ -32,6 +32,9 @@ class Window {
   /// Default destructor.
   virtual ~Window() = default;
 
+  /// Clear all window contents.
+  virtual void ClearWindow() = 0;
+
   /// Swap buffers to display next frame.
   virtual void SwapBuffers() = 0;
 

@@ -18,7 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-namespace ogle{
+namespace ogle {
 
 GLFWWindow::GLFWWindow() :
     Window() {
@@ -58,6 +58,10 @@ GLFWWindow::GLFWWindow() :
 GLFWWindow::~GLFWWindow() {
   glfwDestroyWindow(window_);
   glfwTerminate();
+}
+
+void GLFWWindow::ClearWindow() {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GLFWWindow::SwapBuffers() {
