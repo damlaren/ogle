@@ -67,22 +67,9 @@ class TriangleApplication : public GLFWApplication {
     "  frag_colour = vec4 (0.5, 0.0, 0.5, 1.0);"
     "}";
 
-    GLuint vs = glCreateShader (GL_VERTEX_SHADER);
-    glShaderSource (vs, 1, &vertex_shader, nullptr);
-    glCompileShader (vs);
-    GLuint fs = glCreateShader (GL_FRAGMENT_SHADER);
-    glShaderSource (fs, 1, &fragment_shader, nullptr);
-    glCompileShader (fs);
-
-    GLuint shader_programme = glCreateProgram ();
-    glAttachShader (shader_programme, fs);
-    glAttachShader (shader_programme, vs);
-    glLinkProgram (shader_programme);
-
     // TODO(damlaren): and in a loop...
-    // wipe the drawing surface clear
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glUseProgram (shader_programme);
+    // (DONE: clear surface)
+    // (DONE: use shader program)
     glBindVertexArray (vao);
     // draw points 0-3 from the currently bound VAO with current in-use shader
     glDrawArrays (GL_TRIANGLES, 0, 3);
@@ -96,6 +83,7 @@ class TriangleApplication : public GLFWApplication {
     mesh.TakeBuffers(std::move(triangle_vertices));
 
     // Do window stuff.
+    window_->ClearWindow();
     return GLFWApplication::ApplicationBody();
   }
 };
