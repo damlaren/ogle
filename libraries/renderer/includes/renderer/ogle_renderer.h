@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Group header for geometry library.
+ * @file Group header for renderer library.
  */
 
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
@@ -17,7 +17,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "renderer/glfw_renderer.h"
 #include "renderer/glfw_window.h"
+#include "renderer/glsl_shader.h"
+#include "renderer/glsl_shader_program.h"
 #include "renderer/renderer.h"
+#include "renderer/shader.h"
+#include "renderer/shader_program.h"
 #include "renderer/window.h"
 
 #endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_

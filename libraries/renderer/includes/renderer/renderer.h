@@ -11,16 +11,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /**
  * @file Defines Renderer.
  */
- 
+
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
 
-namespace ogle{
+namespace ogle {
 
 /**
  * @brief Base class for all Renderers.
  *
- * Handles all rendering operations in a API-independent manner.
+ * Handles all rendering operations in an API-independent manner.
  * Subclassed Renderers are based on specific APIs.
  */
 class Renderer {
