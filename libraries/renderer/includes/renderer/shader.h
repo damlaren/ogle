@@ -9,16 +9,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Shader.
+ * @file Defines Shader and ShaderProgram.
  */
- 
+
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_SHADER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_SHADER_H_
 
 #include <exception>
 #include <string>
 
-namespace ogle{
+namespace ogle {
 
 /// The type of a Shader.
 enum class ShaderType {
@@ -55,6 +55,29 @@ class Shader {
 
   /// Shader text.
   std::string shader_text_;
+};
+
+/**
+ * @brief Base class for all ShaderPrograms.
+ *
+ * Shader programs link multiple shaders together and are the objects
+ * used in rendering.
+ */
+class ShaderProgram {
+ public:
+  /// Use shader program in rendering pass.
+  virtual void UseProgram() = 0;
+
+ protected:
+  /// Error that can be thrown if ShaderProgram creation fails.
+  class ShaderProgramLinkError : public std::exception {
+  };
+
+  /// Default constructor. Not used.
+  ShaderProgram() = default;
+
+  /// Destructor.
+  virtual ~ShaderProgram() = default;
 };
 
 }  // namespace ogle

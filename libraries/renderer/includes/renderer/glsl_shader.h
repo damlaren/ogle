@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLSLShader.
+ * @file Defines GLSLShader and GLSLShaderProgram.
  */
 
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_H_
@@ -23,7 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /**
- * @brief GLSL Shader.
+ * @brief A shader written in GLSL.
  */
 class GLSLShader : public Shader {
  public:
@@ -36,6 +36,35 @@ class GLSLShader : public Shader {
   struct Impl;
 
   /// Implementation of shaders for GLSL.
+  std::unique_ptr<Impl> pimpl_;
+};
+
+/**
+ * @brief Linked GLSL shader program.
+ */
+class GLSLShaderProgram : public ShaderProgram {
+ public:
+  /**
+   * @brief Constructor. Links shaders into a program.
+   * @param vertex_shader Precompiled vertex Shader.
+   * @param fragment_shader Precompiled fragment Shader.
+   */
+  GLSLShaderProgram(std::shared_ptr<GLSLShader> vertex_shader,
+                    std::shared_ptr<GLSLShader> fragment_shader);
+  ~GLSLShaderProgram() override = default;
+
+  void UseProgram() override;
+
+ private:
+  struct Impl;
+
+  /// Precompiled vertex shader.
+  std::shared_ptr<GLSLShader> vertex_shader_;
+
+  /// Precompiled fragment shader.
+  std::shared_ptr<GLSLShader> fragment_shader_;
+
+  /// Hidden implementation.
   std::unique_ptr<Impl> pimpl_;
 };
 

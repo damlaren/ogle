@@ -9,11 +9,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of glsl_shader.h and glsl_shader_program.h.
+ * @file Implementation of glsl_shader.h.
  */
 
 #include "renderer/glsl_shader.h"
-#include "renderer/glsl_shader_program.h"
 
 #include <memory>
 
@@ -63,8 +62,8 @@ GLSLShaderProgram::GLSLShaderProgram(
     throw ShaderProgramLinkError();
   }
   if (vertex_shader_->shader_type_ != ShaderType::Fragment) {
-      LOG(ERROR) << "Shader is not a fragment shader.";
-      throw ShaderProgramLinkError();
+    LOG(ERROR) << "Shader is not a fragment shader.";
+    throw ShaderProgramLinkError();
   }
 
   pimpl_->program_id = glCreateProgram();
