@@ -15,11 +15,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "application/glfw_application.h"
 
 #include "easylogging++.h"  // NOLINT
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 namespace ogle {
 
 GLFWApplication::GLFWApplication() : Application(),
     window_(std::make_unique<ogle::GLFWWindow>()) {
+  // TODO(damlaren): Doesn't belong here. Abstract out.
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
 }
 
 GLFWApplication::~GLFWApplication() {

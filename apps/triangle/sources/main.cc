@@ -26,9 +26,6 @@ using GLFWApplication = ogle::GLFWApplication;
 class TriangleApplication : public GLFWApplication {
  public:
   TriangleApplication() : GLFWApplication() {
-    // TODO(damlaren): Goal is to abstract this out in a separate layer.
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
   }
   ~TriangleApplication() override {
   }
