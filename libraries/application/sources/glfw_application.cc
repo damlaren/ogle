@@ -13,7 +13,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "application/glfw_application.h"
-
 #include "easylogging++.h"  // NOLINT
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -31,6 +30,7 @@ GLFWApplication::~GLFWApplication() {
 }
 
 bool GLFWApplication::ApplicationBody() {
+  window_->ClearWindow();
   window_->SwapBuffers();
   return window_->HandleWindowEvents();
 }

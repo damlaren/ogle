@@ -13,7 +13,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "application/application.h"
-
 #include "easylogging++.h"  // NOLINT
 
 namespace ogle {

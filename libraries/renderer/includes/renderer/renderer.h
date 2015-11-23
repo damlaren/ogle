@@ -17,6 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class Mesh;
+
 /**
  * @brief Base class for all Renderers.
  *
@@ -25,8 +27,21 @@ namespace ogle {
  */
 class Renderer {
  protected:
+  /**
+   * @brief Default constructor.
+   */
   Renderer() = default;
+
+  /**
+   * @brief Default destructor.
+   */
   virtual ~Renderer() = default;
+
+  /**
+   * @brief Render passed mesh.
+   * @param mesh to render.
+   */
+  virtual void RenderMesh(const Mesh& mesh) = 0;
 };
 
 }  // namespace ogle

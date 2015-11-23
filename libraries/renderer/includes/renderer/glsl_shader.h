@@ -17,8 +17,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <memory>
 #include <string>
-
 #include "renderer/shader.h"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 namespace ogle {
 
@@ -33,10 +34,7 @@ class GLSLShader : public Shader {
   ~GLSLShader() override;
 
  private:
-  struct Impl;
-
-  /// Implementation of shaders for GLSL.
-  std::unique_ptr<Impl> pimpl_;
+  GLuint shader_id_;  ///< OpenGL-generated shader ID.
 };
 
 /**
@@ -56,16 +54,13 @@ class GLSLShaderProgram : public ShaderProgram {
   void UseProgram() override;
 
  private:
-  struct Impl;
+  GLuint program_id_;  ///< OpenGL-generated program ID.
 
   /// Precompiled vertex shader.
   std::shared_ptr<GLSLShader> vertex_shader_;
 
   /// Precompiled fragment shader.
   std::shared_ptr<GLSLShader> fragment_shader_;
-
-  /// Hidden implementation.
-  std::unique_ptr<Impl> pimpl_;
 };
 
 }  // namespace ogle

@@ -13,32 +13,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "renderer/glsl_shader.h"
-
 #include <memory>
-
 #include "easylogging++.h"  // NOLINT
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
 
 namespace ogle {
 
-/// Shader data.
-struct GLSLShader::Impl {
-  GLuint shader_id;  ///< OpenGL-generated shader ID.
-};
-
 GLSLShader::GLSLShader(const std::string& shader_text, ShaderType type) :
-    Shader(shader_text, type),
-    pimpl_(std::make_unique<GLSLShader::Impl>()) {
+    Shader(shader_text, type) {
   if (shader_type_ == ShaderType::Vertex) {
-    pimpl_->shader_id = glCreateShader(GL_VERTEX_SHADER);
+    shader_id_ = glCreateShader(GL_VERTEX_SHADER);
   } else if (shader_type_ == ShaderType::Fragment) {
-    pimpl_->shader_id = glCreateShader(GL_FRAGMENT_SHADER);
+    shader_id_ = glCreateShader(GL_FRAGMENT_SHADER);
   }
 
   const char* shader_text_c_str = shader_text.c_str();
-  glShaderSource(pimpl_->shader_id, 1, &shader_text_c_str, nullptr);
-  glCompileShader(pimpl_->shader_id);
+  glShaderSource(shader_id_, 1, &shader_text_c_str, nullptr);
+  glCompileShader(shader_id_);
 
   // TODO(damlaren): error checking
 }
@@ -46,17 +36,11 @@ GLSLShader::GLSLShader(const std::string& shader_text, ShaderType type) :
 GLSLShader::~GLSLShader() {
 }
 
-/// Program data.
-struct GLSLShaderProgram::Impl {
-  GLuint program_id;  ///< OpenGL-generated program ID.
-};
-
 GLSLShaderProgram::GLSLShaderProgram(
     std::shared_ptr<GLSLShader> vertex_shader,
     std::shared_ptr<GLSLShader> fragment_shader) :
     ShaderProgram(), vertex_shader_(vertex_shader),
-    fragment_shader_(fragment_shader),
-    pimpl_(std::make_unique<GLSLShaderProgram::Impl>()) {
+    fragment_shader_(fragment_shader) {
   if (vertex_shader_->shader_type_ != ShaderType::Vertex) {
     LOG(ERROR) << "Shader is not a vertex shader.";
     throw ShaderProgramLinkError();
@@ -66,14 +50,14 @@ GLSLShaderProgram::GLSLShaderProgram(
     throw ShaderProgramLinkError();
   }
 
-  pimpl_->program_id = glCreateProgram();
-  glAttachShader(pimpl_->program_id, fragment_shader_->pimpl_->shader_id);
-  glAttachShader(pimpl_->program_id, vertex_shader_->pimpl_->shader_id);
-  glLinkProgram(pimpl_->program_id);
+  program_id_ = glCreateProgram();
+  glAttachShader(program_id_, fragment_shader_->shader_id_);
+  glAttachShader(program_id_, vertex_shader_->shader_id_);
+  glLinkProgram(program_id_);
 }
 
 void GLSLShaderProgram::UseProgram() {
-  glUseProgram(pimpl_->program_id);
+  glUseProgram(program_id_);
 }
 
 }  // namespace ogle

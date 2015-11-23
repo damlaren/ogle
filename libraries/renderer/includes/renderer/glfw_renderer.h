@@ -11,13 +11,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /**
  * @file Defines GLFWRenderer.
  */
- 
+
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_RENDERER_H_
 
 #include "renderer/renderer.h"
 
-namespace ogle{
+namespace ogle {
 
 /**
  * @brief Renderer implemented with GLFW & OpenGL.
@@ -26,6 +26,8 @@ class GLFWRenderer : public Renderer {
  public:
   GLFWRenderer();
   ~GLFWRenderer() override;
+
+  void RenderMesh(const Mesh& mesh) override;
 };
 
 }  // namespace ogle

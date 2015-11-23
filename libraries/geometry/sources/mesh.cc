@@ -23,9 +23,13 @@ Mesh::Mesh() :
 Mesh::~Mesh() {
 }
 
-void Mesh::TakeBuffers(
+void Mesh::StealBuffers(
     VertexBuffer&& vertices) {  // NOLINT
   vertices_ = std::move(vertices);
+}
+
+const VertexBuffer& Mesh::GetVertexBuffer() const {
+  return vertices_;
 }
 
 }  // namespace ogle
