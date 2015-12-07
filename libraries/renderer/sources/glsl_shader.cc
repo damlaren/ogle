@@ -45,7 +45,7 @@ GLSLShaderProgram::GLSLShaderProgram(
     LOG(ERROR) << "Shader is not a vertex shader.";
     throw ShaderProgramLinkError();
   }
-  if (vertex_shader_->shader_type_ != ShaderType::Fragment) {
+  if (fragment_shader_->shader_type_ != ShaderType::Fragment) {
     LOG(ERROR) << "Shader is not a fragment shader.";
     throw ShaderProgramLinkError();
   }

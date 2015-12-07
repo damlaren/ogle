@@ -20,7 +20,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 GLFWApplication::GLFWApplication() : Application(),
-    window_(std::make_unique<ogle::GLFWWindow>()) {
+    window_(std::make_unique<ogle::GLFWWindow>()),
+    renderer_(std::make_unique<ogle::GLFWRenderer>()) {
   // TODO(damlaren): Doesn't belong here. Abstract out.
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);

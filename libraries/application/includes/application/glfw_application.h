@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <memory>
 
 #include "application/application.h"
+#include "renderer/glfw_renderer.h"
 #include "renderer/glfw_window.h"
 
 namespace ogle {
@@ -50,6 +51,9 @@ class GLFWApplication : public Application {
  protected:
   /// Window controlled by this application.
   std::unique_ptr<ogle::GLFWWindow> window_;
+
+  /// GLFW-based renderer.
+  std::unique_ptr<ogle::GLFWRenderer> renderer_;
 };
 
 }  // namespace ogle

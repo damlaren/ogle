@@ -31,14 +31,17 @@ class TriangleApplication : public GLFWApplication {
   }
 
   bool ApplicationBody() {
+    window_->ClearWindow();
+
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
     ogle::Mesh mesh;
     mesh.StealBuffers(std::move(triangle_vertices));
 
-    // Do window stuff.
-    window_->ClearWindow();
-    return GLFWApplication::ApplicationBody();
+    renderer_->RenderMesh(mesh);
+
+    window_->SwapBuffers();
+    return window_->HandleWindowEvents();
   }
 };
 
