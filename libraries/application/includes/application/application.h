@@ -31,7 +31,7 @@ namespace ogle {
 class Application {
  public:
   /**
-   * @brief Executes application start, body (in a loop), and end.
+   * @brief Executes #ApplicationBody while it returns true.
    */
   void RunApplication();
 

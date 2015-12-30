@@ -1,4 +1,8 @@
-aux_source_directory(sources SRC_LIST)
+cmake_minimum_required(VERSION 3.3)
+
+set(SRC_LIST
+  sources/main.cc
+)
 add_executable(triangle ${SRC_LIST})
 
 add_definitions(-DGLEW_STATIC)
