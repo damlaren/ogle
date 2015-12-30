@@ -21,7 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using GLFWApplication = ogle::GLFWApplication;
 
 /**
- * @brief Application for drawing a triangle.
+ * @brief Test application to draw a triangle.
  */
 class TriangleApplication : public GLFWApplication {
  public:
@@ -46,7 +46,7 @@ class TriangleApplication : public GLFWApplication {
 };
 
 /**
- * @brief main Main entry point.
+ * @brief Main entry point.
  * @return 0 on success, something else on failure.
  */
 int main(const int argc, const char* argv[]) {

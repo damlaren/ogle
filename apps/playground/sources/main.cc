@@ -17,7 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "ogle/ogle.h"
 
 /**
- * @brief main Main entry point.
+ * @brief Main entry point.
  * @return 0 on success, something else on failure.
  */
 
