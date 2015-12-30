@@ -15,9 +15,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "ogle/ogle.h"
 
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
-
 using GLFWApplication = ogle::GLFWApplication;
 
 /**
@@ -35,10 +32,11 @@ class TriangleApplication : public GLFWApplication {
 
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
-    ogle::Mesh mesh;
-    mesh.StealBuffers(std::move(triangle_vertices));
+    auto mesh = std::make_shared<ogle::Mesh>();
+    mesh->StealBuffers(std::move(triangle_vertices));
 
-    renderer_->RenderMesh(mesh);
+    ogle::GLFWMeshRenderer renderer(mesh);
+    renderer.Render();
 
     window_->SwapBuffers();
     return window_->HandleWindowEvents();

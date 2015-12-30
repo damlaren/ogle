@@ -9,50 +9,39 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLFWWindow class.
+ * @file Defines GLFWMeshRenderer.
  */
 
-#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
 
-#include <memory>
-
-#include "application/application.h"
-#include "renderer/glfw_window.h"
+#include "renderer/mesh_renderer.h"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 namespace ogle {
 
 /**
- * @brief An Application built using GLFW and GLEW.
- *
- * GLFW manages the window and input. GLEW manages OpenGL extensions.
- * AFAIK, this implies that this can only be an OpenGL application.
+ * @brief MeshRenderer implemented with GLFW & OpenGL.
  */
-class GLFWApplication : public Application {
+class GLFWMeshRenderer : public MeshRenderer {
  public:
   /**
-   * @brief Initializes a generic application using GLFW.
+   * @brief Constructor.
+   * @param[in] mesh Handle to Mesh to render.
    */
-  GLFWApplication();
+  explicit GLFWMeshRenderer(std::shared_ptr<Mesh> mesh);
 
-  /**
-   * @brief Destructor.
-   */
-  ~GLFWApplication() override;
+  void Render() override;
 
-  /**
-   * @brief Stub application body.
-   * Does nothing except check if escape key has been pressed.
-   * @return true until escape key is pressed.
-   */
-  bool ApplicationBody() override;
+ private:
+  /// ID for OpenGL mesh vertex buffer.
+  GLuint vertex_buffer_id_;
 
- protected:
-  /// Window controlled by this application.
-  std::unique_ptr<ogle::GLFWWindow> window_;
+  /// ID for OpenGL mesh vertex array.
+  GLuint vertex_array_id_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_

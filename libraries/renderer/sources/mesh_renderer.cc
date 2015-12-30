@@ -9,27 +9,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLFWRenderer.
+ * @file Implementation of mesh_renderer.h.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_RENDERER_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_RENDERER_H_
-
-#include "renderer/renderer.h"
+#include "renderer/mesh_renderer.h"
 
 namespace ogle {
 
-/**
- * @brief Renderer implemented with GLFW & OpenGL.
- */
-class GLFWRenderer : public Renderer {
- public:
-  GLFWRenderer();
-  ~GLFWRenderer() override;
-
-  void RenderMesh(const Mesh& mesh) override;
-};
+MeshRenderer::MeshRenderer(std::shared_ptr<Mesh> mesh) :
+    Renderer(), mesh_(mesh) {
+}
 
 }  // namespace ogle
-
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_RENDERER_H_

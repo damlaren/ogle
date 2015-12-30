@@ -15,9 +15,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
 
-#include "renderer/glfw_renderer.h"
+#include "renderer/glfw_mesh_renderer.h"
 #include "renderer/glsl_shader.h"
 #include "renderer/glfw_window.h"
+#include "renderer/mesh_renderer.h"
 #include "renderer/renderer.h"
 #include "renderer/shader.h"
 #include "renderer/window.h"

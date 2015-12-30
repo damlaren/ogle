@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.3)
 
 set(INC_LIST
-  includes/renderer/glfw_renderer.h
+  includes/renderer/glfw_mesh_renderer.h
   includes/renderer/glfw_window.h
   includes/renderer/glsl_shader.h
+  includes/renderer/mesh_renderer.h
   includes/renderer/ogle_renderer.h
   includes/renderer/renderer.h
   includes/renderer/shader.h
@@ -12,9 +13,10 @@ set(INC_LIST
 add_custom_target(ogle_renderer_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
-  sources/glfw_renderer.cc
+  sources/glfw_mesh_renderer.cc
   sources/glfw_window.cc
   sources/glsl_shader.cc
+  sources/mesh_renderer.cc
   sources/renderer.cc
   sources/shader.cc
   sources/window.cc

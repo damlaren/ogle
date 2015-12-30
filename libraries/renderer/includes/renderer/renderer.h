@@ -23,7 +23,9 @@ class Mesh;
  * @brief Base class for all Renderers.
  *
  * Handles all rendering operations in an API-independent manner.
- * Subclassed Renderers are based on specific APIs.
+ * Subclassed Renderers are based on specific APIs and render
+ * specific types of objects. They are designed for reuse by
+ * different Entities.
  */
 class Renderer {
  protected:
@@ -38,10 +40,9 @@ class Renderer {
   virtual ~Renderer() = default;
 
   /**
-   * @brief Render passed mesh.
-   * @param mesh to render.
+   * @brief Render object.
    */
-  virtual void RenderMesh(const Mesh& mesh) = 0;
+  virtual void Render() = 0;
 };
 
 }  // namespace ogle

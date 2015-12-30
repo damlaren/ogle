@@ -38,8 +38,8 @@ class GLFWWindow : public Window {
 
  protected:
   /**
-   * @brief GLFW's window implementation.
-   * @details An opaque type which can't be stored in a smart pointer.
+   * GLFW's window implementation.
+   * An opaque type which can't be stored in a smart pointer.
    */
   GLFWwindow* window_;
 };

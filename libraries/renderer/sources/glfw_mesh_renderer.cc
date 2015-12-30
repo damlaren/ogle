@@ -23,34 +23,28 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * @file Implementation of glfw_renderer.h.
  */
 
-#include "renderer/glfw_renderer.h"
+#include "renderer/glfw_mesh_renderer.h"
 #include "geometry/mesh.h"
 #include "renderer/glsl_shader.h"
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
 
 namespace ogle {
 
-GLFWRenderer::GLFWRenderer() : Renderer() {}
+GLFWMeshRenderer::GLFWMeshRenderer(std::shared_ptr<Mesh> mesh) :
+    MeshRenderer(mesh), vertex_buffer_id_(0), vertex_array_id_(0) {
+}
 
-GLFWRenderer::~GLFWRenderer() {}
+void GLFWMeshRenderer::Render() {
+  glGenBuffers(1, &vertex_buffer_id_);
+  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
+  glBufferData(GL_ARRAY_BUFFER, mesh_->GetVertexBuffer().SizeInBytes(),
+               mesh_->GetVertexBuffer().data_, GL_STATIC_DRAW);
 
-void GLFWRenderer::RenderMesh(const Mesh& mesh) {
-  // TODO(damlaren): These steps only need to be done once.
-  // Need some way to store pre-processed objects for rendering.
-  GLuint vertex_buffer_id = 0;
-  glGenBuffers(1, &vertex_buffer_id);
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
-  glBufferData(GL_ARRAY_BUFFER, mesh.GetVertexBuffer().SizeInBytes(),
-               mesh.GetVertexBuffer().data_, GL_STATIC_DRAW);
-
-  GLuint vertex_array_id = 0;
-  glGenVertexArrays(1, &vertex_array_id);
-  glBindVertexArray(vertex_array_id);
+  glGenVertexArrays(1, &vertex_array_id_);
+  glBindVertexArray(vertex_array_id_);
 
   // TODO(damlaren): Parameterize. 1 for each vertex attribute in shader.
   glEnableVertexAttribArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
+  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   // TODO(damlaren): Read from text files.
@@ -76,8 +70,8 @@ void GLFWRenderer::RenderMesh(const Mesh& mesh) {
   GLSLShaderProgram shader_program(vertex_shader, fragment_shader);
   shader_program.UseProgram();
 
-  glBindVertexArray(vertex_array_id);
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh.GetVertexBuffer().num_elements_);
+  glBindVertexArray(vertex_array_id_);
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_->GetVertexBuffer().num_elements_);
 }
 
 }  // namespace ogle

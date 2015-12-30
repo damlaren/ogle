@@ -9,50 +9,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLFWWindow class.
+ * @file Defines MeshRenderer.
  */
 
-#ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-#define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_MESH_RENDERER_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_MESH_RENDERER_H_
 
 #include <memory>
-
-#include "application/application.h"
-#include "renderer/glfw_window.h"
+#include "renderer/renderer.h"
 
 namespace ogle {
 
+class Mesh;
+
 /**
- * @brief An Application built using GLFW and GLEW.
+ * @brief Base class for all MeshRenderers.
  *
- * GLFW manages the window and input. GLEW manages OpenGL extensions.
- * AFAIK, this implies that this can only be an OpenGL application.
+ * Subclasses handle different APIs.
  */
-class GLFWApplication : public Application {
+class MeshRenderer : Renderer {
  public:
   /**
-   * @brief Initializes a generic application using GLFW.
+   * @brief Constructor.
+   * @param[in] mesh Handle to mesh to render.
    */
-  GLFWApplication();
-
-  /**
-   * @brief Destructor.
-   */
-  ~GLFWApplication() override;
-
-  /**
-   * @brief Stub application body.
-   * Does nothing except check if escape key has been pressed.
-   * @return true until escape key is pressed.
-   */
-  bool ApplicationBody() override;
+  explicit MeshRenderer(std::shared_ptr<Mesh> mesh);
 
  protected:
-  /// Window controlled by this application.
-  std::unique_ptr<ogle::GLFWWindow> window_;
+  /// Handle to mesh to render.
+  std::shared_ptr<Mesh> mesh_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
-
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_MESH_RENDERER_H_
