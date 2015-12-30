@@ -21,20 +21,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class GLSLShaderProgram;
+
 /**
  * @brief MeshRenderer implemented with GLFW & OpenGL.
  */
 class GLFWMeshRenderer : public MeshRenderer {
  public:
   /**
-   * @brief Constructor.
+   * @brief Constructor. Allocates OpenGL objects used for rendering.
+   *
    * @param[in] mesh Handle to Mesh to render.
+   * @param[in] shader_program Shader program to use in render pass.
    */
-  explicit GLFWMeshRenderer(std::shared_ptr<Mesh> mesh);
+  GLFWMeshRenderer(std::shared_ptr<Mesh> mesh,
+                   std::shared_ptr<GLSLShaderProgram> shader_program);
+
+  /**
+   * @brief Destructor. Deallocates OpenGL objects.
+   */
+  ~GLFWMeshRenderer() override;
 
   void Render() override;
 
  private:
+  /// Shader program to use in rendering pass.
+  std::shared_ptr<GLSLShaderProgram> shader_program_;
+
   /// ID for OpenGL mesh vertex buffer.
   GLuint vertex_buffer_id_;
 

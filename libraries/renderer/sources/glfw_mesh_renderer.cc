@@ -28,18 +28,24 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "renderer/glsl_shader.h"
 
 namespace ogle {
-
-GLFWMeshRenderer::GLFWMeshRenderer(std::shared_ptr<Mesh> mesh) :
-    MeshRenderer(mesh), vertex_buffer_id_(0), vertex_array_id_(0) {
-}
-
-void GLFWMeshRenderer::Render() {
+GLFWMeshRenderer::GLFWMeshRenderer(
+    std::shared_ptr<Mesh> mesh,
+    std::shared_ptr<GLSLShaderProgram> shader_program) :
+    MeshRenderer(mesh), shader_program_(shader_program) {
   glGenBuffers(1, &vertex_buffer_id_);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
   glBufferData(GL_ARRAY_BUFFER, mesh_->GetVertexBuffer().SizeInBytes(),
                mesh_->GetVertexBuffer().data_, GL_STATIC_DRAW);
 
   glGenVertexArrays(1, &vertex_array_id_);
+}
+
+GLFWMeshRenderer::~GLFWMeshRenderer() {
+  glDeleteBuffers(1, &vertex_buffer_id_);
+  glDeleteVertexArrays(1, &vertex_array_id_);
+}
+
+void GLFWMeshRenderer::Render() {
   glBindVertexArray(vertex_array_id_);
 
   // TODO(damlaren): Parameterize. 1 for each vertex attribute in shader.
@@ -47,28 +53,7 @@ void GLFWMeshRenderer::Render() {
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-  // TODO(damlaren): Read from text files.
-  const std::string vertex_shader_text =
-      "#version 400\n"
-      "in vec3 vp;"
-      "void main () {"
-      "  gl_Position = vec4 (vp, 1.0);"
-      "}";
-  const std::string fragment_shader_text =
-      "#version 400\n"
-      "out vec4 frag_colour;"
-      "void main () {"
-      "  frag_colour = vec4 (0.5, 0.0, 0.5, 1.0);"
-      "}";
-
-  // TODO(damlaren): Set shaders to use to draw the mesh, get from there.
-  // But these could vary by mesh instance.
-  std::shared_ptr<GLSLShader> vertex_shader =
-      std::make_shared<GLSLShader>(vertex_shader_text, ShaderType::Vertex);
-  std::shared_ptr<GLSLShader> fragment_shader =
-      std::make_shared<GLSLShader>(fragment_shader_text, ShaderType::Fragment);
-  GLSLShaderProgram shader_program(vertex_shader, fragment_shader);
-  shader_program.UseProgram();
+  shader_program_->UseProgram();
 
   glBindVertexArray(vertex_array_id_);
   glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_->GetVertexBuffer().num_elements_);

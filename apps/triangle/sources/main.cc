@@ -35,7 +35,29 @@ class TriangleApplication : public GLFWApplication {
     auto mesh = std::make_shared<ogle::Mesh>();
     mesh->StealBuffers(std::move(triangle_vertices));
 
-    ogle::GLFWMeshRenderer renderer(mesh);
+    const std::string vertex_shader_text =
+        "#version 400\n"
+        "in vec3 vp;"
+        "void main () {"
+        "  gl_Position = vec4 (vp, 1.0);"
+        "}";
+    const std::string fragment_shader_text =
+        "#version 400\n"
+        "out vec4 frag_color;"
+        "void main () {"
+        "  frag_color = vec4 (0.5, 0.0, 0.5, 1.0);"
+        "}";
+    auto vertex_shader =
+        std::make_shared<ogle::GLSLShader>(vertex_shader_text,
+                                           ogle::ShaderType::Vertex);
+    auto fragment_shader =
+        std::make_shared<ogle::GLSLShader>(fragment_shader_text,
+                                           ogle::ShaderType::Fragment);
+    auto shader_program =
+        std::make_shared<ogle::GLSLShaderProgram>(vertex_shader,
+                                                  fragment_shader);
+
+    ogle::GLFWMeshRenderer renderer(mesh, shader_program);
     renderer.Render();
 
     window_->SwapBuffers();
