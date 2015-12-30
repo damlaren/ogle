@@ -19,6 +19,7 @@ namespace ogle {
 
 /**
  * @brief An object instantiated in an application.
+ *
  * An entity is an object that exists in a scene
  * at a specific location. It has no limits on what
  * other properties it can take on. It is rendered if

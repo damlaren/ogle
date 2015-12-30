@@ -20,7 +20,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-/// The type of a Shader.
+/**
+ * @brief The type of a Shader.
+ */
 enum class ShaderType {
   Vertex,  ///< Vertex shader.
   Fragment  ///< Fragment, aka pixel shader.
@@ -34,18 +36,22 @@ enum class ShaderType {
  */
 class Shader {
  protected:
-  /// Error that can be thrown if Shader creation fails.
+  /**
+   * @brief Error that can be thrown if Shader creation fails.
+   */
   class ShaderCompileError : public std::exception {
   };
 
   /**
    * @brief Constructor.
-   * @param shader_text Shader text to copy.
-   * @param type Type of this Shader.
+   * @param[in] shader_text Shader text to copy.
+   * @param[in] type Type of this Shader.
    */
   Shader(const std::string &shader_text, ShaderType type);
 
-  /// Destructor.
+  /**
+   * @brief Default destructor.
+   */
   virtual ~Shader() = default;
 
   // TODO(damlaren): add a static function to read shader from text file.
@@ -65,18 +71,26 @@ class Shader {
  */
 class ShaderProgram {
  public:
-  /// Use shader program in rendering pass.
+  /**
+   * @brief Sets this shader program up to be used in rendering pass.
+   */
   virtual void UseProgram() = 0;
 
  protected:
-  /// Error that can be thrown if ShaderProgram creation fails.
+  /**
+   * @brief Error that can be thrown if ShaderProgram creation fails.
+   */
   class ShaderProgramLinkError : public std::exception {
   };
 
-  /// Default constructor. Not used.
+  /**
+   * @brief Default constructor. Not used.
+   */
   ShaderProgram() = default;
 
-  /// Destructor.
+  /**
+   * @brief Default destructor.
+   */
   virtual ~ShaderProgram() = default;
 };
 

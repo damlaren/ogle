@@ -16,7 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 
 #include <assert.h>
-
 #include <algorithm>
 #include <array>
 #include <iterator>
@@ -39,19 +38,20 @@ class Vector {
 
   /**
    * @brief Default constructor.
+   *
    * Does not init values.
    */
   Vector() noexcept {
   }
 
   /**
-   * @brief Constructor.
-   * @param ts Initializer list, or variable-length list of
-   *   parameters, to set data. The exact number of arguments
-   *   to set the Vector is required.
+   * @brief Constructor that takes list of data values.
+   * @param[in] ts Initializer list, or variable-length list of
+   *     parameters, to set data. The exact number of arguments
+   *     to set the Vector is required.
    */
   template <typename... U>
-  Vector(U... ts)
+  Vector(U... ts)  // NOLINT
       : data_{ts...} {
     static_assert(sizeof...(U) == K, "Wrong number of arguments.");
   }
@@ -59,19 +59,19 @@ class Vector {
   ///@{
   /**
    * @brief Constructor that initializes Vector from array.
-   * @param data Array of values copied into vector.
+   * @param[in] data Array of values copied into vector.
    */
-  Vector(const T data[K]) {
+  explicit Vector(const T data[K]) {
     std::copy(data, data + K, std::begin(data_));
   }
-  Vector(T data[K]) {
+  explicit Vector(T data[K]) {
     std::copy(data, data + K, std::begin(data_));
   }
   ///@}
 
   /**
   * @brief Array subscript operator that allows modification.
-  * @param index Index into vector. It is an error to use an
+  * @param[in] index Index into vector. It is an error to use an
   *     index past its end.
   * @returns Reference to element in Vector.
   */
@@ -82,7 +82,7 @@ class Vector {
 
   /**
   * @brief Array subscript operator that bars modification.
-  * @param index Index into vector. It is an error to use an
+  * @param[in] index Index into vector. It is an error to use an
   *     index past its end.
   * @returns Copy of element.
   */
@@ -92,7 +92,7 @@ class Vector {
   }
 
   /**
-  * @brief Zero out the vector.
+  * @brief Zeros out the vector.
   */
   void Clear() noexcept {
     data_.fill(0);
@@ -125,6 +125,7 @@ class Vector {
   ///@}
 
  private:
+  /// Values stored in vector.
   std::array<T, K> data_;
 };
 

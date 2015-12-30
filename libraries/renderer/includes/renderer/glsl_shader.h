@@ -30,11 +30,17 @@ class GLSLShader : public Shader {
  public:
   friend class GLSLShaderProgram;
 
+  /**
+   * @brief Constructor.
+   * @param[in] shader_text Same as in #Shader constructor.
+   * @param[in] type Same as in #Shader constructor.
+   */
   GLSLShader(const std::string& shader_text, ShaderType type);
   ~GLSLShader() override;
 
  private:
-  GLuint shader_id_;  ///< OpenGL-generated shader ID.
+  /// OpenGL-generated shader ID.
+  GLuint shader_id_;
 };
 
 /**
@@ -44,8 +50,8 @@ class GLSLShaderProgram : public ShaderProgram {
  public:
   /**
    * @brief Constructor. Links shaders into a program.
-   * @param vertex_shader Precompiled vertex Shader.
-   * @param fragment_shader Precompiled fragment Shader.
+   * @param[in] vertex_shader Precompiled vertex Shader.
+   * @param[in] fragment_shader Precompiled fragment Shader.
    */
   GLSLShaderProgram(std::shared_ptr<GLSLShader> vertex_shader,
                     std::shared_ptr<GLSLShader> fragment_shader);
@@ -54,7 +60,8 @@ class GLSLShaderProgram : public ShaderProgram {
   void UseProgram() override;
 
  private:
-  GLuint program_id_;  ///< OpenGL-generated program ID.
+  /// OpenGL-generated program ID.
+  GLuint program_id_;
 
   /// Precompiled vertex shader.
   std::shared_ptr<GLSLShader> vertex_shader_;

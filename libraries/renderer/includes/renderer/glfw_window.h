@@ -29,6 +29,9 @@ namespace ogle {
  */
 class GLFWWindow : public Window {
  public:
+  /**
+   * @brief Default constructor. Sets up a window using hard-coded parameters.
+   */
   GLFWWindow();
   ~GLFWWindow() override;
 

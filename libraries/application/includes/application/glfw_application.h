@@ -42,7 +42,9 @@ class GLFWApplication : public Application {
 
   /**
    * @brief Stub application body.
+   *
    * Does nothing except check if escape key has been pressed.
+   *
    * @return true until escape key is pressed.
    */
   bool ApplicationBody() override;

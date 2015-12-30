@@ -26,17 +26,17 @@ using BufferIndex = std::uint64_t;
 /**
  * @brief Memory buffer class that cleans up after itself.
  *
- * TODO(damlaren): Made for geometry, but fits in a memory module.
+ * TODO(damlaren): Made for geometry, but not a geometric idea.
  */
 template<typename T>
 class Buffer {
  public:
   /**
-   * @brief Creates a buffer of requested size.
+   * @brief Constructor. Creates a buffer of requested size.
    *
    * Doesn't initialize values in buffer.
    *
-   * @param num_elements How many elements to reserve.
+   * @param[in] num_elements How many elements to reserve.
    */
   explicit Buffer(BufferIndex num_elements = 0) :
       num_elements_(num_elements) {
@@ -44,8 +44,8 @@ class Buffer {
   }
 
   /**
-   * @brief Creates a buffer from initializer list.
-   * @param init_list Initial elements to copy.
+   * @brief Constructor. Creates a buffer from initializer list.
+   * @param[in] init_list Initial elements to copy.
    */
   Buffer(std::initializer_list<T> init_list) :
       num_elements_(init_list.size()) {
@@ -56,9 +56,9 @@ class Buffer {
   }
 
   /**
-   * @brief Creates a buffer that wraps existing array.
-   * @param data Array that is taken as Buffer storage.
-   * @param num_elements How many elements are in array.
+   * @brief Constructor. Creates a buffer that wraps existing array.
+   * @param[in] data Array that is taken as Buffer storage.
+   * @param[in] num_elements How many elements are in array.
    */
   Buffer(T data[], BufferIndex num_elements) :
     num_elements_(num_elements),
@@ -67,7 +67,7 @@ class Buffer {
 
   /**
    * @brief Copy constructor.
-   * @param other Buffer to copy contents from. Shallow.
+   * @param[in] other Buffer to copy contents from. Shallow.
    */
   Buffer(const Buffer& other) :
       num_elements_(other.num_elements_) {
@@ -79,7 +79,7 @@ class Buffer {
 
   /**
    * @brief Move constructor.
-   * @param other Buffer to take data from. Invalid afterwards.
+   * @param[in] other Buffer to take data from. Invalid afterwards.
    */
   Buffer(Buffer&& other) :  // NOLINT
       num_elements_(other.num_elements_) {
@@ -88,7 +88,9 @@ class Buffer {
     other.num_elements_ = 0;
   }
 
-  /// @brief Deletes data held by buffer.
+  /**
+   * @brief Destructor. Deletes data held by buffer.
+   */
   ~Buffer() {
     delete[] data_;
   }
@@ -99,7 +101,7 @@ class Buffer {
    * Deletes existing data held by this Buffer, if a different amount of
    * space is required to hold the new contents.
    *
-   * @param other Buffer to copy contents from. Shallow.
+   * @param[in] other Buffer to copy contents from. Shallow.
    * @return Reference to this Buffer.
    */
   Buffer& operator=(const Buffer& other) {
@@ -119,7 +121,7 @@ class Buffer {
    *
    * Deletes existing data held by this Buffer.
    *
-   * @param other Buffer to take data from. Invalid afterwards.
+   * @param[in] other Buffer to take data from. Invalid afterwards.
    * @return Reference to this Buffer.
    */
   Buffer& operator=(Buffer&& other) {  // NOLINT

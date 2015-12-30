@@ -20,22 +20,31 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /**
- * @brief A Window that provides a rendering context.
- * It is assumed that there is only window per application.
+ * @brief A window that provides a rendering context.
+ *
+ * It is assumed that there is only Window per application.
  * Windows also handle events like closing and minimizing.
  */
 class Window {
  public:
-  /// Default constructor.
+  /**
+   * Default constructor.
+   */
   Window() = default;
 
-  /// Default destructor.
+  /**
+   * Default destructor.
+   */
   virtual ~Window() = default;
 
-  /// Clear all window contents.
+  /**
+   * Clear all window contents.
+   */
   virtual void ClearWindow() = 0;
 
-  /// Swap buffers to display next frame.
+  /**
+   * @brief Swap buffers to display next frame.
+   */
   virtual void SwapBuffers() = 0;
 
   /**
@@ -47,7 +56,8 @@ class Window {
  protected:
   /**
    * @brief Exception class that can be thrown if construction fails.
-   * @details This exception is intended to halt the application in case
+   *
+   * This exception is intended to halt the application in case
    * of an unrecoverable error during construction.
    */
   class WindowException : public std::exception {
