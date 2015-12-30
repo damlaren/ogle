@@ -10,12 +10,18 @@ set(SRC_LIST
 )
 
 add_subdirectory(application)
+add_subdirectory(entity)
 add_subdirectory(geometry)
 add_subdirectory(math)
 add_subdirectory(renderer)
 
-aux_source_directory(sources SRC_LIST)
 add_library(ogle sources/ogle.cc)
-target_link_libraries(ogle ogle_application ogle_geometry ogle_math ogle_renderer)
+target_link_libraries(ogle
+  ogle_application
+  ogle_entity
+  ogle_geometry
+  ogle_math
+  ogle_renderer
+)
 target_include_directories(ogle PUBLIC includes
   ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
