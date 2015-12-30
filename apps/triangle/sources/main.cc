@@ -23,6 +23,35 @@ using GLFWApplication = ogle::GLFWApplication;
 class TriangleApplication : public GLFWApplication {
  public:
   TriangleApplication() : GLFWApplication() {
+      ogle::VertexBuffer triangle_vertices(
+          {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
+      auto mesh = std::make_shared<ogle::Mesh>();
+      mesh->StealBuffers(std::move(triangle_vertices));
+
+      const std::string vertex_shader_text =
+          "#version 400\n"
+          "in vec3 vp;"
+          "void main () {"
+          "  gl_Position = vec4 (vp, 1.0);"
+          "}";
+      const std::string fragment_shader_text =
+          "#version 400\n"
+          "out vec4 frag_color;"
+          "void main () {"
+          "  frag_color = vec4 (0.5, 0.0, 0.5, 1.0);"
+          "}";
+      auto vertex_shader =
+          std::make_shared<ogle::GLSLShader>(vertex_shader_text,
+                                             ogle::ShaderType::Vertex);
+      auto fragment_shader =
+          std::make_shared<ogle::GLSLShader>(fragment_shader_text,
+                                             ogle::ShaderType::Fragment);
+      auto shader_program =
+          std::make_shared<ogle::GLSLShaderProgram>(vertex_shader,
+                                                    fragment_shader);
+
+      renderer_ = std::make_unique<ogle::GLFWMeshRenderer>(mesh,
+                                                           shader_program);
   }
   ~TriangleApplication() override {
   }
@@ -30,39 +59,15 @@ class TriangleApplication : public GLFWApplication {
   bool ApplicationBody() {
     window_->ClearWindow();
 
-    ogle::VertexBuffer triangle_vertices(
-        {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
-    auto mesh = std::make_shared<ogle::Mesh>();
-    mesh->StealBuffers(std::move(triangle_vertices));
-
-    const std::string vertex_shader_text =
-        "#version 400\n"
-        "in vec3 vp;"
-        "void main () {"
-        "  gl_Position = vec4 (vp, 1.0);"
-        "}";
-    const std::string fragment_shader_text =
-        "#version 400\n"
-        "out vec4 frag_color;"
-        "void main () {"
-        "  frag_color = vec4 (0.5, 0.0, 0.5, 1.0);"
-        "}";
-    auto vertex_shader =
-        std::make_shared<ogle::GLSLShader>(vertex_shader_text,
-                                           ogle::ShaderType::Vertex);
-    auto fragment_shader =
-        std::make_shared<ogle::GLSLShader>(fragment_shader_text,
-                                           ogle::ShaderType::Fragment);
-    auto shader_program =
-        std::make_shared<ogle::GLSLShaderProgram>(vertex_shader,
-                                                  fragment_shader);
-
-    ogle::GLFWMeshRenderer renderer(mesh, shader_program);
-    renderer.Render();
+    renderer_->Render();
 
     window_->SwapBuffers();
     return window_->HandleWindowEvents();
   }
+
+ private:
+  /// Renders triangle mesh.
+  std::unique_ptr<ogle::GLFWMeshRenderer> renderer_;
 };
 
 /**
