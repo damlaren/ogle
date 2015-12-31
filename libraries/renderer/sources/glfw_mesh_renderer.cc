@@ -42,8 +42,18 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   glBufferData(GL_ARRAY_BUFFER, mesh_->vertices().SizeInBytes(),
                mesh_->vertices().data_, GL_STATIC_DRAW);
 
-  // Create vertex array.
+  // Create vertex array and bind it to be currently active.
   glGenVertexArrays(1, &vertex_array_id_);
+  glBindVertexArray(vertex_array_id_);
+
+  // Define vertex attribute data format and location, using
+  // currently bound buffer & vertex array.
+  // TODO(damlaren): # components per vertex & type are hard-coded.
+  const int kVertexArrayIndex = 0;
+  glVertexAttribPointer(kVertexArrayIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+  // Enable vertex array attribute for rendering.
+  glEnableVertexAttribArray(kVertexArrayIndex);
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
@@ -52,20 +62,8 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
 }
 
 void GLFWMeshRenderer::Render() {
-  // Set active vertex array and array buffer.
-  glBindVertexArray(vertex_array_id_);
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
-
-  // Define vertex attribute data format and location, using
-  // currently bound buffer & vertex array.
-  // TODO(damlaren): # components per vertex & type are hard-coded.
-  const int kVertexArrayIndex = 0;
-  glVertexAttribPointer(kVertexArrayIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
   shader_program_->UseProgram();
-
-  // Enable vertex array attribute for rendering.
-  glEnableVertexAttribArray(kVertexArrayIndex);
+  glBindVertexArray(vertex_array_id_);
 
   // Draw vertices.
   // TODO(damlaren): triangle strip vs. quad vs. other may vary.
