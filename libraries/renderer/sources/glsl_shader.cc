@@ -30,7 +30,18 @@ GLSLShader::GLSLShader(const std::string& shader_text, ShaderType type) :
   glShaderSource(shader_id_, 1, &shader_text_c_str, nullptr);
   glCompileShader(shader_id_);
 
-  // TODO(damlaren): error checking
+  // Check for error.
+  int params = -1;
+  glGetShaderiv(shader_id_, GL_COMPILE_STATUS, &params);
+  if (params != GL_TRUE) {
+    LOG(ERROR) << "Shader " << shader_id_ << " failed to compile.";
+    static constexpr int kMaxLogLength = 2048;
+    int log_length = 0;
+    char log[kMaxLogLength];
+    glGetShaderInfoLog(shader_id_, kMaxLogLength, &log_length, log);
+    LOG(ERROR) << log;
+    throw Shader::ShaderCompileError();
+  }
 }
 
 GLSLShader::~GLSLShader() {
@@ -54,6 +65,20 @@ GLSLShaderProgram::GLSLShaderProgram(
   glAttachShader(program_id_, fragment_shader_->shader_id_);
   glAttachShader(program_id_, vertex_shader_->shader_id_);
   glLinkProgram(program_id_);
+
+  // Check for error.
+  int params = -1;
+  glGetProgramiv(program_id_, GL_LINK_STATUS, &params);
+  if (params != GL_TRUE) {
+    LOG(ERROR) << "Shader program " << program_id_
+               << " failed to link.";
+    static constexpr int kMaxLogLength = 2048;
+    int log_length = 0;
+    char log[kMaxLogLength];
+    glGetProgramInfoLog(program_id_, kMaxLogLength, &log_length, log);
+    LOG(ERROR) << log;
+    throw ShaderProgram::ShaderProgramLinkError();
+  }
 }
 
 void GLSLShaderProgram::UseProgram() {

@@ -76,6 +76,8 @@ class ShaderProgram {
    */
   virtual void UseProgram() = 0;
 
+  // TODO(damlaren): No interface for setting shader program variables.
+
  protected:
   /**
    * @brief Error that can be thrown if ShaderProgram creation fails.
