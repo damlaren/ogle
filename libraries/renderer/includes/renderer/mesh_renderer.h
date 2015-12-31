@@ -27,7 +27,7 @@ class Mesh;
  *
  * Subclasses handle different APIs.
  */
-class MeshRenderer : Renderer {
+class MeshRenderer : public Renderer {
  public:
   /**
    * @brief Constructor.

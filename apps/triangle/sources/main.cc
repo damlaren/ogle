@@ -10,6 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 /**
  * @file Defines an app to display a triangle on the screen.
+ *
  * Used to validate primitive drawing code.
  */
 
@@ -49,25 +50,28 @@ class TriangleApplication : public GLFWApplication {
       auto shader_program =
           std::make_shared<ogle::GLSLShaderProgram>(vertex_shader,
                                                     fragment_shader);
+      auto renderer =
+          std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
-      renderer_ = std::make_unique<ogle::GLFWMeshRenderer>(mesh,
-                                                           shader_program);
+      triangle_ = std::make_unique<ogle::Entity>();
+      triangle_->set_renderer(renderer);
   }
+
   ~TriangleApplication() override {
   }
 
   bool ApplicationBody() {
     window_->ClearWindow();
 
-    renderer_->Render();
+    triangle_->Render();
 
     window_->SwapBuffers();
     return window_->HandleWindowEvents();
   }
 
  private:
-  /// Renders triangle mesh.
-  std::unique_ptr<ogle::GLFWMeshRenderer> renderer_;
+  /// Object instantiated to render triangle mesh.
+  std::unique_ptr<ogle::Entity> triangle_;
 };
 
 /**

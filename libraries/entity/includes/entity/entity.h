@@ -15,17 +15,38 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_ENTITY_INCLUDES_ENTITY_ENTITY_H_
 #define LIBRARIES_ENTITY_INCLUDES_ENTITY_ENTITY_H_
 
+#include <memory>
+
 namespace ogle {
+
+class Renderer;
 
 /**
  * @brief An object instantiated in an application.
  *
  * An entity is an object that exists in a scene
  * at a specific location. It has no limits on what
- * other properties it can take on. It is rendered if
- * a MeshRenderer is provided to it.
+ * other properties it can take on. It is drawn if
+ * a Renderer is provided to it.
  */
 class Entity {
+ public:
+  /**
+   * @brief set_renderer Sets Renderer for drawing this object.
+   * @param renderer Renderer to use to draw Entity.
+   */
+  void set_renderer(std::shared_ptr<Renderer> renderer);
+
+  /**
+   * @brief Renders this Entity.
+   *
+   * Rendering is skipped if no Renderer is set on this object.
+   */
+  void Render();
+
+ private:
+  /// Renderer used to display Entity.
+  std::shared_ptr<Renderer> renderer_;
 };
 
 }  // namespace ogle

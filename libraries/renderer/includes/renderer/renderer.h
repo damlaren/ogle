@@ -28,6 +28,12 @@ class Mesh;
  * different Entities.
  */
 class Renderer {
+ public:
+  /**
+   * @brief Render object.
+   */
+  virtual void Render() = 0;
+
  protected:
   /**
    * @brief Default constructor.
@@ -38,11 +44,6 @@ class Renderer {
    * @brief Default destructor.
    */
   virtual ~Renderer() = default;
-
-  /**
-   * @brief Render object.
-   */
-  virtual void Render() = 0;
 };
 
 }  // namespace ogle
