@@ -20,7 +20,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * @file Implementation of glfw_renderer.h.
+ * @file Implementation of glfw_mesh_renderer.h.
  */
 
 #include "renderer/glfw_mesh_renderer.h"
@@ -28,15 +28,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "renderer/glsl_shader.h"
 
 namespace ogle {
+
 GLFWMeshRenderer::GLFWMeshRenderer(
     std::shared_ptr<Mesh> mesh,
     std::shared_ptr<GLSLShaderProgram> shader_program) :
     MeshRenderer(mesh), shader_program_(shader_program) {
+  // Create vertex buffer and make it active array buffer.
   glGenBuffers(1, &vertex_buffer_id_);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
+
+  // Copy data to active array buffer. This may be in GPU memory, but
+  // that's up to the graphics driver.
   glBufferData(GL_ARRAY_BUFFER, mesh_->GetVertexBuffer().SizeInBytes(),
                mesh_->GetVertexBuffer().data_, GL_STATIC_DRAW);
 
+  // Create vertex array.
   glGenVertexArrays(1, &vertex_array_id_);
 }
 
@@ -46,16 +52,23 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
 }
 
 void GLFWMeshRenderer::Render() {
+  // Set active vertex array and array buffer.
   glBindVertexArray(vertex_array_id_);
-
-  // TODO(damlaren): Parameterize. 1 for each vertex attribute in shader.
-  glEnableVertexAttribArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+  // Define vertex attribute data format and location, using
+  // currently bound buffer & vertex array.
+  // TODO(damlaren): # components per vertex & type are hard-coded.
+  const int kVertexArrayIndex = 0;
+  glVertexAttribPointer(kVertexArrayIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   shader_program_->UseProgram();
 
-  glBindVertexArray(vertex_array_id_);
+  // Enable vertex array attribute for rendering.
+  glEnableVertexAttribArray(kVertexArrayIndex);
+
+  // Draw vertices.
+  // TODO(damlaren): triangle strip vs. quad vs. other may vary.
   glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_->GetVertexBuffer().num_elements_);
 }
 
