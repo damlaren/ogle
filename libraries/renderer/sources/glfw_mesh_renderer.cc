@@ -39,8 +39,8 @@ GLFWMeshRenderer::GLFWMeshRenderer(
 
   // Copy data to active array buffer. This may be in GPU memory, but
   // that's up to the graphics driver.
-  glBufferData(GL_ARRAY_BUFFER, mesh_->GetVertexBuffer().SizeInBytes(),
-               mesh_->GetVertexBuffer().data_, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, mesh_->vertices().SizeInBytes(),
+               mesh_->vertices().data_, GL_STATIC_DRAW);
 
   // Create vertex array.
   glGenVertexArrays(1, &vertex_array_id_);
@@ -69,7 +69,7 @@ void GLFWMeshRenderer::Render() {
 
   // Draw vertices.
   // TODO(damlaren): triangle strip vs. quad vs. other may vary.
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_->GetVertexBuffer().num_elements_);
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_->vertices().num_elements_);
 }
 
 }  // namespace ogle

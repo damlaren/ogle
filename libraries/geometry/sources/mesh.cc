@@ -28,7 +28,7 @@ void Mesh::StealBuffers(
   vertices_ = std::move(vertices);
 }
 
-const VertexBuffer& Mesh::GetVertexBuffer() const {
+const VertexBuffer& Mesh::vertices() const {
   return vertices_;
 }
 

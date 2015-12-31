@@ -51,7 +51,7 @@ class Mesh {
    * @brief Provides access to vertex buffer.
    * @return Reference to mesh vertices.
    */
-  const VertexBuffer& GetVertexBuffer() const;
+  const VertexBuffer& vertices() const;
 
  protected:
   /// Vertex buffer.
