@@ -23,22 +23,23 @@ namespace ogle {
  * @brief A window that provides a rendering context.
  *
  * It is assumed that there is only Window per application.
- * Windows also handle events like closing and minimizing.
+ * Windows also handle events like closing, minimizing,
+ * and resizing.
  */
 class Window {
  public:
   /**
-   * Default constructor.
+   * @brief Default constructor.
    */
   Window() = default;
 
   /**
-   * Default destructor.
+   * @brief Default destructor.
    */
   virtual ~Window() = default;
 
   /**
-   * Clear all window contents.
+   * @brief Clear all window contents.
    */
   virtual void ClearWindow() = 0;
 
@@ -52,6 +53,8 @@ class Window {
    * @return false if window should close, else true.
    */
   virtual bool HandleWindowEvents() = 0;
+
+  // TODO(damlaren): Add callbacks to handle window/framebuffer resize.
 
  protected:
   /**

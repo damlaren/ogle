@@ -20,22 +20,31 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLFWWindow::GLFWWindow() :
-    Window() {
+GLFWWindow::GLFWWindow(int width, int height, const std::string& title,
+                       int opengl_major_version, int opengl_minor_version,
+                       int msaa_samples)
+    : Window(), window_width_(width), window_height_(height) {
   window_ = nullptr;
+
   if (!glfwInit()) {
     LOG(ERROR) << "Failed to init GLFW.";
     throw Window::WindowException();
   }
+  LOG(INFO) << "GLFW Version: " << glfwGetVersionString();
+  glfwSetErrorCallback(LogGLFWError);
 
-  // TODO(damlaren): Hardcoded parameters should be configurable.
-  glfwWindowHint(GLFW_SAMPLES, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+  glfwWindowHint(GLFW_SAMPLES, msaa_samples);  // Anti-aliasing.
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, opengl_major_version);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, opengl_minor_version);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Deprecate old stuff.
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  window_ = glfwCreateWindow(1024, 768, "My Window Title", nullptr, nullptr);
+  // TODO(damlaren): Doesn't belong here. Make configurable.
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
+  window_ = glfwCreateWindow(window_width_, window_height_,
+                             title.c_str(), nullptr, nullptr);
   if (window_ == nullptr) {
     glfwTerminate();
     LOG(ERROR) << "Failed to create GLFW window.";
@@ -77,6 +86,10 @@ bool GLFWWindow::HandleWindowEvents() {
   } else {
     return false;
   }
+}
+
+void GLFWWindow::LogGLFWError(int error, const char *description) {
+  LOG(ERROR) << "GLFW error code=" << error << ": " << description;
 }
 
 }  // namespace ogle

@@ -23,11 +23,13 @@ using GLFWApplication = ogle::GLFWApplication;
  */
 class TriangleApplication : public GLFWApplication {
  public:
-  TriangleApplication() : GLFWApplication() {
-      ogle::VertexBuffer triangle_vertices(
-          {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
-      auto mesh = std::make_shared<ogle::Mesh>();
-      mesh->StealBuffers(std::move(triangle_vertices));
+  TriangleApplication()
+      : GLFWApplication(std::make_unique<ogle::GLFWWindow>(
+            1024, 768, "Triangle App", 4, 0, 4)) {
+    ogle::VertexBuffer triangle_vertices(
+        {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
+    auto mesh = std::make_shared<ogle::Mesh>();
+    mesh->StealBuffers(std::move(triangle_vertices));
 
       const std::string vertex_shader_text =
           "#version 400\n"

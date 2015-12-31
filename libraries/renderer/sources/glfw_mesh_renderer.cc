@@ -31,8 +31,8 @@ namespace ogle {
 
 GLFWMeshRenderer::GLFWMeshRenderer(
     std::shared_ptr<Mesh> mesh,
-    std::shared_ptr<GLSLShaderProgram> shader_program) :
-    MeshRenderer(mesh), shader_program_(shader_program) {
+    std::shared_ptr<GLSLShaderProgram> shader_program)
+    : MeshRenderer(mesh), shader_program_(shader_program) {
   // Create vertex buffer and make it active array buffer.
   glGenBuffers(1, &vertex_buffer_id_);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);

@@ -19,14 +19,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLFWApplication::GLFWApplication() : Application(),
-    window_(std::make_unique<ogle::GLFWWindow>()) {
-  // TODO(damlaren): Doesn't belong here. Abstract out.
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
-
-  glfwSetErrorCallback(LogGLFWError);
-}
+GLFWApplication::GLFWApplication(std::unique_ptr<ogle::GLFWWindow> window)
+    : Application(), window_(std::move(window)) {}
 
 GLFWApplication::~GLFWApplication() {
 }
@@ -35,10 +29,6 @@ bool GLFWApplication::ApplicationBody() {
   window_->ClearWindow();
   window_->SwapBuffers();
   return window_->HandleWindowEvents();
-}
-
-void GLFWApplication::LogGLFWError(int error, const char *description) {
-    LOG(ERROR) << "GLFW error code=" << error << ": " << description;
 }
 
 }  // namespace ogle

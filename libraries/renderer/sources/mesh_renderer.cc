@@ -16,8 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-MeshRenderer::MeshRenderer(std::shared_ptr<Mesh> mesh) :
-    Renderer(), mesh_(mesh) {
-}
+MeshRenderer::MeshRenderer(std::shared_ptr<Mesh> mesh)
+    : Renderer(), mesh_(mesh) {}
 
 }  // namespace ogle

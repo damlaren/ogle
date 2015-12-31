@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_
 
+#include <string>
 #include "renderer/window.h"
 
 class GLFWwindow;  // From GLFW.
@@ -30,9 +31,26 @@ namespace ogle {
 class GLFWWindow : public Window {
  public:
   /**
-   * @brief Default constructor. Sets up a window using hard-coded parameters.
+   * @brief Default constructor (deleted).
    */
-  GLFWWindow();
+  GLFWWindow() = delete;
+
+  /**
+   * @brief Constructor.
+   * @param[in] width Initial window width [pixels].
+   * @param[in] height Initial window height [pixels].
+   * @param[in] title Window title.
+   * @param[in] opengl_major_version Major version number required from OpenGL.
+   * @param[in] opengl_minor_version Minor version number required from OpenGL.
+   * @param[in] msaa_samples Number of samples to use for MSAA (anti-aliasing).
+   */
+  GLFWWindow(int width, int height, const std::string& title,
+             int opengl_major_version, int opengl_minor_version,
+             int msaa_samples);
+
+  /**
+   * @brief Destructor.
+   */
   ~GLFWWindow() override;
 
   void ClearWindow() override;
@@ -40,6 +58,19 @@ class GLFWWindow : public Window {
   bool HandleWindowEvents() override;
 
  protected:
+  /**
+   * @brief Callback to log errors from GLFW.
+   * @param[in] error Error code.
+   * @param[in] description String description of error.
+   */
+  static void LogGLFWError(int error, const char *description);
+
+  /// Window height [pixels].
+  int window_height_;
+
+  /// Window width [pixels].
+  int window_width_;
+
   /**
    * GLFW's window implementation.
    * An opaque type which can't be stored in a smart pointer.
