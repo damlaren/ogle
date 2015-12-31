@@ -50,6 +50,13 @@ class GLFWApplication : public Application {
   bool ApplicationBody() override;
 
  protected:
+  /**
+   * @brief Callback to log errors from GLFW.
+   * @param error Error code.
+   * @param description String description of error.
+   */
+  static void LogGLFWError(int error, const char *description);
+
   /// Window controlled by this application.
   std::unique_ptr<ogle::GLFWWindow> window_;
 };

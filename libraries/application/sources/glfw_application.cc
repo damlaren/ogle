@@ -24,6 +24,8 @@ GLFWApplication::GLFWApplication() : Application(),
   // TODO(damlaren): Doesn't belong here. Abstract out.
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+
+  glfwSetErrorCallback(LogGLFWError);
 }
 
 GLFWApplication::~GLFWApplication() {
@@ -33,6 +35,10 @@ bool GLFWApplication::ApplicationBody() {
   window_->ClearWindow();
   window_->SwapBuffers();
   return window_->HandleWindowEvents();
+}
+
+void GLFWApplication::LogGLFWError(int error, const char *description) {
+    LOG(ERROR) << "GLFW error code=" << error << ": " << description;
 }
 
 }  // namespace ogle
