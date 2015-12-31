@@ -11,8 +11,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
 #define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
 
+#include <exception>
+
 /**
- * @file Provides Application.
+ * @file Defines Application.
  */
 
 namespace ogle {
@@ -30,6 +32,12 @@ namespace ogle {
  */
 class Application {
  public:
+  /**
+   * @brief A generic exception that can be thrown when an app fails.
+   */
+  class RuntimeException : public std::exception {
+  };
+
   /**
    * @brief Executes #ApplicationBody while it returns true.
    */

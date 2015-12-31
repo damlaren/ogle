@@ -24,6 +24,7 @@ namespace ogle {
  * @namespace Convenience functions for I/O on text files.
  */
 class TextFile {
+ public:
   /**
    * @brief Read all contents of a file.
    * @param[in] file_name Path to file to read.

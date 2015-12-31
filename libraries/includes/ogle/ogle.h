@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "geometry/ogle_geometry.h"
 #include "math/ogle_math.h"
 #include "renderer/ogle_renderer.h"
+#include "util/ogle_util.h"
 
 #include "easylogging++.h"  // NOLINT
 

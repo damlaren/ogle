@@ -11,3 +11,8 @@ target_link_libraries(triangle PUBLIC ogle glfw ${GLFW_LIBRARIES}
 target_include_directories(triangle PRIVATE
   ${PROJECT_SOURCE_DIR}/3rdparty/glew-1.13.0/include
   ${PROJECT_SOURCE_DIR}/3rdparty/glfw/include)
+
+# Copy ogle resources folder.
+add_custom_command(TARGET triangle PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:triangle>/resources)
