@@ -49,11 +49,7 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   // Define vertex attribute data format and location, using
   // currently bound buffer & vertex array.
   // TODO(damlaren): # components per vertex & type are hard-coded.
-  const int kVertexArrayIndex = 0;
-  glVertexAttribPointer(kVertexArrayIndex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-  // Enable vertex array attribute for rendering.
-  glEnableVertexAttribArray(kVertexArrayIndex);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
@@ -64,6 +60,9 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
 void GLFWMeshRenderer::Render() {
   shader_program_->UseProgram();
   glBindVertexArray(vertex_array_id_);
+
+  // Enable vertex array attribute for rendering.
+  glEnableVertexAttribArray(0);
 
   // Draw vertices.
   // TODO(damlaren): triangle strip vs. quad vs. other may vary.
