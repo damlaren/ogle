@@ -37,10 +37,20 @@ void TestVector() {
   Vector3f p1{0, 1, 0};
   Vector3f p2{-1, 0, 0};
   Vector3f r1 = p1 + p2;
-  cout << r1 << endl;
+  cout << r1 << endl;  // -1,1,0
   p1 += p2;
-  cout << p1 << endl;
-  cout << -r1 << endl;
+  cout << p1 << endl;  // -1,1,0
+  cout << -r1 << endl;  // 1,-1,0
+  cout << p1 - p2 << endl;  // 0,1,0
+  r1 -= p1;
+  cout << r1 << endl;  // 0,0,0
+
+  Vector3f d1(1, 2, 3);
+  Vector3f d2(1, 0, -1);
+  cout << d1 * d2 << endl;  // -2
+  cout << d1.Dot(d2) << endl;  // -2
+  cout << d1 * 2 << endl;  // 2,4,6
+  cout << d1 / 2.0 << endl;  // 0.5,1,1.5
 }
 
 void TestMatrix() {

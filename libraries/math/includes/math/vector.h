@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <array>
 #include <functional>
 #include <iterator>
+#include <numeric>
 #include <type_traits>
 
 namespace ogle {
@@ -105,36 +106,119 @@ class Vector {
   }
 
   /**
-   * @brief Computes addition of two Vectors.
-   * @param lhs Left operand.
-   * @param rhs Right operand.
+   * @brief Computes #lhs + #rhs.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
    * @return New Vector containing result.
    */
-  friend Vector operator+(const Vector& lhs, const Vector& rhs) {
-    Vector result;
-    lhs.BinaryOp(rhs, std::plus<T>(), &result);
-    return result;
+  friend const Vector operator+(const Vector& lhs, const Vector& rhs) {
+    return Vector(lhs) += rhs;
   }
 
   /**
-   * @brief Adds Vectors in-place.
-   * @param rhs Right operand.
-   * @return This Vector, with #rhs added to it.
+   * @brief Adds #rhs to this Vector.
+   * @param[in] rhs Right operand.
+   * @return Reference to this Vector.
    */
   Vector& operator+=(const Vector& rhs) {
-    BinaryOpInPlace(rhs, std::plus<T>());
-    return *this;
+    return BinaryOpInPlace(rhs, std::plus<T>());
   }
 
   /**
-   * @brief Computes negation of Vector.
-   * @param v Right operand.
-   * @return New Vector containing negation of #v.
+   * @brief Computes negation of #v.
+   * @param[in] v Right operand.
+   * @return New Vector containing result.
    */
-  friend Vector operator-(const Vector& v) {
-    Vector result;
-    v.UnaryOp(std::negate<T>(), &result);
-    return result;
+  friend const Vector operator-(const Vector& v) {
+    return Vector(v).UnaryOpInPlace(std::negate<T>());
+  }
+
+  /**
+   * @brief Computes #lhs - #rhs.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right Operand.
+   * @return New Vector containing result.
+   */
+  friend const Vector operator-(const Vector& lhs, const Vector& rhs) {
+    return Vector(lhs) -= rhs;
+  }
+
+  /**
+   * @brief Subtracts #rhs from this Vector.
+   * @param[in] rhs Right operand.
+   * @return Reference to this Vector.
+   */
+  Vector& operator-=(const Vector& rhs) {
+    return BinaryOpInPlace(rhs, std::minus<T>());
+  }
+
+  /**
+   * @brief Computes dot product of #lhs and #rhs.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return The product.
+   */
+  friend const T operator*(const Vector& lhs, const Vector& rhs) {
+    Vector temp(lhs);
+    temp.BinaryOpInPlace(rhs, std::multiplies<T>());
+    return std::accumulate(temp.data_.begin(), temp.data_.end(), 0);
+  }
+
+  /**
+   * @brief Computes #lhs scaled by #factor.
+   * @param[in] lhs Vector to scale.
+   * @param[in] factor Scale factor.
+   * @return New Vector containing result.
+   */
+  friend const Vector operator*(const Vector& lhs, const T factor) {
+    return Vector(lhs) *= factor;
+  }
+
+  /**
+   * @brief Computes #rhs scaled by #factor.
+   * @param[in] factor Scale factor.
+   * @param[in] rhs Vector to scale.
+   * @return New Vector containing result.
+   */
+  friend const Vector operator*(const T factor, const Vector& rhs) {
+    return Vector(rhs) *= factor;
+  }
+
+  /**
+   * @brief Scales this Vector in place.
+   * @param[in] factor Scale factor.
+   * @return Reference to this Vector.
+   */
+  Vector& operator*=(const T factor) {
+    return UnaryOpInPlace([factor](T value) { return value * factor; });
+  }
+
+  /**
+   * @brief Computes #lhs divided by #factor.
+   * @param[in] lhs Vector to divide.
+   * @param[in] factor Factor to divide by.
+   * @return New Vector containing result.
+   */
+  friend const Vector operator/(const Vector& lhs, const T factor) {
+    return Vector(lhs) /= factor;
+  }
+
+  /**
+   * @brief Divides this Vector in place.
+   * @param[in] factor Factor to divide by.
+   * @return Reference to this Vector.
+   */
+  Vector& operator/=(const T factor) {
+    return UnaryOpInPlace([factor](T value) { return value / factor; });
+  }
+
+  /**
+   * @brief Computes dot product of this Vector with #rhs.
+   * @param[in] rhs Right operand.
+   * @return The product.
+   */
+  const T Dot(const Vector& rhs) const {
+    return (*this) * rhs;
   }
 
   /**
@@ -180,45 +264,27 @@ class Vector {
 
  private:
   /**
-   * @brief Computes output of a unary operation.
-   * @param[in] op Operation to perform.
-   * @param[out] result Vector in which to place result.
-   */
-  template <typename UnaryOperator>
-  void UnaryOp(UnaryOperator op, Vector* result) const {
-    std::transform(data_.begin(), data_.end(), result->data_.begin(), op);
-  }
-
-  /**
    * @brief Performs unary operation on this Vector.
    * @param[in] op Operation to perform.
+   * @return Reference to this Vector.
    */
   template <typename UnaryOperator>
-  void UnaryOpInPlace(UnaryOperator op) {
+  Vector& UnaryOpInPlace(UnaryOperator op) {
     std::transform(data_.begin(), data_.end(), data_.begin(), op);
-  }
-
-  /**
-   * @brief Computes output of a binary operation on this Vector.
-   * @param[in] rhs Other Vector to use in operation.
-   * @param[in] op Operation to perform.
-   * @param[out] result Vector in which to place result.
-   */
-  template <typename BinaryOperator>
-  void BinaryOp(const Vector& rhs, BinaryOperator op, Vector* result) const {
-    std::transform(data_.begin(), data_.end(), rhs.data_.begin(),
-                   result->data_.begin(), op);
+    return *this;
   }
 
   /**
    * @brief Performs binary operation on this Vector.
    * @param[in] rhs Other Vector to use in operation.
    * @param[in] op Operation to perform.
+   * @return Reference to this Vector.
    */
   template <typename BinaryOperator>
-  void BinaryOpInPlace(const Vector& rhs, BinaryOperator op) {
+  Vector& BinaryOpInPlace(const Vector& rhs, BinaryOperator op) {
     std::transform(data_.begin(), data_.end(), rhs.data_.begin(),
                    data_.begin(), op);
+    return *this;
   }
 
   /// Values stored in vector.
