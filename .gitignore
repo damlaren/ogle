@@ -2,3 +2,4 @@ build_qt
 build_vs
 *-build
 CMakeLists.txt.user
+docs
