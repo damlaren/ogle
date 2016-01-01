@@ -34,8 +34,8 @@ void TestVector() {
   double test2[2] = {0, 1};
   ogle::Vector<double, 2> v8(test);
 
-  Vector3f p1{0, 1, 0};
-  Vector3f p2{-1, 0, 0};
+  Vector3f p1{0.0f, 1.0f, 0.0f};
+  Vector3f p2{-1.0f, 0.0f, 0.0f};
   Vector3f r1 = p1 + p2;
   cout << r1 << endl;  // -1,1,0
   p1 += p2;
@@ -45,12 +45,13 @@ void TestVector() {
   r1 -= p1;
   cout << r1 << endl;  // 0,0,0
 
-  Vector3f d1(1, 2, 3);
-  Vector3f d2(1, 0, -1);
+  Vector3f d1(1.0f, 2.0f, 3.0f);
+  Vector3f d2(1.0f, 0.0f, -1.0f);
   cout << d1 * d2 << endl;  // -2
   cout << d1.Dot(d2) << endl;  // -2
   cout << d1 * 2 << endl;  // 2,4,6
   cout << d1 / 2.0 << endl;  // 0.5,1,1.5
+  cout << d1.Cross(d2) << endl;  // -2,4,-2
 }
 
 void TestMatrix() {

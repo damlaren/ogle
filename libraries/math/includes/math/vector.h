@@ -111,7 +111,7 @@ class Vector {
    * @param[in] rhs Right operand.
    * @return New Vector containing result.
    */
-  friend const Vector operator+(const Vector& lhs, const Vector& rhs) {
+  friend const Vector operator+(const Vector& lhs, const Vector& rhs) noexcept {
     return Vector(lhs) += rhs;
   }
 
@@ -120,7 +120,7 @@ class Vector {
    * @param[in] rhs Right operand.
    * @return Reference to this Vector.
    */
-  Vector& operator+=(const Vector& rhs) {
+  Vector& operator+=(const Vector& rhs) noexcept {
     return BinaryOpInPlace(rhs, std::plus<T>());
   }
 
@@ -129,7 +129,7 @@ class Vector {
    * @param[in] v Right operand.
    * @return New Vector containing result.
    */
-  friend const Vector operator-(const Vector& v) {
+  friend const Vector operator-(const Vector& v) noexcept {
     return Vector(v).UnaryOpInPlace(std::negate<T>());
   }
 
@@ -139,7 +139,7 @@ class Vector {
    * @param[in] rhs Right Operand.
    * @return New Vector containing result.
    */
-  friend const Vector operator-(const Vector& lhs, const Vector& rhs) {
+  friend const Vector operator-(const Vector& lhs, const Vector& rhs) noexcept {
     return Vector(lhs) -= rhs;
   }
 
@@ -148,7 +148,7 @@ class Vector {
    * @param[in] rhs Right operand.
    * @return Reference to this Vector.
    */
-  Vector& operator-=(const Vector& rhs) {
+  Vector& operator-=(const Vector& rhs) noexcept {
     return BinaryOpInPlace(rhs, std::minus<T>());
   }
 
@@ -158,7 +158,7 @@ class Vector {
    * @param[in] rhs Right operand.
    * @return The product.
    */
-  friend const T operator*(const Vector& lhs, const Vector& rhs) {
+  friend const T operator*(const Vector& lhs, const Vector& rhs) noexcept {
     Vector temp(lhs);
     temp.BinaryOpInPlace(rhs, std::multiplies<T>());
     return std::accumulate(temp.data_.begin(), temp.data_.end(), 0);
@@ -170,7 +170,7 @@ class Vector {
    * @param[in] factor Scale factor.
    * @return New Vector containing result.
    */
-  friend const Vector operator*(const Vector& lhs, const T factor) {
+  friend const Vector operator*(const Vector& lhs, const T factor) noexcept {
     return Vector(lhs) *= factor;
   }
 
@@ -180,7 +180,7 @@ class Vector {
    * @param[in] rhs Vector to scale.
    * @return New Vector containing result.
    */
-  friend const Vector operator*(const T factor, const Vector& rhs) {
+  friend const Vector operator*(const T factor, const Vector& rhs) noexcept {
     return Vector(rhs) *= factor;
   }
 
@@ -189,7 +189,7 @@ class Vector {
    * @param[in] factor Scale factor.
    * @return Reference to this Vector.
    */
-  Vector& operator*=(const T factor) {
+  Vector& operator*=(const T factor) noexcept {
     return UnaryOpInPlace([factor](T value) { return value * factor; });
   }
 
@@ -217,8 +217,25 @@ class Vector {
    * @param[in] rhs Right operand.
    * @return The product.
    */
-  const T Dot(const Vector& rhs) const {
+  const T Dot(const Vector& rhs) const noexcept {
     return (*this) * rhs;
+  }
+
+  /**
+   * @brief Computes cross product of this Vector with #rhs.
+   *
+   * Only enabled for 3D Vectors.
+   *
+   * @param rhs Right operand.
+   * @return New Vector containing result.
+   */
+  template<int N>
+  const Vector Cross(const Vector<T, N>& rhs) const noexcept {
+    static_assert(K == 3 && N == 3,
+                  "Cross product only works for 3D Vectors.");
+    return Vector(y() * rhs.z() - z() * rhs.y(),
+                  z() * rhs.x() - x() * rhs.z(),
+                  x() * rhs.y() - y() * rhs.x());
   }
 
   /**
@@ -238,26 +255,46 @@ class Vector {
 
   ///@{
   /**
-  * @brief Convenience function to access an element.
-  * @return Reference to corresponding element of vector.
-  */
-  template <bool K2 = K >= 1 && K <= 4>
-  std::enable_if_t<K2, T&> x() {
-    // For some reason, this only compiles when a dependency
-    // on a template variable is introduced:
-    // http://cboard.cprogramming.com/cplusplus-programming/164150-sfinae-trouble.html
+   * @brief Convenience function to access an element.
+   * @return Reference to corresponding element of Vector.
+   */
+  T& x() {
+    static_assert(K >= 1 && K <= 4, "x() accessor is disabled.");
     return data_[0];
   }
-  template <bool K2 = K >= 2 && K <= 4>
-  std::enable_if_t<K2, T&> y() {
+  T& y() {
+    static_assert(K >= 2 && K <= 4, "y() accessor is disabled.");
     return data_[1];
   }
-  template <bool K2 = K >= 3 && K <= 4>
-  std::enable_if_t<K2, T&> z() {
+  T& z() {
+    static_assert(K >= 3 && K <= 4, "z() accessor is disabled.");
     return data_[2];
   }
-  template <bool K2 = K == 4>
-  std::enable_if_t<K2, T&> w() {
+  T& w() {
+    static_assert(K == 4, "w() accessor is disabled.");
+    return data_[3];
+  }
+  ///@}
+
+  ///@{
+  /**
+   * @brief Convenience function to access an element.
+   * @return Value of corresponding element in Vector.
+   */
+  const T x() const {
+    static_assert(K >= 1 && K <= 4, "x() accessor is disabled.");
+    return data_[0];
+  }
+  const T y() const {
+    static_assert(K >= 2 && K <= 4, "y() accessor is disabled.");
+    return data_[1];
+  }
+  const T z() const {
+    static_assert(K >= 3 && K <= 4, "z() accessor is disabled.");
+    return data_[2];
+  }
+  const T w() const {
+    static_assert(K == 4, "w() accessor is disabled.");
     return data_[3];
   }
   ///@}
