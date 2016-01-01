@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Vector class.
+ * @file Defines Vector.
  */
 
 #ifndef LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
