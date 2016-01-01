@@ -23,15 +23,16 @@ using GLFWApplication = ogle::GLFWApplication;
  */
 class TriangleApplication : public GLFWApplication {
  public:
-  TriangleApplication()
+  explicit TriangleApplication(const std::string& resource_dir)
       : GLFWApplication(std::make_unique<ogle::GLFWWindow>(
-            1024, 768, "Triangle App", 4, 0, 4)) {
+            1024, 768, "Triangle App", 4, 0, 4), resource_dir) {
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
     auto mesh = std::make_shared<ogle::Mesh>();
     mesh->StealBuffers(std::move(triangle_vertices));
 
-    const std::string kShaderDir = "resources/shaders";
+    const std::string kShaderDir =
+        resource_manager_->resource_dir() + "/shaders";
     std::string vertex_shader_text, fragment_shader_text;
     if (!(ogle::TextFile::ReadFile(kShaderDir + "/vertex/passthru_vs.glsl",
                                    &vertex_shader_text) &&
@@ -79,7 +80,12 @@ class TriangleApplication : public GLFWApplication {
  * @return 0 on success, something else on failure.
  */
 int main(const int argc, const char* argv[]) {
-  auto app = std::make_unique<TriangleApplication>();
+  // TODO(damlaren): arg-parser.
+  if (argc < 2) {
+    LOG(FATAL) << "usage: triangle <resource_dir>";
+  }
+
+  auto app = std::make_unique<TriangleApplication>(argv[1]);
   app->RunApplication();
   return 0;
 }

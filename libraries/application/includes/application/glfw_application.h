@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_GLFW_APPLICATION_H  // NOLINT
 
 #include <memory>
+#include <string>
 
 #include "application/application.h"
 #include "renderer/glfw_window.h"
@@ -33,8 +34,10 @@ class GLFWApplication : public Application {
   /**
    * @brief Initializes a generic application using GLFW.
    * @param[in] window Window to use for render output.
+   * @param[in] resource_dir Resource directory location.
    */
-  explicit GLFWApplication(std::unique_ptr<GLFWWindow> window);
+  GLFWApplication(std::unique_ptr<GLFWWindow> window,
+                  const std::string& resource_dir);
 
   /**
    * @brief Destructor.

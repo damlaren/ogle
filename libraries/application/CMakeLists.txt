@@ -12,7 +12,7 @@ set(SRC_LIST
   sources/glfw_application.cc
 )
 add_library(ogle_application "${SRC_LIST}")
-target_link_libraries (ogle_application ogle_renderer)
+target_link_libraries (ogle_application ogle_renderer ogle_resource)
 
 add_definitions(-DGLEW_STATIC)
 target_link_libraries (ogle_application glfw ${GLFW_LIBRARIES}

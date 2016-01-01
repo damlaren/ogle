@@ -9,32 +9,39 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines TextFile.
+ * @file Defines ResourceManager.
  */
 
-#ifndef LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
-#define LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
+#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
+#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
 
-#include <fstream>
 #include <string>
 
 namespace ogle {
 
 /**
- * @brief Convenience functions for I/O on text files.
+ * @brief Class to manage and load resources.
+ *
+ * Right now it just provides the location of the resource directory.
  */
-class TextFile {
+class ResourceManager {
  public:
   /**
-   * @brief Read all contents of a file.
-   * @param[in] file_name Path to file to read.
-   * @param[out] text Contents read from file.
-   * @return Whether the operation was completed successfully.
+   * @brief Constructor.
+   * @param[in] resource_dir Location of resources directory.
    */
-  static bool ReadFile(const std::string& file_name,
-                       std::string* text);
+  explicit ResourceManager(const std::string& resource_dir);
+
+  /**
+   * @return Top-level resource directory.
+   */
+  std::string resource_dir() const;
+
+ private:
+  /// Location of resource directory.
+  std::string resource_dir_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
+#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_

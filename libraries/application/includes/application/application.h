@@ -12,6 +12,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_  // NOLINT
 
 #include <exception>
+#include <memory>
+#include <string>
+#include "resource/resource_manager.h"
 
 /**
  * @file Defines Application.
@@ -36,6 +39,8 @@ class Application {
    * @brief A generic exception that can be thrown when an app fails.
    */
   class RuntimeException : public std::exception {
+    // TODO(damlaren): actually, there are good reasons not to use exceptions--
+    // most game engines disable them.
   };
 
   /**
@@ -46,8 +51,9 @@ class Application {
  protected:
   /**
    * @brief Constructor.
+   * @param[in] resource_dir Location of resources directory.
    */
-  Application();
+  explicit Application(const std::string& resource_dir);
 
   /**
    * @brief Destructor.
@@ -60,6 +66,9 @@ class Application {
    * @return true to run next loop iteration, false to stop.
    */
   virtual bool ApplicationBody() = 0;
+
+  /// Application's ResourceManager.
+  std::unique_ptr<ResourceManager> resource_manager_;
 };
 
 }  // namespace ogle

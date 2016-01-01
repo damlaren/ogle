@@ -19,8 +19,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLFWApplication::GLFWApplication(std::unique_ptr<ogle::GLFWWindow> window)
-    : Application(), window_(std::move(window)) {}
+GLFWApplication::GLFWApplication(std::unique_ptr<ogle::GLFWWindow> window,
+                                 const std::string& resource_dir)
+    : Application(resource_dir), window_(std::move(window)) {}
 
 GLFWApplication::~GLFWApplication() {
 }

@@ -17,7 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Application::Application() {
+Application::Application(const std::string& resource_dir)
+  : resource_manager_(std::make_unique<ResourceManager>(resource_dir)) {
 }
 
 Application::~Application() {

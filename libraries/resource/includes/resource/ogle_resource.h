@@ -9,32 +9,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines TextFile.
+ * @file Group header for util library.
  */
 
-#ifndef LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
-#define LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
+#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_OGLE_RESOURCE_H_
+#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_OGLE_RESOURCE_H_
 
-#include <fstream>
-#include <string>
+#include "resource/resource_manager.h"
 
-namespace ogle {
-
-/**
- * @brief Convenience functions for I/O on text files.
- */
-class TextFile {
- public:
-  /**
-   * @brief Read all contents of a file.
-   * @param[in] file_name Path to file to read.
-   * @param[out] text Contents read from file.
-   * @return Whether the operation was completed successfully.
-   */
-  static bool ReadFile(const std::string& file_name,
-                       std::string* text);
-};
-
-}  // namespace ogle
-
-#endif  // LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
+#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_OGLE_RESOURCE_H_
