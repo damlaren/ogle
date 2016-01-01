@@ -18,28 +18,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <assert.h>
 #include <algorithm>
 #include <array>
+#include <functional>
 #include <iterator>
 #include <type_traits>
 
 namespace ogle {
 
-/// Type for indexing into Vector.
-using VectorIndex = std::uint64_t;
-
 /**
-* @brief Geometric vectors and points.
+* @brief Geometric vectors and points of length K.
 */
 template <typename T, int K>
 class Vector {
  public:
-  static_assert(K > 0, "Vectors must be of length > 0.");
+  static_assert(K > 0, "Vector must be of length > 0.");
   static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
-                "Vectors must use numeric types.");
+                "Vector must use numeric type.");
+
+  /// Type for indexing into Vector.
+  using VectorIndex = std::uint64_t;
 
   /**
-   * @brief Default constructor.
-   *
-   * Does not init values.
+   * @brief Default constructor. Does not init values.
    */
   Vector() noexcept {
   }
@@ -70,32 +69,87 @@ class Vector {
   ///@}
 
   /**
-  * @brief Array subscript operator that allows modification.
+  * @brief Subscript operator that allows modification.
   * @param[in] index Index into vector. It is an error to use an
   *     index past its end.
   * @returns Reference to element in Vector.
   */
-  T& operator[](VectorIndex index) {
+  T& operator()(VectorIndex index) {
     assert(index < K);
     return data_[index];
   }
 
   /**
-  * @brief Array subscript operator that bars modification.
+  * @brief Subscript operator that bars modification.
   * @param[in] index Index into vector. It is an error to use an
   *     index past its end.
   * @returns Copy of element.
   */
-  const T operator[](VectorIndex index) const {
+  const T operator()(VectorIndex index) const {
     assert(index < K);
     return data_[index];
+  }
+
+  /**
+   * @brief Output stream operator, writes in human-readable format.
+   * @param[in,out] os Output stream.
+   * @param[in] rhs Vector to write.
+   * @return Reference to #os.
+   */
+  friend std::ostream& operator<<(std::ostream& os, const Vector& rhs) {
+    os << "(" << rhs.data_[0];
+    std::for_each(rhs.data_.begin() + 1, rhs.data_.end(),
+                  [&os](T value){ os << ", " << value; });
+    os << ")";
+    return os;
+  }
+
+  /**
+   * @brief Computes addition of two Vectors.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
+   * @return New Vector containing result.
+   */
+  friend Vector operator+(const Vector& lhs, const Vector& rhs) {
+    Vector result;
+    lhs.BinaryOp(rhs, std::plus<T>(), &result);
+    return result;
+  }
+
+  /**
+   * @brief Adds Vectors in-place.
+   * @param rhs Right operand.
+   * @return This Vector, with #rhs added to it.
+   */
+  Vector& operator+=(const Vector& rhs) {
+    BinaryOpInPlace(rhs, std::plus<T>());
+    return *this;
+  }
+
+  /**
+   * @brief Computes negation of Vector.
+   * @param v Right operand.
+   * @return New Vector containing negation of #v.
+   */
+  friend Vector operator-(const Vector& v) {
+    Vector result;
+    v.UnaryOp(std::negate<T>(), &result);
+    return result;
+  }
+
+  /**
+   * @brief Sets all data in Vector to #value.
+   * @param[in] value
+   */
+  void Set(T value) noexcept {
+    data_.fill(value);
   }
 
   /**
   * @brief Zeros out the vector.
   */
   void Clear() noexcept {
-    data_.fill(0);
+    Set(static_cast<T>(0));
   }
 
   ///@{
@@ -125,6 +179,48 @@ class Vector {
   ///@}
 
  private:
+  /**
+   * @brief Computes output of a unary operation.
+   * @param[in] op Operation to perform.
+   * @param[out] result Vector in which to place result.
+   */
+  template <typename UnaryOperator>
+  void UnaryOp(UnaryOperator op, Vector* result) const {
+    std::transform(data_.begin(), data_.end(), result->data_.begin(), op);
+  }
+
+  /**
+   * @brief Performs unary operation on this Vector.
+   * @param[in] op Operation to perform.
+   */
+  template <typename UnaryOperator>
+  void UnaryOpInPlace(UnaryOperator op) {
+    std::transform(data_.begin(), data_.end(), data_.begin(), op);
+  }
+
+  /**
+   * @brief Computes output of a binary operation on this Vector.
+   * @param[in] rhs Other Vector to use in operation.
+   * @param[in] op Operation to perform.
+   * @param[out] result Vector in which to place result.
+   */
+  template <typename BinaryOperator>
+  void BinaryOp(const Vector& rhs, BinaryOperator op, Vector* result) const {
+    std::transform(data_.begin(), data_.end(), rhs.data_.begin(),
+                   result->data_.begin(), op);
+  }
+
+  /**
+   * @brief Performs binary operation on this Vector.
+   * @param[in] rhs Other Vector to use in operation.
+   * @param[in] op Operation to perform.
+   */
+  template <typename BinaryOperator>
+  void BinaryOpInPlace(const Vector& rhs, BinaryOperator op) {
+    std::transform(data_.begin(), data_.end(), rhs.data_.begin(),
+                   data_.begin(), op);
+  }
+
   /// Values stored in vector.
   std::array<T, K> data_;
 };

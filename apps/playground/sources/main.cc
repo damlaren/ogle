@@ -13,15 +13,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include <iostream>
-
 #include "ogle/ogle.h"
 
-/**
- * @brief Main entry point.
- * @return 0 on success, something else on failure.
- */
+using std::cout;
+using std::endl;
+using Vector3f = ogle::Vector3f;
 
-int main() {
+void TestVector() {
   ogle::Vector<double, 1> v1;
   ogle::Vector<double, 2> v2;
   ogle::Vector<double, 3> v3;
@@ -35,6 +33,28 @@ int main() {
   ogle::Vector<double, 2> v7(test);
   double test2[2] = {0, 1};
   ogle::Vector<double, 2> v8(test);
+
+  Vector3f p1{0, 1, 0};
+  Vector3f p2{-1, 0, 0};
+  Vector3f r1 = p1 + p2;
+  cout << r1 << endl;
+  p1 += p2;
+  cout << p1 << endl;
+  cout << -r1 << endl;
+}
+
+void TestMatrix() {
+  ogle::Matrix<double, 3, 3> m33;
+  m33.Clear();
+}
+
+/**
+ * @brief Main entry point.
+ * @return 0 on success, something else on failure.
+ */
+int main() {
+  TestVector();
+  TestMatrix();
 
   return 0;
 }
