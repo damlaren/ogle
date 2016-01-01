@@ -52,6 +52,8 @@ void TestVector() {
   cout << d1 * 2 << endl;  // 2,4,6
   cout << d1 / 2.0 << endl;  // 0.5,1,1.5
   cout << d1.Cross(d2) << endl;  // -2,4,-2
+  cout << d1.Expanded(1.0f) << endl;  // 1,2,3,1
+  cout << d1.Shrunk() << endl;  // 1,2
 }
 
 void TestMatrix() {

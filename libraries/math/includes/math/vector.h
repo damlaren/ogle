@@ -31,6 +31,10 @@ namespace ogle {
 template <typename T, int K>
 class Vector {
  public:
+  // Declare friend classes so Shrunk & Expanded can access data!
+  friend class Vector<T, K - 1>;
+  friend class Vector<T, K + 1>;
+
   static_assert(K > 0, "Vector must be of length > 0.");
   static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
                 "Vector must use numeric type.");
@@ -62,10 +66,10 @@ class Vector {
    * @param[in] data Array of values copied into vector.
    */
   explicit Vector(const T data[K]) {
-    std::copy(data, data + K, std::begin(data_));
+    std::copy(data, data + K, data_.begin());
   }
   explicit Vector(T data[K]) {
-    std::copy(data, data + K, std::begin(data_));
+    std::copy(data, data + K, data_.begin());
   }
   ///@}
 
@@ -226,7 +230,7 @@ class Vector {
    *
    * Only enabled for 3D Vectors.
    *
-   * @param rhs Right operand.
+   * @param[in] rhs Right operand.
    * @return New Vector containing result.
    */
   template<int N>
@@ -251,6 +255,29 @@ class Vector {
   */
   void Clear() noexcept {
     Set(static_cast<T>(0));
+  }
+
+  /**
+   * @brief A copy of this Vector, excluding the last element.
+   * @return New Vector containing result.
+   */
+  const Vector<T, K - 1> Shrunk() const noexcept {
+    static_assert(K > 1, "Cannot shrink Vector with 1 element.");
+    Vector<T, K - 1> result;
+    std::copy(data_.begin(), data_.end() - 1, result.data_.begin());
+    return result;
+  }
+
+  /**
+   * @brief A copy of this Vector, with one extra element.
+   * @param[in] value Value to insert in extra element.
+   * @return New Vector containing result.
+   */
+  const Vector<T, K + 1> Expanded(const T value) const noexcept {
+    Vector<T, K + 1> result;
+    std::copy(data_.begin(), data_.end(), result.data_.begin());
+    result(K) = value;
+    return result;
   }
 
   ///@{
