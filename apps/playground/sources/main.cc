@@ -19,6 +19,9 @@ using std::cout;
 using std::endl;
 using Vector3f = ogle::Vector3f;
 
+/**
+ * @brief Validate Vector operations.
+ */
 void TestVector() {
   ogle::Vector<double, 1> v1;
   ogle::Vector<double, 2> v2;
@@ -56,9 +59,14 @@ void TestVector() {
   cout << d1.Shrunk() << endl;  // 1,2
 }
 
+/**
+ * @brief Validate Matrix operations.
+ */
 void TestMatrix() {
-  ogle::Matrix<double, 3, 3> m33;
+  ogle::Matrix<float, 3, 3> m33;
   m33.Clear();
+  m33.Set(1.0f);
+  cout << m33 << endl;
 }
 
 /**
@@ -66,7 +74,6 @@ void TestMatrix() {
  * @return 0 on success, something else on failure.
  */
 int main() {
-  TestVector();
   TestMatrix();
 
   return 0;

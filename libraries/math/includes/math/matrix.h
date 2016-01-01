@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <assert.h>
 #include <algorithm>
 #include <array>
+#include <iostream>
 #include <iterator>
 #include <type_traits>
 
@@ -25,6 +26,8 @@ namespace ogle {
 
 /**
  * @brief An MxN matrix in column-major format.
+ *
+ * This class is intended to be used with small matrices (up to 4x4).
  */
 template<typename T, int M, int N>
 class Matrix {
@@ -73,7 +76,46 @@ class Matrix {
   }
 
   /**
-   * @brief Sets all data in Matrix to #value.
+   * @brief Output stream operator, writes matrix in human-readable format.
+   * @param[in] os Output stream.
+   * @param[in] rhs Matrix to write.
+   * @return Reference to @p os.
+   */
+  friend std::ostream& operator<<(std::ostream& os, const Matrix& rhs) {
+    for (int i = 0; i < M; i++) {
+      os << "[";
+      os << rhs.data_[i][0];
+      for (int j = 1; j < N; j++) {
+        os << ", " << rhs.data_[i][j];
+      }
+      os << "]";
+      if (i != M - 1) {
+        os << std::endl;
+      }
+    }
+  }
+
+  /**
+   * @brief Computes @p lhs + @p rhs.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return A new Matrix containing the result.
+   */
+  friend const Matrix operator+(const Matrix& lhs, const Matrix& rhs) {
+    return Matrix(lhs) += rhs;
+  }
+
+  /**
+   * @brief Adds @p rhs to this Matrix.
+   * @param rhs Right operand.
+   * @return Reference to this Matrix.
+   */
+  Matrix& operator+=(const Matrix& rhs) {
+    return *this;
+  }
+
+  /**
+   * @brief Sets all data in Matrix to @p value.
    * @param[in] value
    */
   void Set(T value) noexcept {

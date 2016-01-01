@@ -19,6 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <algorithm>
 #include <array>
 #include <functional>
+#include <iostream>
 #include <iterator>
 #include <numeric>
 #include <type_traits>
@@ -99,7 +100,7 @@ class Vector {
    * @brief Output stream operator, writes in human-readable format.
    * @param[in,out] os Output stream.
    * @param[in] rhs Vector to write.
-   * @return Reference to #os.
+   * @return Reference to @p os.
    */
   friend std::ostream& operator<<(std::ostream& os, const Vector& rhs) {
     os << "(" << rhs.data_[0];
@@ -110,7 +111,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes #lhs + #rhs.
+   * @brief Computes @p lhs + @p rhs.
    * @param[in] lhs Left operand.
    * @param[in] rhs Right operand.
    * @return New Vector containing result.
@@ -120,7 +121,7 @@ class Vector {
   }
 
   /**
-   * @brief Adds #rhs to this Vector.
+   * @brief Adds @p rhs to this Vector.
    * @param[in] rhs Right operand.
    * @return Reference to this Vector.
    */
@@ -129,7 +130,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes negation of #v.
+   * @brief Computes negation of @p v.
    * @param[in] v Right operand.
    * @return New Vector containing result.
    */
@@ -138,7 +139,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes #lhs - #rhs.
+   * @brief Computes @p lhs - @p rhs.
    * @param[in] lhs Left operand.
    * @param[in] rhs Right Operand.
    * @return New Vector containing result.
@@ -148,7 +149,7 @@ class Vector {
   }
 
   /**
-   * @brief Subtracts #rhs from this Vector.
+   * @brief Subtracts @p rhs from this Vector.
    * @param[in] rhs Right operand.
    * @return Reference to this Vector.
    */
@@ -157,7 +158,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes dot product of #lhs and #rhs.
+   * @brief Computes dot product of @p lhs and @p rhs.
    * @param[in] lhs Left operand.
    * @param[in] rhs Right operand.
    * @return The product.
@@ -169,7 +170,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes #lhs scaled by #factor.
+   * @brief Computes @p lhs scaled by @p factor.
    * @param[in] lhs Vector to scale.
    * @param[in] factor Scale factor.
    * @return New Vector containing result.
@@ -179,7 +180,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes #rhs scaled by #factor.
+   * @brief Computes @p rhs scaled by @p factor.
    * @param[in] factor Scale factor.
    * @param[in] rhs Vector to scale.
    * @return New Vector containing result.
@@ -198,7 +199,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes #lhs divided by #factor.
+   * @brief Computes @p lhs divided by @p factor.
    * @param[in] lhs Vector to divide.
    * @param[in] factor Factor to divide by.
    * @return New Vector containing result.
@@ -217,7 +218,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes dot product of this Vector with #rhs.
+   * @brief Computes dot product of this Vector with @p rhs.
    * @param[in] rhs Right operand.
    * @return The product.
    */
@@ -226,7 +227,7 @@ class Vector {
   }
 
   /**
-   * @brief Computes cross product of this Vector with #rhs.
+   * @brief Computes cross product of this Vector with @p rhs.
    *
    * Only enabled for 3D Vectors.
    *
@@ -243,7 +244,7 @@ class Vector {
   }
 
   /**
-   * @brief Sets all data in Vector to #value.
+   * @brief Sets all data in Vector to @p value.
    * @param[in] value
    */
   void Set(T value) noexcept {
