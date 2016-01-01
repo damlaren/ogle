@@ -66,7 +66,24 @@ void TestMatrix() {
   ogle::Matrix<float, 3, 3> m33;
   m33.Clear();
   m33.Set(1.0f);
-  cout << m33 << endl;
+  auto eye33 = ogle::Matrix<float, 3, 3>::Identity();
+  cout << m33 << endl;  // 3x3, all 1.
+  cout << m33 + eye33 << endl;  // 3x3, 2 on diag, 1 elsewhere.
+  cout << m33 - eye33 << endl;  // 3x3, 0 on diag, 1 elsewhere.
+  cout << m33 * 2 << endl;  // 3x3, all 2.
+  cout << m33 / 2 << endl;  // 3x3, all 0.5.
+
+  ogle::Matrix<float, 1, 2> m12;
+  ogle::Matrix<float, 2, 1> m21;
+  m12(0, 0) = 1.0f;
+  m12(0, 1) = 2.0f;
+  m21(0, 0) = -1.0f;
+  m21(1, 0) = 2.0f;
+  cout << m12 << endl;  // [1 2] (row).
+  cout << m21 << endl;  // [-1; 2] (column).
+  cout << m21.Transpose() << endl;  // [-1 2] (row).
+  cout << m12 * m21 << endl;  // [3]
+  cout << m21 * m12 << endl;  // [-1 -2; 2 4]
 }
 
 /**

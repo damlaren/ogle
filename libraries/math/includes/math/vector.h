@@ -26,10 +26,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+/// Type for indexing into Vector.
+using VectorIndex = std::uint64_t;
+
 /**
 * @brief Geometric vectors and points of length K.
 */
-template <typename T, int K>
+template <typename T, VectorIndex K>
 class Vector {
  public:
   // Declare friend classes so Shrunk & Expanded can access data!
@@ -39,9 +42,6 @@ class Vector {
   static_assert(K > 0, "Vector must be of length > 0.");
   static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
                 "Vector must use numeric type.");
-
-  /// Type for indexing into Vector.
-  using VectorIndex = std::uint64_t;
 
   /**
    * @brief Default constructor. Does not init values.
@@ -200,6 +200,9 @@ class Vector {
 
   /**
    * @brief Computes @p lhs divided by @p factor.
+   *
+   * Division is done even if @p factor is 0. No special action is taken.
+   *
    * @param[in] lhs Vector to divide.
    * @param[in] factor Factor to divide by.
    * @return New Vector containing result.
@@ -210,6 +213,9 @@ class Vector {
 
   /**
    * @brief Divides this Vector in place.
+   *
+   * Division is done even if @p factor is 0. No special action is taken.
+   *
    * @param[in] factor Factor to divide by.
    * @return Reference to this Vector.
    */
@@ -234,7 +240,7 @@ class Vector {
    * @param[in] rhs Right operand.
    * @return New Vector containing result.
    */
-  template<int N>
+  template<VectorIndex N>
   const Vector Cross(const Vector<T, N>& rhs) const noexcept {
     static_assert(K == 3 && N == 3,
                   "Cross product only works for 3D Vectors.");
