@@ -20,7 +20,7 @@ ResourceManager::ResourceManager(const std::string &resource_dir)
   : resource_dir_(resource_dir) {
 }
 
-std::string ResourceManager::resource_dir() const {
+const std::string ResourceManager::resource_dir() const {
   return resource_dir_;
 }
 

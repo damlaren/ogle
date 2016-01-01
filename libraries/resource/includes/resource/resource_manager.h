@@ -35,7 +35,7 @@ class ResourceManager {
   /**
    * @return Top-level resource directory.
    */
-  std::string resource_dir() const;
+  const std::string resource_dir() const;
 
  private:
   /// Location of resource directory.
