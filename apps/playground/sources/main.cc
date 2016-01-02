@@ -107,11 +107,21 @@ void TestMatrix() {
 }
 
 /**
+ * @brief Try out Matrix-Vector interaction.
+ */
+void TestMatrixVector() {
+  Vector3f v3;
+  ogle::Matrix<float, 1, 3> m13;
+  ogle::Matrix<float, 3, 1> m31 = ogle::Matrix<float, 3, 1>::AsMatrix(v3);
+  Vector3f vtest = m31.AsVector();
+}
+
+/**
  * @brief Main entry point.
  * @return 0 on success, something else on failure.
  */
 int main() {
-  TestMatrix();
+  TestMatrixVector();
 
   return 0;
 }

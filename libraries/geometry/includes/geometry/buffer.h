@@ -25,12 +25,12 @@ using BufferIndex = std::uint64_t;
 
 /**
  * @brief Memory buffer class that cleans up after itself.
- *
- * TODO(damlaren): Made for geometry, but not a geometric idea.
  */
 template<typename T>
 class Buffer {
  public:
+  // TODO(damlaren): Made for geometry, but not a geometric idea.
+
   /**
    * @brief Constructor. Creates a buffer of requested size.
    *

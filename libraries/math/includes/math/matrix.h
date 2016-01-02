@@ -524,6 +524,33 @@ class Matrix {
     return true;
   }
 
+  /**
+   * @brief Build an Mx1 Matrix from M-Vector @p v.
+   * @param v
+   * @return New Matrix with result.
+   */
+  static const Matrix<T, M, 1> AsMatrix(const Vector<T, M>& v) noexcept {
+    Matrix<T, M, 1> result;
+    for (MatrixIndex i = 0; i < M; i++) {
+      result.data_[i][0] = v(i);
+    }
+    return result;
+  }
+
+  /**
+   * @brief Build an M-Vector from an Mx1 Matrix.
+   * @return New Vector with result.
+   */
+  const Vector<T, M> AsVector() const noexcept {
+    static_assert(N == 1,
+                  "Can only construct Vector from Matrix with 1 column.");
+    Vector<T, M> result;
+    for (MatrixIndex i = 0; i < M; i++) {
+      result(i) = data_[i][0];
+    }
+    return result;
+  }
+
  private:
   /**
    * @brief Performs unary operation on this Matrix.
