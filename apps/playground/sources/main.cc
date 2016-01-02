@@ -63,7 +63,7 @@ void TestVector() {
  * @brief Validate Matrix operations.
  */
 void TestMatrix() {
-  ogle::Matrix<float, 3, 3> m33;
+  ogle::Matrix<float, 3, 3> m33, n33;
   m33.Clear();
   m33.Set(1.0f);
   auto eye33 = ogle::Matrix<float, 3, 3>::Identity();
@@ -84,6 +84,26 @@ void TestMatrix() {
   cout << m21.Transpose() << endl;  // [-1 2] (row).
   cout << m12 * m21 << endl;  // [3]
   cout << m21 * m12 << endl;  // [-1 -2; 2 4]
+
+  ogle::Matrix<float, 1, 1> m11, n11;
+  ogle::Matrix<float, 2, 2> m22, n22;
+  m11.Set(2);
+  m22(0, 0) = 4;
+  m22(0, 1) = 3;
+  m22(1, 0) = 3;
+  m22(1, 1) = 2;
+  cout << m11.Determinant() << endl;  // 2
+  cout << m22.Determinant() << endl;  // -1
+  m33.Determinant();
+  ogle::Matrix<float, 4, 4> m44, n44;
+  m44.Determinant();
+
+  m11.Inverse(&n11);  // [0.5]
+  m22.Inverse(&n22);  // [-2 3; 3 -4]
+  m33.Inverse(&n33);
+  m44.Inverse(&n44);
+  cout << n11 << endl
+       << n22 << endl;
 }
 
 /**
