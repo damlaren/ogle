@@ -17,5 +17,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "geometry/buffer.h"
 #include "geometry/mesh.h"
+#include "geometry/transform_matrix.h"
 
 #endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_
