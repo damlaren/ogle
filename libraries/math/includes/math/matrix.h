@@ -252,11 +252,34 @@ class Matrix {
   }
 
   /**
-   * @brief Constructor that inits matrix from 2D array.
-   * @param[in] data 2D array of values copied into matrix.
+   * @brief Constructor that inits Matrix from 2D array.
+   * @param[in] data MxN 2D array of values to copy in.
    */
-  explicit Matrix(const T data[M][N]) {
-    std::copy(data[0], data[0] + M * N, std::begin(data_[0]));
+  Matrix(const T data[M][N]) {  // NOLINT
+    std::copy(data[0], data[0] + M * N, data_[0]);
+  }
+
+  /**
+   * @brief Constructor that inits Matrix from 1D array.
+   *
+   * @param[in] data 1D array of values copied into matrix.
+   */
+  Matrix(const T data[M * N]) {  // NOLINT
+    std::copy(data, data + M * N, data_[0]);
+  }
+
+  /**
+   * @brief Constructor that takes list of data values.
+   * @param[in] ts Initializer list, or variable-length list of parameters,
+   *     to set data. The exact number of arguments to set the Matrix is
+   *     required. Values in the initializer list set Matrix values row by row.
+   */
+  template <typename... U>
+  Matrix(U... ts) // NOLINT
+      : data_{ts...} {
+    // TODO(damlaren): It seems like a small miracle that initializing a 2D
+    // array in this way from an initializer list works?
+    static_assert(sizeof...(U) == M * N, "Wrong number of arguments.");
   }
 
   /**
@@ -324,7 +347,7 @@ class Matrix {
    * @param[in] rhs Right operand.
    * @return Reference to this Matrix.
    */
-  Matrix& operator+=(const Matrix& rhs) {
+  Matrix& operator+=(const Matrix& rhs) noexcept {
     BinaryOpInPlace(rhs, std::plus<T>());
     return *this;
   }
@@ -334,7 +357,7 @@ class Matrix {
    * @param[in] rhs Right operand.
    * @return New Matrix containing result.
    */
-  friend const Matrix operator-(const Matrix& rhs) {
+  friend const Matrix operator-(const Matrix& rhs) noexcept {
     return Matrix(rhs).UnaryOpInPlace(std::negate<T>());
   }
 
@@ -579,6 +602,13 @@ class Matrix {
   /// Data stored in matrix.
   T data_[M][N];
 };
+
+using Matrix22f = Matrix<float, 2, 2>;
+using Matrix33f = Matrix<float, 3, 3>;
+using Matrix44f = Matrix<float, 4, 4>;
+using Matrix21f = Matrix<float, 2, 1>;
+using Matrix31f = Matrix<float, 3, 1>;
+using Matrix41f = Matrix<float, 4, 1>;
 
 }  // namespace ogle
 

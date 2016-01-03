@@ -50,7 +50,7 @@ class Vector {
   }
 
   /**
-   * @brief Constructor that takes list of data values.
+   * @brief Constructor that takes list of values.
    * @param[in] ts Initializer list, or variable-length list of
    *     parameters, to set data. The exact number of arguments
    *     to set the Vector is required.
@@ -67,9 +67,6 @@ class Vector {
    * @param[in] data Array of values copied into vector.
    */
   explicit Vector(const T data[K]) {
-    std::copy(data, data + K, data_.begin());
-  }
-  explicit Vector(T data[K]) {
     std::copy(data, data + K, data_.begin());
   }
   ///@}

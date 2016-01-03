@@ -17,7 +17,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 Angle::Angle(const float radians)
-  : theta_(radians) {
+  : theta_{radians} {
+}
+
+const Angle Angle::FromDegrees(const float degrees) {
+  return Angle(degrees * kPi / 180.f);
 }
 
 const float Angle::radians() const noexcept {
@@ -25,7 +29,7 @@ const float Angle::radians() const noexcept {
 }
 
 const float Angle::degrees() const noexcept {
-  return theta_ * 180.0f / kPi;
+  return theta_ * 180.f / kPi;
 }
 
 std::ostream& operator<<(std::ostream& os, const Angle rhs) {

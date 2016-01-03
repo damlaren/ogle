@@ -31,10 +31,17 @@ class Angle {
   static constexpr float kPi = M_PI;
 
   /**
-   * @brief Constructor. Implicit by design.
+   * @brief Constructor.
    * @param[in] radians Angle, in radians.
    */
   Angle(const float radians);  // NOLINT
+
+  /**
+   * @brief Constructs an Angle from a value in degrees.
+   * @param[in] degrees Angle value.
+   * @return New Angle.
+   */
+  static const Angle FromDegrees(const float degrees);
 
   /**
    * @brief Getter.
