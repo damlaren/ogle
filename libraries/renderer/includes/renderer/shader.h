@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <exception>
 #include <string>
+#include "math/matrix.h"
 
 namespace ogle {
 
@@ -71,12 +72,32 @@ class Shader {
  */
 class ShaderProgram {
  public:
+  //@{
+  /// Standardized names for common shader arguments.
+  static const std::string kModelMatrixArg;
+  //@}
+
   /**
    * @brief Sets this shader program up to be used in rendering pass.
    */
   virtual void UseProgram() = 0;
 
-  // TODO(damlaren): No interface for setting shader program variables.
+  // TODO(damlaren): API with having to call all these different uniform
+  //     functions kind of sucks.
+
+  //@{
+  /**
+   * @brief Sets a uniform matrix value in shader program.
+   * @param[in] variable Name of uniform variable.
+   * @param[in] mat Matrix to set values.
+   */
+  virtual void SetUniformMatrix22f(const std::string& variable,
+                                   const Matrix22f& mat) = 0;
+  virtual void SetUniformMatrix33f(const std::string& variable,
+                                   const Matrix33f& mat) = 0;
+  virtual void SetUniformMatrix44f(const std::string& variable,
+                                   const Matrix44f& mat) = 0;
+  //@}
 
  protected:
   /**

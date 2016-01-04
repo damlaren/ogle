@@ -42,7 +42,7 @@ class GLFWMeshRenderer : public MeshRenderer {
    */
   ~GLFWMeshRenderer() override;
 
-  void Render() override;
+  void Render(const Vector3f& position) override;
 
  private:
   /// Shader program to use in rendering pass.

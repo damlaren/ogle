@@ -81,8 +81,8 @@ class Buffer {
    * @brief Move constructor.
    * @param[in] other Buffer to take data from. Invalid afterwards.
    */
-  Buffer(Buffer&& other) :  // NOLINT
-      num_elements_(other.num_elements_) {
+  Buffer(Buffer&& other)  // NOLINT
+    : num_elements_(other.num_elements_) {
     data_ = other.data_;
     other.data_ = nullptr;
     other.num_elements_ = 0;

@@ -29,7 +29,9 @@ GLFWApplication::~GLFWApplication() {
 bool GLFWApplication::ApplicationBody() {
   window_->ClearWindow();
   window_->SwapBuffers();
-  return window_->HandleWindowEvents();
+  bool ok = window_->HandleWindowEvents();
+  ++loop_count_;
+  return ok;
 }
 
 }  // namespace ogle

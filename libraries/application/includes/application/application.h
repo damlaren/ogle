@@ -69,6 +69,10 @@ class Application {
 
   /// Application's ResourceManager.
   std::unique_ptr<ResourceManager> resource_manager_;
+
+  // TODO(damlaren): Don't allow applications to forget updating this.
+  /// How many times the body has completed.
+  std::uint64_t loop_count_ = 0;
 };
 
 }  // namespace ogle

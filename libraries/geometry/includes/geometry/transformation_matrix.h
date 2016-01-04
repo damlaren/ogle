@@ -41,6 +41,13 @@ class TransformationMatrix {
                                              const float z);
 
   /**
+   * @brief Builds a translation matrix.
+   * @param translation Vector to translate by.
+   * @return Resulting Matrix.
+   */
+  static const Matrix44f TranslationMatrix3D(const Vector3f& translation);
+
+  /**
    * @brief Builds a Matrix to scale by @p(sx,sy,sz).
    * @param[in] sx
    * @param[in] sy
@@ -50,6 +57,13 @@ class TransformationMatrix {
   static const Matrix44f ScalingMatrix3D(const float sx,
                                          const float sy,
                                          const float sz);
+
+  /**
+   * @brief Builds a scaling matrix.
+   * @param scales Vector containing factors to scale by.
+   * @return Resulting Matrix.
+   */
+  static const Matrix44f ScalingMatrix3D(const Vector3f& scales);
 
   /**
    * @brief Builds a Matrix to rotate about X axis.

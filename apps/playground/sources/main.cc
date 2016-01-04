@@ -107,6 +107,26 @@ void TestMatrix() {
 }
 
 /**
+ * @brief Experiments with Matrix constructors.
+ */
+void TestMatrixConstructors() {
+  const float array2d_1[4][1] = {1, 0, 1, 1};
+  const float array2d_1b[1][4] = {1, 0, 1, 1};
+  const float array2d_2[2][2] = {1, 0, 1, 1};
+  const float array1d[4] = {1, 0, 1, 1};
+  cout << sizeof(array2d_1) << endl
+       << sizeof(array2d_1[0]) << endl
+       << sizeof(array2d_1b) << endl
+       << sizeof(array2d_1b[0]) << endl
+       << sizeof(array2d_2[0]) << endl
+       << sizeof(float*) << endl;
+
+  // ogle::Matrix22f(array2d_1)  // Doesn't work, and it shouldn't.
+  cout << ogle::Matrix22f(array2d_2) << endl
+       << ogle::Matrix22f(array1d) << endl;
+}
+
+/**
  * @brief Try out Matrix-Vector interaction.
  */
 void TestMatrixVector() {
@@ -117,11 +137,25 @@ void TestMatrixVector() {
 }
 
 /**
+ * @brief Try out TransformationMatrix.
+ */
+void TestTransformationMatrix() {
+  using ogle::TransformationMatrix;
+  const auto t = ogle::Angle::FromDegrees(90.f);
+  cout << TransformationMatrix::TranslationMatrix3D(1.1f, 1.2f, 1.3f) << endl
+       << TransformationMatrix::ScalingMatrix3D(1.1f, 1.2f, 1.3f) << endl
+       << TransformationMatrix::RotationMatrixX3D(t) << endl
+       << TransformationMatrix::RotationMatrixY3D(t) << endl
+       << TransformationMatrix::RotationMatrixZ3D(t) << endl;
+}
+
+/**
  * @brief Main entry point.
  * @return 0 on success, something else on failure.
  */
 int main() {
-  TestMatrixVector();
+  TestMatrixConstructors();
+  TestTransformationMatrix();
 
   return 0;
 }

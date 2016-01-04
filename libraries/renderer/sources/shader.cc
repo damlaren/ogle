@@ -14,10 +14,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "renderer/shader.h"
 
-namespace ogle{
+namespace ogle {
 
-Shader::Shader(const std::string &shader_text, ShaderType type) :
-    shader_text_(shader_text), shader_type_(type) {
+Shader::Shader(const std::string &shader_text, ShaderType type)
+  : shader_text_{shader_text}, shader_type_{type} {
 }
+
+const std::string ShaderProgram::kModelMatrixArg = "model_matrix";
 
 }  // namespace ogle

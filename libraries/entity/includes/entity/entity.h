@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_ENTITY_INCLUDES_ENTITY_ENTITY_H_
 
 #include <memory>
+#include "math/vector.h"
 
 namespace ogle {
 
@@ -25,17 +26,16 @@ class Renderer;
  * @brief An object instantiated in an application.
  *
  * An entity is an object that exists in a scene
- * at a specific location. It has no limits on what
- * other properties it can take on. It is drawn if
- * a Renderer is provided to it.
+ * at a specific location.
  */
 class Entity {
  public:
-  /**
-   * @brief set_renderer Sets Renderer for drawing this object.
-   * @param renderer Renderer to use to draw Entity.
+    /**
+   * @brief Constructor.
+   * @param[in] renderer Renderer to use to draw this Entity.  Rendering is
+   *     skipped if one is not provided.
    */
-  void set_renderer(std::shared_ptr<Renderer> renderer);
+  explicit Entity(std::shared_ptr<Renderer> renderer);
 
   /**
    * @brief Renders this Entity.
@@ -43,6 +43,9 @@ class Entity {
    * Rendering is skipped if no Renderer is set on this object.
    */
   void Render();
+
+  /// World position.  TODO(damlaren): full transform.
+  Vector3f position_;
 
  private:
   /// Renderer used to display Entity.

@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "renderer/glfw_mesh_renderer.h"
 #include "geometry/mesh.h"
+#include "geometry/transformation_matrix.h"
 #include "renderer/glsl_shader.h"
 
 namespace ogle {
@@ -57,16 +58,20 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
   glDeleteVertexArrays(1, &vertex_array_id_);
 }
 
-void GLFWMeshRenderer::Render() {
+void GLFWMeshRenderer::Render(const Vector3f& position) {
   shader_program_->UseProgram();
+  Matrix44f translation_matrix =
+      TransformationMatrix::TranslationMatrix3D(position);
+  shader_program_->SetUniformMatrix44f(ShaderProgram::kModelMatrixArg,
+                                       translation_matrix);
+
   glBindVertexArray(vertex_array_id_);
 
   // Enable vertex array attribute for rendering.
   glEnableVertexAttribArray(0);
 
   // Draw vertices.
-  // TODO(damlaren): triangle strip vs. quad vs. other may vary.
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_->vertices().num_elements_);
+  glDrawArrays(GL_TRIANGLES, 0, mesh_->vertices().num_elements_);
 }
 
 }  // namespace ogle

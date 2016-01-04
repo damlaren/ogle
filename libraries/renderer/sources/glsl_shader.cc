@@ -14,7 +14,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "renderer/glsl_shader.h"
 #include <memory>
-#include "easylogging++.h"  // NOLINT
 
 namespace ogle {
 
@@ -49,8 +48,8 @@ GLSLShader::~GLSLShader() {
 
 GLSLShaderProgram::GLSLShaderProgram(
     std::shared_ptr<GLSLShader> vertex_shader,
-    std::shared_ptr<GLSLShader> fragment_shader) :
-    ShaderProgram(), vertex_shader_(vertex_shader),
+    std::shared_ptr<GLSLShader> fragment_shader)
+  : ShaderProgram(), vertex_shader_(vertex_shader),
     fragment_shader_(fragment_shader) {
   if (vertex_shader_->shader_type_ != ShaderType::Vertex) {
     LOG(ERROR) << "Shader is not a vertex shader.";
@@ -83,6 +82,21 @@ GLSLShaderProgram::GLSLShaderProgram(
 
 void GLSLShaderProgram::UseProgram() {
   glUseProgram(program_id_);
+}
+
+void GLSLShaderProgram::SetUniformMatrix22f(const std::string& variable,
+                                            const Matrix22f& mat) {
+  SetUniformMatrix(variable, mat, glUniformMatrix2fv);
+}
+
+void GLSLShaderProgram::SetUniformMatrix33f(const std::string& variable,
+                                            const Matrix33f& mat) {
+  SetUniformMatrix(variable, mat, glUniformMatrix3fv);
+}
+
+void GLSLShaderProgram::SetUniformMatrix44f(const std::string& variable,
+                                            const Matrix44f& mat) {
+  SetUniformMatrix(variable, mat, glUniformMatrix4fv);
 }
 
 }  // namespace ogle

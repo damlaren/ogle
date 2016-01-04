@@ -231,9 +231,10 @@ void InverseHelper(const T data[4][4], T result[4][4]) {
 }  // namespace matrix_helpers
 
 /**
- * @brief An MxN matrix in column-major format.
+ * @brief An MxN matrix.
  *
  * This class is intended to be used with small matrices (up to 4x4).
+ * Data is stored in row-major format (row by row in an array).
  */
 template<typename T, MatrixIndex M, MatrixIndex N>
 class Matrix {
@@ -573,6 +574,14 @@ class Matrix {
       result(i) = data_[i][0];
     }
     return result;
+  }
+
+  /**
+   * @brief Provides a pointer to raw data (for use in graphics APIs).
+   * @return Pointer to matrix data.
+   */
+  const T* data() const noexcept {
+    return static_cast<const T*>(data_[0]);
   }
 
  private:

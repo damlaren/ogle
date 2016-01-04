@@ -25,6 +25,12 @@ const Matrix44f TransformationMatrix::TranslationMatrix3D(const float x,
           0.f, 0.f, 0.f, 1.f};
 }
 
+const Matrix44f TransformationMatrix::TranslationMatrix3D(
+    const Vector3f& translation) {
+  return TranslationMatrix3D(translation.x(), translation.y(),
+                             translation.z());
+}
+
 const Matrix44f TransformationMatrix::ScalingMatrix3D(const float sx,
                                                       const float sy,
                                                       const float sz) {
@@ -32,6 +38,10 @@ const Matrix44f TransformationMatrix::ScalingMatrix3D(const float sx,
           0.f, sy, 0.f, 0.f,
           0.f, 0.f, sz, 0.f,
           0.f, 0.f, 0.f, 1.f};
+}
+
+const Matrix44f TransformationMatrix::ScalingMatrix3D(const Vector3f& scales) {
+  return ScalingMatrix3D(scales.x(), scales.y(), scales.z());
 }
 
 const Matrix44f TransformationMatrix::RotationMatrixX3D(const Angle theta_x) {

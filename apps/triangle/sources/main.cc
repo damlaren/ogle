@@ -34,7 +34,7 @@ class TriangleApplication : public GLFWApplication {
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
     std::string vertex_shader_text, fragment_shader_text;
-    if (!(ogle::TextFile::ReadFile(kShaderDir + "/vertex/passthru_vs.glsl",
+    if (!(ogle::TextFile::ReadFile(kShaderDir + "/vertex/basic_vs.glsl",
                                    &vertex_shader_text) &&
           ogle::TextFile::ReadFile(kShaderDir + "/fragment/flat_fs.glsl",
                                    &fragment_shader_text))) {
@@ -54,8 +54,7 @@ class TriangleApplication : public GLFWApplication {
     auto renderer =
       std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
-    triangle_ = std::make_unique<ogle::Entity>();
-    triangle_->set_renderer(renderer);
+    triangle_ = std::make_unique<ogle::Entity>(renderer);
   }
 
   ~TriangleApplication() override {
@@ -64,13 +63,27 @@ class TriangleApplication : public GLFWApplication {
   bool ApplicationBody() {
     window_->ClearWindow();
 
+    float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
+    triangle_->position_ = ogle::Vector3f(kXRange * static_cast<float>(cos(t)),
+                                          0.f, 0.f);
     triangle_->Render();
 
     window_->SwapBuffers();
-    return window_->HandleWindowEvents();
+    bool ok = window_->HandleWindowEvents();
+    ++loop_count_;
+    return ok;
   }
 
  private:
+  //@{
+  /// Move triangle between these coordinates (+/-).
+  static constexpr float kXRange = 0.3f;
+  //@}
+
+  // TODO(damlaren): Need timers, frame time, etc. & standardized tick type.
+  /// How many ticks it takes to complete full cycle of triangle motion.
+  static constexpr std::uint64_t kMoveCycleTicks = 200;
+
   /// Object instantiated to render triangle mesh.
   std::unique_ptr<ogle::Entity> triangle_;
 };

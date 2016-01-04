@@ -15,6 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
 
+#include "math/vector.h"
+
 namespace ogle {
 
 class Mesh;
@@ -31,8 +33,9 @@ class Renderer {
  public:
   /**
    * @brief Render object.
+   * @param[in] position Where to draw object.
    */
-  virtual void Render() = 0;
+  virtual void Render(const Vector3f& position) = 0;
 
  protected:
   /**

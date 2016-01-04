@@ -17,13 +17,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-void Entity::set_renderer(std::shared_ptr<Renderer> renderer) {
+Entity::Entity(std::shared_ptr<Renderer> renderer)
+  : renderer_(renderer) {
   renderer_ = renderer;
 }
 
 void Entity::Render() {
   if (renderer_ != nullptr) {
-    renderer_->Render();
+    renderer_->Render(position_);
   }
 }
 

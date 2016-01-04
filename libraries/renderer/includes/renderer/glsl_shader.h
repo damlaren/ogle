@@ -17,9 +17,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <memory>
 #include <string>
-#include "renderer/shader.h"
+#include "easylogging++.h"  // NOLINT
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "renderer/shader.h"
 
 namespace ogle {
 
@@ -38,7 +39,7 @@ class GLSLShader : public Shader {
   GLSLShader(const std::string& shader_text, ShaderType type);
   ~GLSLShader() override;
 
- private:
+ protected:
   /// OpenGL-generated shader ID.
   GLuint shader_id_;
 };
@@ -59,7 +60,39 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
- private:
+  void SetUniformMatrix22f(const std::string& variable,
+                           const Matrix22f& mat) override;
+  void SetUniformMatrix33f(const std::string& variable,
+                           const Matrix33f& mat) override;
+  void SetUniformMatrix44f(const std::string& variable,
+                           const Matrix44f& mat) override;
+
+ protected:
+  /**
+   * @brief Helper function for setting uniform variables.
+   *
+   * Most parameters are same as passed to @p SetUniformMatrix*f.
+   * OpenGL's API only supports setting float matrices.
+   *
+   * @param[in] variable
+   * @param[in] mat
+   * @param[in] gl_func OpenGL function to use to set values.
+   */
+  template<MatrixIndex M, MatrixIndex N, typename GLFunc>
+  SetUniformMatrix(const std::string& variable, const Matrix<float, M, N>& mat,
+                   GLFunc gl_func) {
+    // TODO(damlaren): Getting location is best done outside of a loop.
+    //     I've read that querying it is slow.
+    int uniform_location = glGetUniformLocation(program_id_, variable.c_str());
+    if (uniform_location == -1) {
+      LOG(ERROR) << "Could not find uniform on program " << program_id_
+                 << ": " << variable;
+    } else {
+      // Transpose matrix to column-major format used in OpenGL.
+      gl_func(uniform_location, 1, GL_FALSE, mat.Transpose().data());
+    }
+  }
+
   /// OpenGL-generated program ID.
   GLuint program_id_;
 
