@@ -55,8 +55,6 @@ class Shader {
    */
   virtual ~Shader() = default;
 
-  // TODO(damlaren): add a static function to read shader from text file.
-
   /// Shader type.
   ShaderType shader_type_;
 
