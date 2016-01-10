@@ -66,14 +66,24 @@ class TransformationMatrix {
 
   /**
    * @brief Builds a camera view matrix.
-   * @param[in] camera_position Camera location.
-   * @param[in] target_position Where to point the camera.
-   * @param[in] up_vector Direction of up vector.
+   * @param[in] camera_position Camera world position.
+   * @param[in] forward_vector Camera direction. Should be a unit vector.
+   * @param[in] up_vector Up direction. Should be a unit vector.
    * @return Resulting Matrix.
    */
   static const Matrix44f ViewMatrix3D(const Vector3f& camera_position,
-                                      const Vector3f& target_position,
+                                      const Vector3f& forward_vector,
                                       const Vector3f& up_vector);
+  /**
+   * @brief Builds a camera view matrix looking at a position.
+   * @param[in] camera_position Camera world position.
+   * @param[in] target_position Where to point the camera. Should be distinct from camera position.
+   * @param[in] up_vector Up direction. Should be a unit vector.
+   * @return Resulting Matrix.
+   */
+  static const Matrix44f ViewMatrix3DLookAt(const Vector3f& camera_position,
+                                            const Vector3f& target_position,
+                                            const Vector3f& up_vector);
 };
 
 }  // namespace ogle

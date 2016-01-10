@@ -93,8 +93,8 @@ class Vector {
 
   /**
    * @brief Equality operator.
-   * @param lhs Left operand.
-   * @param rhs Right operand.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
    * @return true if both Vectors have exactly the same values.
    */
   friend const bool operator==(const Vector& lhs,
