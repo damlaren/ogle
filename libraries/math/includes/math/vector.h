@@ -31,6 +31,8 @@ using VectorIndex = std::uint64_t;
 
 /**
 * @brief Geometric vectors and points with K elements.
+*
+* This class represents column vectors which multiply a matrix to their left.
 */
 template <typename T, VectorIndex K>
 class Vector {
@@ -61,7 +63,6 @@ class Vector {
     static_assert(sizeof...(U) == K, "Wrong number of arguments.");
   }
 
-  ///@{
   /**
    * @brief Constructor that initializes Vector from array.
    * @param[in] data Array of values copied into vector.
@@ -69,7 +70,6 @@ class Vector {
   explicit Vector(const T data[K]) {
     std::copy(data, data + K, data_.begin());
   }
-  ///@}
 
   /**
   * @brief Subscript operator that allows modification.
@@ -80,6 +80,26 @@ class Vector {
   T& operator()(VectorIndex index) {
     assert(index < K);
     return data_[index];
+  }
+
+  /**
+   * @brief Copy assignment operator.
+   * @param[in] rhs Vector to copy data from.
+   * @return Reference to this Vector.
+   */
+  Vector& operator=(const Vector& rhs) noexcept {
+    std::copy(rhs.data_.begin(), rhs.data_.end(), data_.begin());
+  }
+
+  /**
+   * @brief Equality operator.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
+   * @return true if both Vectors have exactly the same values.
+   */
+  friend const bool operator==(const Vector& lhs,
+                               const Vector& rhs) noexcept {
+    return lhs.data_ == rhs.data_;
   }
 
   /**
@@ -250,7 +270,7 @@ class Vector {
    * @brief Sets all data in Vector to @p value.
    * @param[in] value
    */
-  void Set(T value) noexcept {
+  void Set(const T value) noexcept {
     data_.fill(value);
   }
 
@@ -289,17 +309,14 @@ class Vector {
    * @return As above.
    */
   const T NormSquared() const noexcept {
-    return this * *this;
+    return Dot(*this);
   }
 
   /**
    * @brief Returns 2-norm of this Vector (aka length).
-   * @return As above.
+   * @return The norm, always as a double.
    */
-  template<typename U>
-  const U Norm() const {
-    static_assert(std::is_floating_point<U>::value,
-                  "Vector norm must return a floating-point type.");
+  const double Norm() const {
     return sqrt(NormSquared());
   }
 
@@ -328,7 +345,26 @@ class Vector {
   const Vector NormalizedCopy() const {
     return Vector(*this).NormalizeInPlace();
   }
-  ///@{
+
+  /**
+   * @brief Test if this Vector has unit-length norm.
+   * @return As above.
+   */
+  const bool HasUnitNorm() const noexcept {
+    return NormSquared() == static_cast<T>(1);
+  }
+
+  /**
+   * @brief Constructs 0-vector with K elements.
+   * @return New Vector.
+   */
+  static const Vector Zero() noexcept {
+    Vector v;
+    v.Clear();
+    return v;
+  }
+
+  //@{
   /**
    * @brief Convenience function to access an element.
    * @return Reference to corresponding element of Vector.
@@ -349,9 +385,9 @@ class Vector {
     static_assert(K == 4, "w() accessor is disabled.");
     return data_[3];
   }
-  ///@}
+  //@}
 
-  ///@{
+  //@{
   /**
    * @brief Convenience function to access an element.
    * @return Value of corresponding element in Vector.
@@ -372,7 +408,7 @@ class Vector {
     static_assert(K == 4, "w() accessor is disabled.");
     return data_[3];
   }
-  ///@}
+  //@}
 
  private:
   /**
@@ -403,10 +439,10 @@ class Vector {
   std::array<T, K> data_;
 };
 
-///@{
+//@{
 /// Shorthand types.
 using Vector3f = Vector<float, 3>;
-///@}
+//@}
 
 }  // namespace ogle
 

@@ -142,8 +142,8 @@ void TestMatrixVector() {
 void TestTransformationMatrix() {
   using ogle::TransformationMatrix;
   const auto t = ogle::Angle::FromDegrees(90.f);
-  cout << TransformationMatrix::TranslationMatrix3D(1.1f, 1.2f, 1.3f) << endl
-       << TransformationMatrix::ScalingMatrix3D(1.1f, 1.2f, 1.3f) << endl
+  cout << TransformationMatrix::TranslationMatrix3D({1.1f, 1.2f, 1.3f}) << endl
+       << TransformationMatrix::ScalingMatrix3D({1.1f, 1.2f, 1.3f}) << endl
        << TransformationMatrix::RotationMatrixX3D(t) << endl
        << TransformationMatrix::RotationMatrixY3D(t) << endl
        << TransformationMatrix::RotationMatrixZ3D(t) << endl;

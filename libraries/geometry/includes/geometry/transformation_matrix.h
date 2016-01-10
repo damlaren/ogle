@@ -23,40 +23,18 @@ namespace ogle {
 /**
  * @brief Utility functions to build transformation matrices.
  *
- * A Matrix output from these functions can be right-multiplied by a Vector
- * to perform the transformation. All rotation matrices perform
- * counter-clockwise rotation using the right-hand rule.
+ * All matrices are constructed in a right-handed coordinate system and are
+ * right-multiplied by vectors to perform transformations. All rotation matrices
+ * perform counter-clockwise rotation using the right-hand rule.
  */
 class TransformationMatrix {
  public:
-  /**
-   * @brief Builds a Matrix to translate by @p(x,y,z).
-   * @param[in] x
-   * @param[in] y
-   * @param[in] z
-   * @return Resulting Matrix.
-   */
-  static const Matrix44f TranslationMatrix3D(const float x,
-                                             const float y,
-                                             const float z);
-
   /**
    * @brief Builds a translation matrix.
    * @param translation Vector to translate by.
    * @return Resulting Matrix.
    */
   static const Matrix44f TranslationMatrix3D(const Vector3f& translation);
-
-  /**
-   * @brief Builds a Matrix to scale by @p(sx,sy,sz).
-   * @param[in] sx
-   * @param[in] sy
-   * @param[in] sz
-   * @return Resulting Matrix.
-   */
-  static const Matrix44f ScalingMatrix3D(const float sx,
-                                         const float sy,
-                                         const float sz);
 
   /**
    * @brief Builds a scaling matrix.
@@ -85,6 +63,17 @@ class TransformationMatrix {
    * @return Resulting Matrix.
    */
   static const Matrix44f RotationMatrixZ3D(const Angle theta_x);
+
+  /**
+   * @brief Builds a camera view matrix.
+   * @param[in] camera_position Camera location.
+   * @param[in] target_position Where to point the camera.
+   * @param[in] up_vector Direction of up vector.
+   * @return Resulting Matrix.
+   */
+  static const Matrix44f ViewMatrix3D(const Vector3f& camera_position,
+                                      const Vector3f& target_position,
+                                      const Vector3f& up_vector);
 };
 
 }  // namespace ogle

@@ -14,4 +14,6 @@ set(SRC_LIST
 )
 add_library(ogle_geometry "${SRC_LIST}")
 target_link_libraries(ogle_geometry ogle_math)
+target_include_directories(ogle_geometry PRIVATE
+  ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
 target_include_directories(ogle_geometry PUBLIC includes)
