@@ -30,7 +30,7 @@ namespace ogle {
 using VectorIndex = std::uint64_t;
 
 /**
-* @brief Geometric vectors and points of length K.
+* @brief Geometric vectors and points with K elements.
 */
 template <typename T, VectorIndex K>
 class Vector {
@@ -39,7 +39,7 @@ class Vector {
   friend class Vector<T, K - 1>;
   friend class Vector<T, K + 1>;
 
-  static_assert(K > 0, "Vector must be of length > 0.");
+  static_assert(K > 0, "Vector have at least 1 element.");
   static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
                 "Vector must use numeric type.");
 
@@ -284,6 +284,50 @@ class Vector {
     return result;
   }
 
+  /**
+   * @brief Returns square of the 2-norm of this Vector (aka squared length).
+   * @return As above.
+   */
+  const T NormSquared() const noexcept {
+    return this * *this;
+  }
+
+  /**
+   * @brief Returns 2-norm of this Vector (aka length).
+   * @return As above.
+   */
+  template<typename U>
+  const U Norm() const {
+    static_assert(std::is_floating_point<U>::value,
+                  "Vector norm must return a floating-point type.");
+    return sqrt(NormSquared());
+  }
+
+  /**
+   * @brief Normalize this Vector.
+   *
+   * No action is taken if its norm is 0.
+   *
+   * @return Reference to this Vector.
+   */
+  Vector& NormalizeInPlace() {
+    const double n = Norm();
+    if (n != 0) {
+      return *this /= n;
+    }
+    return *this;
+  }
+
+  /**
+   * @brief Returns a normalized copy of this Vector.
+   *
+   * An unaltered copy is returned if its norm is 0.
+   *
+   * @return New Vector with result.
+   */
+  const Vector NormalizedCopy() const {
+    return Vector(*this).NormalizeInPlace();
+  }
   ///@{
   /**
    * @brief Convenience function to access an element.
