@@ -22,9 +22,9 @@ Entity::Entity(std::shared_ptr<Renderer> renderer)
   renderer_ = renderer;
 }
 
-void Entity::Render() {
+void Entity::Render(const Camera &camera) {
   if (renderer_ != nullptr) {
-    renderer_->Render(position_);
+    renderer_->Render(position_, camera);
   }
 }
 

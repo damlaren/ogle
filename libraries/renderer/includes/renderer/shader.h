@@ -73,6 +73,8 @@ class ShaderProgram {
   //@{
   /// Standardized names for common shader arguments.
   static const std::string kModelMatrixArg;
+  static const std::string kViewMatrixArg;
+  static const std::string kProjectionMatrixArg;
   //@}
 
   /**

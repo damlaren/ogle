@@ -20,6 +20,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class Camera;
+
 class Renderer;
 
 /**
@@ -41,8 +43,10 @@ class Entity {
    * @brief Renders this Entity.
    *
    * Rendering is skipped if no Renderer is set on this object.
+   *
+   * @param[in] camera Camera to render from.
    */
-  void Render();
+  void Render(const Camera &camera);
 
   /// World position.  TODO(damlaren): full transform.
   Vector3f position_;

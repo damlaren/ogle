@@ -21,5 +21,7 @@ Shader::Shader(const std::string &shader_text, ShaderType type)
 }
 
 const std::string ShaderProgram::kModelMatrixArg = "model_matrix";
+const std::string ShaderProgram::kViewMatrixArg = "view_matrix";
+const std::string ShaderProgram::kProjectionMatrixArg = "projection_matrix";
 
 }  // namespace ogle

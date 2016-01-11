@@ -40,13 +40,13 @@ class Camera {
    * @brief Computes view matrix from current camera state.
    * @return Matrix.
    */
-  virtual Matrix44f GetViewMatrix() = 0;
+  virtual Matrix44f GetViewMatrix() const = 0;
 
   /**
    * @brief Computes projection matrix from current camera state.
    * @return Matrix.
    */
-  virtual Matrix44f GetProjectionMatrix() = 0;
+  virtual Matrix44f GetProjectionMatrix() const = 0;
 
   /// Position of camera in world space.
   Vector3f world_position_;

@@ -15,10 +15,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
 
+#include <memory>
 #include "math/vector.h"
 
 namespace ogle {
 
+class Camera;
 class Mesh;
 
 /**
@@ -34,8 +36,10 @@ class Renderer {
   /**
    * @brief Render object.
    * @param[in] position Where to draw object.
+   * @param[in] camera Camera to render from.
    */
-  virtual void Render(const Vector3f& position) = 0;
+  virtual void Render(const Vector3f& position,
+                      const Camera &camera) = 0;
 
  protected:
   /**

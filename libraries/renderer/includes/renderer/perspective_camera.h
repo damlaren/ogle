@@ -35,9 +35,9 @@ class PerspectiveCamera : public Camera {
    */
   ~PerspectiveCamera() override;
 
-  Matrix44f GetViewMatrix() override;
+  Matrix44f GetViewMatrix() const override;
 
-  Matrix44f GetProjectionMatrix() override;
+  Matrix44f GetProjectionMatrix() const override;
 
  private:
   /// Distance to near clip plane, in front of camera.

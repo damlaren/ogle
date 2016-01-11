@@ -41,14 +41,14 @@ PerspectiveCamera::PerspectiveCamera(const float near_clip,
 PerspectiveCamera::~PerspectiveCamera() {
 }
 
-Matrix44f PerspectiveCamera::GetViewMatrix() {
+Matrix44f PerspectiveCamera::GetViewMatrix() const {
   // TODO(damlaren): orientation is hardcoded.
   return TransformationMatrix::ViewMatrix3D(world_position_,
                                             Vector3f(1.f, 0.f, 0.f),
                                             Vector3f(0.f, 1.f, 0.f));
 }
 
-Matrix44f PerspectiveCamera::GetProjectionMatrix() {
+Matrix44f PerspectiveCamera::GetProjectionMatrix() const {
   return TransformationMatrix::PerspectiveMatrix3D(near_clip_, far_clip_,
                                                    vertical_fov_,
                                                    aspect_ratio_);

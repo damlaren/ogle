@@ -23,7 +23,6 @@ using GLFWApplication = ogle::GLFWApplication;
  */
 class TriangleApplication : public GLFWApplication {
  public:
-  // TODO(damlaren): Why won't this take constexpr?
   static constexpr int kWindowWidth = 1024;
   static constexpr int kWindowHeight = 768;
 
@@ -75,7 +74,7 @@ class TriangleApplication : public GLFWApplication {
     float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
     triangle_->position_ = ogle::Vector3f(kXRange * static_cast<float>(cos(t)),
                                           0.f, 0.f);
-    triangle_->Render();
+    triangle_->Render(*camera_.get());
 
     window_->SwapBuffers();
     bool ok = window_->HandleWindowEvents();
