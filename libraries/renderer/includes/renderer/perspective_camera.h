@@ -9,12 +9,50 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of blank.h.
+ * @file Defines PerspectiveCamera.
  */
 
-#include "util/blank.h"
-#include "easylogging++.h"  // NOLINT
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_
+
+#include "renderer/camera.h"
 
 namespace ogle {
 
+/**
+ * @brief A traditional perspective projection camera.
+ */
+class PerspectiveCamera {
+ public:
+  /**
+   * @brief Constructor. Zeros out initial position and orientation.
+   */
+  PerspectiveCamera(const float near_clip, const float far_clip,
+                    const Angle vertical_fov, const float aspect_ratio);
+
+  /**
+   * @brief Destructor.
+   */
+  ~PerspectiveCamera() override;
+
+  Matrix44f GetViewMatrix() override;
+
+  Matrix44f GetProjectionMatrix() override;
+
+ private:
+  /// Distance to near clip plane, in front of camera.
+  float near_clip_;
+
+  /// Distance to far clip plane.
+  float far_clip_;
+
+  /// Vertical field of view.
+  Angle vertical_fov_;
+
+  /// Width / height ratio.
+  float aspect_ratio_;
+};
+
 }  // namespace ogle
+
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_
