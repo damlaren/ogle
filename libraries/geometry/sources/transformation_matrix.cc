@@ -109,4 +109,30 @@ const Matrix44f TransformationMatrix::ViewMatrix3DLookAt(
   return ViewMatrix3D(camera_position, forward_vector, up_vector);
 }
 
+const Matrix44f PerspectiveMatrix3D(const float near_clip,
+                                    const float far_clip,
+                                    const Angle vertical_fov,
+                                    const float aspect_ratio) {
+  if (near_clip >= far_clip) {
+    LOG(WARNING) << "Far clip plane should be behind near clip plane.";
+  }
+  if (vertical_fov <= Angle(0.f)) {
+    LOG(WARNING) << "Vertical FOV should be > 0.";
+  }
+  if (aspect_ratio <= 0.f) {
+    LOG(WARNING) << "Aspect ratio should be > 0.";
+  }
+
+  // TODO(damlaren): is sx correct?
+  const float range = tan(vertical_fov.radians() * 0.5f) * near_clip;
+  const float sx = near_clip / (range * aspect_ratio);
+  const float sy = near_clip / range;
+  const float sz = -(far_clip + near_clip) / (far_clip - near_clip);
+  const float pz = -(2.f * far_clip * near_clip) / (far_clip - near_clip);
+  return {sx,  0.f, 0.f, 0.f,
+          0.f, sy,  0.f, 0.f,
+          0.f, 0.f, sz,  pz,
+          0.f, 0.f, -1.f, 0.f};
+}
+
 }  // namespace ogle

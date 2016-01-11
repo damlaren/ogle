@@ -84,6 +84,19 @@ class TransformationMatrix {
   static const Matrix44f ViewMatrix3DLookAt(const Vector3f& camera_position,
                                             const Vector3f& target_position,
                                             const Vector3f& up_vector);
+
+  /**
+   * @brief Builds a perspective projection matrix.
+   * @param[in] near_clip Distance to near clip plane.
+   * @param[in] far_clip Distance to far clip plane.
+   * @param[in] vertical_fov Vertical FOV angle.
+   * @param[in] aspect_ratio Width of viewport / height.
+   * @return Resulting matrix.
+   */
+  static const Matrix44f PerspectiveMatrix3D(const float near_clip,
+                                             const float far_clip,
+                                             const Angle vertical_fov,
+                                             const float aspect_ratio);
 };
 
 }  // namespace ogle

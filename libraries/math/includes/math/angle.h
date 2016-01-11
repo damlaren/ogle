@@ -20,21 +20,111 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+/// Pi, in radians.
+static constexpr float kPi = M_PI;
+
 /**
  * @brief Type used to represent angles in all calculations.
  *
- * Also includes some utility functions.
+ * All angles are clipped to the range +/- PI (180 degrees).
  */
 class Angle {
  public:
-  /// Pi.
-  static constexpr float kPi = M_PI;
-
   /**
    * @brief Constructor.
    * @param[in] radians Angle, in radians.
    */
-  Angle(const float radians);  // NOLINT
+  explicit Angle(const float radians);
+
+  /**
+   * @brief Prints angle, in degrees.
+   * @param[in,out] os Output stream.
+   * @param[in] rhs Angle to print.
+   * @return Reference to @p os.
+   */
+  friend std::ostream& operator<<(std::ostream& os, const Angle rhs);
+
+  /**
+   * @brief Computes @p lhs + @p rhs.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return New Angle with result.
+   */
+  friend const Angle operator+(const Angle lhs, const Angle rhs);
+
+  /**
+   * @brief Add Angle to this one.
+   * @param[in] rhs Right operand.
+   * @return Reference to this Angle.
+   */
+  Angle& operator+=(const Angle rhs);
+
+  /**
+   * @brief Computes @p lhs - @p rhs.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return New Angle with result.
+   */
+  friend const Angle operator-(const Angle lhs, const Angle rhs);
+
+  /**
+   * @brief Subtracts @p rhs from this Angle.
+   * @param[in] rhs Right operand.
+   * @return Reference to this Angle.
+   */
+  Angle& operator-=(const Angle rhs);
+
+  /**
+   * @brief Computes Angle multiplied by a scale factor.
+   * @param[in] scale Scale factor.
+   * @param[in] rhs Right Angle operand.
+   * @return New Angle with result.
+   */
+  friend const Angle operator*(const float scale, const Angle rhs);
+
+  /**
+   * @brief Computes Angle multiplied by a scale factor.
+   * @param[in] lhs Left Angle operand.
+   * @param[in] scale Scale factor.
+   * @return New Angle with result.
+   */
+  friend const Angle operator*(const Angle lhs, const float scale);
+
+  /**
+   * @brief Scales this Angle.
+   * @param[in] scale Scale factor.
+   * @return Reference to this Angle.
+   */
+  Angle& operator*=(const float scale);
+
+  /**
+   * @brief Computes Angle divided by a scale factor.
+   * @param[in] lhs Left Angle operand.
+   * @param[in] scale Scale factor. Not checked for divide by 0.
+   * @return New Angle with result.
+   */
+  friend const Angle operator/(const Angle lhs, const float scale);
+
+  /**
+   * @brief Divides this Angle by a scale factor.
+   * @param[in] scale Scale factor. Not checked for divide by 0.
+   * @return Reference to this Angle.
+   */
+  Angle& operator/=(const float scale);
+
+  //@{
+  /**
+   * @brief Angle comparison operators. Always compare raw radian values.
+   * @param[in] lhs Left operand.
+   * @param[in] rhs Right operand.
+   * @return true/false depending on comparison outcome.
+   */
+  friend const bool operator<(const Angle lhs, const Angle rhs);
+  friend const bool operator<=(const Angle lhs, const Angle rhs);
+  friend const bool operator>(const Angle lhs, const Angle rhs);
+  friend const bool operator>=(const Angle lhs, const Angle rhs);
+  friend const bool operator==(const Angle lhs, const Angle rhs);
+  //@}
 
   /**
    * @brief Constructs an Angle from a value in degrees.
@@ -55,75 +145,14 @@ class Angle {
    */
   const float degrees() const noexcept;
 
-  /**
-   * @brief Prints angle, in degrees.
-   * @param os Output stream.
-   * @param rhs Angle to print.
-   * @return Reference to @p os.
-   */
-  friend std::ostream& operator<<(std::ostream& os, const Angle rhs);
-
-  /**
-   * @brief Computes @p lhs + @p rhs.
-   * @param lhs Left operand.
-   * @param rhs Right operand.
-   * @return New Angle with result.
-   */
-  friend const Angle operator+(const Angle lhs, const Angle rhs) noexcept;
-
-  /**
-   * @brief Add Angle to this one.
-   * @param rhs Right operand.
-   * @return Reference to this Angle.
-   */
-  Angle& operator+=(const Angle rhs) noexcept;
-
-  /**
-   * @brief Computes @p lhs - @p rhs.
-   * @param lhs Left operand.
-   * @param rhs Right operand.
-   * @return New Angle with result.
-   */
-  friend const Angle operator-(const Angle lhs, const Angle rhs) noexcept;
-
-  /**
-   * @brief Subtracts @p rhs from this Angle.
-   * @param rhs Right operand.
-   * @return Reference to this Angle.
-   */
-  Angle& operator-=(const Angle rhs) noexcept;
-
-  /**
-   * @brief Computes @p lhs * @p rhs.
-   * @param lhs Left operand.
-   * @param rhs Right operand.
-   * @return New Angle with result.
-   */
-  friend const Angle operator*(const Angle lhs, const Angle rhs) noexcept;
-
-  /**
-   * @brief Scales this Angle by @p rhs.
-   * @param rhs Right operand.
-   * @return Reference to this Angle.
-   */
-  Angle& operator*=(const Angle rhs) noexcept;
-
-  /**
-   * @brief Computes @p lhs / @p rhs.
-   * @param lhs Left operand.
-   * @param rhs Right operand.
-   * @return New Angle with result.
-   */
-  friend const Angle operator/(const Angle lhs, const Angle rhs);
-
-  /**
-   * @brief Divides this Angle by @p rhs.
-   * @param rhs Right operand.
-   * @return Reference to this Angle.
-   */
-  Angle& operator/=(const Angle rhs);
-
  private:
+  /**
+   * @brief Clip value between +/- PI.
+   * @param[in] radians Value to clip, in radians.
+   * @return Clipped value.
+   */
+  static const float Clip(const float radians);
+
   /// Angle, in radians
   float theta_;
 };

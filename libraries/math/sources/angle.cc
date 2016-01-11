@@ -13,11 +13,77 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "math/angle.h"
+#include <cmath>
 
 namespace ogle {
 
 Angle::Angle(const float radians)
-  : theta_{radians} {
+  : theta_{Clip(radians)} {
+}
+
+std::ostream& operator<<(std::ostream& os, const Angle rhs) {
+  os << rhs.degrees() << "d";
+  return os;
+}
+
+const Angle operator+(const Angle lhs, const Angle rhs) {
+  return Angle(lhs) += rhs;
+}
+
+Angle& Angle::operator+=(const Angle rhs) {
+  theta_ = Clip(theta_ + rhs.theta_);
+  return *this;
+}
+
+const Angle operator-(const Angle lhs, const Angle rhs) {
+  return Angle(lhs) -= rhs;
+}
+
+Angle& Angle::operator-=(const Angle rhs) {
+  theta_ = Clip(theta_ - rhs.theta_);
+  return *this;
+}
+
+const Angle operator*(const float scale, const Angle rhs) {
+  return Angle(rhs) *= scale;
+}
+
+const Angle operator*(const Angle lhs, const float scale) {
+  return Angle(lhs) *= scale;
+}
+
+Angle& Angle::operator*=(const float scale) {
+  theta_ = Clip(theta_ * scale);
+  return *this;
+}
+
+const Angle operator/(const Angle lhs, const float scale) {
+  return Angle(lhs) /= scale;
+}
+
+Angle& Angle::operator/=(const float scale) {
+  theta_ = Clip(theta_ / scale);
+  return *this;
+}
+
+const bool operator<(const Angle lhs, const Angle rhs) {
+  return lhs.theta_ < rhs.theta_;
+}
+
+const bool operator<=(const Angle lhs, const Angle rhs) {
+  return lhs.theta_ <= rhs.theta_;
+}
+
+const bool operator>(const Angle lhs, const Angle rhs) {
+  return !(lhs <= rhs);
+}
+
+const bool operator>=(const Angle lhs, const Angle rhs) {
+  return !(lhs < rhs);
+}
+
+const bool operator==(const Angle lhs, const Angle rhs) {
+  return lhs.theta_ == rhs.theta_;
 }
 
 const Angle Angle::FromDegrees(const float degrees) {
@@ -31,46 +97,8 @@ const float Angle::radians() const noexcept {
 const float Angle::degrees() const noexcept {
   return theta_ * 180.f / kPi;
 }
-
-std::ostream& operator<<(std::ostream& os, const Angle rhs) {
-  os << rhs.degrees() << "d";
-  return os;
-}
-
-const Angle operator+(const Angle lhs, const Angle rhs) noexcept {
-  return Angle(lhs) += rhs;
-}
-
-Angle& Angle::operator+=(const Angle rhs) noexcept {
-  theta_ += rhs.theta_;
-  return *this;
-}
-
-const Angle operator-(const Angle lhs, const Angle rhs) noexcept {
-  return Angle(lhs) -= rhs;
-}
-
-Angle& Angle::operator-=(const Angle rhs) noexcept {
-  theta_ -= rhs.theta_;
-  return *this;
-}
-
-const Angle operator*(const Angle lhs, const Angle rhs) noexcept {
-  return Angle(lhs) *= rhs;
-}
-
-Angle& Angle::operator*=(const Angle rhs) noexcept {
-  theta_ *= rhs.theta_;
-  return *this;
-}
-
-const Angle operator/(const Angle lhs, const Angle rhs) {
-  return Angle(lhs) /= rhs;
-}
-
-Angle& Angle::operator/=(const Angle rhs) {
-  theta_ /= rhs.theta_;
-  return *this;
+const float Angle::Clip(const float radians) {
+  return std::fmod(radians, kPi);
 }
 
 }  // namespace ogle
