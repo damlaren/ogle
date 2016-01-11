@@ -22,7 +22,7 @@ namespace ogle {
 /**
  * @brief A traditional perspective projection camera.
  */
-class PerspectiveCamera {
+class PerspectiveCamera : public Camera {
  public:
   /**
    * @brief Constructor. Zeros out initial position and orientation.

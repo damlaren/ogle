@@ -7,6 +7,7 @@ set(INC_LIST
   includes/renderer/glsl_shader.h
   includes/renderer/mesh_renderer.h
   includes/renderer/ogle_renderer.h
+  includes/renderer/perspective_camera.h
   includes/renderer/renderer.h
   includes/renderer/shader.h
   includes/renderer/window.h
@@ -19,6 +20,7 @@ set(SRC_LIST
   sources/glfw_window.cc
   sources/glsl_shader.cc
   sources/mesh_renderer.cc
+  sources/perspective_camera.cc
   sources/renderer.cc
   sources/shader.cc
   sources/window.cc
