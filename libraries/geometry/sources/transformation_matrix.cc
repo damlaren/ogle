@@ -109,10 +109,9 @@ const Matrix44f TransformationMatrix::ViewMatrix3DLookAt(
   return ViewMatrix3D(camera_position, forward_vector, up_vector);
 }
 
-const Matrix44f PerspectiveMatrix3D(const float near_clip,
-                                    const float far_clip,
-                                    const Angle vertical_fov,
-                                    const float aspect_ratio) {
+const Matrix44f TransformationMatrix::PerspectiveMatrix3D(
+    const float near_clip, const float far_clip, const Angle vertical_fov,
+    const float aspect_ratio) {
   if (near_clip >= far_clip) {
     LOG(WARNING) << "Far clip plane should be behind near clip plane.";
   }

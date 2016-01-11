@@ -23,9 +23,15 @@ using GLFWApplication = ogle::GLFWApplication;
  */
 class TriangleApplication : public GLFWApplication {
  public:
+  // TODO(damlaren): Why won't this take constexpr?
+  static constexpr int kWindowWidth = 1024;
+  static constexpr int kWindowHeight = 768;
+
   explicit TriangleApplication(const std::string& resource_dir)
-      : GLFWApplication(std::make_unique<ogle::GLFWWindow>(
-            1024, 768, "Triangle App", 4, 0, 4), resource_dir) {
+      : GLFWApplication(
+            std::make_unique<ogle::GLFWWindow>(kWindowWidth, kWindowHeight,
+                                               "Triangle App", 4, 0, 4),
+            resource_dir) {
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
     auto mesh = std::make_shared<ogle::Mesh>();
@@ -55,6 +61,9 @@ class TriangleApplication : public GLFWApplication {
       std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
     triangle_ = std::make_unique<ogle::Entity>(renderer);
+    camera_ = std::make_unique<ogle::PerspectiveCamera>(
+        0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
+        static_cast<float>(kWindowWidth) / kWindowHeight);
   }
 
   ~TriangleApplication() override {
@@ -86,7 +95,13 @@ class TriangleApplication : public GLFWApplication {
 
   /// Object instantiated to render triangle mesh.
   std::unique_ptr<ogle::Entity> triangle_;
+
+  /// Camera.
+  std::unique_ptr<ogle::Camera> camera_;
 };
+
+constexpr int TriangleApplication::kWindowWidth;
+constexpr int TriangleApplication::kWindowHeight;
 
 /**
  * @brief Main entry point.
