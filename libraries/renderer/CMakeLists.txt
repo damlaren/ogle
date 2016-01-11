@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 
 set(INC_LIST
+  includes/renderer/camera.h
   includes/renderer/glfw_mesh_renderer.h
   includes/renderer/glfw_window.h
   includes/renderer/glsl_shader.h
@@ -13,6 +14,7 @@ set(INC_LIST
 add_custom_target(ogle_renderer_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
+  sources/camera.cc
   sources/glfw_mesh_renderer.cc
   sources/glfw_window.cc
   sources/glsl_shader.cc
