@@ -95,10 +95,12 @@ const Matrix44f TransformationMatrix::ViewMatrix3D(
   const Vector3f& u = up_vector;
   const Vector3f& f = neg_forward_vector;
   const Vector3f& p = neg_camera_position;
-  return {r.x(), r.y(), r.z(), p.x(),
-          u.x(), u.y(), u.z(), p.y(),
-          f.x(), f.y(), f.z(), p.z(),
-          0.f,   0.f,   0.f,   1.f};
+  const Matrix44f R = {r.x(), r.y(), r.z(), 0.f,
+                       u.x(), u.y(), u.z(), 0.f,
+                       f.x(), f.y(), f.z(), 0.f,
+                       0.f,   0.f,   0.f,   1.f};
+  const Matrix44f T = TranslationMatrix3D(p);
+  return R * T;
 }
 
 const Matrix44f TransformationMatrix::ViewMatrix3DLookAt(
