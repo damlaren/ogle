@@ -108,7 +108,6 @@ constexpr int TriangleApplication::kWindowHeight;
  * @return 0 on success, something else on failure.
  */
 int main(const int argc, const char* argv[]) {
-  // TODO(damlaren): arg-parser.
   if (argc < 2) {
     LOG(FATAL) << "usage: triangle <resource_dir>";
   }
