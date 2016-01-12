@@ -63,6 +63,7 @@ class TriangleApplication : public GLFWApplication {
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         static_cast<float>(kWindowWidth) / kWindowHeight);
+    camera_->world_position_ = {0.f, 0.f, 3.0f};
   }
 
   ~TriangleApplication() override {
