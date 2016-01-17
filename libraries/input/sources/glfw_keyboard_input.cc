@@ -42,6 +42,10 @@ const std::map<KeyCode, int> GLFWKeyboardInput::key_mapping_ = {
 const bool GLFWKeyboardInput::IsKeyDown(const KeyCode code,
                                         const bool repeat) {
   int glfw_code = GetGLFWKeyCode(code);
+
+  // TODO(damlaren): This is stupid and doesn't work as expected. GLFW only
+  // enables the GLFW_REPEAT action when the keyboard callback is used.
+  // Otherwise it will always return a PRESS.
   int glfw_action = repeat? GLFW_REPEAT : GLFW_PRESS;
   if (glfw_code != kUnmappedCode) {
     return glfwGetKey(window_, glfw_code) == glfw_action;

@@ -76,6 +76,22 @@ class TriangleApplication : public GLFWApplication {
       return false;
     }
 
+    // Move camera.
+    constexpr float kDelta = 0.01f;
+    ogle::Vector3f move_dir(0.f, 0.f, 0.f);
+    if (keyboard_->IsKeyDown(ogle::KeyCode::W, false)) {
+      move_dir += ogle::Vector3f(0.f, 0.f, -kDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, false)) {
+      move_dir += ogle::Vector3f(0.f, 0.f, kDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, false)) {
+      move_dir += ogle::Vector3f(-kDelta, 0.f, 0.f);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, false)) {
+      move_dir += ogle::Vector3f(kDelta, 0.f, 0.f);
+    }
+    camera_->world_position_ += move_dir;
+    LOG(INFO) << camera_->world_position_;
+
+    // Move triangle.
     float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
     triangle_->position_ = ogle::Vector3f(kXRange * static_cast<float>(cos(t)),
                                           0.f, 0.f);
