@@ -79,13 +79,13 @@ class TriangleApplication : public GLFWApplication {
     // Move camera.
     constexpr float kDelta = 0.01f;
     ogle::Vector3f move_dir(0.f, 0.f, 0.f);
-    if (keyboard_->IsKeyDown(ogle::KeyCode::W, false)) {
+    if (keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
       move_dir += ogle::Vector3f(0.f, 0.f, -kDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, false)) {
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
       move_dir += ogle::Vector3f(0.f, 0.f, kDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, false)) {
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
       move_dir += ogle::Vector3f(-kDelta, 0.f, 0.f);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, false)) {
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
       move_dir += ogle::Vector3f(kDelta, 0.f, 0.f);
     }
     camera_->world_position_ += move_dir;
@@ -98,6 +98,9 @@ class TriangleApplication : public GLFWApplication {
     window_->ClearWindow();
     triangle_->Render(*camera_.get());
     window_->SwapBuffers();
+
+    // Cleanup.
+    keyboard_->Clear();
 
     ++loop_count_;
     return true;

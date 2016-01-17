@@ -12,10 +12,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines KeyboardInput.
  */
 
-#ifndef LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H
-#define LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H
+#ifndef LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_
+#define LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_
 
-#include <map>
+#include <unordered_map>
 #include "input/keyboard_input.h"
 
 // Opaque struct type from GLFW.
@@ -28,7 +28,9 @@ namespace ogle {
  */
 class GLFWKeyboardInput : public KeyboardInput {
  public:
-  const bool IsKeyDown(const KeyCode code, const bool only_on_change) override;
+  void Clear() override;
+
+  const bool IsKeyDown(const KeyCode code, const bool repeat) override;
 
   const bool IsKeyUp(const KeyCode code) override;
 
@@ -41,24 +43,22 @@ class GLFWKeyboardInput : public KeyboardInput {
 
  protected:
   /// Mapping from KeyCode to GLFW code.
-  static const std::map<KeyCode, int> key_mapping_;
-
-  /// Error value when no GLFW mapping exists for a key code.
-  static constexpr int kUnmappedCode = -1;
+  static const std::unordered_map<int, KeyCode> key_mapping_;
 
   /**
-   * @brief Get GLFW code corresponding to @p code.
-   * @param code .
-   * @return GLFW code, or @p kUnmappedCode if not found.
+   * @brief Callback passed to GLFW to record key actions.
+   *
+   * The interface is defined by GLFW. See
+   * http://www.glfw.org/docs/latest/input.html.
    */
-  static const int GetGLFWKeyCode(const KeyCode code);
+  static void GLFWKeyCallback(GLFWwindow* window, int key, int scancode,
+                              int action, int mods);
 
- private:
-  /// Window this keyboard is attached to. This is GLFW's GLFWwindow,
-  /// not ogle's GLFWWindow!
-  GLFWwindow *window_;
+  // TODO(damlaren): Only one keyboard is supported.
+  /// Action occurring on each key.
+  static std::unordered_map<KeyCode, KeyAction, KeyCodeHash> key_actions_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H
+#endif  // LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_

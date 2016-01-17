@@ -9,6 +9,7 @@ add_custom_target(ogle_input_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
   sources/glfw_keyboard_input.cc
+  sources/keyboard_input.cc
 )
 add_library(ogle_input "${SRC_LIST}")
 target_link_libraries(ogle_input

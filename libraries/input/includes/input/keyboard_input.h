@@ -12,10 +12,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines KeyboardInput.
  */
 
-#ifndef LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H
-#define LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H
+#ifndef LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H_
+#define LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H_
+
+#include <functional>
 
 namespace ogle {
+
+/**
+ * @brief Actions for which to report keyboard input.
+ */
+enum class KeyAction {
+  NONE,  // Nothing is being done to the key.
+  PRESS,  // Key is being pushed down for the first time.
+  HOLD,  // Key is being held down.
+  RELEASE  // Key is moving back up.
+};
 
 /**
  * @brief Cross-platform keycodes.
@@ -45,6 +57,14 @@ enum class KeyCode {
 };
 
 /**
+ * @brief Hash function object for KeyCode.
+ */
+struct KeyCodeHash {
+ public:
+  std::size_t operator()(const KeyCode code) const;
+};
+
+/**
  * @brief Class to collect input from keyboard.
  *
  * Subclasses use a specific API to set keyboard values.
@@ -55,6 +75,11 @@ class KeyboardInput {
    * @brief Default destructor.
    */
   virtual ~KeyboardInput() = default;
+
+  /**
+   * @brief Clears internal state.
+   */
+  virtual void Clear() = 0;
 
   /**
    * @brief Checks if a key is down.
@@ -81,4 +106,4 @@ class KeyboardInput {
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H
+#endif  // LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H_

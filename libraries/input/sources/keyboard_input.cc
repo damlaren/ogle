@@ -16,6 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+std::size_t KeyCodeHash::operator()(const KeyCode code) const {
+  return std::hash<int>()(static_cast<int>(code));
+}
+
 const bool KeyboardInput::IsShiftDown(const bool repeat) {
   return IsKeyDown(KeyCode::LEFT_SHIFT, repeat) ||
          IsKeyDown(KeyCode::RIGHT_SHIFT, repeat);
