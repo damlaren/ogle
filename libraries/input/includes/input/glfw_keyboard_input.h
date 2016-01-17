@@ -54,7 +54,7 @@ class GLFWKeyboardInput : public KeyboardInput {
   static void GLFWKeyCallback(GLFWwindow* window, int key, int scancode,
                               int action, int mods);
 
-  // TODO(damlaren): Only one keyboard is supported.
+  // TODO(damlaren): Only one keyboard input is supported.
   /// Action occurring on each key.
   static std::unordered_map<KeyCode, KeyAction, KeyCodeHash> key_actions_;
 };
