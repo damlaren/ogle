@@ -28,7 +28,7 @@ class ResourceManager {
  public:
   /**
    * @brief Constructor.
-   * @param[in] resource_dir Location of resources directory.
+   * @param resource_dir Location of resources directory.
    */
   explicit ResourceManager(const std::string& resource_dir);
 

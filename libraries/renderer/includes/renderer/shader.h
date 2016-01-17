@@ -45,8 +45,8 @@ class Shader {
 
   /**
    * @brief Constructor.
-   * @param[in] shader_text Shader text to copy.
-   * @param[in] type Type of this Shader.
+   * @param shader_text Shader text to copy.
+   * @param type Type of this Shader.
    */
   Shader(const std::string &shader_text, ShaderType type);
 
@@ -88,8 +88,8 @@ class ShaderProgram {
   //@{
   /**
    * @brief Sets a uniform matrix value in shader program.
-   * @param[in] variable Name of uniform variable.
-   * @param[in] mat Matrix to set values.
+   * @param variable Name of uniform variable.
+   * @param mat Matrix to set values.
    */
   virtual void SetUniformMatrix22f(const std::string& variable,
                                    const Matrix22f& mat) = 0;

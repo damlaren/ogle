@@ -27,7 +27,7 @@ class TextFile {
  public:
   /**
    * @brief Read all contents of a file.
-   * @param[in] file_name Path to file to read.
+   * @param file_name Path to file to read.
    * @param[out] text Contents read from file.
    * @return Whether the operation was completed successfully.
    */

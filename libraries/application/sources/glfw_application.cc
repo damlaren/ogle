@@ -19,9 +19,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLFWApplication::GLFWApplication(std::unique_ptr<ogle::GLFWWindow> window,
-                                 const std::string& resource_dir)
-    : Application(resource_dir), window_(std::move(window)) {}
+GLFWApplication::GLFWApplication(
+    std::unique_ptr<ogle::GLFWWindow> window,
+    std::unique_ptr<ogle::GLFWKeyboardInput> keyboard,
+    const std::string& resource_dir)
+  : Application(resource_dir), window_(std::move(window)),
+    keyboard_(std::move(keyboard)) {
+  window_->AttachKeyboard(keyboard_.get());
+}
 
 GLFWApplication::~GLFWApplication() {
 }
@@ -29,9 +34,13 @@ GLFWApplication::~GLFWApplication() {
 bool GLFWApplication::ApplicationBody() {
   window_->ClearWindow();
   window_->SwapBuffers();
-  bool ok = window_->HandleWindowEvents();
+  if (!window_->HandleWindowEvents() ||
+      keyboard_->IsKeyDown(KeyCode::ESCAPE, false)) {
+    return false;
+  }
+
   ++loop_count_;
-  return ok;
+  return true;
 }
 
 }  // namespace ogle

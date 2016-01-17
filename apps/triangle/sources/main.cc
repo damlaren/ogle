@@ -30,6 +30,7 @@ class TriangleApplication : public GLFWApplication {
       : GLFWApplication(
             std::make_unique<ogle::GLFWWindow>(kWindowWidth, kWindowHeight,
                                                "Triangle App", 4, 0, 4),
+            std::make_unique<ogle::GLFWKeyboardInput>(),
             resource_dir) {
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
@@ -70,17 +71,20 @@ class TriangleApplication : public GLFWApplication {
   }
 
   bool ApplicationBody() {
-    window_->ClearWindow();
+    if (!window_->HandleWindowEvents() ||
+        keyboard_->IsKeyDown(ogle::KeyCode::ESCAPE, false)) {
+      return false;
+    }
 
     float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
     triangle_->position_ = ogle::Vector3f(kXRange * static_cast<float>(cos(t)),
                                           0.f, 0.f);
+    window_->ClearWindow();
     triangle_->Render(*camera_.get());
-
     window_->SwapBuffers();
-    bool ok = window_->HandleWindowEvents();
+
     ++loop_count_;
-    return ok;
+    return true;
   }
 
  private:

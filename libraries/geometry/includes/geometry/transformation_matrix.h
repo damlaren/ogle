@@ -45,30 +45,30 @@ class TransformationMatrix {
 
   /**
    * @brief Builds a Matrix to rotate about X axis.
-   * @param[in] theta_x
+   * @param theta_x
    * @return Resulting Matrix.
    */
   static const Matrix44f RotationMatrixX3D(const Angle theta_x);
 
   /**
    * @brief Builds a Matrix to rotate about Y axis.
-   * @param[in] theta_y
+   * @param theta_y
    * @return Resulting Matrix.
    */
   static const Matrix44f RotationMatrixY3D(const Angle theta_x);
 
   /**
    * @brief Builds a Matrix to rotate about Z axis.
-   * @param[in] theta_z
+   * @param theta_z
    * @return Resulting Matrix.
    */
   static const Matrix44f RotationMatrixZ3D(const Angle theta_x);
 
   /**
    * @brief Builds a camera view matrix.
-   * @param[in] camera_position Camera world position.
-   * @param[in] forward_vector Camera direction. Should be a unit vector.
-   * @param[in] up_vector Up direction. Should be a unit vector.
+   * @param camera_position Camera world position.
+   * @param forward_vector Camera direction. Should be a unit vector.
+   * @param up_vector Up direction. Should be a unit vector.
    * @return Resulting Matrix.
    */
   static const Matrix44f ViewMatrix3D(const Vector3f& camera_position,
@@ -76,9 +76,9 @@ class TransformationMatrix {
                                       const Vector3f& up_vector);
   /**
    * @brief Builds a camera view matrix looking at a position.
-   * @param[in] camera_position Camera world position.
-   * @param[in] target_position Where to point the camera. Should be distinct from camera position.
-   * @param[in] up_vector Up direction. Should be a unit vector.
+   * @param camera_position Camera world position.
+   * @param target_position Where to point the camera. Should be distinct from camera position.
+   * @param up_vector Up direction. Should be a unit vector.
    * @return Resulting Matrix.
    */
   static const Matrix44f ViewMatrix3DLookAt(const Vector3f& camera_position,
@@ -87,10 +87,10 @@ class TransformationMatrix {
 
   /**
    * @brief Builds a perspective projection matrix.
-   * @param[in] near_clip Distance to near clip plane.
-   * @param[in] far_clip Distance to far clip plane.
-   * @param[in] vertical_fov Vertical FOV angle.
-   * @param[in] aspect_ratio Width of viewport / height.
+   * @param near_clip Distance to near clip plane.
+   * @param far_clip Distance to far clip plane.
+   * @param vertical_fov Vertical FOV angle.
+   * @param aspect_ratio Width of viewport / height.
    * @return Resulting matrix.
    */
   static const Matrix44f PerspectiveMatrix3D(const float near_clip,

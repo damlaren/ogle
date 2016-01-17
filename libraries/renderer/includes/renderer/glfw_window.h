@@ -22,6 +22,8 @@ class GLFWwindow;  // From GLFW.
 
 namespace ogle {
 
+class GLFWKeyboardInput;
+
 /**
  * @brief Window implemented using GLFW.
  *
@@ -37,16 +39,16 @@ class GLFWWindow : public Window {
 
   /**
    * @brief Constructor.
-   * @param[in] width Initial window width [pixels].
-   * @param[in] height Initial window height [pixels].
-   * @param[in] title Window title.
-   * @param[in] opengl_major_version Major version number required from OpenGL.
-   * @param[in] opengl_minor_version Minor version number required from OpenGL.
-   * @param[in] msaa_samples Number of samples to use for MSAA (anti-aliasing).
+   * @param width Initial window width [pixels].
+   * @param height Initial window height [pixels].
+   * @param title Window title.
+   * @param opengl_major_version Major version number required from OpenGL.
+   * @param opengl_minor_version Minor version number required from OpenGL.
+   * @param msaa_samples Number of samples to use for MSAA (anti-aliasing).
    */
-  GLFWWindow(int width, int height, const std::string& title,
-             int opengl_major_version, int opengl_minor_version,
-             int msaa_samples);
+  GLFWWindow(const int width, const int height, const std::string& title,
+             const int opengl_major_version, const int opengl_minor_version,
+             const int msaa_samples);
 
   /**
    * @brief Destructor.
@@ -57,11 +59,17 @@ class GLFWWindow : public Window {
   void SwapBuffers() override;
   bool HandleWindowEvents() override;
 
+  /**
+   * @brief Register keyboard to listen to events on this window.
+   * @param keyboard GLFW keyboard to register..
+   */
+  void AttachKeyboard(GLFWKeyboardInput* keyboard);
+
  protected:
   /**
    * @brief Callback to log errors from GLFW.
-   * @param[in] error Error code.
-   * @param[in] description String description of error.
+   * @param error Error code.
+   * @param description String description of error.
    */
   static void LogGLFWError(int error, const char *description);
 

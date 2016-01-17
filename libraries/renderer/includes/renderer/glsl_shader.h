@@ -33,8 +33,8 @@ class GLSLShader : public Shader {
 
   /**
    * @brief Constructor.
-   * @param[in] shader_text Same as in #Shader constructor.
-   * @param[in] type Same as in #Shader constructor.
+   * @param shader_text Same as in #Shader constructor.
+   * @param type Same as in #Shader constructor.
    */
   GLSLShader(const std::string& shader_text, ShaderType type);
   ~GLSLShader() override;
@@ -51,8 +51,8 @@ class GLSLShaderProgram : public ShaderProgram {
  public:
   /**
    * @brief Constructor. Links shaders into a program.
-   * @param[in] vertex_shader Precompiled vertex Shader.
-   * @param[in] fragment_shader Precompiled fragment Shader.
+   * @param vertex_shader Precompiled vertex Shader.
+   * @param fragment_shader Precompiled fragment Shader.
    */
   GLSLShaderProgram(std::shared_ptr<GLSLShader> vertex_shader,
                     std::shared_ptr<GLSLShader> fragment_shader);
@@ -74,9 +74,9 @@ class GLSLShaderProgram : public ShaderProgram {
    * Most parameters are same as passed to @p SetUniformMatrix*f.
    * OpenGL's API only supports setting float matrices.
    *
-   * @param[in] variable
-   * @param[in] mat
-   * @param[in] gl_func OpenGL function to use to set values.
+   * @param variable
+   * @param mat
+   * @param gl_func OpenGL function to use to set values.
    */
   template<MatrixIndex M, MatrixIndex N, typename GLFunc>
   SetUniformMatrix(const std::string& variable, const Matrix<float, M, N>& mat,

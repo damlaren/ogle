@@ -19,6 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <string>
 
 #include "application/application.h"
+#include "input/glfw_keyboard_input.h"
 #include "renderer/glfw_window.h"
 
 namespace ogle {
@@ -33,10 +34,12 @@ class GLFWApplication : public Application {
  public:
   /**
    * @brief Initializes a generic application using GLFW.
-   * @param[in] window Window to use for render output.
-   * @param[in] resource_dir Resource directory location.
+   * @param window Window to use for render output.
+   * @param keyboard Keyboard input listener.
+   * @param resource_dir Resource directory location.
    */
   GLFWApplication(std::unique_ptr<GLFWWindow> window,
+                  std::unique_ptr<GLFWKeyboardInput> keyboard,
                   const std::string& resource_dir);
 
   /**
@@ -56,6 +59,9 @@ class GLFWApplication : public Application {
  protected:
   /// Window controlled by this application.
   std::unique_ptr<ogle::GLFWWindow> window_;
+
+  /// Keyboard input.
+  std::unique_ptr<ogle::GLFWKeyboardInput> keyboard_;
 };
 
 }  // namespace ogle

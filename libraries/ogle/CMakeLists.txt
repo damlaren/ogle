@@ -14,6 +14,7 @@ target_link_libraries(ogle
   ogle_application
   ogle_entity
   ogle_geometry
+  ogle_input
   ogle_math
   ogle_renderer
   ogle_resource

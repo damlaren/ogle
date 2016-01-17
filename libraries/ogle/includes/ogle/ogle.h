@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "application/ogle_application.h"
 #include "entity/ogle_entity.h"
 #include "geometry/ogle_geometry.h"
+#include "input/ogle_input.h"
 #include "math/ogle_math.h"
 #include "renderer/ogle_renderer.h"
 #include "resource/ogle_resource.h"

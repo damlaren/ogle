@@ -51,7 +51,7 @@ class Application {
  protected:
   /**
    * @brief Constructor.
-   * @param[in] resource_dir Location of resources directory.
+   * @param resource_dir Location of resources directory.
    */
   explicit Application(const std::string& resource_dir);
 

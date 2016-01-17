@@ -40,7 +40,7 @@ namespace matrix_helpers {
 /**
  * @brief Helper for computing Matrix determinant.
  *
- * @param[in] data Raw data from a Matrix.
+ * @param data Raw data from a Matrix.
  * @return Determinant value.
  */
 template<typename T>
@@ -97,7 +97,7 @@ const T Determinant(const T data[4][4]) {
 ///{@
 /**
  * @brief Helper function for computing Inverse.
- * @param[in] data Raw data from Matrix for which to compute inverse.
+ * @param data Raw data from Matrix for which to compute inverse.
  * @param[out] result Raw data from Matrix which will contain result.
  */
 template<typename T>
@@ -254,7 +254,7 @@ class Matrix {
 
   /**
    * @brief Constructor that inits Matrix from 2D array.
-   * @param[in] data MxN 2D array of values to copy in.
+   * @param data MxN 2D array of values to copy in.
    */
   Matrix(const T data[M][N]) {  // NOLINT
     std::copy(data[0], data[0] + M * N, data_[0]);
@@ -263,7 +263,7 @@ class Matrix {
   /**
    * @brief Constructor that inits Matrix from 1D array.
    *
-   * @param[in] data 1D array of values copied into matrix.
+   * @param data 1D array of values copied into matrix.
    */
   Matrix(const T data[M * N]) {  // NOLINT
     std::copy(data, data + M * N, data_[0]);
@@ -271,7 +271,7 @@ class Matrix {
 
   /**
    * @brief Constructor that takes list of data values.
-   * @param[in] ts Initializer list, or variable-length list of parameters,
+   * @param ts Initializer list, or variable-length list of parameters,
    *     to set data. The exact number of arguments to set the Matrix is
    *     required. Values in the initializer list set Matrix values row by row.
    */
@@ -285,8 +285,8 @@ class Matrix {
 
   /**
    * @brief Subscript operator that allows modification.
-   * @param[in] i Row index, must be < M.
-   * @param[in] j Column index, must be < N.
+   * @param i Row index, must be < M.
+   * @param j Column index, must be < N.
    * @return Reference to element at (i,j).
    */
   T& operator()(MatrixIndex i, MatrixIndex j) {
@@ -296,8 +296,8 @@ class Matrix {
 
   /**
    * @brief Subscript operator that bars modification.
-   * @param[in] i Row index, must be < M.
-   * @param[in] j Column index, must be < N.
+   * @param i Row index, must be < M.
+   * @param j Column index, must be < N.
    * @return Copy of element at (i,j).
    */
   const T operator()(MatrixIndex i, MatrixIndex j) const {
@@ -307,8 +307,8 @@ class Matrix {
 
   /**
    * @brief Output stream operator, writes matrix in human-readable format.
-   * @param[in] os Output stream.
-   * @param[in] rhs Matrix to write.
+   * @param os Output stream.
+   * @param rhs Matrix to write.
    * @return Reference to @p os.
    */
   friend std::ostream& operator<<(std::ostream& os, const Matrix& rhs) {
@@ -334,8 +334,8 @@ class Matrix {
 
   /**
    * @brief Computes @p lhs + @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return New Matrix containing result.
    */
   friend const Matrix operator+(const Matrix& lhs,
@@ -345,7 +345,7 @@ class Matrix {
 
   /**
    * @brief Adds @p rhs to this Matrix.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return Reference to this Matrix.
    */
   Matrix& operator+=(const Matrix& rhs) noexcept {
@@ -355,7 +355,7 @@ class Matrix {
 
   /**
    * @brief Computes negation of @p rhs.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return New Matrix containing result.
    */
   friend const Matrix operator-(const Matrix& rhs) noexcept {
@@ -364,8 +364,8 @@ class Matrix {
 
   /**
    * @brief Computes @p lhs - @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return New Matrix containing result.
    */
   friend const Matrix operator-(const Matrix& lhs,
@@ -375,7 +375,7 @@ class Matrix {
 
   /**
    * @brief Subtracts @p rhs from this Matrix.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return Reference to this Matrix.
    */
   Matrix& operator-=(const Matrix& rhs) noexcept {
@@ -385,8 +385,8 @@ class Matrix {
 
   /**
    * @brief Computes multiplication of @p lhs by a scalar.
-   * @param[in] lhs Matrix on left.
-   * @param[in] factor Scalar to multiply by on right.
+   * @param lhs Matrix on left.
+   * @param factor Scalar to multiply by on right.
    * @return New Matrix containing result.
    */
   friend const Matrix operator*(const Matrix& lhs,
@@ -396,8 +396,8 @@ class Matrix {
 
   /**
    * @brief Computes multiplication of @p rhs by a scalar.
-   * @param[in] factor Scalar to multiply by on left.
-   * @param[in] rhs Matrix on right.
+   * @param factor Scalar to multiply by on left.
+   * @param rhs Matrix on right.
    * @return New Matrix containing result.
    */
   friend const Matrix operator*(const T factor, const Matrix& rhs) noexcept {
@@ -406,7 +406,7 @@ class Matrix {
 
   /**
    * @brief Multiplies this Matrix by @p factor.
-   * @param[in] factor Scalar to multiply by on right.
+   * @param factor Scalar to multiply by on right.
    * @return Reference to this Matrix.
    */
   Matrix& operator*=(const T factor) noexcept {
@@ -416,8 +416,8 @@ class Matrix {
 
   /**
    * @brief Computes Matrix multiplication.
-   * @param[in] lhs Left operand, MxN Matrix.
-   * @param[in] rhs Right operand, NxO Matrix.
+   * @param lhs Left operand, MxN Matrix.
+   * @param rhs Right operand, NxO Matrix.
    * @return New Matrix containing result.
    */
   template <MatrixIndex O>
@@ -441,8 +441,8 @@ class Matrix {
    *
    * Division by 0 is performed without any precautions.
    *
-   * @param[in] lhs Matrix on left.
-   * @param[in] factor Factor to divide by.
+   * @param lhs Matrix on left.
+   * @param factor Factor to divide by.
    * @return New Matrix containing result.
    */
   friend const Matrix operator/(const Matrix& lhs, const T factor) {
@@ -454,7 +454,7 @@ class Matrix {
    *
    * Division by 0 is performed without any precautions
    *
-   * @param[in] factor Factor to divide by.
+   * @param factor Factor to divide by.
    * @return
    */
   Matrix& operator/=(const T factor) {
@@ -472,7 +472,7 @@ class Matrix {
 
   /**
    * @brief Sets all data in Matrix to @p value.
-   * @param[in] value
+   * @param value
    */
   void Set(T value) noexcept {
     std::fill(data_[0], data_[0] + M * N, value);
@@ -587,7 +587,7 @@ class Matrix {
  private:
   /**
    * @brief Performs unary operation on this Matrix.
-   * @param[in] op Operation to perform.
+   * @param op Operation to perform.
    * @return Reference to this Matrix.
    */
   template <typename UnaryOperator>
@@ -598,8 +598,8 @@ class Matrix {
 
   /**
    * @brief Performs binary operation on this Matrix.
-   * @param[in] rhs Other Matrix to use in operation.
-   * @param[in] op Operation to perform.
+   * @param rhs Other Matrix to use in operation.
+   * @param op Operation to perform.
    * @return Reference to this Matrix.
    */
   template <typename BinaryOperator>

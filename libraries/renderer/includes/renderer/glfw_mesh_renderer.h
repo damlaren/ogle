@@ -31,8 +31,8 @@ class GLFWMeshRenderer : public MeshRenderer {
   /**
    * @brief Constructor. Allocates OpenGL objects used for rendering.
    *
-   * @param[in] mesh Handle to Mesh to render.
-   * @param[in] shader_program Shader program to use in render pass.
+   * @param mesh Handle to Mesh to render.
+   * @param shader_program Shader program to use in render pass.
    */
   GLFWMeshRenderer(std::shared_ptr<Mesh> mesh,
                    std::shared_ptr<GLSLShaderProgram> shader_program);

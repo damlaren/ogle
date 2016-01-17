@@ -9,55 +9,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Mesh class.
+ * @file Group header for input library.
  */
 
-#ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
-#define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
+#ifndef LIBRARIES_INPUT_INCLUDES_INPUT_OGLE_INPUT_H_
+#define LIBRARIES_INPUT_INCLUDES_INPUT_OGLE_INPUT_H_
 
-#include "geometry/buffer.h"
-#include "math/vector.h"
+#include "input/keyboard_input.h"
+#include "input/glfw_keyboard_input.h"
 
-namespace ogle {
-
-/// Type for a 3D Vertex buffer.
-using VertexBuffer = Buffer<Vector3f>;
-
-/**
- * @brief 3D geometry mesh.
- * Takes ownership of its buffers.
- */
-class Mesh {
- public:
-  /**
-   * @brief Creates an empty mesh.
-   */
-  Mesh();
-
-  /**
-   * @brief Destructor.
-   *
-   * Deletes all buffers.
-   */
-  ~Mesh();
-
-  /**
-   * @brief Gives ownership of buffers to mesh.
-   * @param vertices Vertex buffer. Invalid after call.
-   */
-  void StealBuffers(VertexBuffer&& vertices);  // NOLINT
-
-  /**
-   * @brief Provides access to vertex buffer.
-   * @return Reference to mesh vertices.
-   */
-  const VertexBuffer& vertices() const;
-
- protected:
-  /// Vertex buffer.
-  VertexBuffer vertices_;
-};
-
-}  // namespace ogle
-
-#endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
+#endif  // LIBRARIES_INPUT_INCLUDES_INPUT_OGLE_INPUT_H_

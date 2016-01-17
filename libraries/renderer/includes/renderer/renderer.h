@@ -35,8 +35,8 @@ class Renderer {
  public:
   /**
    * @brief Render object.
-   * @param[in] position Where to draw object.
-   * @param[in] camera Camera to render from.
+   * @param position Where to draw object.
+   * @param camera Camera to render from.
    */
   virtual void Render(const Vector3f& position,
                       const Camera &camera) = 0;

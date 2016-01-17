@@ -53,7 +53,7 @@ class Vector {
 
   /**
    * @brief Constructor that takes list of values.
-   * @param[in] ts Initializer list, or variable-length list of
+   * @param ts Initializer list, or variable-length list of
    *     parameters, to set data. The exact number of arguments
    *     to set the Vector is required.
    */
@@ -65,7 +65,7 @@ class Vector {
 
   /**
    * @brief Constructor that initializes Vector from array.
-   * @param[in] data Array of values copied into vector.
+   * @param data Array of values copied into vector.
    */
   explicit Vector(const T data[K]) {
     std::copy(data, data + K, data_.begin());
@@ -73,7 +73,7 @@ class Vector {
 
   /**
   * @brief Subscript operator that allows modification.
-  * @param[in] index Index into vector. It is an error to use an
+  * @param index Index into vector. It is an error to use an
   *     index past its end.
   * @returns Reference to element in Vector.
   */
@@ -84,7 +84,7 @@ class Vector {
 
   /**
    * @brief Copy assignment operator.
-   * @param[in] rhs Vector to copy data from.
+   * @param rhs Vector to copy data from.
    * @return Reference to this Vector.
    */
   Vector& operator=(const Vector& rhs) noexcept {
@@ -93,8 +93,8 @@ class Vector {
 
   /**
    * @brief Equality operator.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return true if both Vectors have exactly the same values.
    */
   friend const bool operator==(const Vector& lhs,
@@ -104,7 +104,7 @@ class Vector {
 
   /**
   * @brief Subscript operator that bars modification.
-  * @param[in] index Index into vector. It is an error to use an
+  * @param index Index into vector. It is an error to use an
   *     index past its end.
   * @returns Copy of element.
   */
@@ -116,7 +116,7 @@ class Vector {
   /**
    * @brief Output stream operator, writes in human-readable format.
    * @param[in,out] os Output stream.
-   * @param[in] rhs Vector to write.
+   * @param rhs Vector to write.
    * @return Reference to @p os.
    */
   friend std::ostream& operator<<(std::ostream& os, const Vector& rhs) {
@@ -129,8 +129,8 @@ class Vector {
 
   /**
    * @brief Computes @p lhs + @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return New Vector containing result.
    */
   friend const Vector operator+(const Vector& lhs, const Vector& rhs) noexcept {
@@ -139,7 +139,7 @@ class Vector {
 
   /**
    * @brief Adds @p rhs to this Vector.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return Reference to this Vector.
    */
   Vector& operator+=(const Vector& rhs) noexcept {
@@ -148,7 +148,7 @@ class Vector {
 
   /**
    * @brief Computes negation of @p v.
-   * @param[in] v Right operand.
+   * @param v Right operand.
    * @return New Vector containing result.
    */
   friend const Vector operator-(const Vector& v) noexcept {
@@ -157,8 +157,8 @@ class Vector {
 
   /**
    * @brief Computes @p lhs - @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right Operand.
+   * @param lhs Left operand.
+   * @param rhs Right Operand.
    * @return New Vector containing result.
    */
   friend const Vector operator-(const Vector& lhs, const Vector& rhs) noexcept {
@@ -167,7 +167,7 @@ class Vector {
 
   /**
    * @brief Subtracts @p rhs from this Vector.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return Reference to this Vector.
    */
   Vector& operator-=(const Vector& rhs) noexcept {
@@ -176,8 +176,8 @@ class Vector {
 
   /**
    * @brief Computes dot product of @p lhs and @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return The product.
    */
   friend const T operator*(const Vector& lhs, const Vector& rhs) noexcept {
@@ -188,8 +188,8 @@ class Vector {
 
   /**
    * @brief Computes @p lhs scaled by @p factor.
-   * @param[in] lhs Vector to scale.
-   * @param[in] factor Scale factor.
+   * @param lhs Vector to scale.
+   * @param factor Scale factor.
    * @return New Vector containing result.
    */
   friend const Vector operator*(const Vector& lhs, const T factor) noexcept {
@@ -198,8 +198,8 @@ class Vector {
 
   /**
    * @brief Computes @p rhs scaled by @p factor.
-   * @param[in] factor Scale factor.
-   * @param[in] rhs Vector to scale.
+   * @param factor Scale factor.
+   * @param rhs Vector to scale.
    * @return New Vector containing result.
    */
   friend const Vector operator*(const T factor, const Vector& rhs) noexcept {
@@ -208,7 +208,7 @@ class Vector {
 
   /**
    * @brief Scales this Vector in place.
-   * @param[in] factor Scale factor.
+   * @param factor Scale factor.
    * @return Reference to this Vector.
    */
   Vector& operator*=(const T factor) noexcept {
@@ -220,8 +220,8 @@ class Vector {
    *
    * Division is done even if @p factor is 0. No special action is taken.
    *
-   * @param[in] lhs Vector to divide.
-   * @param[in] factor Factor to divide by.
+   * @param lhs Vector to divide.
+   * @param factor Factor to divide by.
    * @return New Vector containing result.
    */
   friend const Vector operator/(const Vector& lhs, const T factor) {
@@ -233,7 +233,7 @@ class Vector {
    *
    * Division is done even if @p factor is 0. No special action is taken.
    *
-   * @param[in] factor Factor to divide by.
+   * @param factor Factor to divide by.
    * @return Reference to this Vector.
    */
   Vector& operator/=(const T factor) {
@@ -242,7 +242,7 @@ class Vector {
 
   /**
    * @brief Computes dot product of this Vector with @p rhs.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return The product.
    */
   const T Dot(const Vector& rhs) const noexcept {
@@ -254,7 +254,7 @@ class Vector {
    *
    * Only enabled for 3D Vectors.
    *
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return New Vector containing result.
    */
   template<VectorIndex N>
@@ -268,7 +268,7 @@ class Vector {
 
   /**
    * @brief Sets all data in Vector to @p value.
-   * @param[in] value
+   * @param value
    */
   void Set(const T value) noexcept {
     data_.fill(value);
@@ -294,7 +294,7 @@ class Vector {
 
   /**
    * @brief A copy of this Vector, with one extra element.
-   * @param[in] value Value to insert in extra element.
+   * @param value Value to insert in extra element.
    * @return New Vector containing result.
    */
   const Vector<T, K + 1> Expanded(const T value) const noexcept {
@@ -413,7 +413,7 @@ class Vector {
  private:
   /**
    * @brief Performs unary operation on this Vector.
-   * @param[in] op Operation to perform.
+   * @param op Operation to perform.
    * @return Reference to this Vector.
    */
   template <typename UnaryOperator>
@@ -424,8 +424,8 @@ class Vector {
 
   /**
    * @brief Performs binary operation on this Vector.
-   * @param[in] rhs Other Vector to use in operation.
-   * @param[in] op Operation to perform.
+   * @param rhs Other Vector to use in operation.
+   * @param op Operation to perform.
    * @return Reference to this Vector.
    */
   template <typename BinaryOperator>

@@ -31,7 +31,7 @@ class MeshRenderer : public Renderer {
  public:
   /**
    * @brief Constructor.
-   * @param[in] mesh Handle to mesh to render.
+   * @param mesh Handle to mesh to render.
    */
   explicit MeshRenderer(std::shared_ptr<Mesh> mesh);
 

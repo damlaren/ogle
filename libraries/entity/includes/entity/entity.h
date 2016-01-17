@@ -34,7 +34,7 @@ class Entity {
  public:
     /**
    * @brief Constructor.
-   * @param[in] renderer Renderer to use to draw this Entity.  Rendering is
+   * @param renderer Renderer to use to draw this Entity.  Rendering is
    *     skipped if one is not provided.
    */
   explicit Entity(std::shared_ptr<Renderer> renderer);
@@ -44,7 +44,7 @@ class Entity {
    *
    * Rendering is skipped if no Renderer is set on this object.
    *
-   * @param[in] camera Camera to render from.
+   * @param camera Camera to render from.
    */
   void Render(const Camera &camera);
 

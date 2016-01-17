@@ -16,12 +16,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "easylogging++.h"  // NOLINT
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "input/glfw_keyboard_input.h"
 
 namespace ogle {
 
-GLFWWindow::GLFWWindow(int width, int height, const std::string& title,
-                       int opengl_major_version, int opengl_minor_version,
-                       int msaa_samples)
+GLFWWindow::GLFWWindow(const int width, const int height,
+                       const std::string& title, const int opengl_major_version,
+                       const int opengl_minor_version, const int msaa_samples)
     : Window(), window_width_(width), window_height_(height) {
   window_ = nullptr;
 
@@ -79,12 +80,15 @@ void GLFWWindow::SwapBuffers() {
 bool GLFWWindow::HandleWindowEvents() {
   glfwPollEvents();
 
-  if (glfwGetKey(window_, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-      glfwWindowShouldClose(window_) == 0) {
+  if (glfwWindowShouldClose(window_) == 0) {
     return true;
   } else {
     return false;
   }
+}
+
+void GLFWWindow::AttachKeyboard(GLFWKeyboardInput* keyboard) {
+  keyboard->AttachToWindow(window_);
 }
 
 void GLFWWindow::LogGLFWError(int error, const char *description) {

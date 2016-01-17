@@ -32,82 +32,82 @@ class Angle {
  public:
   /**
    * @brief Constructor.
-   * @param[in] radians Angle, in radians.
+   * @param radians Angle, in radians.
    */
   explicit Angle(const float radians);
 
   /**
    * @brief Prints angle, in degrees.
    * @param[in,out] os Output stream.
-   * @param[in] rhs Angle to print.
+   * @param rhs Angle to print.
    * @return Reference to @p os.
    */
   friend std::ostream& operator<<(std::ostream& os, const Angle rhs);
 
   /**
    * @brief Computes @p lhs + @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return New Angle with result.
    */
   friend const Angle operator+(const Angle lhs, const Angle rhs);
 
   /**
    * @brief Add Angle to this one.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return Reference to this Angle.
    */
   Angle& operator+=(const Angle rhs);
 
   /**
    * @brief Computes @p lhs - @p rhs.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return New Angle with result.
    */
   friend const Angle operator-(const Angle lhs, const Angle rhs);
 
   /**
    * @brief Subtracts @p rhs from this Angle.
-   * @param[in] rhs Right operand.
+   * @param rhs Right operand.
    * @return Reference to this Angle.
    */
   Angle& operator-=(const Angle rhs);
 
   /**
    * @brief Computes Angle multiplied by a scale factor.
-   * @param[in] scale Scale factor.
-   * @param[in] rhs Right Angle operand.
+   * @param scale Scale factor.
+   * @param rhs Right Angle operand.
    * @return New Angle with result.
    */
   friend const Angle operator*(const float scale, const Angle rhs);
 
   /**
    * @brief Computes Angle multiplied by a scale factor.
-   * @param[in] lhs Left Angle operand.
-   * @param[in] scale Scale factor.
+   * @param lhs Left Angle operand.
+   * @param scale Scale factor.
    * @return New Angle with result.
    */
   friend const Angle operator*(const Angle lhs, const float scale);
 
   /**
    * @brief Scales this Angle.
-   * @param[in] scale Scale factor.
+   * @param scale Scale factor.
    * @return Reference to this Angle.
    */
   Angle& operator*=(const float scale);
 
   /**
    * @brief Computes Angle divided by a scale factor.
-   * @param[in] lhs Left Angle operand.
-   * @param[in] scale Scale factor. Not checked for divide by 0.
+   * @param lhs Left Angle operand.
+   * @param scale Scale factor. Not checked for divide by 0.
    * @return New Angle with result.
    */
   friend const Angle operator/(const Angle lhs, const float scale);
 
   /**
    * @brief Divides this Angle by a scale factor.
-   * @param[in] scale Scale factor. Not checked for divide by 0.
+   * @param scale Scale factor. Not checked for divide by 0.
    * @return Reference to this Angle.
    */
   Angle& operator/=(const float scale);
@@ -115,8 +115,8 @@ class Angle {
   //@{
   /**
    * @brief Angle comparison operators. Always compare raw radian values.
-   * @param[in] lhs Left operand.
-   * @param[in] rhs Right operand.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
    * @return true/false depending on comparison outcome.
    */
   friend const bool operator<(const Angle lhs, const Angle rhs);
@@ -128,7 +128,7 @@ class Angle {
 
   /**
    * @brief Constructs an Angle from a value in degrees.
-   * @param[in] degrees Angle value.
+   * @param degrees Angle value.
    * @return New Angle.
    */
   static const Angle FromDegrees(const float degrees);
@@ -148,7 +148,7 @@ class Angle {
  private:
   /**
    * @brief Clip value between +/- PI.
-   * @param[in] radians Value to clip, in radians.
+   * @param radians Value to clip, in radians.
    * @return Clipped value.
    */
   static const float Clip(const float radians);
