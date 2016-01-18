@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <assert.h>
 #include "math/angle.h"
+#include "math/matrix.h"
 #include "math/vector.h"
 
 namespace ogle {
@@ -221,6 +222,71 @@ class Quaternion {
   const Angle RotationAngle() const {
     assert(scalar_ >= static_cast<T>(-1) && scalar_ <= static_cast<T>(1));
     return {2.f * acos(scalar_)};
+  }
+
+  /**
+   * @brief Constructs a rotation matrix for right-handed frame.
+   * @return New Matrix.
+   */
+  const Matrix<T, 4, 4> RotationMatrix3D() const {
+    const float x = qx();
+    const float y = qy();
+    const float z = qz();
+    const float w = qw();
+    return {1.f - 2.f*y*y - 2.f*z*z, 2.f*x*y + 2.f*z*w, 2.f*x*z - 2.f*y*w, 0.f,
+            2.f*x*y - 2.f*z*w, 1.f - 2.f*x*x - 2.f*z*z, 2.f*y*z + 2.f*x*w, 0.f,
+            2.f*x*z + 2.f*y*w, 2.f*y*z - 2.f*x*w, 1.f - 2.f*x*x - 2.f*y*y, 0.f,
+            0.f, 0.f, 0.f, 1.f};
+  }
+
+  // Adapted from:
+  // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+  /**
+   * @brief Computes Quaternion from rotation matrix.
+   * @param r Rotation matrix. (Really, assumed to be a rotation matrix).
+   * @return New Quaternion.
+   */
+  static const Quaternion<T> RotationMatrixToQuaternion(
+    const Matrix<T, 4, 4> &r) {
+    const T m00 = r(0, 0);
+    const T m11 = r(1, 1);
+    const T m22 = r(2, 2);
+    const T m21 = r(2, 1);
+    const T m12 = r(1, 2);
+    const T m02 = r(0, 2);
+    const T m20 = r(2, 0);
+    const T m10 = r(1, 0);
+    const T m01 = r(0, 1);
+    const T trace = m00 + m11 + m22;
+
+    float qw, qx, qy, qz;
+    if (trace > 0) {
+      const T S = sqrt(trace + 1) * 2;
+      qw = static_cast<T>(0.25) * S;
+      qx = (m21 - m12) / S;
+      qy = (m02 - m20) / S;
+      qz = (m10 - m01) / S;
+    } else if ((m00 > m11) & (m00 > m22)) {
+      const T S = sqrt(1 + m00 - m11 - m22) * 2;
+      qw = (m21 - m12) / S;
+      qx = 0.25 * S;
+      qy = (m01 + m10) / S;
+      qz = (m02 + m20) / S;
+    } else if (m11 > m22) {
+      const T S = sqrt(1 + m11 - m00 - m22) * 2;
+      qw = (m02 - m20) / S;
+      qx = (m01 + m10) / S;
+      qy = 0.25 * S;
+      qz = (m12 + m21) / S;
+    } else {
+      const T S = sqrt(1 + m22 - m00 - m11) * 2;
+      qw = (m10 - m01) / S;
+      qx = (m02 + m20) / S;
+      qy = (m12 + m21) / S;
+      qz = 0.25 * S;
+    }
+
+    return {{qx, qy, qz}, qw};
   }
 
  private:

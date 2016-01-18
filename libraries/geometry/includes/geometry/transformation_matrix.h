@@ -17,7 +17,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "math/angle.h"
 #include "math/matrix.h"
-#include "math/quaternion.h"
 
 namespace ogle {
 
@@ -64,13 +63,6 @@ class TransformationMatrix {
    * @return Resulting Matrix.
    */
   static const Matrix44f RotationMatrixZ3D(const Angle theta_x);
-
-  /**
-   * @brief Builds a rotation Matrix from a Quaternion.
-   * @param q Quaternion.
-   * @return Resulting Matrix.
-   */
-  static const Matrix44f RotationMatrix3D(const Quaternionf q);
 
   /**
    * @brief Builds a camera view matrix.
