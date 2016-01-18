@@ -4,6 +4,7 @@ set(INC_LIST
   includes/math/angle.h
   includes/math/ogle_math.h
   includes/math/matrix.h
+  includes/math/quaternion.h
   includes/math/vector.h
 )
 add_custom_target(ogle_math_headers SOURCES ${INC_LIST})

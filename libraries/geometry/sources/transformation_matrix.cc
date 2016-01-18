@@ -73,6 +73,17 @@ const Matrix44f TransformationMatrix::RotationMatrixZ3D(const Angle theta_x) {
           0.f, 0.f, 0.f, 1.f};
 }
 
+const Matrix44f TransformationMatrix::RotationMatrix3D(const Quaternionf q) {
+  const float x = q.qx();
+  const float y = q.qy();
+  const float z = q.qz();
+  const float w = q.qw();
+  return {1.f - 2.f*y*y - 2.f*z*z, 2.f*x*y + 2.f*z*w, 2.f*x*z - 2.f*y*w, 0.f,
+          2.f*x*y - 2.f*z*w, 1.f - 2.f*x*x - 2.f*z*z, 2.f*y*z + 2.f*x*w, 0.f,
+          2.f*x*z + 2.f*y*w, 2.f*y*z - 2.f*x*w, 1.f - 2.f*x*x - 2.f*y*y, 0.f,
+          0.f, 0.f, 0.f, 1.f};
+}
+
 const Matrix44f TransformationMatrix::ViewMatrix3D(
     const Vector3f& camera_position, const Vector3f& forward_vector,
     const Vector3f& up_vector) {

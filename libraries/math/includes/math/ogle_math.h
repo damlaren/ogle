@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "math/angle.h"
 #include "math/matrix.h"
+#include "math/quaternion.h"
 #include "math/vector.h"
 
 #endif  // LIBRARIES_MATH_INCLUDES_MATH_OGLE_MATH_H_

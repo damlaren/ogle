@@ -37,18 +37,24 @@ using VectorIndex = std::uint64_t;
 template <typename T, VectorIndex K>
 class Vector {
  public:
-  // Declare friend classes so Shrunk & Expanded can access data!
+  // Declare friend classes so #Shrunk and #Expanded can access data.
   friend class Vector<T, K - 1>;
   friend class Vector<T, K + 1>;
 
-  static_assert(K > 0, "Vector have at least 1 element.");
-  static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
-                "Vector must use numeric type.");
+  static_assert(K > 0, "Vector must have at least 1 element.");
 
   /**
    * @brief Default constructor. Does not init values.
    */
   Vector() noexcept {
+  }
+
+  /**
+   * @brief Copy constructor.
+   * @param other Vector to copy into this one.
+   */
+  Vector(const Vector& other) noexcept
+    : data_(other.data_) {
   }
 
   /**
@@ -69,6 +75,17 @@ class Vector {
    */
   explicit Vector(const T data[K]) {
     std::copy(data, data + K, data_.begin());
+  }
+
+  /**
+  * @brief Subscript operator that bars modification.
+  * @param index Index into vector. It is an error to use an
+  *     index past its end.
+  * @returns Copy of element.
+  */
+  const T operator()(VectorIndex index) const {
+    assert(index < K);
+    return data_[index];
   }
 
   /**
@@ -100,17 +117,6 @@ class Vector {
   friend const bool operator==(const Vector& lhs,
                                const Vector& rhs) noexcept {
     return lhs.data_ == rhs.data_;
-  }
-
-  /**
-  * @brief Subscript operator that bars modification.
-  * @param index Index into vector. It is an error to use an
-  *     index past its end.
-  * @returns Copy of element.
-  */
-  const T operator()(VectorIndex index) const {
-    assert(index < K);
-    return data_[index];
   }
 
   /**
@@ -351,6 +357,7 @@ class Vector {
    * @return As above.
    */
   const bool HasUnitNorm() const noexcept {
+    // TODO(damlaren): EPSILON.
     return NormSquared() == static_cast<T>(1);
   }
 
@@ -442,6 +449,7 @@ class Vector {
 //@{
 /// Shorthand types.
 using Vector3f = Vector<float, 3>;
+using Vector4f = Vector<float, 4>;
 //@}
 
 }  // namespace ogle

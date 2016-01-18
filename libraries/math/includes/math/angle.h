@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Some extra definitions for trigonometry.
+ * @file Defines Angle.
  */
 
 #ifndef LIBRARIES_MATH_INCLUDES_MATH_ANGLE_H_
