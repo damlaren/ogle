@@ -24,7 +24,9 @@ namespace ogle {
 /**
  * @brief A unit-length quaternion: Q = (qx*i + qy*j + qz*k) + qw.
  *
- * New Quaternions are forcibly normalized.
+ * All new Quaternions are forcibly normalized, and access to their components
+ * is restricted to enforce this condition. A Quaternion consists of a scalar
+ * component encoding the angle of rotation, and the axis of rotation itself.
  */
 template<typename T>
 class Quaternion {

@@ -43,7 +43,7 @@ PerspectiveCamera::~PerspectiveCamera() {
 
 Matrix44f PerspectiveCamera::GetViewMatrix() const {
   // TODO(damlaren): orientation is hardcoded.
-  return TransformationMatrix::ViewMatrix3D(world_position_,
+  return TransformationMatrix::ViewMatrix3D(transform_.world_position(),
                                             Vector3f(0.f, 0.f, -1.f),
                                             Vector3f(0.f, 1.f, 0.f));
 }

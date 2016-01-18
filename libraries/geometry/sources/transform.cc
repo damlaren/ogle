@@ -9,42 +9,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Camera.
+ * @file Implements transform.h.
  */
-
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_CAMERA_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_CAMERA_H_
 
 #include "geometry/transform.h"
 
 namespace ogle {
 
-/**
- * @brief A camera positioned in the world.
- */
-class Camera {
- public:
-  /**
-   * @brief Virtual destructor.
-   */
-  virtual ~Camera();
+Transform::Transform()
+  : world_position_{0.f, 0.f, 0.f}, world_orientation_{} {
+}
 
-  /**
-   * @brief Computes view matrix from current camera state.
-   * @return Matrix.
-   */
-  virtual Matrix44f GetViewMatrix() const = 0;
+Transform::~Transform() {
+}
 
-  /**
-   * @brief Computes projection matrix from current camera state.
-   * @return Matrix.
-   */
-  virtual Matrix44f GetProjectionMatrix() const = 0;
+void Transform::set_world_position(const Vector3f new_position) {
+  world_position_ = new_position;
+}
 
-  /// Object location and orientation.
-  Transform transform_;
-};
+const Vector3f& Transform::world_position() const {
+  return world_position_;
+}
 
 }  // namespace ogle
-
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_CAMERA_H_

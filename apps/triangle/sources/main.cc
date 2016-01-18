@@ -64,7 +64,7 @@ class TriangleApplication : public GLFWApplication {
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         static_cast<float>(kWindowWidth) / kWindowHeight);
-    camera_->world_position_ = {0.f, 0.f, 3.0f};
+    camera_->transform_.set_world_position({0.f, 0.f, 3.0f});
   }
 
   ~TriangleApplication() override {
@@ -88,8 +88,8 @@ class TriangleApplication : public GLFWApplication {
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
       move_dir += ogle::Vector3f(kDelta, 0.f, 0.f);
     }
-    camera_->world_position_ += move_dir;
-    LOG(INFO) << camera_->world_position_;
+    camera_->transform_.set_world_position(
+        camera_->transform_.world_position() + move_dir);
 
     // Move triangle.
     float t = static_cast<float>(loop_count_) / kMoveCycleTicks;

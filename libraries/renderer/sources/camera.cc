@@ -16,9 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Camera::Camera() : world_position_{0.f, 0.f, 0.f} {
-}
-
 Camera::~Camera() {
 }
 

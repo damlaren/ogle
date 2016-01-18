@@ -4,12 +4,14 @@ set(INC_LIST
   includes/geometry/buffer.h
   includes/geometry/mesh.h
   includes/geometry/ogle_geometry.h
+  includes/geometry/transform.h
   includes/geometry/transformation_matrix.h
 )
 add_custom_target(ogle_geometry_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
   sources/mesh.cc
+  sources/transform.cc
   sources/transformation_matrix.cc
 )
 add_library(ogle_geometry "${SRC_LIST}")
