@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_TRANSFORM_H_
 
 #include "math/angle.h"
-#include "math/quaternion.h"
 #include "math/matrix.h"
+#include "math/quaternion.h"
 #include "math/vector.h"
 
 namespace ogle {
