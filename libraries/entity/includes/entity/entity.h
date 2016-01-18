@@ -16,12 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_ENTITY_INCLUDES_ENTITY_ENTITY_H_
 
 #include <memory>
-#include "math/vector.h"
+#include "geometry/transform.h"
 
 namespace ogle {
 
 class Camera;
-
 class Renderer;
 
 /**
@@ -48,10 +47,11 @@ class Entity {
    */
   void Render(const Camera &camera);
 
-  /// World position.  TODO(damlaren): full transform.
-  Vector3f position_;
+  /// Entity location and orientation.
+  Transform transform_;
 
  private:
+  // TODO(damlaren): This should be a component.
   /// Renderer used to display Entity.
   std::shared_ptr<Renderer> renderer_;
 };

@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "renderer/glfw_mesh_renderer.h"
 #include "geometry/mesh.h"
+#include "geometry/transform.h"
 #include "geometry/transformation_matrix.h"
 #include "renderer/camera.h"
 #include "renderer/glsl_shader.h"
@@ -59,17 +60,19 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
   glDeleteVertexArrays(1, &vertex_array_id_);
 }
 
-void GLFWMeshRenderer::Render(const Vector3f& position,
+void GLFWMeshRenderer::Render(const Transform& transform,
                               const Camera &camera) {
   shader_program_->UseProgram();
 
-  Matrix44f translation_matrix =
-      TransformationMatrix::TranslationMatrix3D(position);
+  // TODO(damlaren): Orient too.
+  Matrix44f model_matrix =
+      TransformationMatrix::TranslationMatrix3D(transform.world_position());
+
   Matrix44f view_matrix = camera.GetViewMatrix();
   Matrix44f projection_matrix = camera.GetProjectionMatrix();
 
   shader_program_->SetUniformMatrix44f(ShaderProgram::kModelMatrixArg,
-                                       translation_matrix);
+                                       model_matrix);
   shader_program_->SetUniformMatrix44f(ShaderProgram::kViewMatrixArg,
                                        view_matrix);
   shader_program_->SetUniformMatrix44f(ShaderProgram::kProjectionMatrixArg,

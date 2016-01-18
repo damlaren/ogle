@@ -42,7 +42,7 @@ class GLFWMeshRenderer : public MeshRenderer {
    */
   ~GLFWMeshRenderer() override;
 
-  void Render(const Vector3f& position,
+  void Render(const Transform& transform,
               const Camera &camera) override;
 
  private:

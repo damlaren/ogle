@@ -93,13 +93,13 @@ class TriangleApplication : public GLFWApplication {
 
     // Move triangle.
     float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
-    triangle_->position_ = ogle::Vector3f(kXRange * static_cast<float>(cos(t)),
-                                          0.f, 0.f);
+    triangle_->transform_.set_world_position(
+        ogle::Vector3f(kXRange * static_cast<float>(cos(t)), 0.f, 0.f));
     window_->ClearWindow();
     triangle_->Render(*camera_.get());
     window_->SwapBuffers();
 
-    // Cleanup.
+    // Cleanup. TODO(damlaren): Reorganize loop structure.
     keyboard_->Clear();
 
     ++loop_count_;

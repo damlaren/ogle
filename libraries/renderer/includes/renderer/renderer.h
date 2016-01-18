@@ -22,6 +22,7 @@ namespace ogle {
 
 class Camera;
 class Mesh;
+class Transform;
 
 /**
  * @brief Base class for all Renderers.
@@ -35,10 +36,10 @@ class Renderer {
  public:
   /**
    * @brief Render object.
-   * @param position Where to draw object.
+   * @param transform Position and orientation at which to render.
    * @param camera Camera to render from.
    */
-  virtual void Render(const Vector3f& position,
+  virtual void Render(const Transform& position,
                       const Camera &camera) = 0;
 
  protected:
