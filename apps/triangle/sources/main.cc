@@ -77,7 +77,7 @@ class TriangleApplication : public GLFWApplication {
     }
 
     // Move camera.
-    constexpr float kDelta = 0.01f;
+    constexpr float kDelta = 0.03f;
     ogle::Vector3f move_dir(0.f, 0.f, 0.f);
     if (keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
       move_dir += ogle::Vector3f(0.f, 0.f, -kDelta);
