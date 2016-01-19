@@ -55,14 +55,14 @@ class TransformationMatrix {
    * @param theta_y
    * @return Resulting Matrix.
    */
-  static const Matrix44f RotationMatrixY3D(const Angle theta_x);
+  static const Matrix44f RotationMatrixY3D(const Angle theta_y);
 
   /**
    * @brief Builds a Matrix to rotate about Z axis.
    * @param theta_z
    * @return Resulting Matrix.
    */
-  static const Matrix44f RotationMatrixZ3D(const Angle theta_x);
+  static const Matrix44f RotationMatrixZ3D(const Angle theta_z);
 
   /**
    * @brief Builds a camera view matrix.
