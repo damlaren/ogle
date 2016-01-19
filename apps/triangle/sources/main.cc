@@ -78,23 +78,28 @@ class TriangleApplication : public GLFWApplication {
 
     // Move camera.
     constexpr float kDelta = 0.03f;
-    ogle::Vector3f move_dir(0.f, 0.f, 0.f);
+    ogle::Vector3f move_dir{0.f, 0.f, 0.f};
     if (keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
-      move_dir += ogle::Vector3f(0.f, 0.f, -kDelta);
+      move_dir += ogle::Vector3f{0.f, 0.f, -kDelta};
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
-      move_dir += ogle::Vector3f(0.f, 0.f, kDelta);
+      move_dir += ogle::Vector3f{0.f, 0.f, kDelta};
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
-      move_dir += ogle::Vector3f(-kDelta, 0.f, 0.f);
+      move_dir += ogle::Vector3f{-kDelta, 0.f, 0.f};
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
-      move_dir += ogle::Vector3f(kDelta, 0.f, 0.f);
+      move_dir += ogle::Vector3f{kDelta, 0.f, 0.f};
     }
     camera_->transform_.set_world_position(
         camera_->transform_.world_position() + move_dir);
+    camera_->transform_.set_world_orientation(
+        ogle::Quaternion<float>::RotationMatrixToQuaternion(
+            ogle::TransformationMatrix::RotationMatrixYPR(
+                ogle::Angle::FromDegrees(180.f), ogle::Angle(0.f),
+                ogle::Angle(0.f))));
 
     // Move triangle.
-    float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
+    const float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
     triangle_->transform_.set_world_position(
-        ogle::Vector3f(kXRange * static_cast<float>(cos(t)), 0.f, 0.f));
+        {kXRange * static_cast<float>(cos(t)), 0.f, 0.f});
     window_->ClearWindow();
     triangle_->Render(*camera_.get());
     window_->SwapBuffers();

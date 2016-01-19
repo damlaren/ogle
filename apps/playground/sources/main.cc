@@ -31,7 +31,7 @@ void TestVector() {
   v4.w();
 
   ogle::Vector<double, 2> v5{0.0, 1.0};
-  ogle::Vector<double, 2> v6(0.0, 1.0);
+  ogle::Vector<double, 2> v6{0.0, 1.0};
   const double test[2] = {0, 1};
   ogle::Vector<double, 2> v7(test);
   double test2[2] = {0, 1};
@@ -48,8 +48,8 @@ void TestVector() {
   r1 -= p1;
   cout << r1 << endl;  // 0,0,0
 
-  Vector3f d1(1.0f, 2.0f, 3.0f);
-  Vector3f d2(1.0f, 0.0f, -1.0f);
+  Vector3f d1{1.0f, 2.0f, 3.0f};
+  Vector3f d2{1.0f, 0.0f, -1.0f};
   cout << d1 * d2 << endl;  // -2
   cout << d1.Dot(d2) << endl;  // -2
   cout << d1 * 2 << endl;  // 2,4,6

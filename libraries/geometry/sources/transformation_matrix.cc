@@ -36,41 +36,44 @@ const Matrix44f TransformationMatrix::TranslationMatrix3D(
           0.f, 0.f, 0.f, 1.f};
 }
 
-const Matrix44f TransformationMatrix::ScalingMatrix3D(const Vector3f& scales) {
-  return {scales.x(), 0.f, 0.f, 0.f,
-          0.f, scales.y(), 0.f, 0.f,
-          0.f, 0.f, scales.z(), 0.f,
-          0.f, 0.f, 0.f, 1.f};
+const Matrix33f TransformationMatrix::ScalingMatrix3D(const Vector3f& scales) {
+  return {scales.x(), 0.f, 0.f,
+          0.f, scales.y(), 0.f,
+          0.f, 0.f, scales.z()};
 }
 
-const Matrix44f TransformationMatrix::RotationMatrixX3D(const Angle theta_x) {
+const Matrix33f TransformationMatrix::RotationMatrixX3D(const Angle theta_x) {
   const float t = theta_x.radians();
   const float c = cos(t);
   const float s = sin(t);
-  return {1.f, 0.f, 0.f, 0.f,
-          0.f, c,   s,   0.f,
-          0.f, -s,  c,   0.f,
-          0.f, 0.f, 0.f, 1.f};
+  return {1.f, 0.f, 0.f,
+          0.f, c,   s,
+          0.f, -s,  c};
 }
 
-const Matrix44f TransformationMatrix::RotationMatrixY3D(const Angle theta_y) {
+const Matrix33f TransformationMatrix::RotationMatrixY3D(const Angle theta_y) {
   const float t = theta_y.radians();
   const float c = cos(t);
   const float s = sin(t);
-  return {c, 0.f, -s, 0.f,
-          0.f, 1.f, 0.f, 0.f,
-          s, 0.f, c, 0.f,
-          0.f, 0.f, 0.f, 1.f};
+  return {c, 0.f, -s,
+          0.f, 1.f, 0.f,
+          s, 0.f, c};
 }
 
-const Matrix44f TransformationMatrix::RotationMatrixZ3D(const Angle theta_z) {
+const Matrix33f TransformationMatrix::RotationMatrixZ3D(const Angle theta_z) {
   const float t = theta_z.radians();
   const float c = cos(t);
   const float s = sin(t);
-  return {c,   s,   0.f, 0.f,
-          -s,  c,   0.f, 0.f,
-          0.f, 0.f, 1.f, 0.f,
-          0.f, 0.f, 0.f, 1.f};
+  return {c,   s,   0.f,
+          -s,  c,   0.f,
+          0.f, 0.f, 1.f};
+}
+
+const Matrix33f TransformationMatrix::RotationMatrixYPR(const Angle yaw,
+                                                        const Angle pitch,
+                                                        const Angle roll) {
+  return RotationMatrixX3D(roll) * RotationMatrixZ3D(pitch) *
+         RotationMatrixY3D(yaw);
 }
 
 const Matrix44f TransformationMatrix::ViewMatrix3D(

@@ -47,13 +47,32 @@ class Transform {
    * @brief Sets world position and [TODO(damlaren)] adjusts children as well.
    * @param new_position New world position.
    */
-  void set_world_position(const Vector3f new_position);
+  void set_world_position(const Vector3f& new_position);
 
   /**
    * @brief Returns world position.
    * @return .
    */
   const Vector3f& world_position() const;
+
+  /**
+   * @brief set_world_orientation Sets world-space orientation.
+   * @param new_orientation New orientation in world.
+   */
+  void set_world_orientation(const Quaternionf& new_orientation);
+
+  /**
+   * @brief Returns orientation in world space.
+   * @return .
+   */
+  const Quaternionf& world_orientation() const;
+
+  //@{
+  /// Axes that represent front, right, and up directions.
+  static const Vector3f kFrontAxis;
+  static const Vector3f kRightAxis;
+  static const Vector3f kUpAxis;
+  //@}
 
  private:
   /// Position in world space.

@@ -30,39 +30,55 @@ namespace ogle {
 class TransformationMatrix {
  public:
   /**
-   * @brief Builds a translation matrix.
+   * @brief Builds a 3Dtranslation matrix.
+   *
+   * This Matrix is always 4x4.
+   *
    * @param translation Vector to translate by.
    * @return Resulting Matrix.
    */
   static const Matrix44f TranslationMatrix3D(const Vector3f& translation);
 
   /**
-   * @brief Builds a scaling matrix.
+   * @brief Builds a 3x3 scaling Matrix.
    * @param scales Vector containing factors to scale by.
    * @return Resulting Matrix.
    */
-  static const Matrix44f ScalingMatrix3D(const Vector3f& scales);
+  static const Matrix33f ScalingMatrix3D(const Vector3f& scales);
 
   /**
-   * @brief Builds a Matrix to rotate about X axis.
-   * @param theta_x
+   * @brief Builds a 3x3 Matrix to rotate about X axis.
+   * @param theta_x .
    * @return Resulting Matrix.
    */
-  static const Matrix44f RotationMatrixX3D(const Angle theta_x);
+  static const Matrix33f RotationMatrixX3D(const Angle theta_x);
 
   /**
-   * @brief Builds a Matrix to rotate about Y axis.
-   * @param theta_y
+   * @brief Builds a 3x3 Matrix to rotate about Y axis.
+   * @param theta_y .
    * @return Resulting Matrix.
    */
-  static const Matrix44f RotationMatrixY3D(const Angle theta_y);
+  static const Matrix33f RotationMatrixY3D(const Angle theta_y);
 
   /**
-   * @brief Builds a Matrix to rotate about Z axis.
-   * @param theta_z
+   * @brief Builds a 3x3 Matrix to rotate about Z axis.
+   * @param theta_z .
    * @return Resulting Matrix.
    */
-  static const Matrix44f RotationMatrixZ3D(const Angle theta_z);
+  static const Matrix33f RotationMatrixZ3D(const Angle theta_z);
+
+  /**
+   * @brief Builds a rotation Matrix from yaw, pitch, and roll angles.
+   *
+   * Rotation is done in YPR order.
+   *
+   * @param yaw Angle to rotate about local +Y axis.
+   * @param pitch Angle to rotate about +X axis.
+   * @param roll Angle to rotate about +Z axis.
+   * @return New Matrix.
+   */
+  static const Matrix33f RotationMatrixYPR(const Angle yaw, const Angle pitch,
+                                           const Angle roll);
 
   /**
    * @brief Builds a camera view matrix.

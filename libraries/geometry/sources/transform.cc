@@ -23,12 +23,24 @@ Transform::Transform()
 Transform::~Transform() {
 }
 
-void Transform::set_world_position(const Vector3f new_position) {
+void Transform::set_world_position(const Vector3f& new_position) {
   world_position_ = new_position;
 }
 
 const Vector3f& Transform::world_position() const {
   return world_position_;
 }
+
+void Transform::set_world_orientation(const Quaternionf& new_orientation) {
+  world_orientation_ = new_orientation;
+}
+
+const Quaternionf& Transform::world_orientation() const {
+  return world_orientation_;
+}
+
+const Vector3f Transform::kFrontAxis = {1.f, 0.f, 0.f};
+const Vector3f Transform::kRightAxis = {0.f, 0.f, 1.f};
+const Vector3f Transform::kUpAxis = {0.f, 1.f, 0.f};
 
 }  // namespace ogle

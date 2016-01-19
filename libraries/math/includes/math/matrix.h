@@ -36,7 +36,7 @@ using MatrixIndex = std::uint64_t;
  */
 namespace matrix_helpers {
 
-///{@
+//{@
 /**
  * @brief Helper for computing Matrix determinant.
  *
@@ -92,9 +92,9 @@ const T Determinant(const T data[4][4]) {
          data[0][1] * data[1][0] * data[2][2] * data[3][3] +
          data[0][0] * data[1][1] * data[2][2] * data[3][3];
 }
-///@}
+//@}
 
-///{@
+//{@
 /**
  * @brief Helper function for computing Inverse.
  * @param data Raw data from Matrix for which to compute inverse.
@@ -226,7 +226,7 @@ void InverseHelper(const T data[4][4], T result[4][4]) {
                  data[0][0] * data[1][1] * data[2][2];
 }
 
-///@}
+//@}
 
 }  // namespace matrix_helpers
 
@@ -243,8 +243,7 @@ class Matrix {
   static_assert(std::is_integral<T>::value || std::is_floating_point<T>::value,
                 "Matrix must use numeric type.");
 
-  // TODO(damlaren): may want to introduce a more flexible Matrix class later,
-  //     one that allows variation in # of rows and columns.
+  friend class Matrix<T, M + 1, N + 1>;
 
   /**
    * @brief Default constructor. Does not init values.
@@ -271,15 +270,15 @@ class Matrix {
 
   /**
    * @brief Constructor that takes list of data values.
-   * @param ts Initializer list, or variable-length list of parameters,
+   * @param us Initializer list, or variable-length list of parameters,
    *     to set data. The exact number of arguments to set the Matrix is
    *     required. Values in the initializer list set Matrix values row by row.
    */
   template <typename... U>
-  Matrix(U... ts) // NOLINT
-      : data_{ts...} {
+  Matrix(U... us)  // NOLINT
+    : data_{us...} {
     // TODO(damlaren): It seems like a small miracle that initializing a 2D
-    // array in this way from an initializer list works?
+    // array in this way from an initializer list works.
     static_assert(sizeof...(U) == M * N, "Wrong number of arguments.");
   }
 
@@ -389,8 +388,7 @@ class Matrix {
    * @param factor Scalar to multiply by on right.
    * @return New Matrix containing result.
    */
-  friend const Matrix operator*(const Matrix& lhs,
-                                const T factor) noexcept {
+  friend const Matrix operator*(const Matrix& lhs, const T factor) noexcept {
     return Matrix(lhs) *= factor;
   }
 
@@ -434,6 +432,17 @@ class Matrix {
       }
     }
     return result;
+  }
+
+  /**
+   * @brief Computes multiplication of MxN Matrix with N-Vector on right side.
+   * @param lhs Left operand (Matrix).
+   * @param rhs Right operand (Vector).
+   * @return New M-Vector.
+   */
+  friend const Vector<T, M> operator*(const Matrix<T, M, N>& lhs,
+                                      const Vector<T, N> &rhs) {
+    return (lhs * AsMatrix(rhs)).AsVector();
   }
 
   /**
@@ -557,7 +566,7 @@ class Matrix {
   static const Matrix<T, M, 1> AsMatrix(const Vector<T, M>& v) noexcept {
     Matrix<T, M, 1> result;
     for (MatrixIndex i = 0; i < M; i++) {
-      result.data_[i][0] = v(i);
+      result(i, 0) = v(i);
     }
     return result;
   }
@@ -577,11 +586,35 @@ class Matrix {
   }
 
   /**
-   * @brief Provides a pointer to raw data (for use in graphics APIs).
+   * @brief Provides a pointer to raw data.
+   *
+   * Made for use by graphics APIs.
+   *
    * @return Pointer to matrix data.
    */
   const T* data() const noexcept {
     return static_cast<const T*>(data_[0]);
+  }
+
+  /**
+   * @brief Create Matrix that's been expanded for use by a homogeneous Vector.
+   *
+   * The expanded Matrix has one extra row and column. All new off-diagonal
+   * entries are 0.
+   *
+   * @return New Matrix.
+   */
+  const Matrix<T, M + 1, N + 1> ExpandedHomogeneous() const {
+    Matrix<T, M + 1, N + 1> result;
+    for (MatrixIndex i = 0; i < M; i++) {
+      for (MatrixIndex j = 0; j < N; j++) {
+        result.data_[i][j] = data_[i][j];
+      }
+      result.data_[i][N] = static_cast<T>(0);
+    }
+    std::fill(result.data_[M], result.data_[M] + N, static_cast<T>(0));
+    result.data_[M][N] = static_cast<T>(1);
+    return data_;
   }
 
  private:

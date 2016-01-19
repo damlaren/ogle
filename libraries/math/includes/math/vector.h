@@ -59,14 +59,15 @@ class Vector {
 
   /**
    * @brief Constructor that takes list of values.
-   * @param ts Initializer list, or variable-length list of
-   *     parameters, to set data. The exact number of arguments
-   *     to set the Vector is required.
+   * @param values Initializer list to set data. The exact number of arguments
+   *     to fill the Vector is required.
    */
-  template <typename... U>
-  Vector(U... ts)  // NOLINT
-      : data_{ts...} {
-    static_assert(sizeof...(U) == K, "Wrong number of arguments.");
+  Vector(const std::initializer_list<T>& values) {
+    // TODO(damlaren): Would prefer to use a variadic template for this, but
+    // the compiler decides on that constructor too many times. Need to read
+    // about tag dispatch to get that working?
+    assert(values.size() == K);
+    std::copy(values.begin(), values.end(), data_.begin());
   }
 
   /**
@@ -267,9 +268,8 @@ class Vector {
   const Vector Cross(const Vector<T, N>& rhs) const noexcept {
     static_assert(K == 3 && N == 3,
                   "Cross product only works for 3D Vectors.");
-    return Vector(y() * rhs.z() - z() * rhs.y(),
-                  z() * rhs.x() - x() * rhs.z(),
-                  x() * rhs.y() - y() * rhs.x());
+    return {y() * rhs.z() - z() * rhs.y(), z() * rhs.x() - x() * rhs.z(),
+            x() * rhs.y() - y() * rhs.x()};
   }
 
   /**
