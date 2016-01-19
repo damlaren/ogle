@@ -98,7 +98,7 @@ const float Angle::degrees() const noexcept {
   return theta_ * 180.f / kPi;
 }
 const float Angle::Clip(const float radians) {
-  return std::fmod(radians, kPi);
+  return std::fmod(radians, kPi * 2.f);
 }
 
 }  // namespace ogle
