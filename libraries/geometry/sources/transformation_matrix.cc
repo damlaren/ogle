@@ -47,25 +47,25 @@ const Matrix33f TransformationMatrix::RotationMatrixX3D(const Angle theta_x) {
   const float c = cos(t);
   const float s = sin(t);
   return {1.f, 0.f, 0.f,
-          0.f, c,   s,
-          0.f, -s,  c};
+          0.f, c,   -s,
+          0.f, s,  c};
 }
 
 const Matrix33f TransformationMatrix::RotationMatrixY3D(const Angle theta_y) {
   const float t = theta_y.radians();
   const float c = cos(t);
   const float s = sin(t);
-  return {c, 0.f, -s,
+  return {c, 0.f, s,
           0.f, 1.f, 0.f,
-          s, 0.f, c};
+          -s, 0.f, c};
 }
 
 const Matrix33f TransformationMatrix::RotationMatrixZ3D(const Angle theta_z) {
   const float t = theta_z.radians();
   const float c = cos(t);
   const float s = sin(t);
-  return {c,   s,   0.f,
-          -s,  c,   0.f,
+  return {c,   -s,   0.f,
+          s,  c,   0.f,
           0.f, 0.f, 1.f};
 }
 
