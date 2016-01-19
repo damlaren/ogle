@@ -190,7 +190,8 @@ class Vector {
   friend const T operator*(const Vector& lhs, const Vector& rhs) noexcept {
     Vector temp(lhs);
     temp.BinaryOpInPlace(rhs, std::multiplies<T>());
-    return std::accumulate(temp.data_.begin(), temp.data_.end(), 0);
+    return std::accumulate(temp.data_.begin(), temp.data_.end(),
+                           static_cast<T>(0));
   }
 
   /**
@@ -358,7 +359,7 @@ class Vector {
    */
   const bool HasUnitNorm() const noexcept {
     // TODO(damlaren): EPSILON.
-    return NormSquared() == static_cast<T>(1);
+    return fabs(NormSquared() - static_cast<T>(1)) < 1e-4;
   }
 
   /**

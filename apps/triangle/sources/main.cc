@@ -94,7 +94,7 @@ class TriangleApplication : public GLFWApplication {
     camera_->transform_.set_world_orientation(
         ogle::Quaternion<float>::RotationMatrixToQuaternion(
             ogle::TransformationMatrix::RotationMatrixYPR(
-                ogle::Angle::FromDegrees(180.f), ogle::Angle(0.f),
+                ogle::Angle::FromDegrees(90.f), ogle::Angle(0.f),
                 ogle::Angle(0.f))));
 
     // Move triangle.

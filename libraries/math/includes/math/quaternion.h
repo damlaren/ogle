@@ -41,14 +41,6 @@ class Quaternion {
   }
 
   /**
-   * @brief Copy constructor.
-   * @param other Quaternion to copy.
-   */
-  explicit Quaternion(const Quaternion& other)
-    : vector_(other.vector_), scalar_(other.scalar_) {
-  }
-
-  /**
    * @brief Retrieves qx.
    * @return Copy of qx.
    */
@@ -78,16 +70,6 @@ class Quaternion {
    */
   const T qw() const {
     return scalar_;
-  }
-
-  /**
-   * @brief Copy assignment operator.
-   * @param rhs Quaternion to copy.
-   * @return Reference to this Quaternion.
-   */
-  Quaternion& operator=(const Quaternion& rhs) {
-    vector_ = rhs.vector_;
-    scalar_ = rhs.scalar_;
   }
 
   /**
@@ -123,18 +105,17 @@ class Quaternion {
                                     const Quaternion& rhs) {
     return {(lhs.scalar_ * rhs.vector_ + rhs.scalar_ * lhs.vector_ +
              lhs.vector_.Cross(rhs.vector_)),
-            lhs.scalar_ * rhs.scalar_ - lhs.vector_ * rhs.vector_};
+             lhs.scalar_ * rhs.scalar_ - lhs.vector_ * rhs.vector_};
   }
 
   /**
    * @brief Computes rotation of @p vector by this Quaternion.
    * @param rhs Right operand.
-   * @return New Quaternion.
+   * @return New Vector.
    */
-  template<typename U>
-  const Quaternion operator*(const Vector<U, 3>& rhs) {
+  const Vector<T, 3> operator*(const Vector<T, 3>& rhs) const {
     Quaternion v(rhs, static_cast<T>(0), false);  // Unnormalized.
-    return *this * v * Inverse();
+    return (*this * v * Inverse()).vector_;
   }
 
   /**

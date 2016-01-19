@@ -18,14 +18,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-/**
- * @brief Constructor. Enforces constraints on fields.
- *
- * @param[in] near_clip Distance to near clip plane. Must be >= 0, < far_clip.
- * @param[in] far_clip Distance to far clip plane.
- * @param[in] vertical_fov Vertical field of view. Must be > 0.
- * @param[in] aspect_ratio View aspect ratio. Must be > 0.
- */
 PerspectiveCamera::PerspectiveCamera(const float near_clip,
                                      const float far_clip,
                                      const Angle vertical_fov,
@@ -45,7 +37,7 @@ Matrix44f PerspectiveCamera::GetViewMatrix() const {
   // TODO(damlaren): Define axes for front, right, up.
   return TransformationMatrix::ViewMatrix3D(
       transform_.world_position(),
-      transform_.world_orientation().RotationMatrix3D() * Transform::kFrontAxis,
+      (transform_.world_orientation() * Transform::kFrontAxis).NormalizedCopy(),
       {0.f, 1.f, 0.f});
 }
 

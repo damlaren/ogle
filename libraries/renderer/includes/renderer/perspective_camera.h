@@ -24,9 +24,16 @@ namespace ogle {
  */
 class PerspectiveCamera : public Camera {
  public:
-  /**
-   * @brief Constructor. Zeros out initial position and orientation.
-   */
+    /**
+     * @brief Constructor. Enforces constraints on fields.
+     *
+     * Zeroes out initial position and orientation.
+     *
+     * @param near_clip Distance to near clip plane. Must be >= 0, < far_clip.
+     * @param far_clip Distance to far clip plane.
+     * @param vertical_fov Vertical field of view. Must be > 0.
+     * @param aspect_ratio View aspect ratio. Must be > 0.
+     */
   PerspectiveCamera(const float near_clip, const float far_clip,
                     const Angle vertical_fov, const float aspect_ratio);
 
