@@ -37,7 +37,7 @@ Matrix44f PerspectiveCamera::GetViewMatrix() const {
   return TransformationMatrix::ViewMatrix3D(
       transform_.world_position(),
       (transform_.world_orientation() * Transform::kFrontAxis).NormalizedCopy(),
-      {0.f, 1.f, 0.f});
+      Transform::kUpAxis);
 }
 
 Matrix44f PerspectiveCamera::GetProjectionMatrix() const {
