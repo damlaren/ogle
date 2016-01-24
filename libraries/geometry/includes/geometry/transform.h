@@ -62,6 +62,15 @@ class Transform {
   void set_world_orientation(const Quaternionf& new_orientation);
 
   /**
+   * @brief set_world_orientation Sets world-space orientation from angles.
+   * @param yaw .
+   * @param pitch .
+   * @param roll .
+   */
+  void set_world_orientation(const Angle yaw, const Angle pitch,
+                             const Angle roll);
+
+  /**
    * @brief Returns orientation in world space.
    * @return .
    */
@@ -72,6 +81,13 @@ class Transform {
   static const Vector3f kFrontAxis;
   static const Vector3f kRightAxis;
   static const Vector3f kUpAxis;
+  //@}
+
+  //@{
+  /// Axes about which angles rotate.
+  static const Vector3f& kYawAxis;
+  static const Vector3f& kPitchAxis;
+  static const Vector3f& kRollAxis;
   //@}
 
  private:

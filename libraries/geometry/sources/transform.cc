@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/transform.h"
+#include "geometry/transformation_matrix.h"
 
 namespace ogle {
 
@@ -35,6 +36,12 @@ void Transform::set_world_orientation(const Quaternionf& new_orientation) {
   world_orientation_ = new_orientation;
 }
 
+void Transform::set_world_orientation(const Angle yaw, const Angle pitch,
+                                      const Angle roll) {
+  world_orientation_ = ogle::Quaternion<float>::RotationMatrixToQuaternion(
+      ogle::TransformationMatrix::RotationMatrixYPR(yaw, pitch, roll));
+}
+
 const Quaternionf& Transform::world_orientation() const {
   return world_orientation_;
 }
@@ -42,5 +49,9 @@ const Quaternionf& Transform::world_orientation() const {
 const Vector3f Transform::kFrontAxis = {1.f, 0.f, 0.f};
 const Vector3f Transform::kRightAxis = {0.f, 0.f, 1.f};
 const Vector3f Transform::kUpAxis = {0.f, 1.f, 0.f};
+
+const Vector3f& Transform::kYawAxis = Transform::kUpAxis;
+const Vector3f& Transform::kPitchAxis = Transform::kRightAxis;
+const Vector3f& Transform::kRollAxis = Transform::kFrontAxis;
 
 }  // namespace ogle

@@ -90,13 +90,9 @@ class TriangleApplication : public GLFWApplication {
     }
     camera_->transform_.set_world_position(
         camera_->transform_.world_position() + move_dir);
-    // TODO(damlaren): Proof that this API kind of sucks.
-    // TODO(damlaren): Need Y,P,R parameters for quaternions too.
-    camera_->transform_.set_world_orientation(
-        ogle::Quaternion<float>::RotationMatrixToQuaternion(
-            ogle::TransformationMatrix::RotationMatrixYPR(
-                ogle::Angle::FromDegrees(90.f), ogle::Angle(0.f),
-                ogle::Angle(0.f))));
+    camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
+                                              ogle::Angle(0.f),
+                                              ogle::Angle(0.f));
 
     // Move triangle.
     const float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
