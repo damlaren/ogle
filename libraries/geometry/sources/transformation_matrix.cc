@@ -127,7 +127,6 @@ const Matrix44f TransformationMatrix::PerspectiveMatrix3D(
     LOG(WARNING) << "Aspect ratio should be > 0.";
   }
 
-  // TODO(damlaren): is sx correct?
   const float range = tan(vertical_fov.radians() * 0.5f) * near_clip;
   const float sx = near_clip / (range * aspect_ratio);
   const float sy = near_clip / range;
