@@ -34,7 +34,6 @@ PerspectiveCamera::~PerspectiveCamera() {
 }
 
 Matrix44f PerspectiveCamera::GetViewMatrix() const {
-  // TODO(damlaren): Define axes for front, right, up.
   return TransformationMatrix::ViewMatrix3D(
       transform_.world_position(),
       (transform_.world_orientation() * Transform::kFrontAxis).NormalizedCopy(),
