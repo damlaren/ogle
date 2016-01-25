@@ -64,8 +64,8 @@ void GLFWMeshRenderer::Render(const Transform& transform,
                               const Camera &camera) {
   shader_program_->UseProgram();
 
-  // TODO(damlaren): Orient too.
   Matrix44f model_matrix =
+      transform.RotationMatrix3D().ExpandedHomogeneous() *
       TransformationMatrix::TranslationMatrix3D(transform.world_position());
 
   Matrix44f view_matrix = camera.GetViewMatrix();

@@ -244,6 +244,7 @@ class Matrix {
                 "Matrix must use numeric type.");
 
   friend class Matrix<T, M + 1, N + 1>;
+  friend class Matrix<T, M - 1, N - 1>;
 
   /**
    * @brief Default constructor. Does not init values.
@@ -269,17 +270,12 @@ class Matrix {
   }
 
   /**
-   * @brief Constructor that takes list of data values.
-   * @param us Initializer list, or variable-length list of parameters,
-   *     to set data. The exact number of arguments to set the Matrix is
-   *     required. Values in the initializer list set Matrix values row by row.
+   * @brief Constructor that takes list of values.
+   * @param values Initializer list to set data.
    */
-  template <typename... U>
-  Matrix(U... us)  // NOLINT
-    : data_{us...} {
-    // TODO(damlaren): It seems like a small miracle that initializing a 2D
-    // array in this way from an initializer list works.
-    static_assert(sizeof...(U) == M * N, "Wrong number of arguments.");
+  Matrix(const std::initializer_list<T>& values) {  // NOLINT
+    assert(values.size() == M * N);
+    std::copy(values.begin(), values.end(), data_[0]);
   }
 
   /**
@@ -614,7 +610,7 @@ class Matrix {
     }
     std::fill(result.data_[M], result.data_[M] + N, static_cast<T>(0));
     result.data_[M][N] = static_cast<T>(1);
-    return data_;
+    return result;
   }
 
  private:

@@ -65,6 +65,9 @@ class TriangleApplication : public GLFWApplication {
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         static_cast<float>(kWindowWidth) / kWindowHeight);
     camera_->transform_.set_world_position({0.f, 0.f, 3.0f});
+    camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
+                                              ogle::Angle(0.f),
+                                              ogle::Angle(0.f));
   }
 
   ~TriangleApplication() override {
@@ -76,23 +79,36 @@ class TriangleApplication : public GLFWApplication {
       return false;
     }
 
-    // Move camera.
-    constexpr float kDelta = 0.03f;
-    ogle::Vector3f move_dir{0.f, 0.f, 0.f};
+    // Move camera on input.
+    constexpr float kMoveDelta = 0.03f;
+    const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(2.0f);
     if (keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
-      move_dir += ogle::Vector3f{0.f, 0.f, -kDelta};
+      camera_->transform_.TranslateForward(kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
-      move_dir += ogle::Vector3f{0.f, 0.f, kDelta};
+      camera_->transform_.TranslateForward(-kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
-      move_dir += ogle::Vector3f{-kDelta, 0.f, 0.f};
+      camera_->transform_.TranslateRight(-kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
-      move_dir += ogle::Vector3f{kDelta, 0.f, 0.f};
+      camera_->transform_.TranslateRight(kMoveDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::Z, true)) {
+      camera_->transform_.TranslateUp(-kMoveDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::C, true)) {
+      camera_->transform_.TranslateUp(kMoveDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
+      camera_->transform_.RotateRoll(-kAngleDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::E, true)) {
+      camera_->transform_.RotateRoll(kAngleDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
+      camera_->transform_.RotateRoll(-kAngleDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::UP_ARROW, true)) {
+      camera_->transform_.RotatePitch(kAngleDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::DOWN_ARROW, true)) {
+      camera_->transform_.RotatePitch(-kAngleDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::LEFT_ARROW, true)) {
+      camera_->transform_.RotateYaw(kAngleDelta);
+    } else if (keyboard_->IsKeyDown(ogle::KeyCode::RIGHT_ARROW, true)) {
+      camera_->transform_.RotateYaw(-kAngleDelta);
     }
-    camera_->transform_.set_world_position(
-        camera_->transform_.world_position() + move_dir);
-    camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
-                                              ogle::Angle(0.f),
-                                              ogle::Angle(0.f));
 
     // Move triangle.
     const float t = static_cast<float>(loop_count_) / kMoveCycleTicks;

@@ -31,6 +31,11 @@ static constexpr float kPi = M_PI;
 class Angle {
  public:
   /**
+   * @brief Default constructor (zero angle).
+   */
+  Angle();
+
+  /**
    * @brief Constructor.
    * @param radians Angle, in radians.
    */
@@ -58,6 +63,13 @@ class Angle {
    * @return Reference to this Angle.
    */
   Angle& operator+=(const Angle rhs);
+
+  /**
+   * @brief Computes @p -rhs.
+   * @param rhs Right operand.
+   * @return Negated Angle.
+   */
+  friend const Angle operator-(const Angle rhs);
 
   /**
    * @brief Computes @p lhs - @p rhs.

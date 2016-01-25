@@ -35,6 +35,10 @@ Angle& Angle::operator+=(const Angle rhs) {
   return *this;
 }
 
+const Angle operator-(const Angle rhs) {
+  return Angle(-rhs.radians());
+}
+
 const Angle operator-(const Angle lhs, const Angle rhs) {
   return Angle(lhs) -= rhs;
 }

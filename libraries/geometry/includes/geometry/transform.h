@@ -88,6 +88,16 @@ class Transform {
 
   //@{
   /**
+   * @brief Translate in direction.
+   * @param delta Distance to move.
+   */
+  void TranslateForward(const float delta);
+  void TranslateRight(const float delta);
+  void TranslateUp(const float delta);
+  //@}
+
+  //@{
+  /**
    * @brief Rotate transform by yaw, pitch, or roll angles.
    * @param yaw .
    * @param pitch .
@@ -97,6 +107,12 @@ class Transform {
   void RotatePitch(const Angle pitch);
   void RotateRoll(const Angle roll);
   //@}
+
+  /**
+   * @brief Retrieves world-space rotation Matrix.
+   * @return New Matrix.
+   */
+  const Matrix33f RotationMatrix3D() const;
 
   //@{
   /// Axes that represent front, right, and up directionsin world space.

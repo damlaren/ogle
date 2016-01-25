@@ -60,6 +60,18 @@ const Vector3f Transform::world_right() const {
   return world_orientation_ * kRightAxis;
 }
 
+void Transform::TranslateForward(const float delta) {
+  world_position_ += world_front() * delta;
+}
+
+void Transform::TranslateRight(const float delta) {
+  world_position_ += world_right() * delta;
+}
+
+void Transform::TranslateUp(const float delta) {
+  world_position_ += world_up() * delta;
+}
+
 void Transform::RotateYaw(const Angle yaw) {
   world_orientation_ = Quaternionf(world_up(), yaw) * world_orientation_;
   world_orientation_.NormalizeInPlace();
@@ -73,6 +85,10 @@ void Transform::RotatePitch(const Angle pitch) {
 void Transform::RotateRoll(const Angle roll) {
   world_orientation_ = Quaternionf(world_front(), roll) * world_orientation_;
   world_orientation_.NormalizeInPlace();
+}
+
+const Matrix33f Transform::RotationMatrix3D() const {
+  return world_orientation_.RotationMatrix3D();
 }
 
 const Vector3f Transform::kFrontAxis = {1.f, 0.f, 0.f};
