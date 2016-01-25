@@ -4,6 +4,7 @@ set(INC_LIST
   includes/geometry/buffer.h
   includes/geometry/mesh.h
   includes/geometry/ogle_geometry.h
+  includes/geometry/ray.h
   includes/geometry/transform.h
   includes/geometry/transformation_matrix.h
 )
