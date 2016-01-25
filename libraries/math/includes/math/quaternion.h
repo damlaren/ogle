@@ -23,21 +23,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /**
- * @brief A unit-length quaternion: Q = (qx*i + qy*j + qz*k) + qw.
+ * @brief A quaternion: Q = (qx*i + qy*j + qz*k) + qw.
  *
- * All new Quaternions are forcibly normalized, and access to their components
- * is restricted to enforce this condition. A Quaternion consists of a scalar
- * component encoding the angle of rotation, and the axis of rotation itself.
+ * A Quaternion consists of a scalar component encoding the angle of rotation
+ * and a Vector for the axis of rotation.
  */
 template<typename T>
 class Quaternion {
  public:
   /**
-   * @brief Default constructor. Returns 0 rotation.
+   * @brief Default constructor. Creates 0 rotation: Q = 0*i + 0*j + 0*k + 1.
    */
   Quaternion()
     : vector_{static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)},
       scalar_{static_cast<T>(1)} {
+  }
+
+  /**
+   * @brief Creates unnormalized quaternion from axis and angle of rotation.
+   * @param axis Axis about which to rotate.
+   * @param angle Angle of rotation.
+   */
+  Quaternion(const Vector<T, 3>& axis, const Angle angle) {
+    const T half_angle = angle.radians() / static_cast<T>(2);
+    const T s = static_cast<T>(sin(half_angle));
+    vector_ = Vector<T, 3>{axis.x(), axis.y(), axis.z()} * s;
+    scalar_ = static_cast<T>(cos(half_angle));
   }
 
   /**

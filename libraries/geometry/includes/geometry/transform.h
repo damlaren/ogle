@@ -70,6 +70,16 @@ class Transform {
   void set_world_orientation(const Angle yaw, const Angle pitch,
                              const Angle roll);
 
+  //@{
+  /**
+   * @brief Computes current up/front/right vector in world space.
+   * @return Unit vector.
+   */
+  const Vector3f world_up() const;
+  const Vector3f world_front() const;
+  const Vector3f world_right() const;
+  //@}
+
   /**
    * @brief Returns orientation in world space.
    * @return .
@@ -77,17 +87,22 @@ class Transform {
   const Quaternionf& world_orientation() const;
 
   //@{
-  /// Axes that represent front, right, and up directions.
-  static const Vector3f kFrontAxis;
-  static const Vector3f kRightAxis;
-  static const Vector3f kUpAxis;
+  /**
+   * @brief Rotate transform by yaw, pitch, or roll angles.
+   * @param yaw .
+   * @param pitch .
+   * @param roll .
+   */
+  void RotateYaw(const Angle yaw);
+  void RotatePitch(const Angle pitch);
+  void RotateRoll(const Angle roll);
   //@}
 
   //@{
-  /// Axes about which angles rotate.
-  static const Vector3f& kYawAxis;
-  static const Vector3f& kPitchAxis;
-  static const Vector3f& kRollAxis;
+  /// Axes that represent front, right, and up directionsin world space.
+  static const Vector3f kFrontAxis;
+  static const Vector3f kRightAxis;
+  static const Vector3f kUpAxis;
   //@}
 
  private:

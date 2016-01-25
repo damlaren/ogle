@@ -68,19 +68,6 @@ class TransformationMatrix {
   static const Matrix33f RotationMatrixZ3D(const Angle theta_z);
 
   /**
-   * @brief Builds a rotation Matrix from yaw, pitch, and roll angles.
-   *
-   * Rotation is done in YPR order.
-   *
-   * @param yaw Angle to rotate about local +Y axis.
-   * @param pitch Angle to rotate about +X axis.
-   * @param roll Angle to rotate about +Z axis.
-   * @return New Matrix.
-   */
-  static const Matrix33f RotationMatrixYPR(const Angle yaw, const Angle pitch,
-                                           const Angle roll);
-
-  /**
    * @brief Builds a camera view matrix.
    * @param camera_position Camera world position.
    * @param forward_vector Camera direction. Should be a unit vector.

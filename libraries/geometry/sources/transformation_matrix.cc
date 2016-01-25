@@ -69,13 +69,6 @@ const Matrix33f TransformationMatrix::RotationMatrixZ3D(const Angle theta_z) {
           0.f, 0.f, 1.f};
 }
 
-const Matrix33f TransformationMatrix::RotationMatrixYPR(const Angle yaw,
-                                                        const Angle pitch,
-                                                        const Angle roll) {
-  return RotationMatrixX3D(roll) * RotationMatrixZ3D(pitch) *
-         RotationMatrixY3D(yaw);
-}
-
 const Matrix44f TransformationMatrix::ViewMatrix3D(
     const Vector3f& camera_position, const Vector3f& forward_vector,
     const Vector3f& up_vector) {
