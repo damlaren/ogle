@@ -33,10 +33,10 @@ PerspectiveCamera::PerspectiveCamera(const float near_clip,
 PerspectiveCamera::~PerspectiveCamera() {
 }
 
-Matrix44f PerspectiveCamera::GetViewMatrix() const {
+Matrix44f PerspectiveCamera::GetViewMatrix(const Transform &transform) const {
   return TransformationMatrix::ViewMatrix3D(
-      transform_.world_position(), transform_.world_front(),
-      transform_.world_up());
+      transform.world_position(), transform.world_front(),
+      transform.world_up());
 }
 
 Matrix44f PerspectiveCamera::GetProjectionMatrix() const {

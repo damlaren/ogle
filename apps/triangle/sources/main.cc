@@ -55,11 +55,12 @@ class TriangleApplication : public ogle::Application {
     auto renderer =
       std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
-    triangle_ = std::make_unique<ogle::Entity>(renderer);
-    camera_ = std::make_unique<ogle::PerspectiveCamera>(
+    triangle_ = std::make_unique<ogle::Entity>(renderer, nullptr);
+    auto camera_object = std::make_shared<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         static_cast<float>(window_->window_width()) /
             window_->window_height());
+    camera_ = std::make_unique<ogle::Entity>(nullptr, camera_object);
     camera_->transform_.set_world_position({0.f, 0.f, 3.0f});
     camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
                                               ogle::Angle(0.f),
@@ -132,8 +133,8 @@ class TriangleApplication : public ogle::Application {
   /// Object instantiated to render triangle mesh.
   std::unique_ptr<ogle::Entity> triangle_;
 
-  /// Camera.
-  std::unique_ptr<ogle::Camera> camera_;
+  /// Camera Entity.
+  std::unique_ptr<ogle::Entity> camera_;
 };
 
 

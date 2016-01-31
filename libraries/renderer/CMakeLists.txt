@@ -15,13 +15,11 @@ set(INC_LIST
 add_custom_target(ogle_renderer_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
-  sources/camera.cc
   sources/glfw_mesh_renderer.cc
   sources/glfw_window.cc
   sources/glsl_shader.cc
   sources/mesh_renderer.cc
   sources/perspective_camera.cc
-  sources/renderer.cc
   sources/shader.cc
   sources/window.cc
 )

@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_
 
 #include "renderer/camera.h"
+#include "geometry/transform.h"
 
 namespace ogle {
 
@@ -42,7 +43,7 @@ class PerspectiveCamera : public Camera {
    */
   ~PerspectiveCamera() override;
 
-  Matrix44f GetViewMatrix() const override;
+  Matrix44f GetViewMatrix(const Transform &transform) const override;
 
   Matrix44f GetProjectionMatrix() const override;
 

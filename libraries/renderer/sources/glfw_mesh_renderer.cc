@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include "renderer/glfw_mesh_renderer.h"
+#include "entity/entity.h"
 #include "geometry/mesh.h"
 #include "geometry/transform.h"
 #include "geometry/transformation_matrix.h"
@@ -61,15 +62,17 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
 }
 
 void GLFWMeshRenderer::Render(const Transform& transform,
-                              const Camera &camera) {
+                              const Entity &camera) {
   shader_program_->UseProgram();
 
   Matrix44f model_matrix =
       transform.RotationMatrix3D().ExpandedHomogeneous() *
       TransformationMatrix::TranslationMatrix3D(transform.world_position());
 
-  Matrix44f view_matrix = camera.GetViewMatrix();
-  Matrix44f projection_matrix = camera.GetProjectionMatrix();
+  auto camera_component = camera.camera();
+  CHECK(camera_component != nullptr) << "Camera Entity needs Camera component.";
+  Matrix44f view_matrix = camera_component->GetViewMatrix(camera.transform_);
+  Matrix44f projection_matrix = camera_component->GetProjectionMatrix();
 
   shader_program_->SetUniformMatrix44f(ShaderProgram::kModelMatrixArg,
                                        model_matrix);

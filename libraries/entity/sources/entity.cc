@@ -17,15 +17,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Entity::Entity(std::shared_ptr<Renderer> renderer)
-  : renderer_(renderer), transform_(Transform(this)) {
-  renderer_ = renderer;
+Entity::Entity(std::shared_ptr<Renderer> renderer,
+               std::shared_ptr<Camera> camera)
+  : transform_(Transform(this)), renderer_(renderer), camera_(camera) {
 }
 
-void Entity::Render(const Camera &camera) {
+void Entity::Render(const Entity &camera) {
   if (renderer_ != nullptr) {
     renderer_->Render(transform_, camera);
   }
+}
+
+const Camera* Entity::camera() const {
+  return camera_.get();
 }
 
 }  // namespace ogle

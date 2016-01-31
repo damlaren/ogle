@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-class Camera;
+class Entity;
 class Mesh;
 class Transform;
 
@@ -37,10 +37,10 @@ class Renderer {
   /**
    * @brief Render object.
    * @param transform Position and orientation at which to render.
-   * @param camera Camera to render from.
+   * @param camera Entity with attached Camera to render from.
    */
   virtual void Render(const Transform& position,
-                      const Camera &camera) = 0;
+                      const Entity &camera) = 0;
 
  protected:
   /**

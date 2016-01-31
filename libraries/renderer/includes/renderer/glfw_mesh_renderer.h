@@ -43,7 +43,7 @@ class GLFWMeshRenderer : public MeshRenderer {
   ~GLFWMeshRenderer() override;
 
   void Render(const Transform& transform,
-              const Camera &camera) override;
+              const Entity &camera) override;
 
  private:
   /// Shader program to use in rendering pass.

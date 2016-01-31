@@ -26,8 +26,11 @@ class Renderer;
 /**
  * @brief An object that exists in the world of an application.
  *
- * An entity is an object that exists in a scene at a specific location.
- * It is closely linked to the transform class.
+ * An Entity is an object that exists in a scene at a specific location.
+ * It is closely linked to #Transform.
+ *
+ * Objects should not be implemented as subclasses of Entity, but TODO(damlaren)
+ * by adding components to it.
  */
 class Entity {
  public:
@@ -35,17 +38,28 @@ class Entity {
    * @brief Constructor.
    * @param renderer Renderer to use to draw this Entity.  Rendering is
    *     skipped if one is not provided.
+   * @param camera Camera to attach to Entity. Can be null. Not used to render
+   *     this Entity.
    */
-  explicit Entity(std::shared_ptr<Renderer> renderer);
+  explicit Entity(std::shared_ptr<Renderer> renderer,
+                  std::shared_ptr<Camera> camera);
 
   /**
    * @brief Renders this Entity.
    *
    * Rendering is skipped if no Renderer is set on this object.
    *
-   * @param camera Camera to render from.
+   * @param camera Camera to render from. Note that not all Entites have a
+   *        Camera, and the #camera_ field is just a placeholder until
+   *        Components are added anyway.
    */
-  void Render(const Camera &camera);
+  void Render(const Entity &camera);
+
+  /**
+   * @brief Accessor. TODO(damlaren): Get rid of this eventually.
+   * @return Camera attached to this Entity.
+   */
+  const Camera* camera() const;
 
   /// Entity location and orientation.
   Transform transform_;
@@ -54,6 +68,9 @@ class Entity {
   // TODO(damlaren): These should be components.
   /// Renderer used to display Entity.
   std::shared_ptr<Renderer> renderer_;
+
+  /// Camera attached to this Entity, if there is one.
+  std::shared_ptr<Camera> camera_;
 };
 
 }  // namespace ogle
