@@ -15,19 +15,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_CAMERA_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_CAMERA_H_
 
+#include "entity/entity.h"
 #include "geometry/transform.h"
 
 namespace ogle {
 
 /**
  * @brief A camera positioned in the world.
+ *
+ * TODO(damlaren): Implement as component.
  */
-class Camera {
+class Camera : public Entity {
  public:
+  /**
+   * @brief Constructor.
+   */
+  Camera();
+
   /**
    * @brief Virtual destructor.
    */
-  virtual ~Camera();
+  virtual ~Camera() = default;
 
   /**
    * @brief Computes view matrix from current camera state.
@@ -40,9 +48,6 @@ class Camera {
    * @return Matrix.
    */
   virtual Matrix44f GetProjectionMatrix() const = 0;
-
-  /// Object location and orientation.
-  Transform transform_;
 };
 
 }  // namespace ogle

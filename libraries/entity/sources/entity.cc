@@ -18,7 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 Entity::Entity(std::shared_ptr<Renderer> renderer)
-  : renderer_(renderer) {
+  : renderer_(renderer), transform_(Transform(this)) {
   renderer_ = renderer;
 }
 

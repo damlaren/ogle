@@ -24,14 +24,14 @@ class Camera;
 class Renderer;
 
 /**
- * @brief An object instantiated in an application.
+ * @brief An object that exists in the world of an application.
  *
- * An entity is an object that exists in a scene
- * at a specific location.
+ * An entity is an object that exists in a scene at a specific location.
+ * It is closely linked to the transform class.
  */
 class Entity {
  public:
-    /**
+  /**
    * @brief Constructor.
    * @param renderer Renderer to use to draw this Entity.  Rendering is
    *     skipped if one is not provided.
@@ -51,7 +51,7 @@ class Entity {
   Transform transform_;
 
  private:
-  // TODO(damlaren): This should be a component.
+  // TODO(damlaren): These should be components.
   /// Renderer used to display Entity.
   std::shared_ptr<Renderer> renderer_;
 };

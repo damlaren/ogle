@@ -13,15 +13,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/transform.h"
+#include "easylogging++.h"  // NOLINT
 #include "geometry/transformation_matrix.h"
 
 namespace ogle {
 
-Transform::Transform()
-  : world_position_{0.f, 0.f, 0.f}, world_orientation_{} {
-}
-
-Transform::~Transform() {
+Transform::Transform(Entity *entity)
+  : world_position_{0.f, 0.f, 0.f}, world_orientation_{}, entity_(entity) {
+  CHECK(entity_ != nullptr) << "Transform must be attached to an Entity.";
 }
 
 void Transform::set_world_position(const Vector3f& new_position) {

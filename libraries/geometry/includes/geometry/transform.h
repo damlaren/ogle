@@ -22,42 +22,46 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class Entity;
+
 /**
  * @brief Represents position and orientation of an object.
  *
  * Representation with respect to both the world and space local to a parent
  * Transform. The root Transform is the ancestor of all Transforms, and defines
  * the origin and orientation of world space.
- *
- * TODO: parenting will be added later...
  */
 class Transform {
  public:
   /**
-   * @brief Default constructor. Zeros out world position and orientation.
+   * @brief Constructor.
+   *
+   * Zeros out world position and orientation. Attaches Transform to Entity.
+   *
+   * @param entity Entity to attach to. Must be non-null.
    */
-  Transform();
+  explicit Transform(Entity *entity);
 
   /**
-   * @brief Destructor. TODO(damlaren): Handle children & parent.
+   * @brief Destructor.
    */
-  ~Transform();
+  ~Transform() = default;
 
   /**
-   * @brief Sets world position and [TODO(damlaren)] adjusts children as well.
+   * @brief Sets world position and adjusts children's local coordinates.
    * @param new_position New world position.
    */
   void set_world_position(const Vector3f& new_position);
 
   /**
-   * @brief Returns world position.
-   * @return .
+   * @brief Accessor.
+   * @return World position.
    */
   const Vector3f& world_position() const;
 
   /**
    * @brief set_world_orientation Sets world-space orientation.
-   * @param new_orientation New orientation in world.
+   * @param new_orientation New orientation.
    */
   void set_world_orientation(const Quaternionf& new_orientation);
 
@@ -115,7 +119,7 @@ class Transform {
   const Matrix33f RotationMatrix3D() const;
 
   //@{
-  /// Axes that represent front, right, and up directionsin world space.
+  /// Axes that represent front, right, and up directions in world space.
   static const Vector3f kFrontAxis;
   static const Vector3f kRightAxis;
   static const Vector3f kUpAxis;
@@ -127,6 +131,9 @@ class Transform {
 
   /// Orientation in world space.
   Quaternionf world_orientation_;
+
+  /// Entity attached to this transform.
+  Entity* entity_;
 };
 
 }  // namespace ogle
