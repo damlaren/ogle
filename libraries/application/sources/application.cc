@@ -25,8 +25,16 @@ Application::Application(std::unique_ptr<ResourceManager> resource_manager,
 }
 
 void Application::RunApplication() {
+  bool app_body_success = true;
   do {
-  } while (ApplicationBody());
+    if (!window_->HandleWindowEvents()) {
+      break;
+    }
+
+    app_body_success = ApplicationBody();
+
+    ++loop_count_;
+  } while (app_body_success);
 }
 
 }  // namespace ogle

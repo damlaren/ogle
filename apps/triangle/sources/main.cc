@@ -70,8 +70,7 @@ class TriangleApplication : public ogle::Application {
   }
 
   bool ApplicationBody() {
-    if (!window_->HandleWindowEvents() ||
-        keyboard_->IsKeyDown(ogle::KeyCode::ESCAPE, false)) {
+    if (keyboard_->IsKeyDown(ogle::KeyCode::ESCAPE, false)) {
       return false;
     }
 
@@ -111,11 +110,13 @@ class TriangleApplication : public ogle::Application {
     const float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
     triangle_->transform_.set_world_position(
         {kXRange * static_cast<float>(cos(t)), 0.f, 0.f});
+
+    // TODO(damlaren): Add RenderManager to track all renderable things.
+    // Move this stuff out.
     window_->ClearWindow();
     triangle_->Render(*camera_.get());
     window_->SwapBuffers();
 
-    ++loop_count_;
     return true;
   }
 
