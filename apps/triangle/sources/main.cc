@@ -111,8 +111,7 @@ class TriangleApplication : public ogle::Application {
     triangle_->transform_.set_world_position(
         {kXRange * static_cast<float>(cos(t)), 0.f, 0.f});
 
-    // TODO(damlaren): Add RenderManager to track all renderable things.
-    // Move this stuff out.
+    // TODO(damlaren): Move rendering code out.
     window_->ClearWindow();
     triangle_->Render(*camera_.get());
     window_->SwapBuffers();
