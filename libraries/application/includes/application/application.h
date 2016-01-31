@@ -14,6 +14,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <exception>
 #include <memory>
 #include <string>
+#include "input/keyboard_input.h"
+#include "renderer/window.h"
 #include "resource/resource_manager.h"
 
 /**
@@ -23,15 +25,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /**
- * @brief Display context for entire application. It's assumed only one is created.
+ * @brief Base class for all ogle applications.
  *
- * This class wraps many things right now:
- * 1) The display window.
- * 2) A callback for running the application.
- * 3) OpenGL extension querying.
- * 4) OpenGL settings configuration.
- *
- * This is because these facets are entangled in some implementations (GLFW + GLEW).
+ * All applications are implemented as children of this class, by overriding
+ * the #ApplicationBody member.
  */
 class Application {
  public:
@@ -40,29 +37,44 @@ class Application {
    */
   class RuntimeException : public std::exception {
     // TODO(damlaren): actually, there are good reasons not to use exceptions--
-    // most game engines disable them.
+    // most game engines disable them. Think about this more.
   };
 
   /**
-   * @brief Executes #ApplicationBody while it returns true.
+   * @brief The entry point and main loop of the Application.
+   *
+   * It takes the following steps:
+   *
+   * TODO(damlaren): describe
+   *
+   * - Executes #ApplicationBody while it returns true.
    */
   void RunApplication();
 
  protected:
   /**
    * @brief Constructor.
-   * @param resource_dir Location of resources directory.
+   *
+   * unique_ptr parameters refer to objects the Application will take ownership
+   * over. They are invalid after constructing the Application.
+   *
+   * @param resource_manager ResourceManager implementation.
+   * @param window Window implementation.
+   * @param keyboard KeyboardInput implementation.
    */
-  explicit Application(const std::string& resource_dir);
+  explicit Application(std::unique_ptr<ResourceManager> resource_manager,
+                       std::unique_ptr<Window> window,
+                       std::unique_ptr<KeyboardInput> keyboard);
 
   /**
    * @brief Destructor.
-   * Responsible for releasing all resources reserved by the Application.
+   *
+   * Responsible for releasing all objects owned by the Application.
    */
-  virtual ~Application();
+  virtual ~Application() = default;
 
   /**
-   * @brief Function to execute in main loop, with minimal restrictions imposed.
+   * @brief Function to execute in main loop.
    * @return true to run next loop iteration, false to stop.
    */
   virtual bool ApplicationBody() = 0;
@@ -70,7 +82,14 @@ class Application {
   /// Application's ResourceManager.
   std::unique_ptr<ResourceManager> resource_manager_;
 
-  // TODO(damlaren): Don't allow applications to forget updating this.
+  /// Application's Window.
+  std::unique_ptr<ogle::Window> window_;
+
+  /// Application's KeyboardInput.
+  std::unique_ptr<ogle::KeyboardInput> keyboard_;
+
+  // TODO(damlaren) RenderManager, InputManager passed instead.
+
   /// How many times the body has completed.
   std::uint64_t loop_count_ = 0;
 };

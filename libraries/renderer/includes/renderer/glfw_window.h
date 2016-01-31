@@ -73,12 +73,6 @@ class GLFWWindow : public Window {
    */
   static void LogGLFWError(int error, const char *description);
 
-  /// Window height [pixels].
-  int window_height_;
-
-  /// Window width [pixels].
-  int window_width_;
-
   /**
    * GLFW's window implementation.
    * An opaque type which can't be stored in a smart pointer.

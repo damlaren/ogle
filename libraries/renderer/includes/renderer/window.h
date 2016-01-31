@@ -30,8 +30,10 @@ class Window {
  public:
   /**
    * @brief Default constructor.
+   * @param window_width Width of window, in pixels.
+   * @param window_height Height of window, in pixels.
    */
-  Window() = default;
+  Window(const int window_width, const int window_height);
 
   /**
    * @brief Default destructor.
@@ -56,6 +58,18 @@ class Window {
 
   // TODO(damlaren): Add callbacks to handle window/framebuffer resize.
 
+  /**
+   * @brief Accessor.
+   * @return window_width_
+   */
+  const int window_width() const;
+
+  /**
+   * @brief Accessor.
+   * @return window_height_
+   */
+  const int window_height() const;
+
  protected:
   /**
    * @brief Exception class that can be thrown if construction fails.
@@ -65,6 +79,12 @@ class Window {
    */
   class WindowException : public std::exception {
   };
+
+  /// Window width [pixels].
+  int window_width_;
+
+  /// Window height [pixels].
+  int window_height_;
 };
 
 }  // namespace ogle

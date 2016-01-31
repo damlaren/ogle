@@ -16,4 +16,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle{
 
+Window::Window(const int window_width, const int window_height)
+ :  window_width_(window_width), window_height_(window_height) {
+}
+
+const int Window::window_width() const {
+  return window_width_;
+}
+
+const int Window::window_height() const {
+  return window_height_;
+}
+
 }  // namespace ogle

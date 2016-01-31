@@ -23,7 +23,7 @@ namespace ogle {
 GLFWWindow::GLFWWindow(const int width, const int height,
                        const std::string& title, const int opengl_major_version,
                        const int opengl_minor_version, const int msaa_samples)
-    : Window(), window_width_(width), window_height_(height) {
+    : Window(width, height) {
   window_ = nullptr;
 
   if (!glfwInit()) {

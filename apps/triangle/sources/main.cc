@@ -16,22 +16,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "ogle/ogle.h"
 
-using GLFWApplication = ogle::GLFWApplication;
-
 /**
  * @brief Test application to draw a triangle.
  */
-class TriangleApplication : public GLFWApplication {
+class TriangleApplication : public ogle::Application {
  public:
-  static constexpr int kWindowWidth = 1024;
-  static constexpr int kWindowHeight = 768;
-
-  explicit TriangleApplication(const std::string& resource_dir)
-      : GLFWApplication(
-            std::make_unique<ogle::GLFWWindow>(kWindowWidth, kWindowHeight,
-                                               "Triangle App", 4, 0, 4),
-            std::make_unique<ogle::GLFWKeyboardInput>(),
-            resource_dir) {
+  explicit TriangleApplication(const std::string& resource_dir,
+                               std::unique_ptr<ogle::Window> window,
+                               std::unique_ptr<ogle::KeyboardInput> keyboard)
+      : Application(
+            std::make_unique<ogle::ResourceManager>(resource_dir),
+            std::move(window), std::move(keyboard)) {
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
     auto mesh = std::make_shared<ogle::Mesh>();
@@ -63,7 +58,8 @@ class TriangleApplication : public GLFWApplication {
     triangle_ = std::make_unique<ogle::Entity>(renderer);
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
-        static_cast<float>(kWindowWidth) / kWindowHeight);
+        static_cast<float>(window_->window_width()) /
+            window_->window_height());
     camera_->transform_.set_world_position({0.f, 0.f, 3.0f});
     camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
                                               ogle::Angle(0.f),
@@ -109,6 +105,7 @@ class TriangleApplication : public GLFWApplication {
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::RIGHT_ARROW, true)) {
       camera_->transform_.RotateYaw(-kAngleDelta);
     }
+    keyboard_->Clear();
 
     // Move triangle.
     const float t = static_cast<float>(loop_count_) / kMoveCycleTicks;
@@ -117,9 +114,6 @@ class TriangleApplication : public GLFWApplication {
     window_->ClearWindow();
     triangle_->Render(*camera_.get());
     window_->SwapBuffers();
-
-    // Cleanup. TODO(damlaren): Reorganize loop structure.
-    keyboard_->Clear();
 
     ++loop_count_;
     return true;
@@ -142,8 +136,6 @@ class TriangleApplication : public GLFWApplication {
   std::unique_ptr<ogle::Camera> camera_;
 };
 
-constexpr int TriangleApplication::kWindowWidth;
-constexpr int TriangleApplication::kWindowHeight;
 
 /**
  * @brief Main entry point.
@@ -154,7 +146,17 @@ int main(const int argc, const char* argv[]) {
     LOG(FATAL) << "usage: triangle <resource_dir>";
   }
 
-  auto app = std::make_unique<TriangleApplication>(argv[1]);
+  static constexpr int kWindowWidth = 1024;
+  static constexpr int kWindowHeight = 768;
+  auto window = std::make_unique<ogle::GLFWWindow>(kWindowWidth, kWindowHeight,
+                                                   "Triangle App", 4, 0, 4);
+  auto keyboard = std::make_unique<ogle::GLFWKeyboardInput>();
+
+  // TODO(damlaren): Still needs to be done for GLFW. Abstract out.
+  window->AttachKeyboard(keyboard.get());
+
+  auto app = std::make_unique<TriangleApplication>(argv[1], std::move(window),
+      std::move(keyboard));
   app->RunApplication();
   return 0;
 }
