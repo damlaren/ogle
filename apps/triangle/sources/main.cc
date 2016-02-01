@@ -162,7 +162,8 @@ int main(const int argc, const char* argv[]) {
                                                    "Triangle App", 4, 0, 4);
   auto keyboard = std::make_unique<ogle::GLFWKeyboardInput>();
 
-  // TODO(damlaren): Still needs to be done for GLFW. Abstract out.
+  // TODO(damlaren): This is a quirk specific to GLFW, can move it once engine
+  // is "packed up."
   window->AttachKeyboard(keyboard.get());
 
   auto app = std::make_unique<TriangleApplication>(argv[1], std::move(window),
