@@ -74,13 +74,29 @@ class Transform {
   void set_world_orientation(const Quaternionf& new_orientation);
 
   /**
-   * @brief set_world_orientation Sets world-space orientation from angles.
+   * @brief Setter. Sets world-space orientation from angles.
    * @param yaw .
    * @param pitch .
    * @param roll .
    */
   void set_world_orientation(const Angle yaw, const Angle pitch,
                              const Angle roll);
+
+  /**
+   * @brief Accessor.
+   * @return Orientation in world space.
+   */
+  const Quaternionf& world_orientation() const;
+
+  //@{
+  /**
+   * @brief Computes current up/front/right vector in world space.
+   * @return Unit vector.
+   */
+  const Vector3f world_up() const;
+  const Vector3f world_front() const;
+  const Vector3f world_right() const;
+  //@}
 
   /**
    * @brief Accessor.
@@ -98,21 +114,11 @@ class Transform {
    */
   const std::vector<Transform*>& children();
 
-  //@{
   /**
-   * @brief Computes current up/front/right vector in world space.
-   * @return Unit vector.
+   * @brief Accessor.
+   * @return Entity attached to this Transform.
    */
-  const Vector3f world_up() const;
-  const Vector3f world_front() const;
-  const Vector3f world_right() const;
-  //@}
-
-  /**
-   * @brief Returns orientation in world space.
-   * @return .
-   */
-  const Quaternionf& world_orientation() const;
+  Entity* entity();
 
   //@{
   /**

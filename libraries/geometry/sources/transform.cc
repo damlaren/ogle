@@ -18,6 +18,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+const Vector3f Transform::kFrontAxis = {1.f, 0.f, 0.f};
+const Vector3f Transform::kRightAxis = {0.f, 0.f, 1.f};
+const Vector3f Transform::kUpAxis = {0.f, 1.f, 0.f};
+
 Transform::Transform(Transform *parent, Entity *entity)
   : world_position_{0.f, 0.f, 0.f}, world_orientation_{}, parent_(parent),
     entity_(entity) {
@@ -60,6 +64,18 @@ const Vector3f Transform::world_right() const {
   return world_orientation_ * kRightAxis;
 }
 
+Transform* Transform::parent() {
+  return parent_;
+}
+
+const std::vector<Transform*>& Transform::children() {
+  return children_;
+}
+
+Entity* Transform::entity() {
+  return entity_;
+}
+
 void Transform::TranslateForward(const float delta) {
   world_position_ += world_front() * delta;
 }
@@ -90,9 +106,5 @@ void Transform::RotateRoll(const Angle roll) {
 const Matrix33f Transform::RotationMatrix3D() const {
   return world_orientation_.RotationMatrix3D();
 }
-
-const Vector3f Transform::kFrontAxis = {1.f, 0.f, 0.f};
-const Vector3f Transform::kRightAxis = {0.f, 0.f, 1.f};
-const Vector3f Transform::kUpAxis = {0.f, 1.f, 0.f};
 
 }  // namespace ogle

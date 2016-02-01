@@ -34,10 +34,6 @@ class Renderer;
  */
 class Entity {
  public:
-  // TODO(damlaren): static initialization order could be a problem.
-  /// Root Entity defining coordinate system. All other Entities are beneath it.
-  static Entity kRootEntity;
-
   /**
    * @brief Constructor.
    * @param parent Transform of parent Entity.
@@ -61,7 +57,13 @@ class Entity {
   void Render(const Entity &camera);
 
   /**
-   * @brief Accessor. TODO(damlaren): Get rid of this eventually.
+   * @brief Accessor.
+   * @return Renderer attached to this Entity.
+   */
+  Renderer* renderer();
+
+  /**
+   * @brief Accessor.
    * @return Camera attached to this Entity.
    */
   const Camera* camera() const;

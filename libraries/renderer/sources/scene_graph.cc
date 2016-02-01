@@ -8,25 +8,14 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/**
- * @file Implementation of entity.h.
- */
+/// @file Implements scene_graph.h.
 
-#include "entity/entity.h"
+#include "renderer/scene_graph.h"
 
 namespace ogle {
 
-Entity::Entity(Transform *parent, std::shared_ptr<Renderer> renderer,
-               std::shared_ptr<Camera> camera)
-  : transform_(parent, this), renderer_(renderer), camera_(camera) {
-}
-
-Renderer* Entity::renderer() {
-  return renderer_.get();
-}
-
-const Camera* Entity::camera() const {
-  return camera_.get();
+SceneGraph::SceneGraph() {
+  root_ = std::make_unique<Entity>(nullptr, nullptr, nullptr);
 }
 
 }  // namespace ogle

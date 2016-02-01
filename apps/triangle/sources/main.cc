@@ -55,14 +55,16 @@ class TriangleApplication : public ogle::Application {
     auto renderer =
       std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
+    scene_graph_ = std::make_unique<ogle::SceneGraph>();
+    scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
     triangle_ = std::make_unique<ogle::Entity>(
-        &ogle::Entity::kRootEntity.transform_, renderer, nullptr);
+        &scene_graph_->root_->transform_, renderer, nullptr);
     auto camera_object = std::make_shared<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         static_cast<float>(window_->window_width()) /
             window_->window_height());
     camera_ = std::make_unique<ogle::Entity>(
-        &ogle::Entity::kRootEntity.transform_, nullptr, camera_object);
+        &scene_graph_->root_->transform_, nullptr, camera_object);
     camera_->transform_.set_world_position({0.f, 0.f, 3.0f});
     camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
                                               ogle::Angle(0.f),
@@ -116,7 +118,7 @@ class TriangleApplication : public ogle::Application {
 
     // TODO(damlaren): Move rendering code out.
     window_->ClearWindow();
-    triangle_->Render(*camera_.get());
+    triangle_->renderer()->Render(triangle_->transform_, *camera_.get());
     window_->SwapBuffers();
 
     return true;
@@ -137,6 +139,12 @@ class TriangleApplication : public ogle::Application {
 
   /// Camera Entity.
   std::unique_ptr<ogle::Entity> camera_;
+
+  /// Scene graph.
+  std::unique_ptr<ogle::SceneGraph> scene_graph_;
+
+  /// Scene renderer.
+  std::unique_ptr<ogle::SceneRenderer> scene_renderer_;
 };
 
 /**

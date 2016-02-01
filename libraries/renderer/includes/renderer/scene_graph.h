@@ -9,24 +9,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of entity.h.
+ * @file Defines SceneGraph.
  */
 
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_SCENE_GRAPH_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_SCENE_GRAPH_H_
+
+#include <memory>
 #include "entity/entity.h"
 
 namespace ogle {
 
-Entity::Entity(Transform *parent, std::shared_ptr<Renderer> renderer,
-               std::shared_ptr<Camera> camera)
-  : transform_(parent, this), renderer_(renderer), camera_(camera) {
-}
+/**
+ * @brief Tracks all Entities in scene.
+ *
+ * It is assumed that the SceneGraph is a tree, with no cycles.
+ */
+class SceneGraph {
+ public:
+  /**
+   * @brief Default Constructor.
+   */
+  SceneGraph();
 
-Renderer* Entity::renderer() {
-  return renderer_.get();
-}
-
-const Camera* Entity::camera() const {
-  return camera_.get();
-}
+  /// Entity at root of graph. All other Entities are beneath it.
+  std::unique_ptr<Entity> root_;
+};
 
 }  // namespace ogle
+
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_SCENE_GRAPH_H_

@@ -9,6 +9,8 @@ set(INC_LIST
   includes/renderer/ogle_renderer.h
   includes/renderer/perspective_camera.h
   includes/renderer/renderer.h
+  includes/renderer/scene_graph.h
+  includes/renderer/scene_renderer.h
   includes/renderer/shader.h
   includes/renderer/window.h
 )
@@ -20,6 +22,8 @@ set(SRC_LIST
   sources/glsl_shader.cc
   sources/mesh_renderer.cc
   sources/perspective_camera.cc
+  sources/scene_graph.cc
+  sources/scene_renderer.cc
   sources/shader.cc
   sources/window.cc
 )

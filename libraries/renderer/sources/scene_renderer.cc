@@ -9,24 +9,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of entity.h.
+ * @file Implements scene_renderer.h.
  */
 
+#include "renderer/scene_renderer.h"
+#include "easylogging++.h"  // NOLINT
 #include "entity/entity.h"
+#include "renderer/renderer.h"
+#include "renderer/scene_graph.h"
 
 namespace ogle {
 
-Entity::Entity(Transform *parent, std::shared_ptr<Renderer> renderer,
-               std::shared_ptr<Camera> camera)
-  : transform_(parent, this), renderer_(renderer), camera_(camera) {
+void SceneRenderer::RenderScene(const Entity& camera_entity,
+                                SceneGraph* scene_graph) {
+  // This is the dumbest possible solution: just iterate through the entire
+  // graph and draw objects in the order they are encountered.
+  CHECK(scene_graph->root_ != nullptr) << "Scene graph has no root.";
+  CHECK(camera_entity.camera() != nullptr)
+      << "Camera Entity for RenderScene has no Camera attached.";
+  Render(camera_entity, scene_graph->root_.get());
 }
 
-Renderer* Entity::renderer() {
-  return renderer_.get();
-}
-
-const Camera* Entity::camera() const {
-  return camera_.get();
+void SceneRenderer::Render(const Entity& camera_entity,
+                           Entity *entity) {
+  Renderer* renderer = entity->renderer();
+  if (renderer != nullptr) {
+    renderer->Render(entity->transform_, camera_entity);
+  }
+  for (Transform* child_transform : entity->transform_.children()) {
+    Render(camera_entity, child_transform->entity());
+  }
 }
 
 }  // namespace ogle

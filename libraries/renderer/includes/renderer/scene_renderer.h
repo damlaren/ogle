@@ -9,24 +9,45 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of entity.h.
+ * @file Defines SceneRenderer.
  */
 
-#include "entity/entity.h"
+#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_SCENE_RENDERER_H_
+#define LIBRARIES_RENDERER_INCLUDES_RENDERER_SCENE_RENDERER_H_
 
 namespace ogle {
 
-Entity::Entity(Transform *parent, std::shared_ptr<Renderer> renderer,
-               std::shared_ptr<Camera> camera)
-  : transform_(parent, this), renderer_(renderer), camera_(camera) {
-}
+class Entity;
+class SceneGraph;
 
-Renderer* Entity::renderer() {
-  return renderer_.get();
-}
+class SceneRenderer {
+ public:
+  /**
+   * @brief Default constructor.
+   */
+  SceneRenderer() = default;
 
-const Camera* Entity::camera() const {
-  return camera_.get();
-}
+  /**
+   * @brief Destructor.
+   */
+  virtual ~SceneRenderer() = default;
+
+  /**
+   * @brief Render a specific Entity in graph.
+   * @param camera_entity Entity containing Camera for rendering.
+   * @param entity Entity to render.
+   */
+  virtual void Render(const Entity& camera_entity, Entity* entity);
+
+  /**
+   * @brief Render entire scene.
+   * @param camera_entity Entity containing Camera from which to render scene.
+   * @param scene_graph Hierarchy of Entities to render.
+   */
+  virtual void RenderScene(const Entity& camera_entity,
+                           SceneGraph* scene_graph);
+};
 
 }  // namespace ogle
+
+#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_SCENE_RENDERER_H_

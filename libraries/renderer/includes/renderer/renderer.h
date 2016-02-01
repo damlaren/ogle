@@ -39,7 +39,7 @@ class Renderer {
    * @param transform Position and orientation at which to render.
    * @param camera Entity with attached Camera to render from.
    */
-  virtual void Render(const Transform& position,
+  virtual void Render(const Transform& transform,
                       const Entity &camera) = 0;
 
  protected:
