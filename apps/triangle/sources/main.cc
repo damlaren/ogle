@@ -118,7 +118,7 @@ class TriangleApplication : public ogle::Application {
 
     // TODO(damlaren): Move rendering code out.
     window_->ClearWindow();
-    triangle_->renderer()->Render(triangle_->transform_, *camera_.get());
+    scene_renderer_->RenderScene(*camera_.get(), scene_graph_.get());
     window_->SwapBuffers();
 
     return true;

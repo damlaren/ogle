@@ -53,7 +53,7 @@ class Transform {
   /**
    * @brief Destructor.
    */
-  ~Transform() = default;
+  ~Transform();
 
   /**
    * @brief Sets world position and adjusts children's local coordinates.
@@ -149,6 +149,8 @@ class Transform {
   const Matrix33f RotationMatrix3D() const;
 
  private:
+  // TODO(damlaren): It's assumed that the # of child Transforms, and changes,
+  // remains small.
   /// Child Transforms.
   std::vector<Transform*> children_;
 

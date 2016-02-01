@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/transform.h"
+#include <algorithm>
 #include "easylogging++.h"  // NOLINT
 #include "geometry/transformation_matrix.h"
 
@@ -26,6 +27,24 @@ Transform::Transform(Transform *parent, Entity *entity)
   : world_position_{0.f, 0.f, 0.f}, world_orientation_{}, parent_(parent),
     entity_(entity) {
   CHECK(entity_ != nullptr) << "Transform must be attached to an Entity.";
+  if (parent_ != nullptr) {
+    parent_->children_.push_back(this);
+  }
+}
+
+Transform::~Transform() {
+  if (parent_ != nullptr) {
+    auto it = std::find(parent_->children_.begin(), parent_->children_.end(),
+                        this);
+    if (it == parent_->children_.end()) {
+      LOG(ERROR) << "Transform parent doesn't recognize child.";
+    } else {
+      parent_->children_.erase(it);
+    }
+  }
+  for (Transform* child_transform : children_) {
+    child_transform->parent_ = parent_;
+  }
 }
 
 void Transform::set_world_position(const Vector3f& new_position) {
