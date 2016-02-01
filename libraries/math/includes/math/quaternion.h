@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <assert.h>
 #include "math/angle.h"
+#include "math/fp_comparison.h"
 #include "math/matrix.h"
 #include "math/vector.h"
 
@@ -176,8 +177,7 @@ class Quaternion {
    * @return As above.
    */
   const bool HasUnitNorm() const {
-    // TODO(damlaren): EPSILON.
-    return NormSquared() == static_cast<T>(1);
+    return FPEquals(NormSquared(), static_cast<T>(1));
   }
 
   /**

@@ -23,6 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <iterator>
 #include <numeric>
 #include <type_traits>
+#include "math/fp_comparison.h"
 
 namespace ogle {
 
@@ -358,8 +359,7 @@ class Vector {
    * @return As above.
    */
   const bool HasUnitNorm() const noexcept {
-    // TODO(damlaren): EPSILON.
-    return fabs(NormSquared() - static_cast<T>(1)) < 1e-4;
+    return FPEquals(NormSquared(), static_cast<T>(1));
   }
 
   /**

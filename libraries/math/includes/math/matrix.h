@@ -22,6 +22,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <iostream>
 #include <iterator>
 #include <type_traits>
+#include "math/fp_comparison.h"
 #include "math/vector.h"
 
 namespace ogle {
@@ -542,9 +543,8 @@ class Matrix {
     static_assert(M == N, "Inverse can only be computed for square Matrix.");
     static_assert(M <= 4, "Inverse can only be computed for Matrix up to 4x4.");
 
-    // TODO(damlaren): Define an EPSILON somewhere.
     const T determinant = Determinant();
-    if (fabs(static_cast<float>(determinant)) < 1e-5) {
+    if (FPEquals(determinant, static_cast<T>(0))) {
       return false;
     }
 
