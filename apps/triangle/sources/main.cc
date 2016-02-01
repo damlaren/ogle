@@ -139,7 +139,6 @@ class TriangleApplication : public ogle::Application {
   std::unique_ptr<ogle::Entity> camera_;
 };
 
-
 /**
  * @brief Main entry point.
  * @return 0 on success, something else on failure.

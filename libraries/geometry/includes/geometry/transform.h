@@ -33,6 +33,13 @@ class Entity;
  */
 class Transform {
  public:
+  //@{
+  /// Axes that represent front, right, and up directions in world space.
+  static const Vector3f kFrontAxis;
+  static const Vector3f kRightAxis;
+  static const Vector3f kUpAxis;
+  //@}
+
   /**
    * @brief Constructor.
    *
@@ -134,13 +141,6 @@ class Transform {
    * @return New Matrix.
    */
   const Matrix33f RotationMatrix3D() const;
-
-  //@{
-  /// Axes that represent front, right, and up directions in world space.
-  static const Vector3f kFrontAxis;
-  static const Vector3f kRightAxis;
-  static const Vector3f kUpAxis;
-  //@}
 
  private:
   /// Child Transforms.
