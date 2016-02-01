@@ -34,15 +34,20 @@ class Renderer;
  */
 class Entity {
  public:
+  // TODO(damlaren): static initialization order could be a problem.
+  /// Root Entity defining coordinate system. All other Entities are beneath it.
+  static Entity kRootEntity;
+
   /**
    * @brief Constructor.
+   * @param parent Transform of parent Entity.
    * @param renderer Renderer to use to draw this Entity.  Rendering is
    *     skipped if one is not provided.
    * @param camera Camera to attach to Entity. Can be null. Not used to render
    *     this Entity.
    */
-  explicit Entity(std::shared_ptr<Renderer> renderer,
-                  std::shared_ptr<Camera> camera);
+  Entity(Transform *parent, std::shared_ptr<Renderer> renderer,
+         std::shared_ptr<Camera> camera);
 
   /**
    * @brief Renders this Entity.

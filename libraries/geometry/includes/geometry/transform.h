@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_TRANSFORM_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_TRANSFORM_H_
 
+#include <vector>
 #include "math/angle.h"
 #include "math/matrix.h"
 #include "math/quaternion.h"
@@ -27,9 +28,8 @@ class Entity;
 /**
  * @brief Represents position and orientation of an object.
  *
- * Representation with respect to both the world and space local to a parent
- * Transform. The root Transform is the ancestor of all Transforms, and defines
- * the origin and orientation of world space.
+ * Representation with respect to both the world and space local to a parent.
+ * Local space is defined by a hierarchy of transforms.
  */
 class Transform {
  public:
@@ -38,9 +38,10 @@ class Transform {
    *
    * Zeros out world position and orientation. Attaches Transform to Entity.
    *
+   * @param parent Parent Transform. Can be null.
    * @param entity Entity to attach to. Must be non-null.
    */
-  explicit Transform(Entity *entity);
+  Transform(Transform* parent, Entity* entity);
 
   /**
    * @brief Destructor.
@@ -73,6 +74,22 @@ class Transform {
    */
   void set_world_orientation(const Angle yaw, const Angle pitch,
                              const Angle roll);
+
+  /**
+   * @brief Accessor.
+   * @return Parent Transform.
+   */
+  Transform* parent();
+
+  /**
+   * @brief Accessor.
+   *
+   * Individual Transforms can be manipulated, but the returned vector should
+   * not be.
+   *
+   * @return Child Transforms.
+   */
+  const std::vector<Transform*>& children();
 
   //@{
   /**
@@ -126,11 +143,17 @@ class Transform {
   //@}
 
  private:
-  /// Position in world space.
-  Vector3f world_position_;
+  /// Child Transforms.
+  std::vector<Transform*> children_;
 
   /// Orientation in world space.
   Quaternionf world_orientation_;
+
+  /// Position in world space.
+  Vector3f world_position_;
+
+  /// Parent Transform, null for root.
+  Transform* parent_;
 
   /// Entity attached to this transform.
   Entity* entity_;

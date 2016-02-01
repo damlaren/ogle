@@ -18,8 +18,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Transform::Transform(Entity *entity)
-  : world_position_{0.f, 0.f, 0.f}, world_orientation_{}, entity_(entity) {
+Transform::Transform(Transform *parent, Entity *entity)
+  : world_position_{0.f, 0.f, 0.f}, world_orientation_{}, parent_(parent),
+    entity_(entity) {
   CHECK(entity_ != nullptr) << "Transform must be attached to an Entity.";
 }
 
