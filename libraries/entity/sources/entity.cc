@@ -25,7 +25,7 @@ Renderer* Entity::renderer() {
   return renderer_.get();
 }
 
-const Camera* Entity::camera() const {
+Camera* Entity::camera() {
   return camera_.get();
 }
 

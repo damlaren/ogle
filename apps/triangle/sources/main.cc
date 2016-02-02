@@ -74,6 +74,13 @@ class TriangleApplication : public ogle::Application {
       return false;
     }
 
+    // Update camera aspect ratio.
+    // TODO(damlaren): Should be done with an Update function on an Entity,
+    // or a messaging interface.
+    ogle::PerspectiveCamera* camera =
+        dynamic_cast<ogle::PerspectiveCamera*>(camera_->camera());
+    camera->set_aspect_ratio(window_->window_width(), window_->window_height());
+
     // Move camera on input.
     constexpr float kMoveDelta = 0.03f;
     const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(2.0f);
@@ -113,7 +120,7 @@ class TriangleApplication : public ogle::Application {
 
     // TODO(damlaren): Move rendering code out.
     window_->ClearWindow();
-    scene_renderer_->RenderScene(*camera_.get(), scene_graph_.get());
+    scene_renderer_->RenderScene(camera_.get(), scene_graph_.get());
     window_->SwapBuffers();
 
     return true;

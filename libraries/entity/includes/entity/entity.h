@@ -66,7 +66,7 @@ class Entity {
    * @brief Accessor.
    * @return Camera attached to this Entity.
    */
-  const Camera* camera() const;
+  Camera* camera();
 
   /// Entity location and orientation.
   Transform transform_;

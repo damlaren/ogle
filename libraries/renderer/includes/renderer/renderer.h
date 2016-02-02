@@ -40,7 +40,7 @@ class Renderer {
    * @param camera Entity with attached Camera to render from.
    */
   virtual void Render(const Transform& transform,
-                      const Entity &camera) = 0;
+                      Entity *camera) = 0;
 
  protected:
   /**
