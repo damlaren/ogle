@@ -21,16 +21,16 @@ namespace ogle {
 PerspectiveCamera::PerspectiveCamera(const float near_clip,
                                      const float far_clip,
                                      const Angle vertical_fov,
-                                     const float aspect_ratio)
+                                     const int window_width,
+                                     const int window_height)
   : Camera(), near_clip_(near_clip), far_clip_(far_clip),
-    vertical_fov_(vertical_fov), aspect_ratio_(aspect_ratio) {
+    vertical_fov_(vertical_fov) {
   CHECK(near_clip_ < far_clip_) << "Near clip plane must be closer than far.";
   CHECK(near_clip_ >= 0) << "Near clip plane must be at positive distance.";
   CHECK(vertical_fov.radians() > 0) << "Vertical FOV must be > 0.";
-  CHECK(aspect_ratio > 0) << "Aspect ratio must be > 0.";
-}
-
-PerspectiveCamera::~PerspectiveCamera() {
+  CHECK(window_width > 0) << "Window width must be > 0.";
+  CHECK(window_height > 0) << "Window height must be > 0.";
+  set_aspect_ratio(window_width, window_height);
 }
 
 Matrix44f PerspectiveCamera::GetViewMatrix(const Transform &transform) const {
@@ -40,9 +40,18 @@ Matrix44f PerspectiveCamera::GetViewMatrix(const Transform &transform) const {
 }
 
 Matrix44f PerspectiveCamera::GetProjectionMatrix() const {
-  return TransformationMatrix::PerspectiveMatrix3D(near_clip_, far_clip_,
-                                                   vertical_fov_,
-                                                   aspect_ratio_);
+  return TransformationMatrix::PerspectiveMatrix3D(
+      near_clip_, far_clip_, vertical_fov_, aspect_ratio_);
+}
+
+void PerspectiveCamera::set_aspect_ratio(const int window_width,
+                                         const int window_height) {
+  if (window_width > 0 && window_height > 0) {
+    aspect_ratio_ = static_cast<float>(window_width) / window_height;
+  } else {
+    LOG(ERROR) << "Failed to set aspect ratio; window WxH = "
+               << window_width << " x " << window_height;
+  }
 }
 
 }  // namespace ogle

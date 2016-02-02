@@ -60,18 +60,13 @@ class TriangleApplication : public ogle::Application {
     triangle_ = std::make_unique<ogle::Entity>(
         &scene_graph_->root_->transform_, renderer, nullptr);
     auto camera_object = std::make_shared<ogle::PerspectiveCamera>(
-        0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
-        static_cast<float>(window_->window_width()) /
-            window_->window_height());
+        0.01f, 100.f, ogle::Angle::FromDegrees(67.f), window_->window_width(),
+        window_->window_height());
     camera_ = std::make_unique<ogle::Entity>(
         &scene_graph_->root_->transform_, nullptr, camera_object);
     camera_->transform_.set_world_position({0.f, 0.f, 3.0f});
-    camera_->transform_.set_world_orientation(ogle::Angle::FromDegrees(90.f),
-                                              ogle::Angle(0.f),
-                                              ogle::Angle(0.f));
-  }
-
-  ~TriangleApplication() override {
+    camera_->transform_.set_world_orientation(
+        ogle::Angle::FromDegrees(90.f), ogle::Angle(0.f), ogle::Angle(0.f));
   }
 
   bool ApplicationBody() {
