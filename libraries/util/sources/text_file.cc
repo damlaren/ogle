@@ -31,14 +31,4 @@ bool TextFile::ReadFile(const std::string& file_path,
   return true;
 }
 
-void TextFile::SplitLines(const std::string& text,
-                          std::vector<std::string>* lines) {
-  std::stringstream text_stream(text);
-  std::string next_line;
-  while (std::getline(text_stream, next_line)) {
-    lines->emplace_back(next_line);
-    next_line.clear();
-  }
-}
-
 }  // namespace ogle

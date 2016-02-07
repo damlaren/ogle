@@ -34,14 +34,6 @@ class TextFile {
    */
   static bool ReadFile(const std::string& file_path,
                        std::string* text);
-
-  /**
-   * @brief Split text into separate lines.
-   * @param text Text to split.
-   * @param[out] lines Vector containing each line of text.
-   */
-  static void SplitLines(const std::string& text,
-                         std::vector<std::string>* lines);
 };
 
 }  // namespace ogle

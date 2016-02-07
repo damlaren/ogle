@@ -9,34 +9,41 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of mesh.h.
+ * @file Defines StringUtils.
  */
 
-#include "geometry/mesh.h"
-#include "geometry/mesh_loader.h"
+#ifndef LIBRARIES_UTIL_INCLUDES_UTIL_STRING_UTILS_H_
+#define LIBRARIES_UTIL_INCLUDES_UTIL_STRING_UTILS_H_
+
 #include <string>
+#include <vector>
 
 namespace ogle {
 
-Mesh::Mesh() :
-    vertices_(VertexBuffer()), normals_(NormalBuffer()),
-    uvs_(TexCoordUVBuffer()),  vertex_indices_(IndexBuffer()),
-    normal_indices_(IndexBuffer()), texcoord_indices_(IndexBuffer()) {
-}
+/**
+ * @brief Provides string manipulation utilities.
+ */
+class StringUtils {
+ public:
+  /**
+   * @brief Creates a string with characters trimmed from the start and end.
+   * @param input String to trim.
+   * @param chars Characters to trim.
+   * @return New string.
+   */
+  static const std::string Trim(const std::string& input,
+                                const std::string& chars);
 
-Mesh::~Mesh() {
-}
-
-Mesh* Mesh::LoadMesh(const std::string& file_path) {
-  return MeshLoader::LoadMesh(file_path);
-}
-
-void Mesh::TakeBuffers(VertexBuffer&& vertices) {  // NOLINT
-  vertices_ = std::move(vertices);
-}
-
-const VertexBuffer& Mesh::vertices() const {
-  return vertices_;
-}
+  /**
+   * @brief Creates a string split by delimiters.
+   * @param input String to split.
+   * @param delim Delimiter for splitting string into tokens.
+   * @return Split tokens.
+   */
+  static const std::vector<std::string> Split(const std::string& input,
+                                              const char delim);
+};
 
 }  // namespace ogle
+
+#endif  // LIBRARIES_UTIL_INCLUDES_UTIL_STRING_UTILS_H_

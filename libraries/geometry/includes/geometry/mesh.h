@@ -84,9 +84,6 @@ class Mesh {
   /// Vertex buffer.
   VertexBuffer vertices_;
 
-  /// Index buffer.
-  IndexBuffer indices_;
-
   /// Vertex normals.
   NormalBuffer normals_;
 
@@ -94,6 +91,13 @@ class Mesh {
   TexCoordUVBuffer uvs_;
 
   // 3D texture buffers are not supported but could be added separately.
+
+  //@{
+  /// Index buffer for another field.
+  IndexBuffer vertex_indices_;
+  IndexBuffer normal_indices_;
+  IndexBuffer texcoord_indices_;
+  //@}
 };
 
 }  // namespace ogle

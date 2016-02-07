@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <vector>
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
+#include "util/string_utils.h"
 #include "util/text_file.h"
 
 namespace ogle {
@@ -56,9 +57,16 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
     return nullptr;
   }
 
-  std::vector<std::string> lines;
-  TextFile::SplitLines(text, &lines);
+  std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
+
+  for (const auto& line : lines) {
+    const std::string trimmed_line = StringUtils::Trim(line, " \t\r\n");
+    if (trimmed_line.empty() || trimmed_line[0] == '#') {
+      continue;
+    }
+    // TODO(damlaren)
+  }
 
   return new Mesh();
 }

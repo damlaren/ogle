@@ -9,34 +9,39 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of mesh.h.
+ * @file Implements string_utils.h.
  */
 
-#include "geometry/mesh.h"
-#include "geometry/mesh_loader.h"
-#include <string>
+#include "util/string_utils.h"
+#include <sstream>
 
 namespace ogle {
 
-Mesh::Mesh() :
-    vertices_(VertexBuffer()), normals_(NormalBuffer()),
-    uvs_(TexCoordUVBuffer()),  vertex_indices_(IndexBuffer()),
-    normal_indices_(IndexBuffer()), texcoord_indices_(IndexBuffer()) {
+const std::string StringUtils::Trim(const std::string& input,
+                                    const std::string& chars) {
+  // Trim left side.
+  auto keep_index = input.find_first_not_of(chars);
+  std::string trimmed = (keep_index != std::string::npos)?
+      input.substr(keep_index) : "";
+
+  // Trim right side.
+  keep_index = trimmed.find_last_not_of(chars);
+  trimmed = (keep_index != std::string::npos)?
+      trimmed.substr(0, keep_index + 1) : "";
+
+  return trimmed;
 }
 
-Mesh::~Mesh() {
-}
+const std::vector<std::string> StringUtils::Split(const std::string& input,
+                                                  const char delim) {
+  std::stringstream input_stream(input);
+  std::string next_token;
+  std::vector<std::string> tokens;
 
-Mesh* Mesh::LoadMesh(const std::string& file_path) {
-  return MeshLoader::LoadMesh(file_path);
-}
-
-void Mesh::TakeBuffers(VertexBuffer&& vertices) {  // NOLINT
-  vertices_ = std::move(vertices);
-}
-
-const VertexBuffer& Mesh::vertices() const {
-  return vertices_;
+  while (std::getline(input_stream, next_token, delim)) {
+    tokens.emplace_back(next_token);
+  }
+  return tokens;
 }
 
 }  // namespace ogle

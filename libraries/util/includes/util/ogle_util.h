@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_UTIL_INCLUDES_UTIL_OGLE_UTIL_H_
 
 #include "util/blank.h"
+#include "util/string_utils.h"
 #include "util/text_file.h"
 
 #endif  // LIBRARIES_UTIL_INCLUDES_UTIL_OGLE_UTIL_H_
