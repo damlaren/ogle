@@ -45,7 +45,7 @@ class Mesh {
    * @brief Gives ownership of buffers to mesh.
    * @param vertices Vertex buffer. Invalid after call.
    */
-  void StealBuffers(VertexBuffer&& vertices);  // NOLINT
+  void TakeBuffers(VertexBuffer&& vertices);  // NOLINT
 
   /**
    * @brief Provides access to vertex buffer.

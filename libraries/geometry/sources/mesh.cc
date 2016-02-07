@@ -23,7 +23,7 @@ Mesh::Mesh() :
 Mesh::~Mesh() {
 }
 
-void Mesh::StealBuffers(
+void Mesh::TakeBuffers(
     VertexBuffer&& vertices) {  // NOLINT
   vertices_ = std::move(vertices);
 }

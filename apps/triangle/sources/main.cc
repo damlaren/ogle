@@ -30,7 +30,7 @@ class TriangleApplication : public ogle::Application {
     ogle::VertexBuffer triangle_vertices(
         {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
     auto mesh = std::make_shared<ogle::Mesh>();
-    mesh->StealBuffers(std::move(triangle_vertices));
+    mesh->TakeBuffers(std::move(triangle_vertices));
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
