@@ -15,13 +15,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
+#include <cstdint>
 #include "geometry/buffer.h"
 #include "math/vector.h"
 
 namespace ogle {
 
-/// Type for a 3D Vertex buffer.
+/// Type for a 3D vertex buffer.
 using VertexBuffer = Buffer<Vector3f>;
+
+/// Type for an index buffer.
+using IndexBuffer = Buffer<std::int32_t>;
+
+/// Type for a 3D normal-vector buffer.
+using NormalBuffer = Buffer<Vector3f>;
 
 /**
  * @brief 3D geometry mesh.
