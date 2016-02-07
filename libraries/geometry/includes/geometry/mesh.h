@@ -47,7 +47,7 @@ class Mesh {
  public:
   // TODO(damlaren): Protect.
   /**
-   * @brief Creates an empty mesh.
+   * @brief Creates an empty Mesh.
    */
   Mesh();
 
@@ -59,9 +59,9 @@ class Mesh {
   ~Mesh();
 
   /**
-   * @brief Creates a new Mesh constructed from parsing file.
+   * @brief Creates a new Mesh constructed from parsing a file.
    *
-   * The caller is responsible for deallocating the Mesh.
+   * The caller takes ownership of the Mesh.
    *
    * @param file_path Path to file to load. Extension determines file format.
    * @return Pointer to new Mesh, or nullptr if creation failed.

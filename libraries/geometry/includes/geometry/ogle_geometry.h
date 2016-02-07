@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "geometry/buffer.h"
 #include "geometry/mesh.h"
+#include "geometry/mesh_loader.h"
 #include "geometry/ray.h"
 #include "geometry/transform.h"
 #include "geometry/transformation_matrix.h"

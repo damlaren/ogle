@@ -80,7 +80,8 @@ class TransformationMatrix {
   /**
    * @brief Builds a camera view matrix looking at a position.
    * @param camera_position Camera world position.
-   * @param target_position Where to point the camera. Should be distinct from camera position.
+   * @param target_position Where to point the camera. Should be distinct from
+   *        camera position.
    * @param up_vector Up direction. Should be a unit vector.
    * @return Resulting Matrix.
    */

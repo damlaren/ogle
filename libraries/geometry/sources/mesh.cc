@@ -13,9 +13,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/mesh.h"
+#include "geometry/mesh_loader.h"
 #include <string>
-#include <vector>
-#include "util/text_file.h"
 
 namespace ogle {
 
@@ -28,18 +27,7 @@ Mesh::~Mesh() {
 }
 
 Mesh* Mesh::LoadMesh(const std::string& file_path) {
-  std::string text;
-  if (!TextFile::ReadFile(file_path, &text)) {
-    return nullptr;
-  }
-
-  std::vector<std::string> lines;
-  TextFile::SplitLines(text, &lines);
-  text.clear();
-
-  // TODO(damlaren): fill this in.
-
-  return new Mesh();
+  return MeshLoader::LoadMesh(file_path);
 }
 
 void Mesh::TakeBuffers(VertexBuffer&& vertices) {  // NOLINT
