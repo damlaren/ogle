@@ -448,7 +448,8 @@ class Vector {
 };
 
 //@{
-/// Shorthand types.
+/// Shorthand type.
+using Vector2f = Vector<float, 2>;
 using Vector3f = Vector<float, 3>;
 using Vector4f = Vector<float, 4>;
 //@}

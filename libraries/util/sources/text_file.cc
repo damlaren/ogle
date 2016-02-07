@@ -14,19 +14,31 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "util/text_file.h"
 #include <fstream>
+#include <sstream>
 #include "easylogging++.h"  // NOLINT
 
 namespace ogle {
 
-bool TextFile::ReadFile(const std::string& file_name,
+bool TextFile::ReadFile(const std::string& file_path,
                         std::string* text) {
-  std::ifstream in_file(file_name);
+  std::ifstream in_file(file_path);
   if (!in_file.is_open()) {
+    LOG(ERROR) << "Failed to open file: " << file_path;
     return false;
   }
   *text = std::string(std::istreambuf_iterator<char>(in_file),
                       std::istreambuf_iterator<char>());
   return true;
+}
+
+void TextFile::SplitLines(const std::string& text,
+                          std::vector<std::string>* lines) {
+  std::stringstream text_stream(text);
+  std::string next_line;
+  while (std::getline(text_stream, next_line)) {
+    lines->emplace_back(next_line);
+    next_line.clear();
+  }
 }
 
 }  // namespace ogle

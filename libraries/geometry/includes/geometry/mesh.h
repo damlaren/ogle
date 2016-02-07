@@ -16,26 +16,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
 #include <cstdint>
+#include <string>
 #include "geometry/buffer.h"
 #include "math/vector.h"
 
 namespace ogle {
 
-/// Type for a 3D vertex buffer.
+/// 3D vertex buffer type.
 using VertexBuffer = Buffer<Vector3f>;
 
-/// Type for an index buffer.
+/// Index buffer type.
 using IndexBuffer = Buffer<std::int32_t>;
 
-/// Type for a 3D normal-vector buffer.
+/// 3D normal vector buffer.
 using NormalBuffer = Buffer<Vector3f>;
 
+/// 2D texture coordinate buffer.
+using TexCoordUVBuffer = Buffer<Vector2f>;
+
+/// 3D texture coordinate buffer.
+using TexCoordUVWBuffer = Buffer<Vector3f>;
+
 /**
- * @brief 3D geometry mesh.
- * Takes ownership of its buffers.
+ * @brief A 3D geometry mesh.
+ *
+ * Meshes support 3D vertices and normals, and 2D texture buffers.
+ * Meshes own the buffers they store and are responsible for deallocating them.
  */
 class Mesh {
  public:
+  // TODO(damlaren): Protect.
   /**
    * @brief Creates an empty mesh.
    */
@@ -47,6 +57,16 @@ class Mesh {
    * Deletes all buffers.
    */
   ~Mesh();
+
+  /**
+   * @brief Creates a new Mesh constructed from parsing file.
+   *
+   * The caller is responsible for deallocating the Mesh.
+   *
+   * @param file_path Path to file to load. Extension determines file format.
+   * @return Pointer to new Mesh, or nullptr if creation failed.
+   */
+  static Mesh* LoadMesh(const std::string& file_path);
 
   /**
    * @brief Gives ownership of buffers to mesh.
@@ -63,6 +83,17 @@ class Mesh {
  protected:
   /// Vertex buffer.
   VertexBuffer vertices_;
+
+  /// Index buffer.
+  IndexBuffer indices_;
+
+  /// Vertex normals.
+  NormalBuffer normals_;
+
+  /// 2D texture buffer.
+  TexCoordUVBuffer uvs_;
+
+  // 3D texture buffers are not supported but could be added separately.
 };
 
 }  // namespace ogle

@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <fstream>
 #include <string>
+#include <vector>
 
 namespace ogle {
 
@@ -27,12 +28,20 @@ class TextFile {
  public:
   /**
    * @brief Read all contents of a file.
-   * @param file_name Path to file to read.
+   * @param file_path Path to file to read.
    * @param[out] text Contents read from file.
    * @return Whether the operation was completed successfully.
    */
-  static bool ReadFile(const std::string& file_name,
+  static bool ReadFile(const std::string& file_path,
                        std::string* text);
+
+  /**
+   * @brief Split text into separate lines.
+   * @param text Text to split.
+   * @param[out] lines Vector containing each line of text.
+   */
+  static void SplitLines(const std::string& text,
+                         std::vector<std::string>* lines);
 };
 
 }  // namespace ogle
