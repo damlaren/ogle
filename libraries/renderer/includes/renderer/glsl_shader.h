@@ -83,7 +83,7 @@ class GLSLShaderProgram : public ShaderProgram {
                    GLFunc gl_func) {
     // TODO(damlaren): Getting location is best done outside of a loop.
     //     I've read that querying it is slow.
-    int uniform_location = glGetUniformLocation(program_id_, variable.c_str());
+    GLint uniform_location = glGetUniformLocation(program_id_, variable.c_str());
     if (uniform_location == -1) {
       LOG(ERROR) << "Could not find uniform on program " << program_id_
                  << ": " << variable;
