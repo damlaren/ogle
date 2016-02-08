@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <vector>
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
+#include "math/vector.h"
 #include "util/string_utils.h"
 #include "util/text_file.h"
 
@@ -59,13 +60,63 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
 
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
-
+  std::vector<Vector3f> vertices;
+  std::vector<Vector2f> tex_coords_uv;
+  std::vector<Vector3f> tex_coords_uvw;
+  std::vector<Vector3f> normals;
+  std::vector<BufferIndex> vertex_indices;
+  std::vector<BufferIndex> tex_coord_indices;
+  std::vector<BufferIndex> normal_indices;
   for (const auto& line : lines) {
-    const std::string trimmed_line = StringUtils::Trim(line, " \t\r\n");
+    std::string trimmed_line = StringUtils::Trim(line, " \t\r\n");
     if (trimmed_line.empty() || trimmed_line[0] == '#') {
       continue;
     }
-    // TODO(damlaren)
+    trimmed_line = StringUtils::Replace(trimmed_line, '\t', ' ');
+    const auto tokens = StringUtils::Split(trimmed_line, ' ');
+    const std::string& line_type = tokens[0];
+    std::vector<float> line_floats;
+    if (line_type == "v") {
+      for (std::vector<std::string>::size_type token_index = 1;
+           token_index < tokens.size(); token_index++) {
+        line_floats.emplace_back(std::stof(tokens[token_index]));
+      }
+      Vector3f line_vector;
+      if (line_floats.size() == 3) {
+        line_vector = {line_floats[0], line_floats[1], line_floats[2]};
+      } else if (line_floats.size() == 4) {
+        // Have w coordinate, produce a 3-vector with w = 1.
+        const float w = line_floats[3];
+        line_vector = {line_floats[0] / w, line_floats[1] / w,
+                       line_floats[2] / w};
+      } else {
+        LOG(ERROR) << "Expected 3 or 4 floats for vertex.";
+      }
+      vertices.emplace_back(line_vector);
+    } else if (line_type == "vt") {
+      for (std::vector<std::string>::size_type token_index = 1;
+           token_index < tokens.size(); token_index++) {
+        line_floats.emplace_back(std::stof(tokens[token_index]));
+      }
+      if (line_floats.size() == 2) {
+        tex_coords_uv.emplace_back(Vector2f({line_floats[0], line_floats[1]}));
+      } else if (line_floats.size() == 3) {
+        tex_coords_uvw.emplace_back(Vector3f({line_floats[0], line_floats[1],
+                                              line_floats[2]}));
+      }
+    } else if (line_type == "vn") {
+      for (std::vector<std::string>::size_type token_index = 1;
+           token_index < tokens.size(); token_index++) {
+        line_floats.emplace_back(std::stof(tokens[token_index]));
+      }
+      // TODO(damlaren): Normals may not be unit vectors-- don't normalize yet.
+      normals.emplace_back(Vector3f({line_floats[0], line_floats[1],
+                                     line_floats[2]}));
+    } else if (line_type == "vp") {
+      LOG(ERROR) << "LoadOBJ cannot load parameter space vertices.";
+    } else if (line_type == "f") {
+      // Several different formats are possible, split by '/'.
+    }
   }
 
   return new Mesh();

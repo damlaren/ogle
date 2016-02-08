@@ -21,7 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /// Type for indexing into a Buffer.
-using BufferIndex = std::uint64_t;
+using BufferIndex = std::uint32_t;
 
 /**
  * @brief Memory buffer class that cleans up after itself.

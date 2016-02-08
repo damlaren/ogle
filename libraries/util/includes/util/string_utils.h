@@ -26,14 +26,15 @@ namespace ogle {
 class StringUtils {
  public:
   /**
-   * @brief Creates a string with characters trimmed from the start and end.
-   * @param input String to trim.
-   * @param chars Characters to trim.
+   * @brief Replace tokens in string.
+   * @param input String in which to replace tokens.
+   * @param to_replace Character to replace.
+   * @param replacement New character after replacement.
    * @return New string.
    */
-  static const std::string Trim(const std::string& input,
-                                const std::string& chars);
-
+  static const std::string Replace(const std::string& input,
+                                   const char to_replace,
+                                   const char replacement);
   /**
    * @brief Creates a string split by delimiters.
    * @param input String to split.
@@ -42,6 +43,15 @@ class StringUtils {
    */
   static const std::vector<std::string> Split(const std::string& input,
                                               const char delim);
+
+  /**
+   * @brief Creates a string with characters trimmed from the start and end.
+   * @param input String to trim.
+   * @param chars Characters to trim.
+   * @return New string.
+   */
+  static const std::string Trim(const std::string& input,
+                                const std::string& chars);
 };
 
 }  // namespace ogle

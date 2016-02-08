@@ -28,7 +28,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /// Type for indexing into a Matrix.
-using MatrixIndex = std::uint64_t;
+using MatrixIndex = unsigned int;
 
 /**
  * @namespace Namespace to contain helper functions for Matrix.

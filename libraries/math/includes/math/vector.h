@@ -28,7 +28,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /// Type for indexing into Vector.
-using VectorIndex = std::uint64_t;
+using VectorIndex = unsigned int;
 
 /**
 * @brief Geometric vectors and points with K elements.

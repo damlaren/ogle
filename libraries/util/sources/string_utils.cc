@@ -13,9 +13,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "util/string_utils.h"
+#include <algorithm>
 #include <sstream>
 
 namespace ogle {
+
+const std::string StringUtils::Replace(const std::string& input,
+                                       const char to_replace,
+                                       const char replacement) {
+  std::string new_string{input};
+  std::replace(new_string.begin(), new_string.end(), to_replace, replacement);
+  return new_string;
+}
+
+const std::vector<std::string> StringUtils::Split(const std::string& input,
+                                                  const char delim) {
+  std::stringstream input_stream(input);
+  std::string next_token;
+  std::vector<std::string> tokens;
+
+  while (std::getline(input_stream, next_token, delim)) {
+    if (!next_token.empty()) {
+      tokens.emplace_back(next_token);
+    }
+  }
+  return tokens;
+}
 
 const std::string StringUtils::Trim(const std::string& input,
                                     const std::string& chars) {
@@ -30,18 +53,6 @@ const std::string StringUtils::Trim(const std::string& input,
       trimmed.substr(0, keep_index + 1) : "";
 
   return trimmed;
-}
-
-const std::vector<std::string> StringUtils::Split(const std::string& input,
-                                                  const char delim) {
-  std::stringstream input_stream(input);
-  std::string next_token;
-  std::vector<std::string> tokens;
-
-  while (std::getline(input_stream, next_token, delim)) {
-    tokens.emplace_back(next_token);
-  }
-  return tokens;
 }
 
 }  // namespace ogle
