@@ -18,10 +18,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Mesh::Mesh() :
-    vertices_(VertexBuffer()), normals_(NormalBuffer()),
-    uvs_(TexCoordUVBuffer()),  vertex_indices_(IndexBuffer()),
-    normal_indices_(IndexBuffer()), texcoord_indices_(IndexBuffer()) {
+Mesh::Mesh(VertexBuffer&& vertex_buffer, NormalBuffer&& normal_buffer,  // NOLINT
+           TexCoordUVBuffer&& uv_buffer, IndexBuffer&& vertex_index_buffer,  // NOLINT
+           IndexBuffer&& normal_index_buffer, IndexBuffer&& tex_index_buffer)  // NOLINT
+  : vertices_(std::move(vertex_buffer)), normals_(std::move(normal_buffer)),
+    uvs_(std::move(uv_buffer)),
+    vertex_indices_(std::move(vertex_index_buffer)),
+    normal_indices_(std::move(normal_index_buffer)),
+    tex_coord_indices_(std::move(tex_index_buffer)) {
 }
 
 Mesh::~Mesh() {

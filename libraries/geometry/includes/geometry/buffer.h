@@ -60,7 +60,7 @@ class Buffer {
    * @param data Array that is taken as Buffer storage.
    * @param num_elements How many elements are in array.
    */
-  Buffer(T data[], BufferIndex num_elements) :
+  Buffer(T* data, BufferIndex num_elements) :
     num_elements_(num_elements),
     data_(data) {
   }

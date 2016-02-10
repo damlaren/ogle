@@ -49,7 +49,9 @@ class Mesh {
   /**
    * @brief Creates an empty Mesh.
    */
-  Mesh();
+  Mesh(VertexBuffer&& vertex_buffer, NormalBuffer&& normal_buffer,  // NOLINT
+       TexCoordUVBuffer&& uv_buffer, IndexBuffer&& vertex_index_buffer,  // NOLINT
+       IndexBuffer&& normal_index_buffer, IndexBuffer&& tex_index_buffer);  // NOLINT
 
   /**
    * @brief Destructor.
@@ -93,10 +95,10 @@ class Mesh {
   // 3D texture buffers are not supported but could be added separately.
 
   //@{
-  /// Index buffer for another field.
+  /// Index buffer for field.
   IndexBuffer vertex_indices_;
   IndexBuffer normal_indices_;
-  IndexBuffer texcoord_indices_;
+  IndexBuffer tex_coord_indices_;
   //@}
 };
 

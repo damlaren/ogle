@@ -57,9 +57,9 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
   if (!TextFile::ReadFile(file_path, &text)) {
     return nullptr;
   }
-
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
+
   std::vector<Vector3f> vertices;
   std::vector<Vector2f> tex_coords_uv;
   std::vector<Vector3f> tex_coords_uvw;
@@ -91,6 +91,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
                        line_floats[2] / w};
       } else {
         LOG(ERROR) << "Expected 3 or 4 floats for vertex.";
+        return nullptr;
       }
       vertices.emplace_back(line_vector);
     } else if (line_type == "vt") {
@@ -114,8 +115,44 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
                                      line_floats[2]}));
     } else if (line_type == "vp") {
       LOG(ERROR) << "LoadOBJ cannot load parameter space vertices.";
+      return nullptr;
     } else if (line_type == "f") {
       // Several different formats are possible, split by '/'.
+      if (tokens.size() > 4) {
+        LOG(ERROR) << "Non-triangular faces are not supported.";
+        return nullptr;
+      }
+      for (std::vector<std::string>::size_type token_index = 1;
+           token_index < tokens.size(); token_index++) {
+        const std::string& index_specifier = tokens[token_index];
+        const auto first_slash_index = index_specifier.find_first_of('/');
+        const auto last_slash_index = index_specifier.find_last_of('/');
+        std::string vertex_str = "", tex_str = "", normal_str = "";
+        if (index_specifier.find("//") != std::string::npos) {  // v//n
+          vertex_str = index_specifier.substr(0, first_slash_index);
+          normal_str = index_specifier.substr(last_slash_index + 1);
+        } else if (first_slash_index != last_slash_index) {  // v/t/n
+          vertex_str = index_specifier.substr(0, first_slash_index);
+          tex_str = index_specifier.substr(first_slash_index + 1,
+              last_slash_index - first_slash_index - 1);
+          normal_str = index_specifier.substr(last_slash_index + 1);
+        } else if (first_slash_index == last_slash_index) {  // v/t
+          vertex_str = index_specifier.substr(0, first_slash_index);
+          tex_str = index_specifier.substr(first_slash_index + 1);
+        } else {  // v
+          vertex_str = index_specifier;
+        }
+
+        if (!vertex_str.empty()) {
+          vertex_indices.emplace_back(std::stoul(vertex_str));
+        }
+        if (!tex_str.empty()) {
+          tex_coord_indices.emplace_back(std::stoul(tex_str));
+        }
+        if (!normal_str.empty()) {
+          normal_indices.emplace_back(std::stoul(normal_str));
+        }
+      }
     }
   }
 
