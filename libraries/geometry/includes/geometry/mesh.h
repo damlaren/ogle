@@ -26,7 +26,7 @@ namespace ogle {
 using VertexBuffer = Buffer<Vector3f>;
 
 /// Index buffer type.
-using IndexBuffer = Buffer<std::int32_t>;
+using IndexBuffer = Buffer<BufferIndex>;
 
 /// 3D normal vector buffer.
 using NormalBuffer = Buffer<Vector3f>;
@@ -45,7 +45,6 @@ using TexCoordUVWBuffer = Buffer<Vector3f>;
  */
 class Mesh {
  public:
-  // TODO(damlaren): Protect.
   /**
    * @brief Creates an empty Mesh.
    */

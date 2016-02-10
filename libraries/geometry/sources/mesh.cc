@@ -21,7 +21,8 @@ namespace ogle {
 Mesh::Mesh(VertexBuffer&& vertex_buffer, NormalBuffer&& normal_buffer,  // NOLINT
            TexCoordUVBuffer&& uv_buffer, IndexBuffer&& vertex_index_buffer,  // NOLINT
            IndexBuffer&& normal_index_buffer, IndexBuffer&& tex_index_buffer)  // NOLINT
-  : vertices_(std::move(vertex_buffer)), normals_(std::move(normal_buffer)),
+  : vertices_(std::move(vertex_buffer)),
+    normals_(std::move(normal_buffer)),
     uvs_(std::move(uv_buffer)),
     vertex_indices_(std::move(vertex_index_buffer)),
     normal_indices_(std::move(normal_index_buffer)),

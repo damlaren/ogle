@@ -156,7 +156,14 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
     }
   }
 
-  return new Mesh();
+  return new Mesh(
+      std::move(VertexBuffer(vertices.data(), vertices.size())),
+      std::move(NormalBuffer(normals.data(), normals.size())),
+      std::move(TexCoordUVBuffer(tex_coords_uv.data(), tex_coords_uv.size())),
+      std::move(IndexBuffer(vertex_indices.data(), vertex_indices.size())),
+      std::move(IndexBuffer(normal_indices.data(), normal_indices.size())),
+      std::move(IndexBuffer(tex_coord_indices.data(),
+                            tex_coord_indices.size())));
 }
 
 }  // namespace ogle
