@@ -17,11 +17,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 /**
  * @brief Test application to draw a triangle.
  */
-class TriangleApplication : public ogle::Application {
+class MeshViewerApplication : public ogle::Application {
  public:
-  explicit TriangleApplication(const std::string& resource_dir,
-                               std::unique_ptr<ogle::Window> window,
-                               std::unique_ptr<ogle::KeyboardInput> keyboard)
+  explicit MeshViewerApplication(const std::string& resource_dir,
+                                 std::unique_ptr<ogle::Window> window,
+                                 std::unique_ptr<ogle::KeyboardInput> keyboard)
       : Application(
             std::make_unique<ogle::ResourceManager>(resource_dir),
             std::move(window), std::move(keyboard)) {
@@ -145,7 +145,7 @@ int main(const int argc, const char* argv[]) {
   // is "packed up."
   window->AttachKeyboard(keyboard.get());
 
-  auto app = std::make_unique<TriangleApplication>(argv[1], std::move(window),
+  auto app = std::make_unique<MeshViewerApplication>(argv[1], std::move(window),
       std::move(keyboard));
   app->RunApplication();
   return 0;

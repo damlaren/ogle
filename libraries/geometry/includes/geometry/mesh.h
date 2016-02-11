@@ -70,12 +70,6 @@ class Mesh {
   static Mesh* LoadMesh(const std::string& file_path);
 
   /**
-   * @brief Gives ownership of buffers to mesh.
-   * @param vertices Vertex buffer. Invalid after call.
-   */
-  void TakeBuffers(VertexBuffer&& vertices);  // NOLINT
-
-  /**
    * @brief Provides access to vertex buffer.
    * @return Reference to mesh vertices.
    */

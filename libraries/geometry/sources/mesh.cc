@@ -36,10 +36,6 @@ Mesh* Mesh::LoadMesh(const std::string& file_path) {
   return MeshLoader::LoadMesh(file_path);
 }
 
-void Mesh::TakeBuffers(VertexBuffer&& vertices) {  // NOLINT
-  vertices_ = std::move(vertices);
-}
-
 const VertexBuffer& Mesh::vertices() const {
   return vertices_;
 }

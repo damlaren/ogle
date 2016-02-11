@@ -27,10 +27,9 @@ class TriangleApplication : public ogle::Application {
       : Application(
             std::make_unique<ogle::ResourceManager>(resource_dir),
             std::move(window), std::move(keyboard)) {
-    ogle::VertexBuffer triangle_vertices(
-        {{0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}});
-    auto mesh = std::make_shared<ogle::Mesh>();
-    mesh->TakeBuffers(std::move(triangle_vertices));
+    const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
+    auto mesh = std::shared_ptr<ogle::Mesh>(
+        ogle::Mesh::LoadMesh(kMeshDir + "/triangle.obj"));
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
