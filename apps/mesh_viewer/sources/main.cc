@@ -25,6 +25,9 @@ class MeshViewerApplication : public ogle::Application {
       : Application(
             std::make_unique<ogle::ResourceManager>(resource_dir),
             std::move(window), std::move(keyboard)) {
+    const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
+    auto mesh = std::shared_ptr<ogle::Mesh>(
+        ogle::Mesh::LoadMesh(kMeshDir + "/triangle.obj"));
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
@@ -37,22 +40,19 @@ class MeshViewerApplication : public ogle::Application {
       throw RuntimeException();
     }
 
-    auto vertex_shader =
-      std::make_shared<ogle::GLSLShader>(vertex_shader_text,
-                                         ogle::ShaderType::Vertex);
-    auto fragment_shader =
-      std::make_shared<ogle::GLSLShader>(fragment_shader_text,
-                                         ogle::ShaderType::Fragment);
-    auto shader_program =
-      std::make_shared<ogle::GLSLShaderProgram>(vertex_shader,
-                                                fragment_shader);
-    // TODO(damlaren): Reactivate.
-    // auto renderer =
-    //   std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
+    auto vertex_shader = std::make_shared<ogle::GLSLShader>(
+        vertex_shader_text, ogle::ShaderType::Vertex);
+    auto fragment_shader = std::make_shared<ogle::GLSLShader>(
+        fragment_shader_text, ogle::ShaderType::Fragment);
+    auto shader_program = std::make_shared<ogle::GLSLShaderProgram>(
+        vertex_shader, fragment_shader);
+    auto renderer =
+        std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
     scene_graph_ = std::make_unique<ogle::SceneGraph>();
     scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
-
+    render_object_ = std::make_unique<ogle::Entity>(
+        &scene_graph_->root_->transform_, renderer, nullptr);
     auto camera_object = std::make_shared<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f), window_->window_width(),
         window_->window_height());
@@ -107,6 +107,8 @@ class MeshViewerApplication : public ogle::Application {
     }
     keyboard_->Clear();
 
+    render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
+
     // TODO(damlaren): Move rendering code out.
     window_->ClearWindow();
     scene_renderer_->RenderScene(camera_.get(), scene_graph_.get());
@@ -124,6 +126,9 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Scene renderer.
   std::unique_ptr<ogle::SceneRenderer> scene_renderer_;
+
+  /// Object instantiated to render the mesh.
+  std::unique_ptr<ogle::Entity> render_object_;
 };
 
 /**

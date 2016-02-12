@@ -42,17 +42,14 @@ class TriangleApplication : public ogle::Application {
       throw RuntimeException();
     }
 
-    auto vertex_shader =
-      std::make_shared<ogle::GLSLShader>(vertex_shader_text,
-                                         ogle::ShaderType::Vertex);
-    auto fragment_shader =
-      std::make_shared<ogle::GLSLShader>(fragment_shader_text,
-                                         ogle::ShaderType::Fragment);
-    auto shader_program =
-      std::make_shared<ogle::GLSLShaderProgram>(vertex_shader,
-                                                fragment_shader);
+    auto vertex_shader = std::make_shared<ogle::GLSLShader>(
+        vertex_shader_text, ogle::ShaderType::Vertex);
+    auto fragment_shader = std::make_shared<ogle::GLSLShader>(
+        fragment_shader_text, ogle::ShaderType::Fragment);
+    auto shader_program = std::make_shared<ogle::GLSLShaderProgram>(
+        vertex_shader, fragment_shader);
     auto renderer =
-      std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
+        std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
 
     scene_graph_ = std::make_unique<ogle::SceneGraph>();
     scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
