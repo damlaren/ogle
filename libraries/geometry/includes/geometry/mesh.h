@@ -25,22 +25,25 @@ namespace ogle {
 /// 3D vertex buffer type.
 using VertexBuffer = Buffer<Vector3f>;
 
-/// Index buffer type.
-using IndexBuffer = Buffer<BufferIndex>;
-
 /// 3D normal vector buffer.
 using NormalBuffer = Buffer<Vector3f>;
 
 /// 2D texture coordinate buffer.
 using TexCoordUVBuffer = Buffer<Vector2f>;
 
-/// 3D texture coordinate buffer.
-using TexCoordUVWBuffer = Buffer<Vector3f>;
+/// Index buffer type.
+using IndexBuffer = Buffer<BufferIndex>;
 
 /**
  * @brief A 3D geometry mesh.
  *
- * Meshes support 3D vertices and normals, and 2D texture buffers.
+ * All Meshes contain the following data. Formats are standardized to simplify
+ * rendering code:
+ * - 3D vertices (4D vertices parsed from files are homogenized on load)
+ * - 3D normals (TODO(damlaren): Not necessarily normalized!)
+ * - 2D UV texture coordinates
+ * - Index buffers into all of the above
+ *
  * Meshes own the buffers they store and are responsible for deallocating them.
  */
 class Mesh {
@@ -92,10 +95,8 @@ class Mesh {
   /// Vertex normals.
   NormalBuffer normals_;
 
-  /// 2D texture buffer.
+  /// 2D texture coordinate buffer.
   TexCoordUVBuffer uvs_;
-
-  // 3D texture buffers are not supported but could be added separately.
 
   //@{
   /// Index buffer for field.

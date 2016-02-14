@@ -157,7 +157,8 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
   }
 
   return new Mesh(
-      std::move(VertexBuffer(vertices)), std::move(NormalBuffer(normals)),
+      std::move(VertexBuffer(vertices)),
+      std::move(NormalBuffer(normals)),
       std::move(TexCoordUVBuffer(tex_coords_uv)),
       std::move(IndexBuffer(vertex_indices)),
       std::move(IndexBuffer(normal_indices)),

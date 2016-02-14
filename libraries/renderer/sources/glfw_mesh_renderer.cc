@@ -52,7 +52,6 @@ GLFWMeshRenderer::GLFWMeshRenderer(
 
   // Define vertex attribute data format and location, using
   // currently bound buffer & vertex array.
-  // TODO(damlaren): # components per vertex & type are hard-coded.
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   // Do it all again for vertex index buffer.
@@ -64,6 +63,7 @@ GLFWMeshRenderer::GLFWMeshRenderer(
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
   glDeleteBuffers(1, &vertex_buffer_id_);
+  glDeleteBuffers(1, &vertex_index_buffer_id_);
   glDeleteVertexArrays(1, &vertex_array_id_);
 }
 

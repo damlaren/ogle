@@ -57,9 +57,6 @@ class GLFWMeshRenderer : public MeshRenderer {
 
   /// OpenGL ID for vertex index buffer.
   GLuint vertex_index_buffer_id_;
-
-  /// OpenGL ID for vertex index array object.
-  GLuint vertex_index_array_id_;
 };
 
 }  // namespace ogle
