@@ -54,6 +54,12 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   // currently bound buffer & vertex array.
   // TODO(damlaren): # components per vertex & type are hard-coded.
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+  // Do it all again for vertex index buffer.
+  glGenBuffers(1, &vertex_index_buffer_id_);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_index_buffer_id_);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh_->vertex_indices().SizeInBytes(),
+               mesh_->vertex_indices().data_, GL_STATIC_DRAW);
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
@@ -81,13 +87,18 @@ void GLFWMeshRenderer::Render(const Transform& transform,
   shader_program_->SetUniformMatrix44f(ShaderProgram::kProjectionMatrixArg,
                                        projection_matrix);
 
-  glBindVertexArray(vertex_array_id_);
-
   // Enable vertex array attribute for rendering.
+  glBindVertexArray(vertex_array_id_);
   glEnableVertexAttribArray(0);
 
-  // Draw vertices.
-  glDrawArrays(GL_TRIANGLES, 0, mesh_->vertices().num_elements_);
+  // Use index buffer to specify vertex order.
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_index_buffer_id_);
+
+  // Draw.
+  static_assert(std::is_same<BufferIndex, std::uint32_t>::value,
+                "GLFWMeshRenderer assumes 32-bit unsigned BufferIndex.");
+  glDrawElements(GL_TRIANGLES, mesh_->vertex_indices().num_elements(),
+                 GL_UNSIGNED_INT, static_cast<void*>(0));
 }
 
 }  // namespace ogle

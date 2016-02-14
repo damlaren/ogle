@@ -69,11 +69,21 @@ class Mesh {
    */
   static Mesh* LoadMesh(const std::string& file_path);
 
+  //@{
   /**
-   * @brief Provides access to vertex buffer.
-   * @return Reference to mesh vertices.
+   * @brief Mesh data buffer accessors.
+   * @return Reference to buffer.
    */
   const VertexBuffer& vertices() const;
+  //@}
+
+  //@{
+  /**
+   * @brief Index buffer accessors.
+   * @return Reference to index buffer.
+   */
+  const IndexBuffer& vertex_indices() const;
+  //@}
 
  protected:
   /// Vertex buffer.

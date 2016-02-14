@@ -49,11 +49,17 @@ class GLFWMeshRenderer : public MeshRenderer {
   /// Shader program to use in rendering pass.
   std::shared_ptr<GLSLShaderProgram> shader_program_;
 
-  /// ID for OpenGL mesh vertex buffer.
+  /// OpenGL ID for vertex buffer.
   GLuint vertex_buffer_id_;
 
-  /// ID for OpenGL mesh vertex array.
+  /// OpenGL ID for vertex buffer array object.
   GLuint vertex_array_id_;
+
+  /// OpenGL ID for vertex index buffer.
+  GLuint vertex_index_buffer_id_;
+
+  /// OpenGL ID for vertex index array object.
+  GLuint vertex_index_array_id_;
 };
 
 }  // namespace ogle

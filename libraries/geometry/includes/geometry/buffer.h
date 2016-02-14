@@ -157,6 +157,14 @@ class Buffer {
     return num_elements_ * sizeof(T);
   }
 
+  /**
+   * @brief Accessor.
+   * @return Number of elements in buffer.
+   */
+  const BufferIndex num_elements() const {
+    return num_elements_;
+  }
+
   /// Number of elements stored.
   BufferIndex num_elements_;
 

@@ -40,4 +40,8 @@ const VertexBuffer& Mesh::vertices() const {
   return vertices_;
 }
 
+const IndexBuffer& Mesh::vertex_indices() const {
+  return vertex_indices_;
+}
+
 }  // namespace ogle
