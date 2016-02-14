@@ -27,7 +27,7 @@ class MeshViewerApplication : public ogle::Application {
             std::move(window), std::move(keyboard)) {
     const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
     auto mesh = std::shared_ptr<ogle::Mesh>(
-        ogle::Mesh::LoadMesh(kMeshDir + "/triangle.obj"));
+        ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj"));
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";

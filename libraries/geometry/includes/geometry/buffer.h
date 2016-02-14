@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <algorithm>
 #include <iterator>
+#include <vector>
 
 namespace ogle {
 
@@ -38,8 +39,8 @@ class Buffer {
    *
    * @param num_elements How many elements to reserve.
    */
-  explicit Buffer(BufferIndex num_elements = 0) :
-      num_elements_(num_elements) {
+  explicit Buffer(BufferIndex num_elements = 0)
+    : num_elements_(num_elements) {
     data_ = new T[num_elements_];
   }
 
@@ -47,33 +48,46 @@ class Buffer {
    * @brief Constructor. Creates a buffer from initializer list.
    * @param init_list Initial elements to copy.
    */
-  Buffer(std::initializer_list<T> init_list) :
-      num_elements_(init_list.size()) {
+  Buffer(std::initializer_list<T> init_list)
+    : num_elements_(init_list.size()) {
     data_ = new T[num_elements_];
     if (num_elements_ > 0) {
-      std::copy(init_list.begin(), init_list.end(), data_);
+      std::copy(std::begin(init_list), std::end(init_list), data_);
     }
   }
 
   /**
    * @brief Constructor. Creates a buffer that wraps existing array.
-   * @param data Array that is taken as Buffer storage.
+   * @param data Array that is taken as Buffer storage. The Buffer takes
+   *        ownership of this memory.
    * @param num_elements How many elements are in array.
    */
-  Buffer(T* data, BufferIndex num_elements) :
-    num_elements_(num_elements),
-    data_(data) {
+  Buffer(T* data, BufferIndex num_elements)
+    : num_elements_(num_elements),
+      data_(data) {
+  }
+
+  /**
+   * @brief Constructor that copies data from a std::vector.
+   * @param data_vector Vector to copy.
+   */
+  explicit Buffer(const std::vector<T>& data_vector)
+    : num_elements_(data_vector.size()) {
+    data_ = new T[num_elements_];
+    if (num_elements_ > 0) {
+      std::copy(std::begin(data_vector), std::end(data_vector), data_);
+    }
   }
 
   /**
    * @brief Copy constructor.
    * @param other Buffer to copy contents from. Shallow.
    */
-  Buffer(const Buffer& other) :
-      num_elements_(other.num_elements_) {
+  Buffer(const Buffer& other)
+    : num_elements_(other.num_elements_) {
     data_ = new T[num_elements_];
     if (num_elements_ > 0) {
-      std::copy_n(other.data_, num_elements_, data_);
+      std::copy_n(std::begin(other.data_), num_elements_, data_);
     }
   }
 
@@ -92,7 +106,9 @@ class Buffer {
    * @brief Destructor. Deletes data held by buffer.
    */
   ~Buffer() {
-    delete[] data_;
+    if (data_ != nullptr) {
+      delete[] data_;
+    }
   }
 
   /**
@@ -111,7 +127,7 @@ class Buffer {
       data_ = new T[num_elements_];
     }
     if (num_elements_ > 0) {
-      std::copy_n(other.data_, num_elements_, data_);
+      std::copy_n(std::begin(other.data_), num_elements_, data_);
     }
     return *this;
   }
@@ -134,8 +150,8 @@ class Buffer {
   }
 
   /**
-   * @brief See return value.
-   * @return Return size of buffer, in bytes.
+   * @brief Returns size of buffer, in bytes.
+   * @return
    */
   std::uint64_t SizeInBytes() const {
     return num_elements_ * sizeof(T);
