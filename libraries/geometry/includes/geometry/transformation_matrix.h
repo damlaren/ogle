@@ -77,6 +77,7 @@ class TransformationMatrix {
   static const Matrix44f ViewMatrix3D(const Vector3f& camera_position,
                                       const Vector3f& forward_vector,
                                       const Vector3f& up_vector);
+
   /**
    * @brief Builds a camera view matrix looking at a position.
    * @param camera_position Camera world position.
