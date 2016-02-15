@@ -31,13 +31,9 @@ class GLSLShader : public Shader {
  public:
   friend class GLSLShaderProgram;
 
-  /**
-   * @brief Constructor.
-   * @param shader_text Same as in #Shader constructor.
-   * @param type Same as in #Shader constructor.
-   */
   GLSLShader(const std::string& shader_text, ShaderType type);
-  ~GLSLShader() override;
+
+  ~GLSLShader() override = default;
 
  protected:
   /// OpenGL-generated shader ID.

@@ -39,10 +39,6 @@ GLFWWindow::GLFWWindow(const int width, const int height,
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Deprecate old stuff.
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  // TODO(damlaren): Doesn't belong here. Make configurable.
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
-
   window_ = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
   if (window_ == nullptr) {
     glfwTerminate();
@@ -50,7 +46,6 @@ GLFWWindow::GLFWWindow(const int width, const int height,
     throw Window::WindowException();
   }
 
-  // TODO(damlaren): only one thread can have the context at once.
   glfwMakeContextCurrent(window_);
   glewExperimental = true;
   if (glewInit() != GLEW_OK) {
@@ -79,6 +74,14 @@ void GLFWWindow::SwapBuffers() {
 bool GLFWWindow::HandleWindowEvents() {
   glfwPollEvents();
 
+  // TODO(damlaren): Doesn't belong here. Make configurable.
+  // Or at least, need consistent behavior across implementations.
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glDepthFunc(GL_LESS);
+  glCullFace(GL_BACK);
+  glFrontFace(GL_CCW);  // TODO(damlaren): Actually, should be CW... ?
+
   if (glfwWindowShouldClose(window_) == 0) {
     return true;
   } else {
@@ -91,6 +94,7 @@ void GLFWWindow::AttachKeyboard(GLFWKeyboardInput* keyboard) {
 }
 
 const int GLFWWindow::window_width() const {
+  // TODO(damlaren): Can only be called from main thread.
   int width, height;
   glfwGetWindowSize(window_, &width, &height);
   return width;

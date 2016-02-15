@@ -43,9 +43,6 @@ GLSLShader::GLSLShader(const std::string& shader_text, ShaderType type) :
   }
 }
 
-GLSLShader::~GLSLShader() {
-}
-
 GLSLShaderProgram::GLSLShaderProgram(
     std::shared_ptr<GLSLShader> vertex_shader,
     std::shared_ptr<GLSLShader> fragment_shader)
