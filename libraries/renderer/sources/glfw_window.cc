@@ -80,6 +80,10 @@ void GLFWWindow::SwapBuffers() {
 bool GLFWWindow::HandleWindowEvents() {
   glfwPollEvents();
 
+  // Update stored window width and height.
+  // TODO(damlaren): remove.
+  glfwGetWindowSize(window_, &window_width_, &window_height_);
+
   if (glfwWindowShouldClose(window_) == 0) {
     return true;
   } else {

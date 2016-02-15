@@ -60,13 +60,13 @@ class Window {
 
   /**
    * @brief Accessor.
-   * @return window_width_
+   * @return Window width [pixels].
    */
   const int window_width() const;
 
   /**
    * @brief Accessor.
-   * @return window_height_
+   * @return Window height [pixels].
    */
   const int window_height() const;
 

@@ -83,7 +83,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
       }
       Vector3f line_vector;
       if (line_floats.size() == 3) {
-        line_vector = {line_floats[0], line_floats[1], line_floats[2]};
+          line_vector = {line_floats[0], line_floats[1], line_floats[2]};
       } else if (line_floats.size() == 4) {
         // Have w coordinate, produce a 3-vector with w = 1.
         const float w = line_floats[3];
@@ -143,14 +143,27 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
           vertex_str = index_specifier;
         }
 
+        // OBJ indices start at 1, but memory indices start at 0. This function
+        // handles the conversion; it is anonymized on the assumption that it is
+        // only relevant inside the OBJ mesh loader.
+        auto convert_obj_index = [](const std::string& index_str) {
+          BufferIndex index = std::stoul(index_str);
+          if (index == 0){
+            LOG(ERROR) << "Invalid 0 index parsed from OBJ file.";
+          } else {
+            --index;
+          }
+          return index;
+        };
+
         if (!vertex_str.empty()) {
-          vertex_indices.emplace_back(std::stoul(vertex_str));
+          vertex_indices.emplace_back(convert_obj_index(vertex_str));
         }
         if (!tex_str.empty()) {
-          tex_coord_indices.emplace_back(std::stoul(tex_str));
+          tex_coord_indices.emplace_back(convert_obj_index(tex_str));
         }
         if (!normal_str.empty()) {
-          normal_indices.emplace_back(std::stoul(normal_str));
+          normal_indices.emplace_back(convert_obj_index(normal_str));
         }
       }
     }
