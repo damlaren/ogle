@@ -148,6 +148,12 @@ class Transform {
    */
   const Matrix33f RotationMatrix3D() const;
 
+  /**
+   * @brief Retrieves full world-space transformation Matrix.
+   * @return New Matrix.
+   */
+  const Matrix44f TransformationMatrix3D() const;
+
  private:
   // TODO(damlaren): It's assumed that the # of child Transforms, and changes,
   // remains small.

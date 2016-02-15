@@ -126,4 +126,9 @@ const Matrix33f Transform::RotationMatrix3D() const {
   return world_orientation_.RotationMatrix3D();
 }
 
+const Matrix44f Transform::TransformationMatrix3D() const {
+  return RotationMatrix3D().ExpandedHomogeneous() *
+      TransformationMatrix::TranslationMatrix3D(world_position_);
+}
+
 }  // namespace ogle

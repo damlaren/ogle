@@ -71,9 +71,7 @@ void GLFWMeshRenderer::Render(const Transform& transform,
                               Entity *camera) {
   shader_program_->UseProgram();
 
-  Matrix44f model_matrix =
-      transform.RotationMatrix3D().ExpandedHomogeneous() *
-      TransformationMatrix::TranslationMatrix3D(transform.world_position());
+  Matrix44f model_matrix = transform.TransformationMatrix3D();
 
   auto camera_component = camera->camera();
   CHECK(camera_component != nullptr) << "Camera Entity needs Camera component.";
