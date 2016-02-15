@@ -111,20 +111,20 @@ const Matrix44f TransformationMatrix::PerspectiveMatrix3D(
     const float near_clip, const float far_clip, const Angle vertical_fov,
     const float aspect_ratio) {
   if (near_clip >= far_clip) {
-    LOG(WARNING) << "Far clip plane should be behind near clip plane.";
+    LOG(ERROR) << "Far clip plane should be behind near clip plane.";
   }
   if (vertical_fov <= Angle(0.f)) {
-    LOG(WARNING) << "Vertical FOV should be > 0.";
+    LOG(ERROR) << "Vertical FOV should be > 0.";
   }
   if (aspect_ratio <= 0.f) {
-    LOG(WARNING) << "Aspect ratio should be > 0.";
+    LOG(ERROR) << "Aspect ratio should be > 0.";
   }
 
-  const float range = tan(vertical_fov.radians() * 0.5f) * near_clip;
-  const float sx = near_clip / (range * aspect_ratio);
-  const float sy = near_clip / range;
-  const float sz = -(far_clip + near_clip) / (far_clip - near_clip);
-  const float pz = -(2.f * far_clip * near_clip) / (far_clip - near_clip);
+  const float f = 1.0f / tan(vertical_fov.radians() * 0.5f);
+  const float sx = f / aspect_ratio;
+  const float sy = f;
+  const float sz = (far_clip + near_clip) / (near_clip - far_clip);
+  const float pz = (2.f * far_clip * near_clip) / (near_clip - far_clip);
   return {sx,  0.f, 0.f, 0.f,
           0.f, sy,  0.f, 0.f,
           0.f, 0.f, sz,  pz,
