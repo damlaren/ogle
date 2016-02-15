@@ -25,7 +25,6 @@ set(SRC_LIST
   sources/scene_graph.cc
   sources/scene_renderer.cc
   sources/shader.cc
-  sources/window.cc
 )
 add_library(ogle_renderer "${SRC_LIST}")
 

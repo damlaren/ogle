@@ -65,6 +65,18 @@ class GLFWWindow : public Window {
    */
   void AttachKeyboard(GLFWKeyboardInput* keyboard);
 
+  /**
+   * @brief Accessor.
+   * @return Window width [pixels].
+   */
+  const int window_width() const override;
+
+  /**
+   * @brief Accessor.
+   * @return Window height [pixels].
+   */
+  const int window_height() const override;
+
  protected:
   /**
    * @brief Callback to log errors from GLFW.

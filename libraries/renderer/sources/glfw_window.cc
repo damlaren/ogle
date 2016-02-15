@@ -23,7 +23,7 @@ namespace ogle {
 GLFWWindow::GLFWWindow(const int width, const int height,
                        const std::string& title, const int opengl_major_version,
                        const int opengl_minor_version, const int msaa_samples)
-    : Window(width, height) {
+    : Window() {
   window_ = nullptr;
 
   if (!glfwInit()) {
@@ -43,8 +43,7 @@ GLFWWindow::GLFWWindow(const int width, const int height,
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
-  window_ = glfwCreateWindow(window_width_, window_height_,
-                             title.c_str(), nullptr, nullptr);
+  window_ = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
   if (window_ == nullptr) {
     glfwTerminate();
     LOG(ERROR) << "Failed to create GLFW window.";
@@ -80,10 +79,6 @@ void GLFWWindow::SwapBuffers() {
 bool GLFWWindow::HandleWindowEvents() {
   glfwPollEvents();
 
-  // Update stored window width and height.
-  // TODO(damlaren): remove.
-  glfwGetWindowSize(window_, &window_width_, &window_height_);
-
   if (glfwWindowShouldClose(window_) == 0) {
     return true;
   } else {
@@ -93,6 +88,18 @@ bool GLFWWindow::HandleWindowEvents() {
 
 void GLFWWindow::AttachKeyboard(GLFWKeyboardInput* keyboard) {
   keyboard->AttachToWindow(window_);
+}
+
+const int GLFWWindow::window_width() const {
+  int width, height;
+  glfwGetWindowSize(window_, &width, &height);
+  return width;
+}
+
+const int GLFWWindow::window_height() const {
+  int width, height;
+  glfwGetWindowSize(window_, &width, &height);
+  return height;
 }
 
 void GLFWWindow::LogGLFWError(int error, const char *description) {

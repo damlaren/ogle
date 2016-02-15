@@ -29,13 +29,6 @@ namespace ogle {
 class Window {
  public:
   /**
-   * @brief Default constructor.
-   * @param window_width Width of window, in pixels.
-   * @param window_height Height of window, in pixels.
-   */
-  Window(const int window_width, const int window_height);
-
-  /**
    * @brief Default destructor.
    */
   virtual ~Window() = default;
@@ -56,19 +49,17 @@ class Window {
    */
   virtual bool HandleWindowEvents() = 0;
 
-  // TODO(damlaren): Add callbacks to handle window/framebuffer resize.
-
   /**
    * @brief Accessor.
    * @return Window width [pixels].
    */
-  const int window_width() const;
+  virtual const int window_width() const = 0;
 
   /**
    * @brief Accessor.
    * @return Window height [pixels].
    */
-  const int window_height() const;
+  virtual const int window_height() const = 0;
 
  protected:
   /**
@@ -79,12 +70,6 @@ class Window {
    */
   class WindowException : public std::exception {
   };
-
-  /// Window width [pixels].
-  int window_width_;
-
-  /// Window height [pixels].
-  int window_height_;
 };
 
 }  // namespace ogle
