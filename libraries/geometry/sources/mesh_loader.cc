@@ -110,7 +110,8 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
            token_index < tokens.size(); token_index++) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
-      // TODO(damlaren): Normals may not be unit vectors-- don't normalize yet.
+      // What if normals loaded for a mesh aren't unit vectors? Don't assume
+      // they always have to be.
       normals.emplace_back(Vector3f({line_floats[0], line_floats[1],
                                      line_floats[2]}));
     } else if (line_type == "vp") {

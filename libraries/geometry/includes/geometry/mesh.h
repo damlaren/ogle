@@ -40,7 +40,7 @@ using IndexBuffer = Buffer<BufferIndex>;
  * All Meshes contain the following data. Formats are standardized to simplify
  * rendering code:
  * - 3D vertices (4D vertices parsed from files are homogenized on load)
- * - 3D normals (TODO(damlaren): Not necessarily normalized!)
+ * - 3D normal vectors
  * - 2D UV texture coordinates
  * - Index buffers into all of the above
  *
