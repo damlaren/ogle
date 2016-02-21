@@ -13,11 +13,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/mesh_loader.h"
-#include <regex>  // NOLINT
-#include <vector>
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
-#include "math/vector.h"
 #include "util/string_utils.h"
 #include "util/text_file.h"
 
@@ -60,13 +57,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
 
-  std::vector<Vector3f> vertices;
-  std::vector<Vector2f> tex_coords_uv;
-  std::vector<Vector3f> tex_coords_uvw;
-  std::vector<Vector3f> normals;
-  std::vector<BufferIndex> vertex_indices;
-  std::vector<BufferIndex> tex_coord_indices;
-  std::vector<BufferIndex> normal_indices;
+  MeshData mesh_data;
   for (const auto& line : lines) {
     std::string trimmed_line = StringUtils::Trim(line, " \t\r\n");
     if (trimmed_line.empty() || trimmed_line[0] == '#') {
@@ -76,6 +67,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
     const auto tokens = StringUtils::Split(trimmed_line, ' ');
     const std::string& line_type = tokens[0];
     std::vector<float> line_floats;
+
     if (line_type == "v") {
       for (std::vector<std::string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
@@ -93,27 +85,29 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
         LOG(ERROR) << "Expected 3 or 4 floats for vertex.";
         return nullptr;
       }
-      vertices.emplace_back(line_vector);
+      mesh_data.vertices.emplace_back(line_vector);
     } else if (line_type == "vt") {
       for (std::vector<std::string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
       if (line_floats.size() == 2) {
-        tex_coords_uv.emplace_back(Vector2f({line_floats[0], line_floats[1]}));
+        mesh_data.tex_coords_uv.emplace_back(Vector2f({line_floats[0],
+                                                       line_floats[1]}));
       } else if (line_floats.size() == 3) {
-        tex_coords_uvw.emplace_back(Vector3f({line_floats[0], line_floats[1],
-                                              line_floats[2]}));
+        mesh_data.tex_coords_uvw.emplace_back(
+            Vector3f({line_floats[0], line_floats[1], line_floats[2]}));
       }
     } else if (line_type == "vn") {
       for (std::vector<std::string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
-      // What if normals loaded for a mesh aren't unit vectors? Don't assume
-      // they always have to be.
-      normals.emplace_back(Vector3f({line_floats[0], line_floats[1],
-                                     line_floats[2]}));
+
+      // This does not check if the normal vector is actually normalized--
+      // it leaves this possibility open on purpose.
+      mesh_data.normals.emplace_back(Vector3f({line_floats[0], line_floats[1],
+                                               line_floats[2]}));
     } else if (line_type == "vp") {
       LOG(ERROR) << "LoadOBJ cannot load parameter space vertices.";
       return nullptr;
@@ -123,12 +117,14 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
         LOG(ERROR) << "Non-triangular faces are not supported.";
         return nullptr;
       }
+
       for (std::vector<std::string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         const std::string& index_specifier = tokens[token_index];
         const auto first_slash_index = index_specifier.find_first_of('/');
         const auto last_slash_index = index_specifier.find_last_of('/');
         std::string vertex_str = "", tex_str = "", normal_str = "";
+
         if (index_specifier.find("//") != std::string::npos) {  // v//n
           vertex_str = index_specifier.substr(0, first_slash_index);
           normal_str = index_specifier.substr(last_slash_index + 1);
@@ -158,25 +154,33 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
         };
 
         if (!vertex_str.empty()) {
-          vertex_indices.emplace_back(convert_obj_index(vertex_str));
+          mesh_data.vertex_indices.emplace_back(convert_obj_index(vertex_str));
         }
         if (!tex_str.empty()) {
-          tex_coord_indices.emplace_back(convert_obj_index(tex_str));
+          mesh_data.tex_coord_indices.emplace_back(convert_obj_index(tex_str));
         }
         if (!normal_str.empty()) {
-          normal_indices.emplace_back(convert_obj_index(normal_str));
+          mesh_data.normal_indices.emplace_back(convert_obj_index(normal_str));
         }
       }
     }
   }
 
+  if (!FormatMesh(&mesh_data)) {
+    return nullptr;
+  }
+
   return new Mesh(
-      std::move(VertexBuffer(vertices)),
-      std::move(NormalBuffer(normals)),
-      std::move(TexCoordUVBuffer(tex_coords_uv)),
-      std::move(IndexBuffer(vertex_indices)),
-      std::move(IndexBuffer(normal_indices)),
-      std::move(IndexBuffer(tex_coord_indices)));
+      std::move(VertexBuffer(mesh_data.vertices)),
+      std::move(NormalBuffer(mesh_data.normals)),
+      std::move(TexCoordUVBuffer(mesh_data.tex_coords_uv)),
+      std::move(IndexBuffer(mesh_data.vertex_indices)),
+      std::move(IndexBuffer(mesh_data.normal_indices)),
+      std::move(IndexBuffer(mesh_data.tex_coord_indices)));
+}
+
+bool MeshLoader::FormatMesh(MeshData* mesh_data) {
+  return true;
 }
 
 }  // namespace ogle

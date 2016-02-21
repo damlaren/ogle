@@ -16,6 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_LOADER_H_
 
 #include <string>
+#include <vector>
+#include "math/vector.h"
 #include "memory/buffer.h"
 
 namespace ogle {
@@ -47,6 +49,19 @@ class MeshLoader {
   };
 
   /**
+   * @brief Wraps vectors containing mesh data.
+   */
+  struct MeshData {
+    std::vector<Vector3f> vertices;
+    std::vector<Vector2f> tex_coords_uv;
+    std::vector<Vector3f> tex_coords_uvw;
+    std::vector<Vector3f> normals;
+    std::vector<BufferIndex> vertex_indices;
+    std::vector<BufferIndex> tex_coord_indices;
+    std::vector<BufferIndex> normal_indices;
+  };
+
+  /**
    * @brief Determines format of Mesh stored in file.
    * @param file_path Path to file to inspect.
    * @return File format enum.
@@ -62,6 +77,18 @@ class MeshLoader {
    * @return Pointer to new Mesh, or nullptr if creation failed.
    */
   static Mesh* LoadOBJ(const std::string& file_path);
+
+  /**
+   * @brief Formats mesh attributes in a consistent manner.
+   *
+   * Performs the following alterations:
+   * - Checks that all faces have 3 vertices (returns false if not)
+   * - Creates per-vertex normals from per-face normals
+   *
+   * @param mesh_data[in,out] Mesh data to be altered in place.
+   * @returns true if alterations succeeded.
+   */
+  static bool FormatMesh(MeshData* mesh_data);
 };
 
 }  // namespace ogle
