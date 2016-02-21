@@ -57,7 +57,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
 
-  MeshData mesh_data;
+  MeshAttributes mesh_data;
   for (const auto& line : lines) {
     std::string trimmed_line = StringUtils::Trim(line, " \t\r\n");
     if (trimmed_line.empty() || trimmed_line[0] == '#') {
@@ -179,7 +179,12 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
       std::move(IndexBuffer(mesh_data.tex_coord_indices)));
 }
 
-bool MeshLoader::FormatMesh(MeshData* mesh_data) {
+bool MeshLoader::FormatMesh(MeshAttributes* mesh_data) {
+  if (mesh_data == nullptr) {
+    LOG(ERROR) << "Cannot format null mesh_data.";
+    return false;
+  }
+
   return true;
 }
 

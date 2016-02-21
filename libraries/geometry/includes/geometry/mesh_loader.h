@@ -17,8 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <string>
 #include <vector>
-#include "math/vector.h"
-#include "memory/buffer.h"
+#include "geometry/mesh_attributes.h"
 
 namespace ogle {
 
@@ -49,19 +48,6 @@ class MeshLoader {
   };
 
   /**
-   * @brief Wraps vectors containing mesh data.
-   */
-  struct MeshData {
-    std::vector<Vector3f> vertices;
-    std::vector<Vector2f> tex_coords_uv;
-    std::vector<Vector3f> tex_coords_uvw;
-    std::vector<Vector3f> normals;
-    std::vector<BufferIndex> vertex_indices;
-    std::vector<BufferIndex> tex_coord_indices;
-    std::vector<BufferIndex> normal_indices;
-  };
-
-  /**
    * @brief Determines format of Mesh stored in file.
    * @param file_path Path to file to inspect.
    * @return File format enum.
@@ -88,7 +74,7 @@ class MeshLoader {
    * @param mesh_data[in,out] Mesh data to be altered in place.
    * @returns true if alterations succeeded.
    */
-  static bool FormatMesh(MeshData* mesh_data);
+  static bool FormatMesh(MeshAttributes* mesh_data);
 };
 
 }  // namespace ogle

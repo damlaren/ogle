@@ -17,8 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <cstdint>
 #include <string>
-#include "memory/buffer.h"
 #include "math/vector.h"
+#include "memory/buffer.h"
 
 namespace ogle {
 
@@ -38,7 +38,7 @@ using TexCoordUVWBuffer = Buffer<Vector3f>;
 using IndexBuffer = Buffer<std::uint32_t>;
 
 /**
- * @brief A 3D geometry mesh.
+ * @brief A 3D geometry mesh for rendering.
  *
  * All Meshes contain the following data. Formats are standardized to simplify
  * rendering code:
@@ -46,6 +46,10 @@ using IndexBuffer = Buffer<std::uint32_t>;
  * - 3D normal vectors
  * - 2D UV texture coordinates
  * - Index buffers into all of the above
+ *
+ * Meshes only store buffers of raw data. They do not contain additional
+ * structures typically used for querying relations between faces and vertex
+ * attributes.
  *
  * Meshes own the buffers they store and are responsible for deallocating them.
  */
