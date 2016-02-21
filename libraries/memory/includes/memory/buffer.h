@@ -30,8 +30,6 @@ using BufferIndex = std::uint32_t;
 template<typename T>
 class Buffer {
  public:
-  // TODO(damlaren): Made for geometry, but not a geometric idea.
-
   /**
    * @brief Constructor. Creates a buffer of requested size.
    *
