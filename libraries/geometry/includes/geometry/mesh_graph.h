@@ -15,20 +15,52 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_GRAPH_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_GRAPH_H_
 
-#include "geometry/mesh_attributes.h"
+#include "math/vector.h"
 
 namespace ogle {
 
+class MeshAttributes;
+
 /**
- * @brief A Mesh with additional face-vertex connectivity information.
+ * @brief A mesh representation with face-vertex connectivity information.
  */
 class MeshGraph {
  public:
+    /**
+     * @brief Mesh vertex, associated attributes, and face connections.
+     */
+    struct MeshVertex {
+      Vector3f vertex;  ///< Vertex location.
+      Vector2f uv;  ///< 2D texture coordinate.
+      Vector3f vertex_normal;  ///< Vertex normal.
+
+      /// Faces connected to this Vertex.
+      std::vector<struct MeshFace*> adjoining_faces;
+
+      /**
+       * @brief Less than operator. Compares vertex attributes in order.
+       * @param lhs Left operand.
+       * @param rhs Right operand.
+       * @return true if lhs < rhs.
+       */
+      friend const bool operator<(const MeshVertex& lhs, const MeshVertex& rhs);
+    };
+
+    /**
+     * @brief A single face of a Mesh.
+     */
+    struct MeshFace {
+      Vector3f face_normal;  ///< Normal for this face.
+
+      /// Vertices making up this face.
+      std::vector<MeshVertex*> vertices;
+    };
+
   /**
-   * @brief Constructor.
-   * @param mesh_data Mesh to construct graph from.
+   * @brief Creates a graph.
+   * @param mesh_data MeshAttributes to construct graph from.
    */
-  MeshGraph(MeshAttributes* mesh_data);
+  bool Load(const MeshAttributes* mesh_data);
 };
 
 }  // namespace ogle

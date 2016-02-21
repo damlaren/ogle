@@ -47,14 +47,14 @@ class Vector {
   /**
    * @brief Default constructor. Does not init values.
    */
-  Vector() noexcept {
+  Vector() {
   }
 
   /**
    * @brief Copy constructor.
    * @param other Vector to copy into this one.
    */
-  Vector(const Vector& other) noexcept
+  Vector(const Vector& other)
     : data_(other.data_) {
   }
 
@@ -77,6 +77,16 @@ class Vector {
    */
   explicit Vector(const T data[K]) {
     std::copy(data, data + K, data_.begin());
+  }
+
+  /**
+   * @brief Constructs 0-vector with K elements.
+   * @return New Vector.
+   */
+  static const Vector Zero() {
+    Vector v;
+    v.Clear();
+    return v;
   }
 
   /**
@@ -106,7 +116,7 @@ class Vector {
    * @param rhs Vector to copy data from.
    * @return Reference to this Vector.
    */
-  Vector& operator=(const Vector& rhs) noexcept {
+  Vector& operator=(const Vector& rhs) {
     std::copy(rhs.data_.begin(), rhs.data_.end(), data_.begin());
   }
 
@@ -117,8 +127,48 @@ class Vector {
    * @return true if both Vectors have exactly the same values.
    */
   friend const bool operator==(const Vector& lhs,
-                               const Vector& rhs) noexcept {
+                               const Vector& rhs) {
     return lhs.data_ == rhs.data_;
+  }
+
+  /**
+   * @brief Lexicographically less than operator.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
+   * @return true if lhs < rhs.
+   */
+  friend const bool operator<(const Vector& lhs, const Vector& rhs) {
+    return lhs.data_ < rhs.data_;
+  }
+
+  /**
+   * @brief Lexicographically less than or equal to operator.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
+   * @return true if lhs <= rhs.
+   */
+  friend const bool operator<=(const Vector& lhs, const Vector& rhs) {
+    return lhs.data_ <= rhs.data_;
+  }
+
+  /**
+   * @brief Lexicographically greater than operator.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
+   * @return true if lhs > rhs.
+   */
+  friend const bool operator>(const Vector& lhs, const Vector& rhs) {
+    return !(lhs <= rhs);
+  }
+
+  /**
+   * @brief Lexicographically greater than or equal to operator.
+   * @param lhs Left operand.
+   * @param rhs Right operand.
+   * @return true if lhs >= rhs.
+   */
+  friend const bool operator>=(const Vector& lhs, const Vector& rhs) {
+    return !(lhs < rhs);
   }
 
   /**
@@ -141,7 +191,7 @@ class Vector {
    * @param rhs Right operand.
    * @return New Vector containing result.
    */
-  friend const Vector operator+(const Vector& lhs, const Vector& rhs) noexcept {
+  friend const Vector operator+(const Vector& lhs, const Vector& rhs) {
     return Vector(lhs) += rhs;
   }
 
@@ -150,7 +200,7 @@ class Vector {
    * @param rhs Right operand.
    * @return Reference to this Vector.
    */
-  Vector& operator+=(const Vector& rhs) noexcept {
+  Vector& operator+=(const Vector& rhs) {
     return BinaryOpInPlace(rhs, std::plus<T>());
   }
 
@@ -159,7 +209,7 @@ class Vector {
    * @param v Right operand.
    * @return New Vector containing result.
    */
-  friend const Vector operator-(const Vector& v) noexcept {
+  friend const Vector operator-(const Vector& v) {
     return Vector(v).UnaryOpInPlace(std::negate<T>());
   }
 
@@ -169,7 +219,7 @@ class Vector {
    * @param rhs Right Operand.
    * @return New Vector containing result.
    */
-  friend const Vector operator-(const Vector& lhs, const Vector& rhs) noexcept {
+  friend const Vector operator-(const Vector& lhs, const Vector& rhs) {
     return Vector(lhs) -= rhs;
   }
 
@@ -178,7 +228,7 @@ class Vector {
    * @param rhs Right operand.
    * @return Reference to this Vector.
    */
-  Vector& operator-=(const Vector& rhs) noexcept {
+  Vector& operator-=(const Vector& rhs) {
     return BinaryOpInPlace(rhs, std::minus<T>());
   }
 
@@ -188,7 +238,7 @@ class Vector {
    * @param rhs Right operand.
    * @return The product.
    */
-  friend const T operator*(const Vector& lhs, const Vector& rhs) noexcept {
+  friend const T operator*(const Vector& lhs, const Vector& rhs) {
     Vector temp(lhs);
     temp.BinaryOpInPlace(rhs, std::multiplies<T>());
     return std::accumulate(temp.data_.begin(), temp.data_.end(),
@@ -201,7 +251,7 @@ class Vector {
    * @param factor Scale factor.
    * @return New Vector containing result.
    */
-  friend const Vector operator*(const Vector& lhs, const T factor) noexcept {
+  friend const Vector operator*(const Vector& lhs, const T factor) {
     return Vector(lhs) *= factor;
   }
 
@@ -211,7 +261,7 @@ class Vector {
    * @param rhs Vector to scale.
    * @return New Vector containing result.
    */
-  friend const Vector operator*(const T factor, const Vector& rhs) noexcept {
+  friend const Vector operator*(const T factor, const Vector& rhs) {
     return Vector(rhs) *= factor;
   }
 
@@ -220,7 +270,7 @@ class Vector {
    * @param factor Scale factor.
    * @return Reference to this Vector.
    */
-  Vector& operator*=(const T factor) noexcept {
+  Vector& operator*=(const T factor) {
     return UnaryOpInPlace([factor](T value) { return value * factor; });
   }
 
@@ -254,7 +304,7 @@ class Vector {
    * @param rhs Right operand.
    * @return The product.
    */
-  const T Dot(const Vector& rhs) const noexcept {
+  const T Dot(const Vector& rhs) const {
     return (*this) * rhs;
   }
 
@@ -267,7 +317,7 @@ class Vector {
    * @return New Vector containing result.
    */
   template<VectorIndex N>
-  const Vector Cross(const Vector<T, N>& rhs) const noexcept {
+  const Vector Cross(const Vector<T, N>& rhs) const {
     static_assert(K == 3 && N == 3,
                   "Cross product only works for 3D Vectors.");
     return {y() * rhs.z() - z() * rhs.y(), z() * rhs.x() - x() * rhs.z(),
@@ -278,14 +328,14 @@ class Vector {
    * @brief Sets all data in Vector to @p value.
    * @param value
    */
-  void Set(const T value) noexcept {
+  void Set(const T value) {
     data_.fill(value);
   }
 
   /**
   * @brief Zeros out the vector.
   */
-  void Clear() noexcept {
+  void Clear() {
     Set(static_cast<T>(0));
   }
 
@@ -293,7 +343,7 @@ class Vector {
    * @brief A copy of this Vector, excluding the last element.
    * @return New Vector containing result.
    */
-  const Vector<T, K - 1> Shrunk() const noexcept {
+  const Vector<T, K - 1> Shrunk() const {
     static_assert(K > 1, "Cannot shrink Vector with 1 element.");
     Vector<T, K - 1> result;
     std::copy(data_.begin(), data_.end() - 1, result.data_.begin());
@@ -305,7 +355,7 @@ class Vector {
    * @param value Value to insert in extra element.
    * @return New Vector containing result.
    */
-  const Vector<T, K + 1> Expanded(const T value) const noexcept {
+  const Vector<T, K + 1> Expanded(const T value) const {
     Vector<T, K + 1> result;
     std::copy(data_.begin(), data_.end(), result.data_.begin());
     result(K) = value;
@@ -316,7 +366,7 @@ class Vector {
    * @brief Returns square of the 2-norm of this Vector (aka squared length).
    * @return As above.
    */
-  const T NormSquared() const noexcept {
+  const T NormSquared() const {
     return Dot(*this);
   }
 
@@ -358,18 +408,8 @@ class Vector {
    * @brief Test if this Vector has unit-length norm.
    * @return As above.
    */
-  const bool HasUnitNorm() const noexcept {
+  const bool HasUnitNorm() const {
     return FPEquals(NormSquared(), static_cast<T>(1));
-  }
-
-  /**
-   * @brief Constructs 0-vector with K elements.
-   * @return New Vector.
-   */
-  static const Vector Zero() noexcept {
-    Vector v;
-    v.Clear();
-    return v;
   }
 
   //@{

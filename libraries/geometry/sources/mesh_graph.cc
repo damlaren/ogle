@@ -13,10 +13,41 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/mesh_graph.h"
+#include "easylogging++.h"
+#include "geometry/mesh_attributes.h"
 
 namespace ogle {
 
-MeshGraph::MeshGraph(MeshAttributes *mesh_data) {
+const bool operator<(const MeshGraph::MeshVertex& lhs,
+                     const MeshGraph::MeshVertex& rhs) {
+  if (lhs.vertex < rhs.vertex) {
+    return true;
+  } else if (lhs.vertex > rhs.vertex) {
+    return false;
+  }
+
+  if (lhs.uv < rhs.uv) {
+    return true;
+  } else if (lhs.uv > rhs.uv) {
+    return false;
+  }
+
+  if (lhs.vertex_normal < rhs.vertex_normal) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool MeshGraph::Load(const MeshAttributes *mesh_data) {
+  if (!mesh_data) {
+    LOG(ERROR) << "Cannot create MeshGraph from null attributes.";
+    return false;
+  }
+
+
+
+  return true;
 }
 
 }  // namespace ogle
