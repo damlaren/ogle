@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_LOADER_H_
 
 #include <string>
+#include "memory/buffer.h"
 
 namespace ogle {
 

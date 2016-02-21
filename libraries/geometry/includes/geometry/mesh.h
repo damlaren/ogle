@@ -17,7 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <cstdint>
 #include <string>
-#include "geometry/buffer.h"
+#include "memory/buffer.h"
 #include "math/vector.h"
 
 namespace ogle {
@@ -31,8 +31,11 @@ using NormalBuffer = Buffer<Vector3f>;
 /// 2D texture coordinate buffer.
 using TexCoordUVBuffer = Buffer<Vector2f>;
 
+/// 3D texture coordinate buffer.
+using TexCoordUVWBuffer = Buffer<Vector3f>;
+
 /// Index buffer type.
-using IndexBuffer = Buffer<BufferIndex>;
+using IndexBuffer = Buffer<std::uint32_t>;
 
 /**
  * @brief A 3D geometry mesh.
