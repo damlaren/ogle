@@ -211,17 +211,15 @@ Mesh* MeshLoader::BuildMesh(const MeshGraph& mesh_graph) {
   VertexBuffer vertex_buffer;
   TexCoordUVBuffer uv_buffer;
   NormalBuffer normal_buffer;
-    /*
-     * // TODO(damlaren): This will be used again...
-     *
-    return new Mesh(
-        std::move(VertexBuffer(mesh_data.vertices)),
-        std::move(NormalBuffer(mesh_data.normals)),
-        std::move(TexCoordUVBuffer(mesh_data.tex_coords_uv)),
-        std::move(IndexBuffer(mesh_data.vertex_indices)),
-        std::move(IndexBuffer(mesh_data.normal_indices)),
-        std::move(IndexBuffer(mesh_data.tex_coord_indices))); */
-  return nullptr;
+  IndexBuffer index_buffer;
+
+  if (!mesh_graph.BuildBuffers(&vertex_buffer, &uv_buffer, &normal_buffer,
+                               &index_buffer)) {
+    LOG(ERROR) << "Failed to build buffers for Mesh.";
+    return nullptr;
+  }
+  return new Mesh(std::move(vertex_buffer), std::move(uv_buffer),
+                  std::move(normal_buffer), std::move(index_buffer));
 }
 
 }  // namespace ogle
