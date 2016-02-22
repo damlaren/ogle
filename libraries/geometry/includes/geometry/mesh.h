@@ -25,14 +25,14 @@ namespace ogle {
 /// 3D vertex buffer type.
 using VertexBuffer = Buffer<Vector3f>;
 
-/// 3D normal vector buffer.
-using NormalBuffer = Buffer<Vector3f>;
-
 /// 2D texture coordinate buffer.
 using TexCoordUVBuffer = Buffer<Vector2f>;
 
 /// 3D texture coordinate buffer.
 using TexCoordUVWBuffer = Buffer<Vector3f>;
+
+/// 3D normal vector buffer.
+using NormalBuffer = Buffer<Vector3f>;
 
 /// Index buffer type.
 using IndexBuffer = Buffer<std::uint32_t>;

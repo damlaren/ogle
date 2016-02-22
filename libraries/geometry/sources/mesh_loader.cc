@@ -58,7 +58,8 @@ const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
   return MeshFileFormat::UNKNOWN;
 }
 
-bool MeshLoader::LoadOBJ(const std::string& file_path, MeshGraph *mesh_graph) {
+const bool MeshLoader::LoadOBJ(const std::string& file_path,
+                               MeshGraph *mesh_graph) {
   std::string text;
   if (!TextFile::ReadFile(file_path, &text)) {
     return false;

@@ -71,7 +71,8 @@ class MeshLoader {
    * @param[out] mesh_graph Mesh graph built from file contents.
    * @return true if loading succeeded.
    */
-  static bool LoadOBJ(const std::string& file_path, MeshGraph* mesh_graph);
+  static const bool LoadOBJ(const std::string& file_path,
+                            MeshGraph* mesh_graph);
 
   /**
    * @brief Creates a new Mesh from MeshGraph.

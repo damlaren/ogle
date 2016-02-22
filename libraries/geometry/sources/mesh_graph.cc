@@ -38,9 +38,9 @@ const bool operator<(const MeshGraph::MeshVertex& lhs,
   }
 }
 
-bool MeshGraph::AddFace(const std::vector<Vector3f>& vertices,
-                        const std::vector<Vector2f>& uvs,
-                        const std::vector<Vector3f>& vertex_normals) {
+const bool MeshGraph::AddFace(const std::vector<Vector3f>& vertices,
+                              const std::vector<Vector2f>& uvs,
+                              const std::vector<Vector3f>& vertex_normals) {
   if (vertices.empty()) {
     LOG(ERROR) << "Cannot add new face from empty vertices.";
     return false;
@@ -77,6 +77,66 @@ bool MeshGraph::AddFace(const std::vector<Vector3f>& vertices,
 void MeshGraph::Clear() {
   mesh_vertices_.clear();
   mesh_faces_.clear();
+}
+
+const bool MeshGraph::BuildBuffers(VertexBuffer *vertex_buffer,
+                                   TexCoordUVBuffer *uv_buffer,
+                                   NormalBuffer *normal_buffer,
+                                   IndexBuffer *index_buffer) {
+  if (vertex_buffer != nullptr) {
+    *vertex_buffer = VertexBuffer(mesh_vertices_.size());
+  }
+  if (uv_buffer != nullptr) {
+    *uv_buffer = TexCoordUVBuffer(mesh_vertices_.size());
+  }
+  if (normal_buffer != nullptr) {
+    *normal_buffer = NormalBuffer(mesh_vertices_.size());
+  }
+  if (index_buffer != nullptr) {
+    *index_buffer = IndexBuffer(mesh_faces_.size() * kVerticesPerFace);
+  }
+
+  // Build per-vertex buffers.
+  for (const auto& vertex_index_pair : mesh_vertices_) {
+    const MeshVertex& mesh_vertex = vertex_index_pair.first;
+    const BufferIndex index = vertex_index_pair.second;
+
+    if (index < 0 || index >= mesh_vertices_.size()) {
+      LOG(ERROR) << "Invalid index assigned to vertex: " << index;
+      return false;
+    }
+
+    if (vertex_buffer != nullptr) {
+      vertex_buffer->SetDataValue(index, mesh_vertex.vertex);
+    }
+    if (uv_buffer != nullptr) {
+      uv_buffer->SetDataValue(index, mesh_vertex.uv);
+    }
+    if (normal_buffer != nullptr) {
+      normal_buffer->SetDataValue(index, mesh_vertex.vertex_normal);
+    }
+  }
+
+  // Build index buffer.
+  if (index_buffer == nullptr) {
+    return true;
+  }
+  BufferIndex num_indices_set = 0;
+  for (const auto& mesh_face : mesh_faces_) {
+    for (const auto mesh_vertex : mesh_face.vertices) {
+      const auto mesh_vertex_iterator = mesh_vertices_.find(*mesh_vertex);
+      if (mesh_vertex_iterator != mesh_vertices_.end()) {
+        const BufferIndex index = mesh_vertex_iterator->second;
+        CHECK(index >= 0 && index < mesh_vertices_.size());  // Checked above.
+        index_buffer->SetDataValue(num_indices_set++, index);
+      } else {
+        LOG(ERROR) << "Unknown vertex on face.";
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 }  // namespace ogle

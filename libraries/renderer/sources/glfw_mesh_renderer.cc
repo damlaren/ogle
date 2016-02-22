@@ -44,7 +44,7 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   // Copy data to active array buffer. This may be in GPU memory, but
   // that's up to the graphics driver.
   glBufferData(GL_ARRAY_BUFFER, mesh_->vertices().SizeInBytes(),
-               mesh_->vertices().data_, GL_STATIC_DRAW);
+               mesh_->vertices().data(), GL_STATIC_DRAW);
 
   // Create vertex array and bind it to be currently active.
   glGenVertexArrays(1, &vertex_array_id_);
@@ -58,7 +58,7 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   glGenBuffers(1, &vertex_index_buffer_id_);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_index_buffer_id_);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh_->vertex_indices().SizeInBytes(),
-               mesh_->vertex_indices().data_, GL_STATIC_DRAW);
+               mesh_->vertex_indices().data(), GL_STATIC_DRAW);
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {

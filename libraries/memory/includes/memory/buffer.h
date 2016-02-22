@@ -156,6 +156,20 @@ class Buffer {
   }
 
   /**
+   * @brief Sets a value inside buffer.
+   *
+   * Nothing is done if an invalid index is provided.
+   *
+   * @param index Index at which to set value.
+   * @param value Value to set.
+   */
+  void SetDataValue(const BufferIndex index, const T& value) {
+    if (index >= 0 && index < num_elements_) {
+      data_[index] = value;
+    }
+  }
+
+  /**
    * @brief Accessor.
    * @return Number of elements in buffer.
    */
@@ -163,6 +177,15 @@ class Buffer {
     return num_elements_;
   }
 
+  /**
+   * @brief Accessor.
+   * @return Access to data stored in Buffer.
+   */
+  const T* data() const {
+    return data_;
+  }
+
+ private:
   /// Number of elements stored.
   BufferIndex num_elements_;
 

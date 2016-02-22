@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <map>
 #include <vector>
+#include "geometry/mesh.h"
 #include "math/vector.h"
 #include "memory/buffer.h"
 
@@ -60,8 +61,11 @@ class MeshGraph {
     std::vector<const MeshVertex*> vertices;
   };
 
+  /// Number of vertices per face. Only triangles are stored.
+  static constexpr int kVerticesPerFace = 3;
+
   /**
-   * @brief Add a new MeshFace to the graph.
+   * @brief Adds a new MeshFace to the graph.
    *
    * An empty argument is ignored (the corresponding vertex attribute is zeroed
    * out). All non-empty vectors passed to this function must be of equal
@@ -72,14 +76,30 @@ class MeshGraph {
    * @param vertex_normals Normals for each vertex.
    * @return true if adding face succeeded, false on error.
    */
-  bool AddFace(const std::vector<Vector3f>& vertices,
-               const std::vector<Vector2f>& uvs,
-               const std::vector<Vector3f>& vertex_normals);
+  const bool AddFace(const std::vector<Vector3f>& vertices,
+                     const std::vector<Vector2f>& uvs,
+                     const std::vector<Vector3f>& vertex_normals);
 
   /**
-   * @brief Clear all mesh representation data.
+   * @brief Clears all mesh representation data.
    */
   void Clear();
+
+  /**
+   * @brief Builds buffers usable for rendering calls.
+   *
+   * Null arguments are ignored.
+   *
+   * @param[out] vertex_buffer Vertex buffer to fill in.
+   * @param[out] uv_buffer 2D texture coordinate buffer.
+   * @param[out] normal_buffer Normal vector buffer.
+   * @param[out] index_buffer Index buffer.
+   * @returns true on success, false on failure.
+   */
+  const bool BuildBuffers(VertexBuffer *vertex_buffer,
+                          TexCoordUVBuffer *uv_buffer,
+                          NormalBuffer *normal_buffer,
+                          IndexBuffer *index_buffer);
 
  private:
   /// Unique mesh vertices, mapped to indices in insertion order.
