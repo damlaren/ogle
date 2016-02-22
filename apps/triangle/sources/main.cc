@@ -30,6 +30,9 @@ class TriangleApplication : public ogle::Application {
     const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
     auto mesh = std::shared_ptr<ogle::Mesh>(
         ogle::Mesh::LoadMesh(kMeshDir + "/triangle.obj"));
+    if (mesh == nullptr) {
+      throw RuntimeException();
+    }
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";

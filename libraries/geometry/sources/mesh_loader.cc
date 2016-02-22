@@ -125,7 +125,7 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path,
       return false;
     } else if (line_type == "f") {
       // Several different formats are possible, split by '/'.
-      if (tokens.size() != 3) {
+      if (tokens.size() != 4) {  // 'f' + 3 vertices.
         LOG(ERROR) << "Non-triangular faces are not supported.";
         return false;
       }
