@@ -17,11 +17,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <string>
 #include <vector>
-#include "geometry/mesh_attributes.h"
 
 namespace ogle {
 
 class Mesh;
+class MeshGraph;
 
 /**
  * @brief Contains functions for loading Meshes.
@@ -55,26 +55,20 @@ class MeshLoader {
   static const MeshFileFormat DetermineMeshFormat(const std::string& file_path);
 
   /**
-   * @brief Creates a new Mesh from an OBJ file.
-   *
-   * The caller takes ownership of the Mesh.
-   *
+   * @brief Loads a MeshGraph from an OBJ file.
    * @param file_path Path to file to load.
-   * @return Pointer to new Mesh, or nullptr if creation failed.
+   * @param[out] mesh_graph Mesh graph built from file contents.
+   * @return true if loading succeeded.
    */
-  static Mesh* LoadOBJ(const std::string& file_path);
+  static bool LoadOBJ(const std::string& file_path, MeshGraph* mesh_graph);
 
   /**
-   * @brief Formats mesh attributes in a consistent manner.
-   *
-   * Performs the following alterations:
-   * - Checks that all faces have 3 vertices (returns false if not)
-   * - Creates per-vertex normals from per-face normals
-   *
-   * @param mesh_data[in,out] Mesh data to be altered in place.
-   * @returns true if alterations succeeded.
+   * @brief Creates a new Mesh from MeshGraph.
+   * @param mesh_graph Graph to construct Mesh from.
+   * @return New Mesh (or nullptr on failure). The caller is responsible for
+   *     deallocation.
    */
-  static bool FormatMesh(MeshAttributes* mesh_data);
+  static Mesh* BuildMesh(const MeshGraph& mesh_graph);
 };
 
 }  // namespace ogle

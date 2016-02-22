@@ -15,6 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "geometry/mesh_loader.h"
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
+#include "geometry/mesh_attributes.h"
+#include "geometry/mesh_graph.h"
 #include "util/string_utils.h"
 #include "util/text_file.h"
 
@@ -22,10 +24,12 @@ namespace ogle {
 
 Mesh* MeshLoader::LoadMesh(const std::string& file_path) {
   const MeshFileFormat mesh_format = DetermineMeshFormat(file_path);
-  Mesh* new_mesh = nullptr;
+  MeshGraph mesh_graph;
+  bool success = false;
+
   switch (mesh_format) {
     case MeshFileFormat::OBJ: {
-      new_mesh = LoadOBJ(file_path);
+      success = LoadOBJ(file_path, &mesh_graph);
       break;
     }
     case MeshFileFormat::UNKNOWN:  // Fall through.
@@ -34,7 +38,13 @@ Mesh* MeshLoader::LoadMesh(const std::string& file_path) {
       break;
     }
   }
-  return new_mesh;
+
+  if (!success) {
+    LOG(ERROR) << "Failed to load Mesh.";
+    return nullptr;
+  }
+
+  return BuildMesh(mesh_graph);
 }
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
@@ -49,10 +59,10 @@ const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
   return MeshFileFormat::UNKNOWN;
 }
 
-Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
+bool MeshLoader::LoadOBJ(const std::string& file_path, MeshGraph *mesh_graph) {
   std::string text;
   if (!TextFile::ReadFile(file_path, &text)) {
-    return nullptr;
+    return false;
   }
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
@@ -83,7 +93,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
                        line_floats[2] / w};
       } else {
         LOG(ERROR) << "Expected 3 or 4 floats for vertex.";
-        return nullptr;
+        return false;
       }
       mesh_data.vertices.emplace_back(line_vector);
     } else if (line_type == "vt") {
@@ -110,14 +120,15 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
                                                line_floats[2]}));
     } else if (line_type == "vp") {
       LOG(ERROR) << "LoadOBJ cannot load parameter space vertices.";
-      return nullptr;
+      return false;
     } else if (line_type == "f") {
       // Several different formats are possible, split by '/'.
       if (tokens.size() > 4) {
         LOG(ERROR) << "Non-triangular faces are not supported.";
-        return nullptr;
+        return false;
       }
 
+      // TODO(damlaren): Call AddFace.
       for (std::vector<std::string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         const std::string& index_specifier = tokens[token_index];
@@ -145,7 +156,7 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
         // only relevant inside the OBJ mesh loader.
         auto convert_obj_index = [](const std::string& index_str) {
           BufferIndex index = std::stoul(index_str);
-          if (index == 0){
+          if (index == 0) {
             LOG(ERROR) << "Invalid 0 index parsed from OBJ file.";
           } else {
             --index;
@@ -166,26 +177,21 @@ Mesh* MeshLoader::LoadOBJ(const std::string& file_path) {
     }
   }
 
-  if (!FormatMesh(&mesh_data)) {
-    return nullptr;
-  }
-
-  return new Mesh(
-      std::move(VertexBuffer(mesh_data.vertices)),
-      std::move(NormalBuffer(mesh_data.normals)),
-      std::move(TexCoordUVBuffer(mesh_data.tex_coords_uv)),
-      std::move(IndexBuffer(mesh_data.vertex_indices)),
-      std::move(IndexBuffer(mesh_data.normal_indices)),
-      std::move(IndexBuffer(mesh_data.tex_coord_indices)));
+  return true;
 }
 
-bool MeshLoader::FormatMesh(MeshAttributes* mesh_data) {
-  if (mesh_data == nullptr) {
-    LOG(ERROR) << "Cannot format null mesh_data.";
-    return false;
-  }
-
-  return true;
+Mesh* MeshLoader::BuildMesh(const MeshGraph& mesh_graph) {
+    /*
+     * // TODO(damlaren): This will be used again...
+     *
+    return new Mesh(
+        std::move(VertexBuffer(mesh_data.vertices)),
+        std::move(NormalBuffer(mesh_data.normals)),
+        std::move(TexCoordUVBuffer(mesh_data.tex_coords_uv)),
+        std::move(IndexBuffer(mesh_data.vertex_indices)),
+        std::move(IndexBuffer(mesh_data.normal_indices)),
+        std::move(IndexBuffer(mesh_data.tex_coord_indices))); */
+  return nullptr;
 }
 
 }  // namespace ogle

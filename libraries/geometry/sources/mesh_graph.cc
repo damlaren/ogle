@@ -13,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "geometry/mesh_graph.h"
-#include "easylogging++.h"
+#include "easylogging++.h"  // NOLINT
 #include "geometry/mesh_attributes.h"
 
 namespace ogle {
@@ -39,13 +39,34 @@ const bool operator<(const MeshGraph::MeshVertex& lhs,
   }
 }
 
-bool MeshGraph::Load(const MeshAttributes *mesh_data) {
-  if (!mesh_data) {
-    LOG(ERROR) << "Cannot create MeshGraph from null attributes.";
+bool MeshGraph::AddFace(const std::vector<Vector3f>& vertices,
+                        const std::vector<Vector2f>& uvs,
+                        const std::vector<Vector3f>& vertex_normals) {
+  if (vertices.empty()) {
+    LOG(ERROR) << "Cannot add new face from empty vertices.";
     return false;
   }
 
+  if ((!uvs.empty() && uvs.size() != vertices.size()) ||
+      (!vertex_normals.empty() && vertex_normals.size() != vertices.size())) {
+    LOG(ERROR) << "Vertex attributes must be same length as vertices vector.";
+    return false;
+  }
 
+  std::vector<const MeshVertex*> face_vertices;
+  for (std::vector<Vector3f>::size_type index = 0; index < vertices.size();
+       index++) {
+    MeshVertex mesh_vertex;
+    mesh_vertex.vertex = vertices[index];
+    mesh_vertex.uv = (!uvs.empty())? uvs[index] : Vector2f::Zero();
+    mesh_vertex.vertex_normal = (!vertex_normals.empty())?
+        vertex_normals[index] : Vector3f::Zero();
+
+    auto insertion_result = mesh_vertices_.insert(
+        {std::move(mesh_vertex), mesh_vertices_.size()});
+    face_vertices.emplace_back(&insertion_result.first->first);
+  }
+  mesh_faces_.emplace_back(std::move(MeshFace{std::move(face_vertices)}));
 
   return true;
 }

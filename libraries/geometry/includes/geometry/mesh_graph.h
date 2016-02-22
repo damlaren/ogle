@@ -15,7 +15,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_GRAPH_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_GRAPH_H_
 
+#include <map>
+#include <vector>
 #include "math/vector.h"
+#include "memory/buffer.h"
 
 namespace ogle {
 
@@ -26,43 +29,58 @@ class MeshAttributes;
  */
 class MeshGraph {
  public:
-    /**
-     * @brief Mesh vertex, associated attributes, and face connections.
-     */
-    struct MeshVertex {
-      Vector3f vertex;  ///< Vertex location.
-      Vector2f uv;  ///< 2D texture coordinate.
-      Vector3f vertex_normal;  ///< Vertex normal.
+  /**
+   * @brief Mesh vertex, associated attributes, and face connections.
+   */
+  struct MeshVertex {
+    Vector3f vertex;  ///< Vertex location.
+    Vector2f uv;  ///< 2D texture coordinate.
+    Vector3f vertex_normal;  ///< Vertex normal.
 
-      /// Faces connected to this Vertex.
-      std::vector<struct MeshFace*> adjoining_faces;
-
-      /**
-       * @brief Less than operator. Compares vertex attributes in order.
-       * @param lhs Left operand.
-       * @param rhs Right operand.
-       * @return true if lhs < rhs.
-       */
-      friend const bool operator<(const MeshVertex& lhs, const MeshVertex& rhs);
-    };
+    /// Faces connected to this Vertex.
+    std::vector<struct MeshFace*> adjoining_faces;
 
     /**
-     * @brief A single face of a Mesh.
+     * @brief Less than operator. Compares vertex attributes in order.
+     * @param lhs Left operand.
+     * @param rhs Right operand.
+     * @return true if lhs < rhs.
      */
-    struct MeshFace {
-      Vector3f face_normal;  ///< Normal for this face.
-
-      /// Vertices making up this face.
-      std::vector<MeshVertex*> vertices;
-    };
+    friend const bool operator<(const MeshVertex& lhs, const MeshVertex& rhs);
+  };
 
   /**
-   * @brief Creates a graph.
-   * @param mesh_data MeshAttributes to construct graph from.
+   * @brief A single face of a Mesh.
    */
-  bool Load(const MeshAttributes* mesh_data);
+  struct MeshFace {
+    /// Vertices making up this face.
+    std::vector<const MeshVertex*> vertices;
+  };
+
+  /**
+   * @brief Add a new MeshFace to the graph.
+   *
+   * An empty argument is ignored (the corresponding vertex attribute is zeroed
+   * out). All non-empty vectors passed to this function must be of equal
+   * length.
+   *
+   * @param vertices Face vertices.
+   * @param uvs Face 2D texture coordinates.
+   * @param vertex_normals Normals for each vertex.
+   * @return true if adding face succeeded, false on error.
+   */
+  bool AddFace(const std::vector<Vector3f>& vertices,
+               const std::vector<Vector2f>& uvs,
+               const std::vector<Vector3f>& vertex_normals);
+
+ private:
+  /// Unique mesh vertices, mapped to indices in insertion order.
+  std::map<MeshVertex, BufferIndex> mesh_vertices_;
+
+  /// Mesh faces.
+  std::vector<MeshFace> mesh_faces_;
 };
 
 }  // namespace ogle
 
-#endif // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_GRAPH_H_
+#endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_GRAPH_H_
