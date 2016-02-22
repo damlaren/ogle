@@ -54,16 +54,16 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   // currently bound buffer & vertex array.
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-  // Do it all again for vertex index buffer.
-  glGenBuffers(1, &vertex_index_buffer_id_);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_index_buffer_id_);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh_->vertex_indices().SizeInBytes(),
-               mesh_->vertex_indices().data(), GL_STATIC_DRAW);
+  // Do it all again for index buffer.
+  glGenBuffers(1, &index_buffer_id_);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id_);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh_->indices().SizeInBytes(),
+               mesh_->indices().data(), GL_STATIC_DRAW);
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
   glDeleteBuffers(1, &vertex_buffer_id_);
-  glDeleteBuffers(1, &vertex_index_buffer_id_);
+  glDeleteBuffers(1, &index_buffer_id_);
   glDeleteVertexArrays(1, &vertex_array_id_);
 }
 
@@ -90,12 +90,12 @@ void GLFWMeshRenderer::Render(const Transform& transform,
   glEnableVertexAttribArray(0);
 
   // Use index buffer to specify vertex order.
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertex_index_buffer_id_);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id_);
 
   // Draw.
   static_assert(std::is_same<BufferIndex, std::uint32_t>::value,
                 "GLFWMeshRenderer assumes 32-bit unsigned BufferIndex.");
-  glDrawElements(GL_TRIANGLES, mesh_->vertex_indices().num_elements(),
+  glDrawElements(GL_TRIANGLES, mesh_->indices().num_elements(),
                  GL_UNSIGNED_INT, static_cast<void*>(0));
 }
 

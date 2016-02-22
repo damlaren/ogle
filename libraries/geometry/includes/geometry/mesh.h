@@ -38,36 +38,32 @@ using NormalBuffer = Buffer<Vector3f>;
 using IndexBuffer = Buffer<std::uint32_t>;
 
 /**
- * @brief A 3D geometry mesh for rendering.
+ * @brief A 3D geometry mesh containing raw buffers for rendering.
  *
  * All Meshes contain the following data. Formats are standardized to simplify
  * rendering code:
  * - 3D vertices (4D vertices parsed from files are homogenized on load)
  * - 3D normal vectors
  * - 2D UV texture coordinates
- * - Index buffers into all of the above
+ * - Index buffer that indexes all of the above at once.
  *
- * Meshes only store buffers of raw data. They do not contain additional
- * structures typically used for querying relations between faces and vertex
- * attributes.
+ * Meshes only store raw data buffers. They do not store information on the
+ * relations between faces and vertices. The #MeshGraph class exists to work
+ * with that kind of information.
  *
  * Meshes own the buffers they store and are responsible for deallocating them.
  */
 class Mesh {
  public:
   /**
-   * @brief Creates an empty Mesh.
+   * @brief Creates a Mesh using passed buffers.
+   * @param vertex_buffer Vertex buffer.
+   * @param uv_buffer 2D texture coordinate buffer.
+   * @param normal_buffer Normal buffer.
+   * @param index_buffer Index buffer.
    */
-  Mesh(VertexBuffer&& vertex_buffer, NormalBuffer&& normal_buffer,  // NOLINT
-       TexCoordUVBuffer&& uv_buffer, IndexBuffer&& vertex_index_buffer,  // NOLINT
-       IndexBuffer&& normal_index_buffer, IndexBuffer&& tex_index_buffer);  // NOLINT
-
-  /**
-   * @brief Destructor.
-   *
-   * Deletes all buffers.
-   */
-  ~Mesh();
+  Mesh(VertexBuffer&& vertex_buffer, TexCoordUVBuffer&& uv_buffer,  // NOLINT
+       NormalBuffer&& normal_buffer, IndexBuffer&& index_buffer);  // NOLINT
 
   /**
    * @brief Creates a new Mesh constructed from parsing a file.
@@ -85,32 +81,23 @@ class Mesh {
    * @return Reference to buffer.
    */
   const VertexBuffer& vertices() const;
-  //@}
-
-  //@{
-  /**
-   * @brief Index buffer accessors.
-   * @return Reference to index buffer.
-   */
-  const IndexBuffer& vertex_indices() const;
+  const TexCoordUVBuffer& uvs() const;
+  const NormalBuffer& normals() const;
+  const IndexBuffer& indices() const;
   //@}
 
  protected:
   /// Vertex buffer.
   VertexBuffer vertices_;
 
-  /// Vertex normals.
-  NormalBuffer normals_;
-
   /// 2D texture coordinate buffer.
   TexCoordUVBuffer uvs_;
 
-  //@{
-  /// Index buffer for field.
-  IndexBuffer vertex_indices_;
-  IndexBuffer normal_indices_;
-  IndexBuffer tex_coord_indices_;
-  //@}
+  /// Vertex normals.
+  NormalBuffer normals_;
+
+  /// Index buffer.
+  IndexBuffer indices_;
 };
 
 }  // namespace ogle

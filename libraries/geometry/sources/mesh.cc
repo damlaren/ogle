@@ -18,18 +18,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Mesh::Mesh(VertexBuffer&& vertex_buffer, NormalBuffer&& normal_buffer,  // NOLINT
-           TexCoordUVBuffer&& uv_buffer, IndexBuffer&& vertex_index_buffer,  // NOLINT
-           IndexBuffer&& normal_index_buffer, IndexBuffer&& tex_index_buffer)  // NOLINT
+Mesh::Mesh(VertexBuffer&& vertex_buffer,  // NOLINT
+           TexCoordUVBuffer&& uv_buffer,  // NOLINT
+           NormalBuffer&& normal_buffer,  // NOLINT
+           IndexBuffer&& index_buffer)  // NOLINT
   : vertices_(std::move(vertex_buffer)),
-    normals_(std::move(normal_buffer)),
     uvs_(std::move(uv_buffer)),
-    vertex_indices_(std::move(vertex_index_buffer)),
-    normal_indices_(std::move(normal_index_buffer)),
-    tex_coord_indices_(std::move(tex_index_buffer)) {
-}
-
-Mesh::~Mesh() {
+    normals_(std::move(normal_buffer)),
+    indices_(std::move(index_buffer)) {
 }
 
 Mesh* Mesh::LoadMesh(const std::string& file_path) {
@@ -40,8 +36,16 @@ const VertexBuffer& Mesh::vertices() const {
   return vertices_;
 }
 
-const IndexBuffer& Mesh::vertex_indices() const {
-  return vertex_indices_;
+const TexCoordUVBuffer& Mesh::uvs() const {
+  return uvs_;
+}
+
+const NormalBuffer& Mesh::normals() const {
+  return normals_;
+}
+
+const IndexBuffer& Mesh::indices() const {
+  return indices_;
 }
 
 }  // namespace ogle

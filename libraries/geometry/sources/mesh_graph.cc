@@ -82,7 +82,7 @@ void MeshGraph::Clear() {
 const bool MeshGraph::BuildBuffers(VertexBuffer *vertex_buffer,
                                    TexCoordUVBuffer *uv_buffer,
                                    NormalBuffer *normal_buffer,
-                                   IndexBuffer *index_buffer) {
+                                   IndexBuffer *index_buffer) const {
   if (vertex_buffer != nullptr) {
     *vertex_buffer = VertexBuffer(mesh_vertices_.size());
   }

@@ -208,6 +208,9 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path,
 }
 
 Mesh* MeshLoader::BuildMesh(const MeshGraph& mesh_graph) {
+  VertexBuffer vertex_buffer;
+  TexCoordUVBuffer uv_buffer;
+  NormalBuffer normal_buffer;
     /*
      * // TODO(damlaren): This will be used again...
      *

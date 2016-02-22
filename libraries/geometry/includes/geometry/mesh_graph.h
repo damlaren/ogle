@@ -99,7 +99,7 @@ class MeshGraph {
   const bool BuildBuffers(VertexBuffer *vertex_buffer,
                           TexCoordUVBuffer *uv_buffer,
                           NormalBuffer *normal_buffer,
-                          IndexBuffer *index_buffer);
+                          IndexBuffer *index_buffer) const;
 
  private:
   /// Unique mesh vertices, mapped to indices in insertion order.
