@@ -15,7 +15,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "geometry/mesh_loader.h"
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
-#include "geometry/mesh_attributes.h"
 #include "geometry/mesh_graph.h"
 #include "util/string_utils.h"
 #include "util/text_file.h"
@@ -66,6 +65,8 @@ bool MeshLoader::LoadOBJ(const std::string& file_path, MeshGraph *mesh_graph) {
   }
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
+
+  mesh_graph->Clear();
 
   MeshAttributes mesh_data;
   for (const auto& line : lines) {
@@ -123,12 +124,14 @@ bool MeshLoader::LoadOBJ(const std::string& file_path, MeshGraph *mesh_graph) {
       return false;
     } else if (line_type == "f") {
       // Several different formats are possible, split by '/'.
-      if (tokens.size() > 4) {
+      if (tokens.size() != 3) {
         LOG(ERROR) << "Non-triangular faces are not supported.";
         return false;
       }
 
-      // TODO(damlaren): Call AddFace.
+      std::vector<Vector3f> face_vertices;
+      std::vector<Vector2f> face_vertex_uvs;
+      std::vector<Vector3f> face_vertex_normals;
       for (std::vector<std::string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         const std::string& index_specifier = tokens[token_index];
@@ -155,9 +158,11 @@ bool MeshLoader::LoadOBJ(const std::string& file_path, MeshGraph *mesh_graph) {
         // handles the conversion; it is anonymized on the assumption that it is
         // only relevant inside the OBJ mesh loader.
         auto convert_obj_index = [](const std::string& index_str) {
-          BufferIndex index = std::stoul(index_str);
+          int index = std::stoi(index_str);
           if (index == 0) {
             LOG(ERROR) << "Invalid 0 index parsed from OBJ file.";
+          } else if (index < 0) {
+            LOG(ERROR) << "Negative OBJ indices are not supported.";
           } else {
             --index;
           }
@@ -165,14 +170,35 @@ bool MeshLoader::LoadOBJ(const std::string& file_path, MeshGraph *mesh_graph) {
         };
 
         if (!vertex_str.empty()) {
-          mesh_data.vertex_indices.emplace_back(convert_obj_index(vertex_str));
+          const BufferIndex index = convert_obj_index(vertex_str);
+          if (index > mesh_data.vertices.size()) {
+            LOG(ERROR) << "Face vertex not found for index: " << index;
+            return false;
+          }
+          face_vertices.emplace_back(mesh_data.vertices[index]);
         }
         if (!tex_str.empty()) {
-          mesh_data.tex_coord_indices.emplace_back(convert_obj_index(tex_str));
+          const BufferIndex index = convert_obj_index(tex_str);
+          if (index > mesh_data.tex_coords_uv.size()) {
+            LOG(ERROR) << "Face UV not found for index: " << index;
+            return false;
+          }
+          face_vertex_uvs.emplace_back(mesh_data.tex_coords_uv[index]);
         }
         if (!normal_str.empty()) {
-          mesh_data.normal_indices.emplace_back(convert_obj_index(normal_str));
+          const BufferIndex index = convert_obj_index(normal_str);
+          if (index > mesh_data.normals.size()) {
+            LOG(ERROR) << "Face normal not found for index: " << index;
+            return false;
+          }
+          face_vertex_normals.emplace_back(mesh_data.normals[index]);
         }
+      }
+
+      if (!mesh_graph->AddFace(face_vertices, face_vertex_uvs,
+                               face_vertex_normals)) {
+        LOG(ERROR) << "Failed to add mesh face.";
+        return false;
       }
     }
   }

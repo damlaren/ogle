@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.3)
 
 set(INC_LIST
   includes/geometry/mesh.h
-  includes/geometry/mesh_attributes.h
   includes/geometry/mesh_graph.h
   includes/geometry/mesh_loader.h
   includes/geometry/ogle_geometry.h

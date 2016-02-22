@@ -14,7 +14,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "geometry/mesh_graph.h"
 #include "easylogging++.h"  // NOLINT
-#include "geometry/mesh_attributes.h"
 
 namespace ogle {
 
@@ -67,8 +66,17 @@ bool MeshGraph::AddFace(const std::vector<Vector3f>& vertices,
     face_vertices.emplace_back(&insertion_result.first->first);
   }
   mesh_faces_.emplace_back(std::move(MeshFace{std::move(face_vertices)}));
+  const MeshFace* new_mesh_face = &mesh_faces_.back();
+  for (const MeshVertex* vertex_pointer : new_mesh_face->vertices) {
+    vertex_pointer->adjoining_faces.emplace_back(new_mesh_face);
+  }
 
   return true;
+}
+
+void MeshGraph::Clear() {
+  mesh_vertices_.clear();
+  mesh_faces_.clear();
 }
 
 }  // namespace ogle

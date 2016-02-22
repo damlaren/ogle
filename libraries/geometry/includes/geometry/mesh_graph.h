@@ -22,23 +22,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-class MeshAttributes;
-
 /**
  * @brief A mesh representation with face-vertex connectivity information.
  */
 class MeshGraph {
  public:
+  struct MeshFace;
+
   /**
    * @brief Mesh vertex, associated attributes, and face connections.
+   *
+   * Vertices are ordered in a set. After storage their attributes should not
+   * be changed, with the exception of face adjacency information.
    */
   struct MeshVertex {
     Vector3f vertex;  ///< Vertex location.
     Vector2f uv;  ///< 2D texture coordinate.
     Vector3f vertex_normal;  ///< Vertex normal.
 
-    /// Faces connected to this Vertex.
-    std::vector<struct MeshFace*> adjoining_faces;
+    /// Faces connected to this Vertex. Can be altered without
+    mutable std::vector<const MeshFace*> adjoining_faces;
 
     /**
      * @brief Less than operator. Compares vertex attributes in order.
@@ -72,6 +75,11 @@ class MeshGraph {
   bool AddFace(const std::vector<Vector3f>& vertices,
                const std::vector<Vector2f>& uvs,
                const std::vector<Vector3f>& vertex_normals);
+
+  /**
+   * @brief Clear all mesh representation data.
+   */
+  void Clear();
 
  private:
   /// Unique mesh vertices, mapped to indices in insertion order.

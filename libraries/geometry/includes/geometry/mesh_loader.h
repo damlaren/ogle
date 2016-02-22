@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <string>
 #include <vector>
+#include "math/vector.h"
 
 namespace ogle {
 
@@ -28,6 +29,16 @@ class MeshGraph;
  */
 class MeshLoader {
  public:
+  /**
+   * @brief Wraps vectors containing mesh data.
+   */
+  struct MeshAttributes {
+    std::vector<Vector3f> vertices;
+    std::vector<Vector2f> tex_coords_uv;
+    std::vector<Vector3f> tex_coords_uvw;
+    std::vector<Vector3f> normals;
+  };
+
   /**
    * @brief Creates a new Mesh constructed from parsing a file.
    *
