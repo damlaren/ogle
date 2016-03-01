@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
 
+#include "renderer/glfw_buffered_mesh.h"
 #include "renderer/mesh_renderer.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -31,23 +32,26 @@ class GLFWMeshRenderer : public MeshRenderer {
   /**
    * @brief Constructor. Allocates OpenGL objects used for rendering.
    *
-   * @param mesh Handle to Mesh to render.
+   * @param mesh Mesh to render.
    * @param shader_program Shader program to use in render pass.
    */
-  GLFWMeshRenderer(std::shared_ptr<Mesh> mesh,
-                   std::shared_ptr<GLSLShaderProgram> shader_program);
+  GLFWMeshRenderer(const Mesh& mesh, GLSLShaderProgram *shader_program);
 
   /**
    * @brief Destructor. Deallocates OpenGL objects.
    */
   ~GLFWMeshRenderer() override;
 
-  void Render(const Transform& transform,
-              Entity *camera) override;
+  void Render(const Transform& transform, Entity *camera) override;
 
  private:
+  // TODO(damlaren): Don't duplicate this for each MeshRenderer.
+
+  /// Mesh prepared for rendering.
+  std::unique_ptr<GLFWBufferedMesh> buffered_mesh_;
+
   /// Shader program to use in rendering pass.
-  std::shared_ptr<GLSLShaderProgram> shader_program_;
+  GLSLShaderProgram* shader_program_;
 
   /// OpenGL ID for vertex buffer.
   GLuint vertex_buffer_id_;

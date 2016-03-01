@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.3)
 
 set(INC_LIST
   includes/geometry/mesh.h
-  includes/geometry/mesh_graph.h
   includes/geometry/mesh_loader.h
   includes/geometry/ogle_geometry.h
   includes/geometry/ray.h
@@ -13,7 +12,6 @@ add_custom_target(ogle_geometry_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
   sources/mesh.cc
-  sources/mesh_graph.cc
   sources/mesh_loader.cc
   sources/transform.cc
   sources/transformation_matrix.cc

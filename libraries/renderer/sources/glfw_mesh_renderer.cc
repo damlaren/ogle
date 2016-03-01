@@ -34,17 +34,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ogle {
 
 GLFWMeshRenderer::GLFWMeshRenderer(
-    std::shared_ptr<Mesh> mesh,
-    std::shared_ptr<GLSLShaderProgram> shader_program)
-    : MeshRenderer(mesh), shader_program_(shader_program) {
+    const Mesh &mesh, GLSLShaderProgram* shader_program)
+  : MeshRenderer(mesh), shader_program_(shader_program) {
+  // Create renderable Mesh.
+  buffered_mesh_ = std::move(std::make_unique<GLFWBufferedMesh>(mesh));
+  buffered_mesh_->Prepare();  // TODO(damlaren): Check return value.
+
   // Create vertex buffer and make it active array buffer.
   glGenBuffers(1, &vertex_buffer_id_);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
 
   // Copy data to active array buffer. This may be in GPU memory, but
   // that's up to the graphics driver.
-  glBufferData(GL_ARRAY_BUFFER, mesh_->vertices().SizeInBytes(),
-               mesh_->vertices().data(), GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, buffered_mesh_->vertices().SizeInBytes(),
+               buffered_mesh_->vertices().data(), GL_STATIC_DRAW);
 
   // Create vertex array and bind it to be currently active.
   glGenVertexArrays(1, &vertex_array_id_);
@@ -57,8 +60,8 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   // Do it all again for index buffer.
   glGenBuffers(1, &index_buffer_id_);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id_);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh_->indices().SizeInBytes(),
-               mesh_->indices().data(), GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffered_mesh_->indices().SizeInBytes(),
+               buffered_mesh_->indices().data(), GL_STATIC_DRAW);
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
@@ -95,7 +98,7 @@ void GLFWMeshRenderer::Render(const Transform& transform,
   // Draw.
   static_assert(std::is_same<BufferIndex, std::uint32_t>::value,
                 "GLFWMeshRenderer assumes 32-bit unsigned BufferIndex.");
-  glDrawElements(GL_TRIANGLES, mesh_->indices().num_elements(),
+  glDrawElements(GL_TRIANGLES, buffered_mesh_->indices().num_elements(),
                  GL_UNSIGNED_INT, static_cast<void*>(0));
 }
 

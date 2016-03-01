@@ -9,24 +9,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Group header for renderer library.
+ * @file Implements buffered_mesh.h.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
-
 #include "renderer/buffered_mesh.h"
-#include "renderer/camera.h"
-#include "renderer/glfw_buffered_mesh.h"
-#include "renderer/glfw_mesh_renderer.h"
-#include "renderer/glfw_window.h"
-#include "renderer/glsl_shader.h"
-#include "renderer/mesh_renderer.h"
-#include "renderer/perspective_camera.h"
-#include "renderer/renderer.h"
-#include "renderer/scene_graph.h"
-#include "renderer/scene_renderer.h"
-#include "renderer/shader.h"
-#include "renderer/window.h"
 
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
+namespace ogle {
+
+BufferedMesh::BufferedMesh(const Mesh &mesh)
+  : mesh_(mesh) {
+}
+
+}  // namespace ogle

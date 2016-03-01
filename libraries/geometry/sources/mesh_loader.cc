@@ -15,20 +15,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "geometry/mesh_loader.h"
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
-#include "geometry/mesh_graph.h"
 #include "util/string_utils.h"
 #include "util/text_file.h"
 
 namespace ogle {
 
-Mesh* MeshLoader::LoadMesh(const std::string& file_path) {
+bool MeshLoader::LoadMesh(const std::string& file_path, Mesh* mesh) {
   const MeshFileFormat mesh_format = DetermineMeshFormat(file_path);
-  MeshGraph mesh_graph;
   bool success = false;
 
   switch (mesh_format) {
     case MeshFileFormat::OBJ: {
-      success = LoadOBJ(file_path, &mesh_graph);
+      success = LoadOBJ(file_path, mesh);
       break;
     }
     case MeshFileFormat::UNKNOWN:  // Fall through.
@@ -40,10 +38,10 @@ Mesh* MeshLoader::LoadMesh(const std::string& file_path) {
 
   if (!success) {
     LOG(ERROR) << "Failed to load Mesh.";
-    return nullptr;
+    return false;
   }
 
-  return BuildMesh(mesh_graph);
+  return true;
 }
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
@@ -58,8 +56,7 @@ const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
   return MeshFileFormat::UNKNOWN;
 }
 
-const bool MeshLoader::LoadOBJ(const std::string& file_path,
-                               MeshGraph *mesh_graph) {
+const bool MeshLoader::LoadOBJ(const std::string& file_path, Mesh *mesh) {
   std::string text;
   if (!TextFile::ReadFile(file_path, &text)) {
     return false;
@@ -67,7 +64,7 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path,
   std::vector<std::string> lines = StringUtils::Split(text, '\n');
   text.clear();
 
-  mesh_graph->Clear();
+  mesh->Clear();
 
   MeshAttributes mesh_data;
   for (const auto& line : lines) {
@@ -196,8 +193,7 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path,
         }
       }
 
-      if (!mesh_graph->AddFace(face_vertices, face_vertex_uvs,
-                               face_vertex_normals)) {
+      if (!mesh->AddFace(face_vertices, face_vertex_uvs, face_vertex_normals)) {
         LOG(ERROR) << "Failed to add mesh face.";
         return false;
       }
@@ -205,21 +201,6 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path,
   }
 
   return true;
-}
-
-Mesh* MeshLoader::BuildMesh(const MeshGraph& mesh_graph) {
-  VertexBuffer vertex_buffer;
-  TexCoordUVBuffer uv_buffer;
-  NormalBuffer normal_buffer;
-  IndexBuffer index_buffer;
-
-  if (!mesh_graph.BuildBuffers(&vertex_buffer, &uv_buffer, &normal_buffer,
-                               &index_buffer)) {
-    LOG(ERROR) << "Failed to build buffers for Mesh.";
-    return nullptr;
-  }
-  return new Mesh(std::move(vertex_buffer), std::move(uv_buffer),
-                  std::move(normal_buffer), std::move(index_buffer));
 }
 
 }  // namespace ogle

@@ -9,43 +9,81 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of mesh.h.
+ * @file Implements MeshGraph.
  */
 
 #include "geometry/mesh.h"
-#include "geometry/mesh_loader.h"
-#include <string>
+#include "easylogging++.h"  // NOLINT
 
 namespace ogle {
 
-Mesh::Mesh(VertexBuffer&& vertex_buffer,  // NOLINT
-           TexCoordUVBuffer&& uv_buffer,  // NOLINT
-           NormalBuffer&& normal_buffer,  // NOLINT
-           IndexBuffer&& index_buffer)  // NOLINT
-  : vertices_(std::move(vertex_buffer)),
-    uvs_(std::move(uv_buffer)),
-    normals_(std::move(normal_buffer)),
-    indices_(std::move(index_buffer)) {
+const bool operator<(const Mesh::MeshVertex& lhs, const Mesh::MeshVertex& rhs) {
+  if (lhs.vertex < rhs.vertex) {
+    return true;
+  } else if (lhs.vertex > rhs.vertex) {
+    return false;
+  }
+
+  if (lhs.uv < rhs.uv) {
+    return true;
+  } else if (lhs.uv > rhs.uv) {
+    return false;
+  }
+
+  if (lhs.vertex_normal < rhs.vertex_normal) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-Mesh* Mesh::LoadMesh(const std::string& file_path) {
-  return MeshLoader::LoadMesh(file_path);
+const bool Mesh::AddFace(const std::vector<Vector3f>& vertices,
+                         const std::vector<Vector2f>& uvs,
+                         const std::vector<Vector3f>& vertex_normals) {
+  if (vertices.empty()) {
+    LOG(ERROR) << "Cannot add new face from empty vertices.";
+    return false;
+  }
+
+  if ((!uvs.empty() && uvs.size() != vertices.size()) ||
+      (!vertex_normals.empty() && vertex_normals.size() != vertices.size())) {
+    LOG(ERROR) << "Vertex attributes must be same length as vertices vector.";
+    return false;
+  }
+
+  std::vector<const MeshVertex*> face_vertices;
+  for (std::vector<Vector3f>::size_type index = 0; index < vertices.size();
+       index++) {
+    MeshVertex mesh_vertex;
+    mesh_vertex.vertex = vertices[index];
+    mesh_vertex.uv = (!uvs.empty())? uvs[index] : Vector2f::Zero();
+    mesh_vertex.vertex_normal = (!vertex_normals.empty())?
+        vertex_normals[index] : Vector3f::Zero();
+
+    auto insertion_result = mesh_vertices_.insert(
+        {std::move(mesh_vertex), mesh_vertices_.size()});
+    face_vertices.emplace_back(&insertion_result.first->first);
+  }
+  mesh_faces_.emplace_back(std::move(MeshFace{std::move(face_vertices)}));
+  const MeshFace* new_mesh_face = &mesh_faces_.back();
+  for (const MeshVertex* vertex_pointer : new_mesh_face->vertices) {
+    vertex_pointer->adjoining_faces.emplace_back(new_mesh_face);
+  }
+
+  return true;
 }
 
-const VertexBuffer& Mesh::vertices() const {
-  return vertices_;
+void Mesh::Clear() {
+  mesh_vertices_.clear();
+  mesh_faces_.clear();
 }
 
-const TexCoordUVBuffer& Mesh::uvs() const {
-  return uvs_;
+const std::map<Mesh::MeshVertex, BufferIndex>& Mesh::mesh_vertices() const {
+  return mesh_vertices_;
 }
 
-const NormalBuffer& Mesh::normals() const {
-  return normals_;
-}
-
-const IndexBuffer& Mesh::indices() const {
-  return indices_;
+const std::vector<Mesh::MeshFace>& Mesh::mesh_faces() const {
+  return mesh_faces_;
 }
 
 }  // namespace ogle

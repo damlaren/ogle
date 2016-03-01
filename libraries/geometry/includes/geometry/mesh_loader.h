@@ -22,13 +22,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 class Mesh;
-class MeshGraph;
 
 /**
  * @brief Contains functions for loading Meshes.
  */
 class MeshLoader {
  public:
+  /**
+   * @brief Creates a Mesh from parsing a file.
+   * @param file_path Path to file to load. Extension determines file format.
+   * @param[out] mesh Storage for Mesh built from file contents.
+   * @return success or failure.
+   */
+  static bool LoadMesh(const std::string& file_path, Mesh* mesh);
+
+ private:
   /**
    * @brief Wraps vectors containing mesh data.
    */
@@ -39,17 +47,6 @@ class MeshLoader {
     std::vector<Vector3f> normals;
   };
 
-  /**
-   * @brief Creates a new Mesh constructed from parsing a file.
-   *
-   * The caller takes ownership of the Mesh.
-   *
-   * @param file_path Path to file to load. Extension determines file format.
-   * @return Pointer to new Mesh, or nullptr if creation failed.
-   */
-  static Mesh* LoadMesh(const std::string& file_path);
-
- private:
   /**
    * @brief Supported formats for parsing Meshes.
    */
@@ -68,19 +65,11 @@ class MeshLoader {
   /**
    * @brief Loads a MeshGraph from an OBJ file.
    * @param file_path Path to file to load.
-   * @param[out] mesh_graph Mesh graph built from file contents.
+   * @param[out] mesh Storage for Mesh built from file contents.
    * @return true if loading succeeded.
    */
   static const bool LoadOBJ(const std::string& file_path,
-                            MeshGraph* mesh_graph);
-
-  /**
-   * @brief Creates a new Mesh from MeshGraph.
-   * @param mesh_graph Graph to construct Mesh from.
-   * @return New Mesh (or nullptr on failure). The caller is responsible for
-   *     deallocation.
-   */
-  static Mesh* BuildMesh(const MeshGraph& mesh_graph);
+                            Mesh* mesh);
 };
 
 }  // namespace ogle

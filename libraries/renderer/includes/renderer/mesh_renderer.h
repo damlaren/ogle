@@ -31,13 +31,13 @@ class MeshRenderer : public Renderer {
  public:
   /**
    * @brief Constructor.
-   * @param mesh Handle to mesh to render.
+   * @param mesh Mesh to render.
    */
-  explicit MeshRenderer(std::shared_ptr<Mesh> mesh);
+  explicit MeshRenderer(const Mesh& mesh);
 
  protected:
-  /// Handle to mesh to render.
-  std::shared_ptr<Mesh> mesh_;
+  /// Mesh to render.
+  const Mesh& mesh_;
 };
 
 }  // namespace ogle
