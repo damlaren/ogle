@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
 #include <map>
+#include <string>
 #include <vector>
 #include "math/vector.h"
 #include "memory/buffer.h"
@@ -69,6 +70,14 @@ class Mesh {
   static constexpr int kVerticesPerFace = 3;
 
   /**
+   * @brief Loads a Mesh from a file.
+   * @param file_path File to load from.
+   * @param[out] mesh Storage for Mesh to load.
+   * @return true if Mesh was loaded.
+   */
+  static const bool LoadMesh(const std::string& file_path, Mesh* mesh);
+
+  /**
    * @brief Adds a new face to this Mesh.
    *
    * An empty argument is ignored; the corresponding vertex attribute is zeroed
@@ -101,7 +110,7 @@ class Mesh {
    */
   const std::vector<MeshFace>& mesh_faces() const;
 
- private:
+ protected:
   /// Unique mesh vertices, mapped to indices in insertion order.
   std::map<MeshVertex, BufferIndex> mesh_vertices_;
 

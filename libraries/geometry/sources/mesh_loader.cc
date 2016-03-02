@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-bool MeshLoader::LoadMesh(const std::string& file_path, Mesh* mesh) {
+const bool MeshLoader::LoadMesh(const std::string& file_path, Mesh* mesh) {
   const MeshFileFormat mesh_format = DetermineMeshFormat(file_path);
   bool success = false;
 

@@ -14,6 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "geometry/mesh.h"
 #include "easylogging++.h"  // NOLINT
+#include "geometry/mesh_loader.h"
 
 namespace ogle {
 
@@ -35,6 +36,10 @@ const bool operator<(const Mesh::MeshVertex& lhs, const Mesh::MeshVertex& rhs) {
   } else {
     return false;
   }
+}
+
+const bool Mesh::LoadMesh(const std::string& file_path, Mesh* mesh) {
+  return MeshLoader::LoadMesh(file_path, mesh);
 }
 
 const bool Mesh::AddFace(const std::vector<Vector3f>& vertices,

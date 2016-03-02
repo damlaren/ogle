@@ -26,8 +26,8 @@ class MeshViewerApplication : public ogle::Application {
             std::make_unique<ogle::ResourceManager>(resource_dir),
             std::move(window), std::move(keyboard)) {
     const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
-    auto mesh = std::shared_ptr<ogle::Mesh>(
-        ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj"));
+    CHECK(ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj", &mesh_)) <<
+        "Failed to load Mesh.";
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
@@ -44,10 +44,10 @@ class MeshViewerApplication : public ogle::Application {
         vertex_shader_text, ogle::ShaderType::Vertex);
     auto fragment_shader = std::make_shared<ogle::GLSLShader>(
         fragment_shader_text, ogle::ShaderType::Fragment);
-    auto shader_program = std::make_shared<ogle::GLSLShaderProgram>(
+    shader_ = std::make_unique<ogle::GLSLShaderProgram>(
         vertex_shader, fragment_shader);
     auto renderer =
-        std::make_shared<ogle::GLFWMeshRenderer>(mesh, shader_program);
+        std::make_shared<ogle::GLFWMeshRenderer>(mesh_, shader_.get());
 
     scene_graph_ = std::make_unique<ogle::SceneGraph>();
     scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
@@ -128,6 +128,12 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Object instantiated to render the mesh.
   std::unique_ptr<ogle::Entity> render_object_;
+
+  /// Mesh storage.
+  ogle::Mesh mesh_;
+
+  /// GLSL shader program to use for rendering.
+  std::unique_ptr<ogle::GLSLShaderProgram> shader_;
 };
 
 /**

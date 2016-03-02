@@ -34,7 +34,7 @@ class MeshLoader {
    * @param[out] mesh Storage for Mesh built from file contents.
    * @return success or failure.
    */
-  static bool LoadMesh(const std::string& file_path, Mesh* mesh);
+  static const bool LoadMesh(const std::string& file_path, Mesh* mesh);
 
  private:
   /**

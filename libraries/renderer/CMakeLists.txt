@@ -20,6 +20,7 @@ add_custom_target(ogle_renderer_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
   sources/buffered_mesh.cc
+  sources/glfw_buffered_mesh.cc
   sources/glfw_mesh_renderer.cc
   sources/glfw_window.cc
   sources/glsl_shader.cc

@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "renderer/glfw_buffered_mesh.h"
+#include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
 
 namespace ogle {
@@ -38,36 +39,39 @@ const IndexBuffer& GLFWBufferedMesh::indices() const {
 }
 
 bool GLFWBufferedMesh::Prepare() {
-  vertices_ = std::move(VertexBuffer(mesh_vertices_.size()));
-  uvs_ = std::move(TexCoordUVBuffer(mesh_vertices_.size()));
-  normals_ = std::move(NormalBuffer(mesh_vertices_.size()));
-  indices_ = std::move(IndexBuffer(mesh_faces_.size() * kVerticesPerFace));
+  const auto& mesh_vertices = mesh_.mesh_vertices();
+  const auto& mesh_faces = mesh_.mesh_faces();
+
+  vertices_ = std::move(VertexBuffer(mesh_vertices.size()));
+  uvs_ = std::move(TexCoordUVBuffer(mesh_vertices.size()));
+  normals_ = std::move(NormalBuffer(mesh_vertices.size()));
+  indices_ = std::move(IndexBuffer(mesh_faces.size() * Mesh::kVerticesPerFace));
 
   // TODO(damlaren): Some data is not always available.
 
   // Build per-vertex buffers.
-  for (const auto& vertex_index_pair : mesh_vertices_) {
-    const MeshVertex& mesh_vertex = vertex_index_pair.first;
+  for (const auto& vertex_index_pair : mesh_vertices) {
+    const auto& mesh_vertex = vertex_index_pair.first;
     const BufferIndex index = vertex_index_pair.second;
 
-    if (index < 0 || index >= mesh_.mesh_vertices().size()) {
+    if (index < 0 || index >= mesh_vertices.size()) {
       LOG(ERROR) << "Invalid index assigned to vertex: " << index;
       return false;
     }
 
     vertices_.SetDataValue(index, mesh_vertex.vertex);
     uvs_.SetDataValue(index, mesh_vertex.uv);
-    normals_.normal_buffer->SetDataValue(index, mesh_vertex.vertex_normal);
+    normals_.SetDataValue(index, mesh_vertex.vertex_normal);
   }
 
   // Build index buffer.
   BufferIndex num_indices_set = 0;
-  for (const auto& mesh_face : mesh_.mesh_faces()) {
+  for (const auto& mesh_face : mesh_faces) {
     for (const auto mesh_vertex : mesh_face.vertices) {
-      const auto mesh_vertex_iterator = mesh_vertices_.find(*mesh_vertex);
+      const auto mesh_vertex_iterator = mesh_vertices.find(*mesh_vertex);
       if (mesh_vertex_iterator != mesh_vertices.end()) {
         const BufferIndex index = mesh_vertex_iterator->second;
-        CHECK(index >= 0 && index < mesh_.mesh_vertices().size());
+        CHECK(index >= 0 && index < mesh_vertices.size());
         indices_.SetDataValue(num_indices_set++, index);
       } else {
         LOG(ERROR) << "Unknown vertex on face.";
