@@ -12,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file A sandbox for trying out new features.
  */
 
-#include <iostream>
+#include <experimental/optional>
 #include "ogle/ogle.h"
 
 using std::cout;
@@ -149,13 +149,25 @@ void TestTransformationMatrix() {
        << TransformationMatrix::RotationMatrixZ3D(t) << endl;
 }
 
+// Experiment from:
+// http://stackoverflow.com/questions/16860960/how-should-one-use-stdoptional
+std::experimental::optional<int> try_parse_int(std::string s) {
+  return std::experimental::nullopt;
+}
+
+/**
+ * @brief Test std::experimental::optional.
+ */
+void TestOptional() {
+  const auto t = try_parse_int("1");
+}
+
 /**
  * @brief Main entry point.
  * @return 0 on success, something else on failure.
  */
 int main() {
-  TestMatrixConstructors();
-  TestTransformationMatrix();
+  TestOptional();
 
   return 0;
 }
