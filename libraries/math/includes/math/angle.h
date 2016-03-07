@@ -149,13 +149,13 @@ class Angle {
    * @brief Getter.
    * @return Angle, in radians.
    */
-  const float radians() const noexcept;
+  const float radians() const;
 
   /**
    * @brief Getter.
    * @return Angle, in degrees.
    */
-  const float degrees() const noexcept;
+  const float degrees() const;
 
  private:
   /**

@@ -250,7 +250,7 @@ class Matrix {
   /**
    * @brief Default constructor. Does not init values.
    */
-  Matrix() noexcept {
+  Matrix() {
   }
 
   /**
@@ -335,7 +335,7 @@ class Matrix {
    * @return New Matrix containing result.
    */
   friend const Matrix operator+(const Matrix& lhs,
-                                const Matrix& rhs) noexcept {
+                                const Matrix& rhs) {
     return Matrix(lhs) += rhs;
   }
 
@@ -344,7 +344,7 @@ class Matrix {
    * @param rhs Right operand.
    * @return Reference to this Matrix.
    */
-  Matrix& operator+=(const Matrix& rhs) noexcept {
+  Matrix& operator+=(const Matrix& rhs) {
     BinaryOpInPlace(rhs, std::plus<T>());
     return *this;
   }
@@ -354,7 +354,7 @@ class Matrix {
    * @param rhs Right operand.
    * @return New Matrix containing result.
    */
-  friend const Matrix operator-(const Matrix& rhs) noexcept {
+  friend const Matrix operator-(const Matrix& rhs) {
     return Matrix(rhs).UnaryOpInPlace(std::negate<T>());
   }
 
@@ -365,7 +365,7 @@ class Matrix {
    * @return New Matrix containing result.
    */
   friend const Matrix operator-(const Matrix& lhs,
-                                const Matrix& rhs) noexcept {
+                                const Matrix& rhs) {
     return Matrix(lhs) -= rhs;
   }
 
@@ -374,7 +374,7 @@ class Matrix {
    * @param rhs Right operand.
    * @return Reference to this Matrix.
    */
-  Matrix& operator-=(const Matrix& rhs) noexcept {
+  Matrix& operator-=(const Matrix& rhs) {
     BinaryOpInPlace(rhs, std::minus<T>());
     return *this;
   }
@@ -385,7 +385,7 @@ class Matrix {
    * @param factor Scalar to multiply by on right.
    * @return New Matrix containing result.
    */
-  friend const Matrix operator*(const Matrix& lhs, const T factor) noexcept {
+  friend const Matrix operator*(const Matrix& lhs, const T factor) {
     return Matrix(lhs) *= factor;
   }
 
@@ -395,7 +395,7 @@ class Matrix {
    * @param rhs Matrix on right.
    * @return New Matrix containing result.
    */
-  friend const Matrix operator*(const T factor, const Matrix& rhs) noexcept {
+  friend const Matrix operator*(const T factor, const Matrix& rhs) {
     return Matrix(rhs) *= factor;
   }
 
@@ -404,7 +404,7 @@ class Matrix {
    * @param factor Scalar to multiply by on right.
    * @return Reference to this Matrix.
    */
-  Matrix& operator*=(const T factor) noexcept {
+  Matrix& operator*=(const T factor) {
     UnaryOpInPlace([factor](T value) { return value * factor; });
     return *this;
   }
@@ -417,7 +417,7 @@ class Matrix {
    */
   template <MatrixIndex O>
   friend const Matrix<T, M, O> operator*(const Matrix<T, M, N>& lhs,
-                                         const Matrix<T, N, O>& rhs) noexcept {
+                                         const Matrix<T, N, O>& rhs) {
     Matrix<T, M, O> result;
     for (MatrixIndex i = 0; i < M; i++) {
       for (MatrixIndex j = 0; j < O; j++) {
@@ -480,14 +480,14 @@ class Matrix {
    * @brief Sets all data in Matrix to @p value.
    * @param value
    */
-  void Set(T value) noexcept {
+  void Set(T value) {
     std::fill(data_[0], data_[0] + M * N, value);
   }
 
   /**
    * @brief Zeroes out the matrix.
    */
-  void Clear() noexcept {
+  void Clear() {
     Set(static_cast<T>(0));
   }
 
@@ -495,7 +495,7 @@ class Matrix {
    * @brief Computes transpose of this Matrix.
    * @return New Matrix containing result.
    */
-  const Matrix<T, N, M> Transpose() const noexcept {
+  const Matrix<T, N, M> Transpose() const {
     Matrix<T, N, M> result;
     for (MatrixIndex i = 0; i < M; i++) {
       for (MatrixIndex j = 0; j < N; j++) {
@@ -509,7 +509,7 @@ class Matrix {
    * @brief Computes identity Matrix. Only allowed for square Matrix.
    * @return New Matrix containing result.
    */
-  static const Matrix Identity() noexcept {
+  static const Matrix Identity() {
     static_assert(M == N,
                   "Identity can only be constructed for square Matrix.");
     Matrix result;
@@ -524,7 +524,7 @@ class Matrix {
    * @brief Compute determinant of this Matrix, if it is square and up to 4x4.
    * @return Determinant value.
    */
-  const T Determinant() const noexcept {
+  const T Determinant() const {
     static_assert(M == N,
                   "Determinant only exists for square Matrix. AFAIK.");
     static_assert(M <= 4, "Determinant only computed up to 4x4 Matrix.");
@@ -559,7 +559,7 @@ class Matrix {
    * @param v
    * @return New Matrix with result.
    */
-  static const Matrix<T, M, 1> AsMatrix(const Vector<T, M>& v) noexcept {
+  static const Matrix<T, M, 1> AsMatrix(const Vector<T, M>& v) {
     Matrix<T, M, 1> result;
     for (MatrixIndex i = 0; i < M; i++) {
       result(i, 0) = v(i);
@@ -571,7 +571,7 @@ class Matrix {
    * @brief Build an M-Vector from an Mx1 Matrix.
    * @return New Vector with result.
    */
-  const Vector<T, M> AsVector() const noexcept {
+  const Vector<T, M> AsVector() const {
     static_assert(N == 1,
                   "Can only construct Vector from Matrix with 1 column.");
     Vector<T, M> result;
@@ -588,7 +588,7 @@ class Matrix {
    *
    * @return Pointer to matrix data.
    */
-  const T* data() const noexcept {
+  const T* data() const {
     return static_cast<const T*>(data_[0]);
   }
 

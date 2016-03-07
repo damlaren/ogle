@@ -94,11 +94,11 @@ const Angle Angle::FromDegrees(const float degrees) {
   return Angle(degrees * kPi / 180.f);
 }
 
-const float Angle::radians() const noexcept {
+const float Angle::radians() const {
   return theta_;
 }
 
-const float Angle::degrees() const noexcept {
+const float Angle::degrees() const {
   return theta_ * 180.f / kPi;
 }
 const float Angle::Clip(const float radians) {
