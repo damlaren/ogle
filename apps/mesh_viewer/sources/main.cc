@@ -60,20 +60,20 @@ class MeshViewerApplication : public ogle::Application {
     if (!shader_program_->Create()) {
       return false;
     }
-    auto renderer =
-        std::make_shared<ogle::GLFWMeshRenderer>(mesh_, shader_program_.get());
+    mesh_renderer_ =
+        std::make_unique<ogle::GLFWMeshRenderer>(mesh_, shader_program_.get());
 
     scene_graph_ = std::make_unique<ogle::SceneGraph>();
     scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
     render_object_ = std::make_unique<ogle::Entity>(
-        &scene_graph_->root_->transform_, renderer, nullptr);
+        &scene_graph_->root_->transform_, mesh_renderer_.get(), nullptr);
     render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
-    auto camera_object = std::make_shared<ogle::PerspectiveCamera>(
+    camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f), window_->window_width(),
         window_->window_height());
-    camera_ = std::make_unique<ogle::Entity>(
-        &scene_graph_->root_->transform_, nullptr, camera_object);
-    camera_->transform_.set_world_position({-3.f, 0.f, 0.f});
+    camera_entity_ = std::make_unique<ogle::Entity>(
+        &scene_graph_->root_->transform_, nullptr, camera_.get());
+    camera_entity_->transform_.set_world_position({-3.f, 0.f, 0.f});
     return true;
   }
 
@@ -86,38 +86,38 @@ class MeshViewerApplication : public ogle::Application {
     // TODO(damlaren): Should be done with an Update function on an Entity,
     // or some other interface.
     ogle::PerspectiveCamera* camera =
-        dynamic_cast<ogle::PerspectiveCamera*>(camera_->camera());
+        dynamic_cast<ogle::PerspectiveCamera*>(camera_.get());
     camera->set_aspect_ratio(window_->window_width(), window_->window_height());
 
     // Move camera on input.
     constexpr float kMoveDelta = 0.03f;
     const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(2.0f);
     if (keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
-      camera_->transform_.TranslateForward(kMoveDelta);
+      camera_entity_->transform_.TranslateForward(kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
-      camera_->transform_.TranslateForward(-kMoveDelta);
+      camera_entity_->transform_.TranslateForward(-kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
-      camera_->transform_.TranslateRight(-kMoveDelta);
+      camera_entity_->transform_.TranslateRight(-kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
-      camera_->transform_.TranslateRight(kMoveDelta);
+      camera_entity_->transform_.TranslateRight(kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::Z, true)) {
-      camera_->transform_.TranslateUp(-kMoveDelta);
+      camera_entity_->transform_.TranslateUp(-kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::C, true)) {
-      camera_->transform_.TranslateUp(kMoveDelta);
+      camera_entity_->transform_.TranslateUp(kMoveDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
-      camera_->transform_.RotateRoll(-kAngleDelta);
+      camera_entity_->transform_.RotateRoll(-kAngleDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::E, true)) {
-      camera_->transform_.RotateRoll(kAngleDelta);
+      camera_entity_->transform_.RotateRoll(kAngleDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
-      camera_->transform_.RotateRoll(-kAngleDelta);
+      camera_entity_->transform_.RotateRoll(-kAngleDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::UP_ARROW, true)) {
-      camera_->transform_.RotatePitch(kAngleDelta);
+      camera_entity_->transform_.RotatePitch(kAngleDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::DOWN_ARROW, true)) {
-      camera_->transform_.RotatePitch(-kAngleDelta);
+      camera_entity_->transform_.RotatePitch(-kAngleDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::LEFT_ARROW, true)) {
-      camera_->transform_.RotateYaw(kAngleDelta);
+      camera_entity_->transform_.RotateYaw(kAngleDelta);
     } else if (keyboard_->IsKeyDown(ogle::KeyCode::RIGHT_ARROW, true)) {
-      camera_->transform_.RotateYaw(-kAngleDelta);
+      camera_entity_->transform_.RotateYaw(-kAngleDelta);
     }
     keyboard_->Clear();
 
@@ -125,7 +125,7 @@ class MeshViewerApplication : public ogle::Application {
 
     // TODO(damlaren): Move rendering code out.
     window_->ClearWindow();
-    scene_renderer_->RenderScene(camera_.get(), scene_graph_.get());
+    scene_renderer_->RenderScene(camera_entity_.get(), scene_graph_.get());
     window_->SwapBuffers();
 
     return true;
@@ -133,7 +133,7 @@ class MeshViewerApplication : public ogle::Application {
 
  private:
   /// Camera Entity.
-  std::unique_ptr<ogle::Entity> camera_;
+  std::unique_ptr<ogle::Entity> camera_entity_;
 
   /// Scene graph.
   std::unique_ptr<ogle::SceneGraph> scene_graph_;
@@ -153,8 +153,14 @@ class MeshViewerApplication : public ogle::Application {
   /// GLSL fragment shader.
   std::unique_ptr<ogle::GLSLShader> fragment_shader_;
 
-  /// GLSL shader program to use for rendering.
+  /// GLSL shader program.
   std::unique_ptr<ogle::GLSLShaderProgram> shader_program_;
+
+  /// Mesh renderer.
+  std::unique_ptr<ogle::GLFWMeshRenderer> mesh_renderer_;
+
+  /// Camera to render from.
+  std::unique_ptr<ogle::Camera> camera_;
 };
 
 /**

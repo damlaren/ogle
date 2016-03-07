@@ -42,8 +42,7 @@ class Entity {
    * @param camera Camera to attach to Entity. Can be null. Not used to render
    *     this Entity.
    */
-  Entity(Transform *parent, std::shared_ptr<Renderer> renderer,
-         std::shared_ptr<Camera> camera);
+  Entity(Transform *parent, Renderer* renderer, Camera* camera);
 
   /**
    * @brief Renders this Entity.
@@ -74,10 +73,10 @@ class Entity {
  private:
   // TODO(damlaren): These should be components.
   /// Renderer used to display Entity.
-  std::shared_ptr<Renderer> renderer_;
+  Renderer* renderer_;
 
   /// Camera attached to this Entity, if there is one.
-  std::shared_ptr<Camera> camera_;
+  Camera* camera_;
 };
 
 }  // namespace ogle
