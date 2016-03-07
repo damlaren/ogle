@@ -33,7 +33,13 @@ class GLSLShader : public Shader {
 
   GLSLShader(const std::string& shader_text, ShaderType type);
 
-  ~GLSLShader() override = default;
+  ~GLSLShader() override;
+
+  /**
+   * @brief Creates usable Shader.
+   * @return Success or failure.
+   */
+  bool Create();
 
  protected:
   /// OpenGL-generated shader ID.
@@ -50,9 +56,14 @@ class GLSLShaderProgram : public ShaderProgram {
    * @param vertex_shader Precompiled vertex Shader.
    * @param fragment_shader Precompiled fragment Shader.
    */
-  GLSLShaderProgram(std::shared_ptr<GLSLShader> vertex_shader,
-                    std::shared_ptr<GLSLShader> fragment_shader);
+  GLSLShaderProgram(GLSLShader* vertex_shader, GLSLShader* fragment_shader);
   ~GLSLShaderProgram() override = default;
+
+  /**
+   * @brief Creates usable ShaderProgram compiled from Shaders.
+   * @return Success or failure.
+   */
+  bool Create();
 
   void UseProgram() override;
 
@@ -79,7 +90,8 @@ class GLSLShaderProgram : public ShaderProgram {
                    GLFunc gl_func) {
     // TODO(damlaren): Getting location is best done outside of a loop.
     //     I've read that querying it is slow.
-    GLint uniform_location = glGetUniformLocation(program_id_, variable.c_str());
+    GLint uniform_location = glGetUniformLocation(program_id_,
+                                                  variable.c_str());
     if (uniform_location == -1) {
       LOG(ERROR) << "Could not find uniform on program " << program_id_
                  << ": " << variable;
@@ -93,10 +105,10 @@ class GLSLShaderProgram : public ShaderProgram {
   GLuint program_id_;
 
   /// Precompiled vertex shader.
-  std::shared_ptr<GLSLShader> vertex_shader_;
+  GLSLShader* vertex_shader_;
 
   /// Precompiled fragment shader.
-  std::shared_ptr<GLSLShader> fragment_shader_;
+  GLSLShader* fragment_shader_;
 };
 
 }  // namespace ogle

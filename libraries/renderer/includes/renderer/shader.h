@@ -38,12 +38,6 @@ enum class ShaderType {
 class Shader {
  protected:
   /**
-   * @brief Error that can be thrown if Shader creation fails.
-   */
-  class ShaderCompileError : public std::exception {
-  };
-
-  /**
    * @brief Constructor.
    * @param shader_text Shader text to copy.
    * @param type Type of this Shader.
@@ -100,12 +94,6 @@ class ShaderProgram {
   //@}
 
  protected:
-  /**
-   * @brief Error that can be thrown if ShaderProgram creation fails.
-   */
-  class ShaderProgramLinkError : public std::exception {
-  };
-
   /**
    * @brief Default constructor. Not used.
    */

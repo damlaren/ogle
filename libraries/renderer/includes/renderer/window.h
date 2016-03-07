@@ -60,16 +60,6 @@ class Window {
    * @return Window height [pixels].
    */
   virtual const int window_height() const = 0;
-
- protected:
-  /**
-   * @brief Exception class that can be thrown if construction fails.
-   *
-   * This exception is intended to halt the application in case
-   * of an unrecoverable error during construction.
-   */
-  class WindowException : public std::exception {
-  };
 };
 
 }  // namespace ogle

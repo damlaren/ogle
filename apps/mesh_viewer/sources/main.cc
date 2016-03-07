@@ -19,15 +19,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 class MeshViewerApplication : public ogle::Application {
  public:
-  explicit MeshViewerApplication(const std::string& resource_dir,
-                                 std::unique_ptr<ogle::Window> window,
-                                 std::unique_ptr<ogle::KeyboardInput> keyboard)
-      : Application(
-            std::make_unique<ogle::ResourceManager>(resource_dir),
-            std::move(window), std::move(keyboard)) {
+  explicit MeshViewerApplication(
+    std::unique_ptr<ogle::ResourceManager> resource_manager,
+    std::unique_ptr<ogle::Window> window,
+    std::unique_ptr<ogle::KeyboardInput> keyboard)
+      : Application(std::move(resource_manager), std::move(window),
+                    std::move(keyboard)) {
+  }
+
+  bool Create() override {
     const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
-    CHECK(ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj", &mesh_)) <<
-        "Failed to load Mesh.";
+    if (!ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj", &mesh_)) {
+      LOG(ERROR) << "Failed to load Mesh.";
+      return false;
+    }
 
     const std::string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
@@ -36,18 +41,27 @@ class MeshViewerApplication : public ogle::Application {
                                    &vertex_shader_text) &&
           ogle::TextFile::ReadFile(kShaderDir + "/fragment/flat_fs.glsl",
                                    &fragment_shader_text))) {
-      LOG(ERROR) << "Failed to read shader resources.";
-      throw RuntimeException();
+      LOG(ERROR) << "Failed to read shader text files.";
+      return false;
     }
 
-    auto vertex_shader = std::make_shared<ogle::GLSLShader>(
+    vertex_shader_ = std::make_unique<ogle::GLSLShader>(
         vertex_shader_text, ogle::ShaderType::Vertex);
-    auto fragment_shader = std::make_shared<ogle::GLSLShader>(
+    if (!vertex_shader_->Create()) {
+      return false;
+    }
+    fragment_shader_ = std::make_unique<ogle::GLSLShader>(
         fragment_shader_text, ogle::ShaderType::Fragment);
-    shader_ = std::make_unique<ogle::GLSLShaderProgram>(
-        vertex_shader, fragment_shader);
+    if (!fragment_shader_->Create()) {
+      return false;
+    }
+    shader_program_ = std::make_unique<ogle::GLSLShaderProgram>(
+        vertex_shader_.get(), fragment_shader_.get());
+    if (!shader_program_->Create()) {
+      return false;
+    }
     auto renderer =
-        std::make_shared<ogle::GLFWMeshRenderer>(mesh_, shader_.get());
+        std::make_shared<ogle::GLFWMeshRenderer>(mesh_, shader_program_.get());
 
     scene_graph_ = std::make_unique<ogle::SceneGraph>();
     scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
@@ -60,6 +74,7 @@ class MeshViewerApplication : public ogle::Application {
     camera_ = std::make_unique<ogle::Entity>(
         &scene_graph_->root_->transform_, nullptr, camera_object);
     camera_->transform_.set_world_position({-3.f, 0.f, 0.f});
+    return true;
   }
 
   bool ApplicationBody() {
@@ -69,7 +84,7 @@ class MeshViewerApplication : public ogle::Application {
 
     // Update camera aspect ratio.
     // TODO(damlaren): Should be done with an Update function on an Entity,
-    // or a messaging interface.
+    // or some other interface.
     ogle::PerspectiveCamera* camera =
         dynamic_cast<ogle::PerspectiveCamera*>(camera_->camera());
     camera->set_aspect_ratio(window_->window_width(), window_->window_height());
@@ -132,8 +147,14 @@ class MeshViewerApplication : public ogle::Application {
   /// Mesh storage.
   ogle::Mesh mesh_;
 
+  /// GLSL vertex shader.
+  std::unique_ptr<ogle::GLSLShader> vertex_shader_;
+
+  /// GLSL fragment shader.
+  std::unique_ptr<ogle::GLSLShader> fragment_shader_;
+
   /// GLSL shader program to use for rendering.
-  std::unique_ptr<ogle::GLSLShaderProgram> shader_;
+  std::unique_ptr<ogle::GLSLShaderProgram> shader_program_;
 };
 
 /**
@@ -147,16 +168,22 @@ int main(const int argc, const char* argv[]) {
 
   static constexpr int kWindowWidth = 1024;
   static constexpr int kWindowHeight = 768;
-  auto window = std::make_unique<ogle::GLFWWindow>(kWindowWidth, kWindowHeight,
-                                                   "Mesh Viewer", 4, 0, 4);
+  auto resource_manager = std::make_unique<ogle::ResourceManager>(argv[1]);
+  auto window = std::make_unique<ogle::GLFWWindow>();
+  if (!window->Create(kWindowWidth, kWindowHeight, "Mesh Viewer", 4, 0, 4)) {
+    LOG(FATAL) << "Failed to create window.";
+  }
   auto keyboard = std::make_unique<ogle::GLFWKeyboardInput>();
 
   // TODO(damlaren): This is a quirk specific to GLFW, can move it once engine
   // is "packed up."
   window->AttachKeyboard(keyboard.get());
 
-  auto app = std::make_unique<MeshViewerApplication>(argv[1], std::move(window),
-      std::move(keyboard));
+  auto app = std::make_unique<MeshViewerApplication>(
+      std::move(resource_manager), std::move(window), std::move(keyboard));
+  if (!app->Create()) {
+    LOG(FATAL) << "Application failed to start.";
+  }
   app->RunApplication();
   return 0;
 }

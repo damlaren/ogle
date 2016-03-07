@@ -33,27 +33,28 @@ class GLFWKeyboardInput;
 class GLFWWindow : public Window {
  public:
   /**
-   * @brief Default constructor (deleted).
+   * @brief Constructor. #Create() must be called to build a usable Window.
    */
-  GLFWWindow() = delete;
+  GLFWWindow();
 
   /**
-   * @brief Constructor.
+   * @brief Destructor.
+   */
+  ~GLFWWindow() override;
+
+  /**
+   * @brief Initializes Window based on parameters.
    * @param width Initial window width [pixels].
    * @param height Initial window height [pixels].
    * @param title Window title.
    * @param opengl_major_version Major version number required from OpenGL.
    * @param opengl_minor_version Minor version number required from OpenGL.
    * @param msaa_samples Number of samples to use for MSAA (anti-aliasing).
+   * @return Success or failure.
    */
-  GLFWWindow(const int width, const int height, const std::string& title,
-             const int opengl_major_version, const int opengl_minor_version,
-             const int msaa_samples);
-
-  /**
-   * @brief Destructor.
-   */
-  ~GLFWWindow() override;
+  bool Create(const int width, const int height, const std::string& title,
+              const int opengl_major_version, const int opengl_minor_version,
+              const int msaa_samples);
 
   void ClearWindow() override;
   void SwapBuffers() override;

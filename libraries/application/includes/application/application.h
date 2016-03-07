@@ -33,27 +33,20 @@ namespace ogle {
 class Application {
  public:
   /**
-   * @brief A generic exception that can be thrown when an app fails.
-   */
-  class RuntimeException : public std::exception {
-    // TODO(damlaren): actually, there are good reasons not to use exceptions--
-    // most game engines disable them. Think about this more.
-  };
-
-  /**
    * @brief The entry point and main loop of the Application.
    *
-   * It takes the following steps:
-   *
-   * TODO(damlaren): describe
-   *
-   * - Executes #ApplicationBody while it returns true.
+   * It takes the following steps while ApplicationBody() returns true:
+   * - Calls #HandleWindowEvents on its Window, exits if it returns false.
+   * - Calls #ApplicationBody.
    */
   void RunApplication();
 
  protected:
   /**
    * @brief Constructor.
+   *
+   * It exists to receive passed resources. It should not do any other
+   * initialization-- that is the responsibility of #Create().
    *
    * unique_ptr parameters refer to objects the Application will take ownership
    * over. They are invalid after constructing the Application.
@@ -72,6 +65,12 @@ class Application {
    * Responsible for releasing all objects owned by the Application.
    */
   virtual ~Application() = default;
+
+  /**
+   * @brief Creates a usable Application.
+   * @return success or failure.
+   */
+  virtual bool Create() = 0;
 
   /**
    * @brief Function to execute in main loop.

@@ -20,19 +20,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLFWWindow::GLFWWindow(const int width, const int height,
-                       const std::string& title, const int opengl_major_version,
-                       const int opengl_minor_version, const int msaa_samples)
-    : Window() {
-  window_ = nullptr;
+GLFWWindow::GLFWWindow()
+  : Window(), window_(nullptr) {
+}
 
+GLFWWindow::~GLFWWindow() {
+  if (window_ != nullptr) {
+    glfwDestroyWindow(window_);
+  }
+  glfwTerminate();
+}
+
+bool GLFWWindow::Create(
+    const int width, const int height, const std::string& title,
+    const int opengl_major_version, const int opengl_minor_version,
+    const int msaa_samples) {
   if (!glfwInit()) {
     LOG(ERROR) << "Failed to init GLFW.";
-    throw Window::WindowException();
+    return false;
   }
-  LOG(INFO) << "GLFW Version: " << glfwGetVersionString();
-  glfwSetErrorCallback(LogGLFWError);
 
+  glfwSetErrorCallback(LogGLFWError);
   glfwWindowHint(GLFW_SAMPLES, msaa_samples);  // Anti-aliasing.
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, opengl_major_version);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, opengl_minor_version);
@@ -43,7 +51,7 @@ GLFWWindow::GLFWWindow(const int width, const int height,
   if (window_ == nullptr) {
     glfwTerminate();
     LOG(ERROR) << "Failed to create GLFW window.";
-    throw Window::WindowException();
+    return false;
   }
 
   glfwMakeContextCurrent(window_);
@@ -52,15 +60,11 @@ GLFWWindow::GLFWWindow(const int width, const int height,
     glfwDestroyWindow(window_);
     glfwTerminate();
     LOG(ERROR) << "glewInit failed.";
-    throw Window::WindowException();
+    return false;
   }
 
   glfwSetInputMode(window_, GLFW_STICKY_KEYS, GL_TRUE);
-}
-
-GLFWWindow::~GLFWWindow() {
-  glfwDestroyWindow(window_);
-  glfwTerminate();
+  return true;
 }
 
 void GLFWWindow::ClearWindow() {
