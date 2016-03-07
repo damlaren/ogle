@@ -25,11 +25,12 @@ PerspectiveCamera::PerspectiveCamera(const float near_clip,
                                      const int window_height)
   : Camera(), near_clip_(near_clip), far_clip_(far_clip),
     vertical_fov_(vertical_fov) {
-  CHECK(near_clip_ < far_clip_) << "Near clip plane must be closer than far.";
-  CHECK(near_clip_ >= 0) << "Near clip plane must be at positive distance.";
-  CHECK(vertical_fov.radians() > 0) << "Vertical FOV must be > 0.";
-  CHECK(window_width > 0) << "Window width must be > 0.";
-  CHECK(window_height > 0) << "Window height must be > 0.";
+  if (near_clip_ >= far_clip_) {
+    LOG(ERROR) << "Near clip plane must be closer than far.";
+  }
+  if (near_clip_ < 0) {
+    LOG(ERROR) << "Near clip plane must be at positive distance.";
+  }
   set_aspect_ratio(window_width, window_height);
 }
 
