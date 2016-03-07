@@ -85,9 +85,8 @@ class MeshViewerApplication : public ogle::Application {
     // Update camera aspect ratio.
     // TODO(damlaren): Should be done with an Update function on an Entity,
     // or some other interface.
-    ogle::PerspectiveCamera* camera =
-        dynamic_cast<ogle::PerspectiveCamera*>(camera_.get());
-    camera->set_aspect_ratio(window_->window_width(), window_->window_height());
+    camera_->set_aspect_ratio(window_->window_width(),
+                              window_->window_height());
 
     // Move camera on input.
     constexpr float kMoveDelta = 0.03f;

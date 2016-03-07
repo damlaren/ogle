@@ -26,7 +26,6 @@ const Vector3f Transform::kUpAxis = {0.f, 1.f, 0.f};
 Transform::Transform(Transform *parent, Entity *entity)
   : world_position_{0.f, 0.f, 0.f}, world_orientation_{}, parent_(parent),
     entity_(entity) {
-  CHECK(entity_ != nullptr) << "Transform must be attached to an Entity.";
   if (parent_ != nullptr) {
     parent_->children_.push_back(this);
   }

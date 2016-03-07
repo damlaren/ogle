@@ -71,7 +71,10 @@ bool GLFWBufferedMesh::Prepare() {
       const auto mesh_vertex_iterator = mesh_vertices.find(*mesh_vertex);
       if (mesh_vertex_iterator != mesh_vertices.end()) {
         const BufferIndex index = mesh_vertex_iterator->second;
-        CHECK(index >= 0 && index < mesh_vertices.size());
+        if (index < 0 || index >= mesh_vertices.size()) {
+          LOG(ERROR) << "Vertex index out of bounds.";
+          return false;
+        }
         indices_.SetDataValue(num_indices_set++, index);
       } else {
         LOG(ERROR) << "Unknown vertex on face.";

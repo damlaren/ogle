@@ -5,9 +5,10 @@ project(ogle)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Disable exceptions.
+# Disable exceptions and RTTI.
 if(CMAKE_COMPILER_IS_GNUCC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 add_subdirectory(3rdparty)

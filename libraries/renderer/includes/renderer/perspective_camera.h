@@ -40,16 +40,12 @@ class PerspectiveCamera : public Camera {
                     const Angle vertical_fov, const int window_width,
                     const int window_height);
 
+  void set_aspect_ratio(const int window_width,
+                        const int window_height) override;
+
   Matrix44f GetViewMatrix(const Transform &transform) const override;
 
   Matrix44f GetProjectionMatrix() const override;
-
-  /**
-   * @brief Setter.
-   * @param window_width Window width, pixels. Must be > 0.
-   * @param window_height Window height, pixels. Must be > 0.
-   */
-  void set_aspect_ratio(const int window_width, const int window_height);
 
  private:
   /// Distance to near clip plane, in front of camera.

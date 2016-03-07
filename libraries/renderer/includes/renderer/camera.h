@@ -29,14 +29,17 @@ class Transform;
 class Camera {
  public:
   /**
-   * @brief Default constructor.
-   */
-  Camera() = default;
-
-  /**
    * @brief Virtual destructor.
    */
   virtual ~Camera() = default;
+
+  /**
+   * @brief Setter.
+   * @param window_width Window width, pixels. Must be > 0.
+   * @param window_height Window height, pixels. Must be > 0.
+   */
+  virtual void set_aspect_ratio(const int window_width,
+                                const int window_height) = 0;
 
   /**
    * @brief Computes view matrix.

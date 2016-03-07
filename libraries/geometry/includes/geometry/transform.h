@@ -46,7 +46,7 @@ class Transform {
    * Zeros out world position and orientation. Attaches Transform to Entity.
    *
    * @param parent Parent Transform. Can be null.
-   * @param entity Entity to attach to. Must be non-null.
+   * @param entity Entity to attach to. Can be null.
    */
   Transform(Transform* parent, Entity* entity);
 

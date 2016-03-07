@@ -22,15 +22,27 @@ namespace ogle {
 
 void SceneRenderer::RenderScene(Entity* camera_entity,
                                 SceneGraph* scene_graph) {
+  if (camera_entity == nullptr) {
+    LOG(ERROR) << "Cannot render from null Camera Entity.";
+    return;
+  }
+
   // This is the dumbest possible solution: just iterate through the entire
   // graph and draw objects in the order they are encountered.
-  CHECK(scene_graph->root_ != nullptr) << "Scene graph has no root.";
-  CHECK(camera_entity->camera() != nullptr)
-      << "Camera Entity for RenderScene has no Camera attached.";
-  Render(camera_entity, scene_graph->root_.get());
+  if (scene_graph->root_ == nullptr) {
+    LOG(ERROR) << "Scene graph has no root.";
+  } else if (camera_entity->camera() == nullptr) {
+    LOG(ERROR) << "Camera Entity for RenderScene has no Camera attached.";
+  } else {
+    Render(camera_entity, scene_graph->root_.get());
+  }
 }
 
 void SceneRenderer::Render(Entity* camera_entity, Entity *entity) {
+  if (entity == nullptr) {
+    return;
+  }
+
   Renderer* renderer = entity->renderer();
   if (renderer != nullptr) {
     renderer->Render(entity->transform_, camera_entity);
