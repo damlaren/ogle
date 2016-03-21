@@ -39,7 +39,7 @@ GLFWMeshRenderer::GLFWMeshRenderer(
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
-  if (prepared_) {
+  if (created_) {
     glDeleteBuffers(1, &vertex_buffer_id_);
     glDeleteBuffers(1, &index_buffer_id_);
     glDeleteVertexArrays(1, &vertex_array_id_);
@@ -76,7 +76,7 @@ bool GLFWMeshRenderer::Create() {
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffered_mesh_->indices().SizeInBytes(),
                buffered_mesh_->indices().data(), GL_STATIC_DRAW);
 
-  prepared_ = true;
+  created_ = true;
   return true;
 }
 

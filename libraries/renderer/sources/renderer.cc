@@ -16,7 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Renderer::Renderer() : prepared_{false} {
+Renderer::Renderer() : created_{false} {
 }
 
 }  // namespace ogle

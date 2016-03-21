@@ -59,7 +59,7 @@ class Renderer {
   virtual ~Renderer() = default;
 
   /// True if preparation took place.
-  bool prepared_;
+  bool created_;
 };
 
 }  // namespace ogle
