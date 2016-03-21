@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
 #define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
 
-#include <string>
+#include "std/ogle_std.inc"
 
 namespace ogle {
 
@@ -30,16 +30,16 @@ class ResourceManager {
    * @brief Constructor.
    * @param resource_dir Location of resources directory.
    */
-  explicit ResourceManager(const std::string& resource_dir);
+  explicit ResourceManager(const stl_string& resource_dir);
 
   /**
    * @return Top-level resource directory.
    */
-  const std::string resource_dir() const;
+  const stl_string resource_dir() const;
 
  private:
   /// Location of resource directory.
-  std::string resource_dir_;
+  stl_string resource_dir_;
 };
 
 }  // namespace ogle

@@ -15,7 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_MATH_INCLUDES_MATH_QUATERNION_H_
 #define LIBRARIES_MATH_INCLUDES_MATH_QUATERNION_H_
 
-#include <assert.h>
+#include "std/ogle_std.inc"
+#include <assert.h>  // NOLINT
 #include "math/angle.h"
 #include "math/fp_comparison.h"
 #include "math/matrix.h"

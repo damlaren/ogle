@@ -12,9 +12,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Top-level header for ogle.
  */
 
-#ifndef LIBRARIES_INCLUDES_OGLE_OGLE_H_
-#define LIBRARIES_INCLUDES_OGLE_OGLE_H_
+#ifndef LIBRARIES_OGLE_INCLUDES_OGLE_OGLE_H_
+#define LIBRARIES_OGLE_INCLUDES_OGLE_OGLE_H_
 
+#include "std/ogle_std.inc"
 #include "application/ogle_application.h"
 #include "entity/ogle_entity.h"
 #include "geometry/ogle_geometry.h"
@@ -28,4 +29,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 INITIALIZE_EASYLOGGINGPP
 
-#endif  // LIBRARIES_INCLUDES_OGLE_OGLE_H_
+#endif  // LIBRARIES_OGLE_INCLUDES_OGLE_OGLE_H_

@@ -38,13 +38,13 @@ const bool operator<(const Mesh::MeshVertex& lhs, const Mesh::MeshVertex& rhs) {
   }
 }
 
-const bool Mesh::LoadMesh(const std::string& file_path, Mesh* mesh) {
+const bool Mesh::LoadMesh(const stl_string& file_path, Mesh* mesh) {
   return MeshLoader::LoadMesh(file_path, mesh);
 }
 
-const bool Mesh::AddFace(const std::vector<Vector3f>& vertices,
-                         const std::vector<Vector2f>& uvs,
-                         const std::vector<Vector3f>& vertex_normals) {
+const bool Mesh::AddFace(const stl_vector<Vector3f>& vertices,
+                         const stl_vector<Vector2f>& uvs,
+                         const stl_vector<Vector3f>& vertex_normals) {
   if (vertices.empty()) {
     LOG(ERROR) << "Cannot add new face from empty vertices.";
     return false;
@@ -56,8 +56,8 @@ const bool Mesh::AddFace(const std::vector<Vector3f>& vertices,
     return false;
   }
 
-  std::vector<const MeshVertex*> face_vertices;
-  for (std::vector<Vector3f>::size_type index = 0; index < vertices.size();
+  stl_vector<const MeshVertex*> face_vertices;
+  for (stl_vector<Vector3f>::size_type index = 0; index < vertices.size();
        index++) {
     MeshVertex mesh_vertex;
     mesh_vertex.vertex = vertices[index];
@@ -83,11 +83,11 @@ void Mesh::Clear() {
   mesh_faces_.clear();
 }
 
-const std::map<Mesh::MeshVertex, BufferIndex>& Mesh::mesh_vertices() const {
+const stl_map<Mesh::MeshVertex, BufferIndex>& Mesh::mesh_vertices() const {
   return mesh_vertices_;
 }
 
-const std::vector<Mesh::MeshFace>& Mesh::mesh_faces() const {
+const stl_vector<Mesh::MeshFace>& Mesh::mesh_faces() const {
   return mesh_faces_;
 }
 

@@ -15,8 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_LOADER_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_LOADER_H_
 
-#include <string>
-#include <vector>
+#include "std/ogle_std.inc"
 #include "math/vector.h"
 
 namespace ogle {
@@ -34,17 +33,17 @@ class MeshLoader {
    * @param[out] mesh Storage for Mesh built from file contents.
    * @return success or failure.
    */
-  static const bool LoadMesh(const std::string& file_path, Mesh* mesh);
+  static const bool LoadMesh(const stl_string& file_path, Mesh* mesh);
 
  private:
   /**
    * @brief Wraps vectors containing mesh data.
    */
   struct MeshAttributes {
-    std::vector<Vector3f> vertices;
-    std::vector<Vector2f> tex_coords_uv;
-    std::vector<Vector3f> tex_coords_uvw;
-    std::vector<Vector3f> normals;
+    stl_vector<Vector3f> vertices;
+    stl_vector<Vector2f> tex_coords_uv;
+    stl_vector<Vector3f> tex_coords_uvw;
+    stl_vector<Vector3f> normals;
   };
 
   /**
@@ -60,7 +59,7 @@ class MeshLoader {
    * @param file_path Path to file to inspect.
    * @return File format enum.
    */
-  static const MeshFileFormat DetermineMeshFormat(const std::string& file_path);
+  static const MeshFileFormat DetermineMeshFormat(const stl_string& file_path);
 
   /**
    * @brief Loads a MeshGraph from an OBJ file.
@@ -68,7 +67,7 @@ class MeshLoader {
    * @param[out] mesh Storage for Mesh built from file contents.
    * @return true if loading succeeded.
    */
-  static const bool LoadOBJ(const std::string& file_path,
+  static const bool LoadOBJ(const stl_string& file_path,
                             Mesh* mesh);
 };
 

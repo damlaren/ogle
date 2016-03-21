@@ -15,9 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
 #define LIBRARIES_UTIL_INCLUDES_UTIL_TEXT_FILE_H_
 
-#include <fstream>
-#include <string>
-#include <vector>
+#include "std/ogle_std.inc"
 
 namespace ogle {
 
@@ -32,8 +30,8 @@ class TextFile {
    * @param[out] text Contents read from file.
    * @return Whether the operation was completed successfully.
    */
-  static bool ReadFile(const std::string& file_path,
-                       std::string* text);
+  static bool ReadFile(const stl_string& file_path,
+                       stl_string* text);
 };
 
 }  // namespace ogle

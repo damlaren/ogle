@@ -10,6 +10,7 @@ set(SRC_LIST
   sources/resource_manager.cc
 )
 add_library(ogle_resource "${SRC_LIST}")
+target_link_libraries(ogle_resource PUBLIC ogle_std)
 target_include_directories(ogle_resource PRIVATE
   ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
 target_include_directories(ogle_resource PUBLIC includes)

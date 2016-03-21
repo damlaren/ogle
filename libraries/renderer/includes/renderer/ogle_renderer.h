@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_OGLE_RENDERER_H_
 
+#include "std/ogle_std.inc"
 #include "renderer/buffered_mesh.h"
 #include "renderer/camera.h"
 #include "renderer/glfw_buffered_mesh.h"

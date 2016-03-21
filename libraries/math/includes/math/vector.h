@@ -15,14 +15,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 #define LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 
-#include <assert.h>
-#include <algorithm>
-#include <array>
-#include <functional>
-#include <iostream>
-#include <iterator>
-#include <numeric>
-#include <type_traits>
+#include "std/ogle_std.inc"
+#include <assert.h>  // NOLINT
+#include <algorithm>  // NOLINT
+#include <array>  // NOLINT
+#include <functional>  // NOLINT
+#include <iostream>  // NOLINT
+#include <iterator>  // NOLINT
+#include <numeric>  // NOLINT
+#include <type_traits>  // NOLINT
 #include "math/fp_comparison.h"
 
 namespace ogle {

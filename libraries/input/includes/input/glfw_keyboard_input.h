@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_
 #define LIBRARIES_INPUT_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_
 
-#include <unordered_map>
+#include "std/ogle_std.inc"
 #include "input/keyboard_input.h"
 
 // Opaque struct type from GLFW.
@@ -43,7 +43,7 @@ class GLFWKeyboardInput : public KeyboardInput {
 
  protected:
   /// Mapping from KeyCode to GLFW code.
-  static const std::unordered_map<int, KeyCode> key_mapping_;
+  static const stl_unordered_map<int, KeyCode> key_mapping_;
 
   /**
    * @brief Callback passed to GLFW to record key actions.
@@ -54,9 +54,9 @@ class GLFWKeyboardInput : public KeyboardInput {
   static void GLFWKeyCallback(GLFWwindow* window, int key, int scancode,
                               int action, int mods);
 
-  // TODO(damlaren): Only one keyboard input is supported.
   /// Action occurring on each key.
-  static std::unordered_map<KeyCode, KeyAction, KeyCodeHash> key_actions_;
+  /// Static definition implies that only one keyboard is supported at a time.
+  static stl_unordered_map<KeyCode, KeyAction, KeyCodeHash> key_actions_;
 };
 
 }  // namespace ogle

@@ -12,5 +12,5 @@ set(SRC_LIST
   sources/entity.cc
 )
 add_library(ogle_entity "${SRC_LIST}")
-target_link_libraries(ogle_entity ogle_geometry)
+target_link_libraries(ogle_entity ogle_geometry ogle_std)
 target_include_directories(ogle_entity PUBLIC includes)

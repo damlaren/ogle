@@ -15,6 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_UTIL_INCLUDES_UTIL_BLANK_H_
 #define LIBRARIES_UTIL_INCLUDES_UTIL_BLANK_H_
 
+#include "std/ogle_std.inc"
+
 namespace ogle {
 
 }  // namespace ogle

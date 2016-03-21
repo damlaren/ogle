@@ -10,4 +10,5 @@ set(SRC_LIST
   sources/buffer.cc
 )
 add_library(ogle_memory "${SRC_LIST}")
+target_link_libraries(ogle_memory PUBLIC ogle_std)
 target_include_directories(ogle_memory PUBLIC includes)

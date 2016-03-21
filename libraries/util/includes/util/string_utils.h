@@ -15,8 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_UTIL_INCLUDES_UTIL_STRING_UTILS_H_
 #define LIBRARIES_UTIL_INCLUDES_UTIL_STRING_UTILS_H_
 
-#include <string>
-#include <vector>
+#include "std/ogle_std.inc"
 
 namespace ogle {
 
@@ -32,17 +31,17 @@ class StringUtils {
    * @param replacement New character after replacement.
    * @return New string.
    */
-  static const std::string Replace(const std::string& input,
-                                   const char to_replace,
-                                   const char replacement);
+  static const stl_string Replace(const stl_string& input,
+                                  const char to_replace,
+                                  const char replacement);
   /**
    * @brief Creates a string split by delimiters.
    * @param input String to split.
    * @param delim Delimiter for splitting string into tokens.
    * @return Split tokens.
    */
-  static const std::vector<std::string> Split(const std::string& input,
-                                              const char delim);
+  static const stl_vector<stl_string> Split(const stl_string& input,
+                                            const char delim);
 
   /**
    * @brief Creates a string with characters trimmed from the start and end.
@@ -50,8 +49,8 @@ class StringUtils {
    * @param chars Characters to trim.
    * @return New string.
    */
-  static const std::string Trim(const std::string& input,
-                                const std::string& chars);
+  static const stl_string Trim(const stl_string& input,
+                               const stl_string& chars);
 };
 
 }  // namespace ogle

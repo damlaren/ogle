@@ -8,6 +8,7 @@ add_subdirectory(math)
 add_subdirectory(memory)
 add_subdirectory(renderer)
 add_subdirectory(resource)
+add_subdirectory(std)
 add_subdirectory(util)
 
 add_subdirectory(ogle)

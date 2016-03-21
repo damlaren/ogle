@@ -18,7 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const std::unordered_map<int, KeyCode> GLFWKeyboardInput::key_mapping_ = {
+const stl_unordered_map<int, KeyCode> GLFWKeyboardInput::key_mapping_ = {
   {GLFW_KEY_W, KeyCode::W},
   {GLFW_KEY_S, KeyCode::S},
   {GLFW_KEY_A, KeyCode::A},
@@ -95,7 +95,7 @@ void GLFWKeyboardInput::GLFWKeyCallback(GLFWwindow* window, int key,
   }
 }
 
-std::unordered_map<KeyCode, KeyAction, KeyCodeHash>
+stl_unordered_map<KeyCode, KeyAction, KeyCodeHash>
     GLFWKeyboardInput::key_actions_;
 
 }  // namespace ogle

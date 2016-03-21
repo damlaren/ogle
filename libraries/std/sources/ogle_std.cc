@@ -9,50 +9,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Renderer.
+ * @file Implementation of ogle_std.h.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
-
 #include "std/ogle_std.inc"
-#include "math/vector.h"
 
 namespace ogle {
 
-class Entity;
-class Mesh;
-class Transform;
-
-/**
- * @brief Base class for all Renderers.
- *
- * Handles all rendering operations in an API-independent manner.
- * Subclassed Renderers are based on specific APIs and render
- * specific types of objects. They are designed for reuse by
- * different Entities.
- */
-class Renderer {
- public:
-  /**
-   * @brief Render object.
-   * @param transform Position and orientation at which to render.
-   * @param camera Entity with attached Camera to render from.
-   */
-  virtual void Render(const Transform& transform, Entity *camera) = 0;
-
- protected:
-  /**
-   * @brief Default constructor.
-   */
-  Renderer() = default;
-
-  /**
-   * @brief Default destructor.
-   */
-  virtual ~Renderer() = default;
-};
-
 }  // namespace ogle
-
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_

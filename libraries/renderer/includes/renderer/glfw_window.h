@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_WINDOW_H_
 
-#include <string>
+#include "std/ogle_std.inc"
 #include "renderer/window.h"
 
 class GLFWwindow;  // From GLFW.
@@ -52,7 +52,7 @@ class GLFWWindow : public Window {
    * @param msaa_samples Number of samples to use for MSAA (anti-aliasing).
    * @return Success or failure.
    */
-  bool Create(const int width, const int height, const std::string& title,
+  bool Create(const int width, const int height, const stl_string& title,
               const int opengl_major_version, const int opengl_minor_version,
               const int msaa_samples);
 

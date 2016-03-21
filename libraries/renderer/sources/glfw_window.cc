@@ -32,7 +32,7 @@ GLFWWindow::~GLFWWindow() {
 }
 
 bool GLFWWindow::Create(
-    const int width, const int height, const std::string& title,
+    const int width, const int height, const stl_string& title,
     const int opengl_major_version, const int opengl_minor_version,
     const int msaa_samples) {
   if (!glfwInit()) {

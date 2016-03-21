@@ -16,11 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-ResourceManager::ResourceManager(const std::string &resource_dir)
+ResourceManager::ResourceManager(const stl_string& resource_dir)
   : resource_dir_(resource_dir) {
 }
 
-const std::string ResourceManager::resource_dir() const {
+const stl_string ResourceManager::resource_dir() const {
   return resource_dir_;
 }
 

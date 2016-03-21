@@ -9,50 +9,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Renderer.
+ * @file Defines STL containers with custom allocators.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
+#ifndef LIBRARIES_STD_INCLUDES_STD_CONTAINERS_H_
+#define LIBRARIES_STD_INCLUDES_STD_CONTAINERS_H_
 
-#include "std/ogle_std.inc"
-#include "math/vector.h"
+#include "std/custom_allocator.h"
+
+#include <functional>  // NOLINT
+#include <map>  // NOLINT
+#include <string>  // NOLINT
+#include <unordered_map>  // NOLINT
+#include <utility>  // NOLINT
+#include <vector>  // NOLINT
 
 namespace ogle {
 
-class Entity;
-class Mesh;
-class Transform;
+template <typename K, typename V, typename C = std::less<K>>
+using stl_map = std::map<K, V, C, STLAllocator<std::pair<const K, V>>>;
 
-/**
- * @brief Base class for all Renderers.
- *
- * Handles all rendering operations in an API-independent manner.
- * Subclassed Renderers are based on specific APIs and render
- * specific types of objects. They are designed for reuse by
- * different Entities.
- */
-class Renderer {
- public:
-  /**
-   * @brief Render object.
-   * @param transform Position and orientation at which to render.
-   * @param camera Entity with attached Camera to render from.
-   */
-  virtual void Render(const Transform& transform, Entity *camera) = 0;
+using stl_string =
+    std::basic_string<char, std::char_traits<char>, STLAllocator<char>>;
 
- protected:
-  /**
-   * @brief Default constructor.
-   */
-  Renderer() = default;
+template <typename K, typename V, typename H = std::hash<K>,
+          typename E = std::equal_to<K>>
+using stl_unordered_map =
+    std::unordered_map<K, V, H, E, STLAllocator<std::pair<const K, V>>>;
 
-  /**
-   * @brief Default destructor.
-   */
-  virtual ~Renderer() = default;
-};
+template <typename T>
+using stl_vector = std::vector<T, STLAllocator<T>>;
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
+#endif  // LIBRARIES_STD_INCLUDES_STD_CONTAINERS_H_

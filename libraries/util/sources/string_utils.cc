@@ -18,19 +18,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const std::string StringUtils::Replace(const std::string& input,
-                                       const char to_replace,
-                                       const char replacement) {
-  std::string new_string{input};
+const stl_string StringUtils::Replace(const stl_string& input,
+                                      const char to_replace,
+                                      const char replacement) {
+  stl_string new_string{input};
   std::replace(new_string.begin(), new_string.end(), to_replace, replacement);
   return new_string;
 }
 
-const std::vector<std::string> StringUtils::Split(const std::string& input,
-                                                  const char delim) {
+const stl_vector<stl_string> StringUtils::Split(const stl_string& input,
+                                                const char delim) {
   std::stringstream input_stream(input);
-  std::string next_token;
-  std::vector<std::string> tokens;
+  stl_string next_token;
+  stl_vector<stl_string> tokens;
 
   while (std::getline(input_stream, next_token, delim)) {
     if (!next_token.empty()) {
@@ -40,16 +40,16 @@ const std::vector<std::string> StringUtils::Split(const std::string& input,
   return tokens;
 }
 
-const std::string StringUtils::Trim(const std::string& input,
-                                    const std::string& chars) {
+const stl_string StringUtils::Trim(const stl_string& input,
+                                   const stl_string& chars) {
   // Trim left side.
   auto keep_index = input.find_first_not_of(chars);
-  std::string trimmed = (keep_index != std::string::npos)?
+  stl_string trimmed = (keep_index != stl_string::npos)?
       input.substr(keep_index) : "";
 
   // Trim right side.
   keep_index = trimmed.find_last_not_of(chars);
-  trimmed = (keep_index != std::string::npos)?
+  trimmed = (keep_index != stl_string::npos)?
       trimmed.substr(0, keep_index + 1) : "";
 
   return trimmed;

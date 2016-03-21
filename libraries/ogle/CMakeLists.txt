@@ -18,6 +18,7 @@ target_link_libraries(ogle
   ogle_math
   ogle_renderer
   ogle_resource
+  ogle_std
   ogle_util
 )
 target_include_directories(ogle PUBLIC includes

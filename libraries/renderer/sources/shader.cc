@@ -16,12 +16,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Shader::Shader(const std::string &shader_text, ShaderType type)
+Shader::Shader(const stl_string &shader_text, ShaderType type)
   : shader_text_{shader_text}, shader_type_{type} {
 }
 
-const std::string ShaderProgram::kModelMatrixArg = "model_matrix";
-const std::string ShaderProgram::kViewMatrixArg = "view_matrix";
-const std::string ShaderProgram::kProjectionMatrixArg = "projection_matrix";
+const stl_string ShaderProgram::kModelMatrixArg = "model_matrix";
+const stl_string ShaderProgram::kViewMatrixArg = "view_matrix";
+const stl_string ShaderProgram::kProjectionMatrixArg = "projection_matrix";
 
 }  // namespace ogle

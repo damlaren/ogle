@@ -86,7 +86,7 @@ Transform* Transform::parent() {
   return parent_;
 }
 
-const std::vector<Transform*>& Transform::children() {
+const stl_vector<Transform*>& Transform::children() {
   return children_;
 }
 

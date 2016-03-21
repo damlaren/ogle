@@ -17,7 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLSLShader::GLSLShader(const std::string& shader_text, ShaderType type) :
+GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type) :
     Shader(shader_text, type), shader_id_(0) {
 }
 
@@ -102,17 +102,17 @@ void GLSLShaderProgram::UseProgram() {
   glUseProgram(program_id_);
 }
 
-void GLSLShaderProgram::SetUniformMatrix22f(const std::string& variable,
+void GLSLShaderProgram::SetUniformMatrix22f(const stl_string& variable,
                                             const Matrix22f& mat) {
   SetUniformMatrix(variable, mat, glUniformMatrix2fv);
 }
 
-void GLSLShaderProgram::SetUniformMatrix33f(const std::string& variable,
+void GLSLShaderProgram::SetUniformMatrix33f(const stl_string& variable,
                                             const Matrix33f& mat) {
   SetUniformMatrix(variable, mat, glUniformMatrix3fv);
 }
 
-void GLSLShaderProgram::SetUniformMatrix44f(const std::string& variable,
+void GLSLShaderProgram::SetUniformMatrix44f(const stl_string& variable,
                                             const Matrix44f& mat) {
   SetUniformMatrix(variable, mat, glUniformMatrix4fv);
 }

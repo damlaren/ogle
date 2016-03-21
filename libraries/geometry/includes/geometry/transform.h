@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_TRANSFORM_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_TRANSFORM_H_
 
-#include <vector>
+#include "std/ogle_std.inc"
 #include "math/angle.h"
 #include "math/matrix.h"
 #include "math/quaternion.h"
@@ -112,7 +112,7 @@ class Transform {
    *
    * @return Child Transforms.
    */
-  const std::vector<Transform*>& children();
+  const stl_vector<Transform*>& children();
 
   /**
    * @brief Accessor.
@@ -155,10 +155,9 @@ class Transform {
   const Matrix44f TransformationMatrix3D() const;
 
  private:
-  // TODO(damlaren): It's assumed that the # of child Transforms, and changes,
-  // remains small.
-  /// Child Transforms.
-  std::vector<Transform*> children_;
+  /// Child Transforms. It's assumed that the # of child Transforms, and changes
+  /// to them, remains small.
+  stl_vector<Transform*> children_;
 
   /// Orientation in world space.
   Quaternionf world_orientation_;

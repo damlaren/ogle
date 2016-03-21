@@ -15,7 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H_
 #define LIBRARIES_INPUT_INCLUDES_INPUT_KEYBOARD_INPUT_H_
 
-#include <functional>
+#include "std/ogle_std.inc"
+#include <functional>  // NOLINT
 
 namespace ogle {
 

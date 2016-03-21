@@ -15,8 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_SHADER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_SHADER_H_
 
-#include <exception>
-#include <string>
+#include "std/ogle_std.inc"
 #include "math/matrix.h"
 
 namespace ogle {
@@ -42,7 +41,7 @@ class Shader {
    * @param shader_text Shader text to copy.
    * @param type Type of this Shader.
    */
-  Shader(const std::string &shader_text, ShaderType type);
+  Shader(const stl_string &shader_text, ShaderType type);
 
   /**
    * @brief Default destructor.
@@ -53,7 +52,7 @@ class Shader {
   ShaderType shader_type_;
 
   /// Shader text.
-  std::string shader_text_;
+  stl_string shader_text_;
 };
 
 /**
@@ -66,9 +65,9 @@ class ShaderProgram {
  public:
   //@{
   /// Standardized names for common shader arguments.
-  static const std::string kModelMatrixArg;
-  static const std::string kViewMatrixArg;
-  static const std::string kProjectionMatrixArg;
+  static const stl_string kModelMatrixArg;
+  static const stl_string kViewMatrixArg;
+  static const stl_string kProjectionMatrixArg;
   //@}
 
   /**
@@ -85,11 +84,11 @@ class ShaderProgram {
    * @param variable Name of uniform variable.
    * @param mat Matrix to set values.
    */
-  virtual void SetUniformMatrix22f(const std::string& variable,
+  virtual void SetUniformMatrix22f(const stl_string& variable,
                                    const Matrix22f& mat) = 0;
-  virtual void SetUniformMatrix33f(const std::string& variable,
+  virtual void SetUniformMatrix33f(const stl_string& variable,
                                    const Matrix33f& mat) = 0;
-  virtual void SetUniformMatrix44f(const std::string& variable,
+  virtual void SetUniformMatrix44f(const stl_string& variable,
                                    const Matrix44f& mat) = 0;
   //@}
 

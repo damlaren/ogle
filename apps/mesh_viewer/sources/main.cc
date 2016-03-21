@@ -28,15 +28,16 @@ class MeshViewerApplication : public ogle::Application {
   }
 
   bool Create() override {
-    const std::string kMeshDir = resource_manager_->resource_dir() + "/meshes";
+    const ogle::stl_string kMeshDir =
+        resource_manager_->resource_dir() + "/meshes";
     if (!ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj", &mesh_)) {
       LOG(ERROR) << "Failed to load Mesh.";
       return false;
     }
 
-    const std::string kShaderDir =
+    const ogle::stl_string kShaderDir =
         resource_manager_->resource_dir() + "/shaders";
-    std::string vertex_shader_text, fragment_shader_text;
+    ogle::stl_string vertex_shader_text, fragment_shader_text;
     if (!(ogle::TextFile::ReadFile(kShaderDir + "/vertex/basic_vs.glsl",
                                    &vertex_shader_text) &&
           ogle::TextFile::ReadFile(kShaderDir + "/fragment/flat_fs.glsl",

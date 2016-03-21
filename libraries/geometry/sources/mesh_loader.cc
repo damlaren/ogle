@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const bool MeshLoader::LoadMesh(const std::string& file_path, Mesh* mesh) {
+const bool MeshLoader::LoadMesh(const stl_string& file_path, Mesh* mesh) {
   const MeshFileFormat mesh_format = DetermineMeshFormat(file_path);
   bool success = false;
 
@@ -45,10 +45,10 @@ const bool MeshLoader::LoadMesh(const std::string& file_path, Mesh* mesh) {
 }
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
-    const std::string& file_path) {
-  const std::string::size_type separatorIndex = file_path.find_last_of(".");
-  if (separatorIndex != std::string::npos) {
-    const std::string extension = file_path.substr(separatorIndex);
+    const stl_string& file_path) {
+  const stl_string::size_type separatorIndex = file_path.find_last_of(".");
+  if (separatorIndex != stl_string::npos) {
+    const stl_string extension = file_path.substr(separatorIndex);
     if (extension == ".obj") {
       return MeshFileFormat::OBJ;
     }
@@ -56,29 +56,29 @@ const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
   return MeshFileFormat::UNKNOWN;
 }
 
-const bool MeshLoader::LoadOBJ(const std::string& file_path, Mesh *mesh) {
-  std::string text;
+const bool MeshLoader::LoadOBJ(const stl_string& file_path, Mesh *mesh) {
+  stl_string text;
   if (!TextFile::ReadFile(file_path, &text)) {
     return false;
   }
-  std::vector<std::string> lines = StringUtils::Split(text, '\n');
+  stl_vector<stl_string> lines = StringUtils::Split(text, '\n');
   text.clear();
 
   mesh->Clear();
 
   MeshAttributes mesh_data;
   for (const auto& line : lines) {
-    std::string trimmed_line = StringUtils::Trim(line, " \t\r\n");
+    stl_string trimmed_line = StringUtils::Trim(line, " \t\r\n");
     if (trimmed_line.empty() || trimmed_line[0] == '#') {
       continue;
     }
     trimmed_line = StringUtils::Replace(trimmed_line, '\t', ' ');
     const auto tokens = StringUtils::Split(trimmed_line, ' ');
-    const std::string& line_type = tokens[0];
-    std::vector<float> line_floats;
+    const stl_string& line_type = tokens[0];
+    stl_vector<float> line_floats;
 
     if (line_type == "v") {
-      for (std::vector<std::string>::size_type token_index = 1;
+      for (stl_vector<stl_string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
@@ -96,7 +96,7 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path, Mesh *mesh) {
       }
       mesh_data.vertices.emplace_back(line_vector);
     } else if (line_type == "vt") {
-      for (std::vector<std::string>::size_type token_index = 1;
+      for (stl_vector<stl_string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
@@ -108,7 +108,7 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path, Mesh *mesh) {
             Vector3f({line_floats[0], line_floats[1], line_floats[2]}));
       }
     } else if (line_type == "vn") {
-      for (std::vector<std::string>::size_type token_index = 1;
+      for (stl_vector<stl_string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
@@ -127,17 +127,17 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path, Mesh *mesh) {
         return false;
       }
 
-      std::vector<Vector3f> face_vertices;
-      std::vector<Vector2f> face_vertex_uvs;
-      std::vector<Vector3f> face_vertex_normals;
-      for (std::vector<std::string>::size_type token_index = 1;
+      stl_vector<Vector3f> face_vertices;
+      stl_vector<Vector2f> face_vertex_uvs;
+      stl_vector<Vector3f> face_vertex_normals;
+      for (stl_vector<stl_string>::size_type token_index = 1;
            token_index < tokens.size(); token_index++) {
-        const std::string& index_specifier = tokens[token_index];
+        const stl_string& index_specifier = tokens[token_index];
         const auto first_slash_index = index_specifier.find_first_of('/');
         const auto last_slash_index = index_specifier.find_last_of('/');
-        std::string vertex_str = "", tex_str = "", normal_str = "";
+        stl_string vertex_str = "", tex_str = "", normal_str = "";
 
-        if (index_specifier.find("//") != std::string::npos) {  // v//n
+        if (index_specifier.find("//") != stl_string::npos) {  // v//n
           vertex_str = index_specifier.substr(0, first_slash_index);
           normal_str = index_specifier.substr(last_slash_index + 1);
         } else if (first_slash_index != last_slash_index) {  // v/t/n
@@ -155,7 +155,7 @@ const bool MeshLoader::LoadOBJ(const std::string& file_path, Mesh *mesh) {
         // OBJ indices start at 1, but memory indices start at 0. This function
         // handles the conversion; it is anonymized on the assumption that it is
         // only relevant inside the OBJ mesh loader.
-        auto convert_obj_index = [](const std::string& index_str) {
+        auto convert_obj_index = [](const stl_string& index_str) {
           int index = std::stoi(index_str);
           if (index == 0) {
             LOG(ERROR) << "Invalid 0 index parsed from OBJ file.";

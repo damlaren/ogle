@@ -15,8 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLSL_SHADER_H_
 
-#include <memory>
-#include <string>
+#include "std/ogle_std.inc"
 #include "easylogging++.h"  // NOLINT
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -31,7 +30,7 @@ class GLSLShader : public Shader {
  public:
   friend class GLSLShaderProgram;
 
-  GLSLShader(const std::string& shader_text, ShaderType type);
+  GLSLShader(const stl_string& shader_text, ShaderType type);
 
   ~GLSLShader() override;
 
@@ -67,11 +66,11 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
-  void SetUniformMatrix22f(const std::string& variable,
+  void SetUniformMatrix22f(const stl_string& variable,
                            const Matrix22f& mat) override;
-  void SetUniformMatrix33f(const std::string& variable,
+  void SetUniformMatrix33f(const stl_string& variable,
                            const Matrix33f& mat) override;
-  void SetUniformMatrix44f(const std::string& variable,
+  void SetUniformMatrix44f(const stl_string& variable,
                            const Matrix44f& mat) override;
 
  protected:
@@ -86,7 +85,7 @@ class GLSLShaderProgram : public ShaderProgram {
    * @param gl_func OpenGL function to use to set values.
    */
   template<MatrixIndex M, MatrixIndex N, typename GLFunc>
-  SetUniformMatrix(const std::string& variable, const Matrix<float, M, N>& mat,
+  SetUniformMatrix(const stl_string& variable, const Matrix<float, M, N>& mat,
                    GLFunc gl_func) {
     // TODO(damlaren): Getting location is best done outside of a loop.
     //     I've read that querying it is slow.

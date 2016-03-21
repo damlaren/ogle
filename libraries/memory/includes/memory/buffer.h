@@ -15,9 +15,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_MEMORY_INCLUDES_MEMORY_BUFFER_H_
 #define LIBRARIES_MEMORY_INCLUDES_MEMORY_BUFFER_H_
 
-#include <algorithm>
-#include <iterator>
-#include <vector>
+#include "std/ogle_std.inc"
+#include <algorithm>  // NOLINT
+#include <iterator>  // NOLINT
 
 namespace ogle {
 
@@ -66,10 +66,10 @@ class Buffer {
   }
 
   /**
-   * @brief Constructor that copies data from a std::vector.
+   * @brief Constructor that copies data from a stl_vector.
    * @param data_vector Vector to copy.
    */
-  explicit Buffer(const std::vector<T>& data_vector)
+  explicit Buffer(const stl_vector<T>& data_vector)
     : num_elements_(data_vector.size()) {
     data_ = new T[num_elements_];
     if (num_elements_ > 0) {

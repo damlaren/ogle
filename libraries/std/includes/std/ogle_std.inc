@@ -9,50 +9,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Renderer.
- */
-
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
-
-#include "std/ogle_std.inc"
-#include "math/vector.h"
-
-namespace ogle {
-
-class Entity;
-class Mesh;
-class Transform;
-
-/**
- * @brief Base class for all Renderers.
+ * @file Group header for std library.
  *
- * Handles all rendering operations in an API-independent manner.
- * Subclassed Renderers are based on specific APIs and render
- * specific types of objects. They are designed for reuse by
- * different Entities.
+ * This header customizes foundational parts of C++ and must be included before
+ * all others. This is emphasized by naming it "ogle_std.inc"; it isn't
+ * self-contained, but must be included in specific places.
  */
-class Renderer {
- public:
-  /**
-   * @brief Render object.
-   * @param transform Position and orientation at which to render.
-   * @param camera Entity with attached Camera to render from.
-   */
-  virtual void Render(const Transform& transform, Entity *camera) = 0;
 
- protected:
-  /**
-   * @brief Default constructor.
-   */
-  Renderer() = default;
+#ifndef LIBRARIES_STD_INCLUDES_STD_OGLE_STD_INC_
+#define LIBRARIES_STD_INCLUDES_STD_OGLE_STD_INC_
 
-  /**
-   * @brief Default destructor.
-   */
-  virtual ~Renderer() = default;
-};
+#include "std/containers.h"
+#include "std/custom_allocator.h"
 
-}  // namespace ogle
-
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
+#endif  // LIBRARIES_STD_INCLUDES_STD_OGLE_STD_INC_

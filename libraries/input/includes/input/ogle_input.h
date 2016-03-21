@@ -15,7 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_INPUT_INCLUDES_INPUT_OGLE_INPUT_H_
 #define LIBRARIES_INPUT_INCLUDES_INPUT_OGLE_INPUT_H_
 
-#include "input/keyboard_input.h"
+#include "std/ogle_std.inc"
 #include "input/glfw_keyboard_input.h"
+#include "input/keyboard_input.h"
 
 #endif  // LIBRARIES_INPUT_INCLUDES_INPUT_OGLE_INPUT_H_

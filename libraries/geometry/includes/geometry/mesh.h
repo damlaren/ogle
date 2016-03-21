@@ -15,9 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
-#include <map>
-#include <string>
-#include <vector>
+#include "std/ogle_std.inc"
 #include "math/vector.h"
 #include "memory/buffer.h"
 
@@ -47,7 +45,7 @@ class Mesh {
 
     /// Faces connected to this Vertex. Can be altered without affecting
     /// container order.
-    mutable std::vector<const MeshFace*> adjoining_faces;
+    mutable ogle::stl_vector<const MeshFace*> adjoining_faces;
 
     /**
      * @brief Less than operator. Compares vertex attributes in order.
@@ -63,7 +61,7 @@ class Mesh {
    */
   struct MeshFace {
     /// Vertices making up this face.
-    std::vector<const MeshVertex*> vertices;
+    stl_vector<const MeshVertex*> vertices;
   };
 
   /// Number of vertices per face. Only triangles are stored.
@@ -75,7 +73,7 @@ class Mesh {
    * @param[out] mesh Storage for Mesh to load.
    * @return true if Mesh was loaded.
    */
-  static const bool LoadMesh(const std::string& file_path, Mesh* mesh);
+  static const bool LoadMesh(const ogle::stl_string& file_path, Mesh* mesh);
 
   /**
    * @brief Adds a new face to this Mesh.
@@ -89,9 +87,9 @@ class Mesh {
    * @param vertex_normals Normals for each vertex.
    * @return true if adding face succeeded, false on error.
    */
-  const bool AddFace(const std::vector<Vector3f>& vertices,
-                     const std::vector<Vector2f>& uvs,
-                     const std::vector<Vector3f>& vertex_normals);
+  const bool AddFace(const stl_vector<Vector3f>& vertices,
+                     const stl_vector<Vector2f>& uvs,
+                     const stl_vector<Vector3f>& vertex_normals);
 
   /**
    * @brief Clears all mesh representation data.
@@ -102,20 +100,20 @@ class Mesh {
    * @brief Accessor.
    * @return Mapping of unique mesh vertices to indices.
    */
-  const std::map<MeshVertex, BufferIndex>& mesh_vertices() const;
+  const stl_map<MeshVertex, BufferIndex>& mesh_vertices() const;
 
   /**
    * @brief Accessor.
    * @return Vector of triangle faces making up Mesh.
    */
-  const std::vector<MeshFace>& mesh_faces() const;
+  const stl_vector<MeshFace>& mesh_faces() const;
 
  protected:
   /// Unique mesh vertices, mapped to indices in insertion order.
-  std::map<MeshVertex, BufferIndex> mesh_vertices_;
+  stl_map<MeshVertex, BufferIndex> mesh_vertices_;
 
   /// Mesh faces.
-  std::vector<MeshFace> mesh_faces_;
+  stl_vector<MeshFace> mesh_faces_;
 };
 
 }  // namespace ogle

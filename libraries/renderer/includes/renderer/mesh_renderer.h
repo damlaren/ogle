@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_MESH_RENDERER_H_
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_MESH_RENDERER_H_
 
-#include <memory>
+#include "std/ogle_std.inc"
 #include "renderer/renderer.h"
 
 namespace ogle {

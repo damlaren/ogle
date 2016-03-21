@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_
 
+#include "std/ogle_std.inc"
 #include "geometry/mesh.h"
 #include "geometry/mesh_loader.h"
 #include "geometry/ray.h"

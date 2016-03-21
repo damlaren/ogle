@@ -12,8 +12,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file A sandbox for trying out new features.
  */
 
-#include <experimental/optional>
 #include "ogle/ogle.h"
+#include <experimental/optional>  // NOLINT
 
 using std::cout;
 using std::endl;
@@ -151,7 +151,7 @@ void TestTransformationMatrix() {
 
 // Experiment from:
 // http://stackoverflow.com/questions/16860960/how-should-one-use-stdoptional
-std::experimental::optional<int> try_parse_int(std::string s) {
+std::experimental::optional<int> try_parse_int(ogle::stl_string s) {
   return std::experimental::nullopt;
 }
 

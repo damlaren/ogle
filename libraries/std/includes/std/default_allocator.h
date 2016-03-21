@@ -9,50 +9,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Renderer.
+ * @file Defines default memory allocation strategies.
+ *
+ * This allocation strategy makes minimal changes, reusing the default STL
+ * allocator and C++ new/delete operators.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
+#ifndef LIBRARIES_STD_INCLUDES_STD_DEFAULT_ALLOCATOR_H_
+#define LIBRARIES_STD_INCLUDES_STD_DEFAULT_ALLOCATOR_H_
 
-#include "std/ogle_std.inc"
-#include "math/vector.h"
+#include <memory>
 
 namespace ogle {
 
-class Entity;
-class Mesh;
-class Transform;
-
 /**
- * @brief Base class for all Renderers.
+ * @brief Basic allocator implementation.
  *
- * Handles all rendering operations in an API-independent manner.
- * Subclassed Renderers are based on specific APIs and render
- * specific types of objects. They are designed for reuse by
- * different Entities.
+ * Reuses std::allocator.
  */
-class Renderer {
- public:
-  /**
-   * @brief Render object.
-   * @param transform Position and orientation at which to render.
-   * @param camera Entity with attached Camera to render from.
-   */
-  virtual void Render(const Transform& transform, Entity *camera) = 0;
-
- protected:
-  /**
-   * @brief Default constructor.
-   */
-  Renderer() = default;
-
-  /**
-   * @brief Default destructor.
-   */
-  virtual ~Renderer() = default;
-};
+template<typename T>
+using STLAllocator = std::allocator<T>;
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_RENDERER_H_
+#endif  // LIBRARIES_STD_INCLUDES_STD_DEFAULT_ALLOCATOR_H_

@@ -14,6 +14,7 @@ set(SRC_LIST
   sources/text_file.cc
 )
 add_library(ogle_util "${SRC_LIST}")
+target_link_libraries(ogle_util PUBLIC ogle_std)
 target_include_directories(ogle_util PRIVATE
   ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
 target_include_directories(ogle_util PUBLIC includes)

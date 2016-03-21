@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef LIBRARIES_ENTITY_INCLUDES_ENTITY_ENTITY_H_
 #define LIBRARIES_ENTITY_INCLUDES_ENTITY_ENTITY_H_
 
-#include <memory>
+#include "std/ogle_std.inc"
 #include "geometry/transform.h"
 
 namespace ogle {
