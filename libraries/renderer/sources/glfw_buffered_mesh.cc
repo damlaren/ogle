@@ -38,7 +38,7 @@ const IndexBuffer& GLFWBufferedMesh::indices() const {
   return indices_;
 }
 
-bool GLFWBufferedMesh::Prepare() {
+bool GLFWBufferedMesh::Create() {
   const auto& mesh_vertices = mesh_.mesh_vertices();
   const auto& mesh_faces = mesh_.mesh_faces();
 

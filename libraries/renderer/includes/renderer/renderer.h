@@ -41,16 +41,25 @@ class Renderer {
    */
   virtual void Render(const Transform& transform, Entity *camera) = 0;
 
+  /**
+   * @brief Performs post-Constructor setup to render object.
+   * @return Success or failure.
+   */
+  virtual bool Create() = 0;
+
  protected:
   /**
    * @brief Default constructor.
    */
-  Renderer() = default;
+  Renderer();
 
   /**
    * @brief Default destructor.
    */
   virtual ~Renderer() = default;
+
+  /// True if preparation took place.
+  bool prepared_;
 };
 
 }  // namespace ogle

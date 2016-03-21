@@ -16,7 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 
 #include "std/ogle_std.inc"
-#include <assert.h>  // NOLINT
 #include <algorithm>  // NOLINT
 #include <array>  // NOLINT
 #include <functional>  // NOLINT
@@ -24,6 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <iterator>  // NOLINT
 #include <numeric>  // NOLINT
 #include <type_traits>  // NOLINT
+#include "easylogging++.h"  // NOLINT
 #include "math/fp_comparison.h"
 
 namespace ogle {
@@ -65,10 +65,8 @@ class Vector {
    *     to fill the Vector is required.
    */
   Vector(const std::initializer_list<T>& values) {
-    // TODO(damlaren): Would prefer to use a variadic template for this, but
-    // the compiler decides on that constructor too many times. Need to read
-    // about tag dispatch to get that working?
-    assert(values.size() == K);
+    CHECK(values.size() == K)
+        << "Initializer list length must match Vector size.";
     std::copy(values.begin(), values.end(), data_.begin());
   }
 
@@ -97,7 +95,7 @@ class Vector {
   * @returns Copy of element.
   */
   const T operator()(VectorIndex index) const {
-    assert(index < K);
+    CHECK(index < K) << "Vector index out of bounds.";
     return data_[index];
   }
 
@@ -108,7 +106,7 @@ class Vector {
   * @returns Reference to element in Vector.
   */
   T& operator()(VectorIndex index) {
-    assert(index < K);
+    CHECK(index < K) << "Vector index out of bounds.";
     return data_[index];
   }
 

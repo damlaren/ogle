@@ -63,6 +63,9 @@ class MeshViewerApplication : public ogle::Application {
     }
     mesh_renderer_ =
         std::make_unique<ogle::GLFWMeshRenderer>(mesh_, shader_program_.get());
+    if (!mesh_renderer_->Create()) {
+      LOG(ERROR) << "MeshRenderer Create() failed.";
+    }
 
     scene_graph_ = std::make_unique<ogle::SceneGraph>();
     scene_renderer_ = std::make_unique<ogle::SceneRenderer>();

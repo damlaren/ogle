@@ -16,13 +16,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_MATRIX_H_
 
 #include "std/ogle_std.inc"
-#include <assert.h>  // NOLINT
 #include <algorithm>  // NOLINT
 #include <array>  // NOLINT
 #include <functional>  // NOLINT
 #include <iostream>  // NOLINT
 #include <iterator>  // NOLINT
 #include <type_traits>  // NOLINT
+#include "easylogging++.h"  // NOLINT
 #include "math/fp_comparison.h"
 #include "math/vector.h"
 
@@ -276,7 +276,8 @@ class Matrix {
    * @param values Initializer list to set data.
    */
   Matrix(const std::initializer_list<T>& values) {  // NOLINT
-    assert(values.size() == M * N);
+    CHECK(values.size() == M * N)
+        << "Initializer list length must match Matrix size.";
     std::copy(values.begin(), values.end(), data_[0]);
   }
 
@@ -287,7 +288,7 @@ class Matrix {
    * @return Reference to element at (i,j).
    */
   T& operator()(MatrixIndex i, MatrixIndex j) {
-    assert(i < M && j < N);
+    CHECK(i < M && j < N) << "Matrix index out of bounds.";
     return data_[i][j];
   }
 
@@ -298,7 +299,7 @@ class Matrix {
    * @return Copy of element at (i,j).
    */
   const T operator()(MatrixIndex i, MatrixIndex j) const {
-    assert(i < M && j < N);
+    CHECK(i < M && j < N) << "Matrix index out of bounds.";
     return data_[i][j];
   }
 

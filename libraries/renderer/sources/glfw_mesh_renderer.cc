@@ -36,9 +36,22 @@ namespace ogle {
 GLFWMeshRenderer::GLFWMeshRenderer(
     const Mesh &mesh, GLSLShaderProgram* shader_program)
   : MeshRenderer(mesh), shader_program_(shader_program) {
-  // Create renderable Mesh.
-  buffered_mesh_ = std::move(std::make_unique<GLFWBufferedMesh>(mesh));
-  buffered_mesh_->Prepare();  // TODO(damlaren): Check return value.
+}
+
+GLFWMeshRenderer::~GLFWMeshRenderer() {
+  if (prepared_) {
+    glDeleteBuffers(1, &vertex_buffer_id_);
+    glDeleteBuffers(1, &index_buffer_id_);
+    glDeleteVertexArrays(1, &vertex_array_id_);
+  }
+}
+
+bool GLFWMeshRenderer::Create() {
+  // Create Mesh with renderable buffers.
+  buffered_mesh_ = std::move(std::make_unique<GLFWBufferedMesh>(mesh_));
+  if (!buffered_mesh_->Create()) {
+    return false;
+  }
 
   // Create vertex buffer and make it active array buffer.
   glGenBuffers(1, &vertex_buffer_id_);
@@ -62,12 +75,9 @@ GLFWMeshRenderer::GLFWMeshRenderer(
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id_);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffered_mesh_->indices().SizeInBytes(),
                buffered_mesh_->indices().data(), GL_STATIC_DRAW);
-}
 
-GLFWMeshRenderer::~GLFWMeshRenderer() {
-  glDeleteBuffers(1, &vertex_buffer_id_);
-  glDeleteBuffers(1, &index_buffer_id_);
-  glDeleteVertexArrays(1, &vertex_array_id_);
+  prepared_ = true;
+  return true;
 }
 
 void GLFWMeshRenderer::Render(const Transform& transform,

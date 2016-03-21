@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/ogle_std.inc"
 #include <algorithm>  // NOLINT
 #include <iterator>  // NOLINT
+#include "easylogging++.h"  // NOLINT
 
 namespace ogle {
 
@@ -40,6 +41,7 @@ class Buffer {
   explicit Buffer(BufferIndex num_elements = 0)
     : num_elements_(num_elements) {
     data_ = new T[num_elements_];
+    CHECK(data_ != nullptr) << "Buffer allocation failed.";
   }
 
   /**
@@ -49,6 +51,7 @@ class Buffer {
   Buffer(std::initializer_list<T> init_list)
     : num_elements_(init_list.size()) {
     data_ = new T[num_elements_];
+    CHECK(data_ != nullptr) << "Buffer allocation failed.";
     if (num_elements_ > 0) {
       std::copy(std::begin(init_list), std::end(init_list), data_);
     }
@@ -57,12 +60,13 @@ class Buffer {
   /**
    * @brief Constructor. Creates a buffer that wraps existing array.
    * @param data Array that is taken as Buffer storage. The Buffer takes
-   *        ownership of this memory.
+   *        ownership of this memory. Cannot be null.
    * @param num_elements How many elements are in array.
    */
   Buffer(T* data, BufferIndex num_elements)
     : num_elements_(num_elements),
       data_(data) {
+    CHECK(data_ != nullptr) << "Cannot create Buffer from null data.";
   }
 
   /**
@@ -72,6 +76,7 @@ class Buffer {
   explicit Buffer(const stl_vector<T>& data_vector)
     : num_elements_(data_vector.size()) {
     data_ = new T[num_elements_];
+    CHECK(data_ != nullptr) << "Buffer allocation failed.";
     if (num_elements_ > 0) {
       std::copy(std::begin(data_vector), std::end(data_vector), data_);
     }
@@ -84,6 +89,7 @@ class Buffer {
   Buffer(const Buffer& other)
     : num_elements_(other.num_elements_) {
     data_ = new T[num_elements_];
+    CHECK(data_ != nullptr) << "Buffer allocation failed.";
     if (num_elements_ > 0) {
       std::copy_n(std::begin(other.data_), num_elements_, data_);
     }
@@ -125,6 +131,7 @@ class Buffer {
       data_ = new T[num_elements_];
     }
     if (num_elements_ > 0) {
+      CHECK(data_ != nullptr) << "Cannot copy to null data in Buffer.";
       std::copy_n(std::begin(other.data_), num_elements_, data_);
     }
     return *this;

@@ -16,7 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_QUATERNION_H_
 
 #include "std/ogle_std.inc"
-#include <assert.h>  // NOLINT
+#include "easylogging++.h"  // NOLINT
 #include "math/angle.h"
 #include "math/fp_comparison.h"
 #include "math/matrix.h"
@@ -213,7 +213,8 @@ class Quaternion {
    * @return The Angle.
    */
   const Angle RotationAngle() const {
-    assert(scalar_ >= static_cast<T>(-1) && scalar_ <= static_cast<T>(1));
+    CHECK(scalar_ >= static_cast<T>(-1) && scalar_ <= static_cast<T>(1))
+        << "Invalid rotation angle.";
     return {2.f * acos(scalar_)};
   }
 

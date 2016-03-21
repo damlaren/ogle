@@ -15,4 +15,6 @@ set(SRC_LIST
 )
 add_library(ogle_math "${SRC_LIST}")
 target_link_libraries(ogle_math PUBLIC ogle_std)
+target_include_directories(ogle_math PRIVATE
+  ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
 target_include_directories(ogle_math PUBLIC includes)

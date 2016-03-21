@@ -17,8 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type) :
-    Shader(shader_text, type), shader_id_(0) {
+GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type)
+  : Shader(shader_text, type), shader_id_(0) {
 }
 
 GLSLShader::~GLSLShader() {

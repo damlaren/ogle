@@ -26,6 +26,7 @@ set(SRC_LIST
   sources/glsl_shader.cc
   sources/mesh_renderer.cc
   sources/perspective_camera.cc
+  sources/renderer.cc
   sources/scene_graph.cc
   sources/scene_renderer.cc
   sources/shader.cc

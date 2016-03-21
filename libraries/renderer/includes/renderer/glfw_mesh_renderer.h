@@ -43,6 +43,8 @@ class GLFWMeshRenderer : public MeshRenderer {
    */
   ~GLFWMeshRenderer() override;
 
+  bool Create() override;
+
   void Render(const Transform& transform, Entity *camera) override;
 
  private:

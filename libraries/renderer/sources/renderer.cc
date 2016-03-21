@@ -9,55 +9,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines GLFWBufferedMesh.
+ * @file Implements renderer.h.
  */
 
-#ifndef LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_
-#define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_
-
-#include "std/ogle_std.inc"
-#include "renderer/buffered_mesh.h"
+#include "renderer/renderer.h"
 
 namespace ogle {
 
-/**
- * @brief A BufferedMesh implementation for OpenGL, GLSL, and GLFW.
- */
-class GLFWBufferedMesh : public BufferedMesh {
- public:
-  /**
-   * @brief Constructor.
-   * @param mesh Mesh to prepare buffers for.
-   */
-  explicit GLFWBufferedMesh(const Mesh& mesh);
-
-  //@{
-  /**
-   * @brief Mesh data buffer accessors.
-   * @return Reference to buffer.
-   */
-  const VertexBuffer& vertices() const;
-  const TexCoordUVBuffer& uvs() const;
-  const NormalBuffer& normals() const;
-  const IndexBuffer& indices() const;
-  //@}
-
-  bool Create() override;
-
- protected:
-  /// Vertex buffer.
-  VertexBuffer vertices_;
-
-  /// 2D texture coordinate buffer.
-  TexCoordUVBuffer uvs_;
-
-  /// Vertex normals.
-  NormalBuffer normals_;
-
-  /// Index buffer.
-  IndexBuffer indices_;
-};
+Renderer::Renderer() : prepared_{false} {
+}
 
 }  // namespace ogle
-
-#endif  // LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_

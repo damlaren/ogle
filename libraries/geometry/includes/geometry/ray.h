@@ -54,4 +54,3 @@ class Ray {
 }  // namespace ogle
 
 #endif  // LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_RAY_H_
-

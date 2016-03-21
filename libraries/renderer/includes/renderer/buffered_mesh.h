@@ -62,7 +62,7 @@ class BufferedMesh {
    * @brief Prepares buffers for rendering the Mesh.
    * @return success or failure.
    */
-  virtual bool Prepare() = 0;
+  virtual bool Create() = 0;
 
  protected:
   /// Reference to Mesh to prepare buffers for.
