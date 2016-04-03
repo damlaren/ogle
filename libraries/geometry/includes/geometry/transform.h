@@ -159,11 +159,11 @@ class Transform {
   /// to them, remains small.
   stl_vector<Transform*> children_;
 
-  /// Orientation in world space.
-  Quaternionf world_orientation_;
-
   /// Position in world space.
   Vector3f world_position_;
+
+  /// Orientation in world space.
+  Quaternionf world_orientation_;
 
   /// Parent Transform, null for root.
   Transform* parent_;

@@ -117,6 +117,7 @@ class Vector {
    */
   Vector& operator=(const Vector& rhs) {
     std::copy(rhs.data_.begin(), rhs.data_.end(), data_.begin());
+    return *this;
   }
 
   /**

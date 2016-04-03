@@ -48,11 +48,11 @@ class Shader {
    */
   virtual ~Shader() = default;
 
-  /// Shader type.
-  ShaderType shader_type_;
-
   /// Shader text.
   stl_string shader_text_;
+
+  /// Shader type.
+  ShaderType shader_type_;
 };
 
 /**

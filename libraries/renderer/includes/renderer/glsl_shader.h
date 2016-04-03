@@ -85,8 +85,8 @@ class GLSLShaderProgram : public ShaderProgram {
    * @param gl_func OpenGL function to use to set values.
    */
   template<MatrixIndex M, MatrixIndex N, typename GLFunc>
-  SetUniformMatrix(const stl_string& variable, const Matrix<float, M, N>& mat,
-                   GLFunc gl_func) {
+  void SetUniformMatrix(const stl_string& variable,
+                        const Matrix<float, M, N>& mat, GLFunc gl_func) {
     // TODO(damlaren): Getting location is best done outside of a loop.
     //     I've read that querying it is slow.
     GLint uniform_location = glGetUniformLocation(program_id_,

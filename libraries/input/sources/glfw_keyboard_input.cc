@@ -49,6 +49,7 @@ const bool GLFWKeyboardInput::IsKeyDown(const KeyCode code,
   if (key_iterator != key_actions_.end()) {
     return key_iterator->second == (repeat? KeyAction::HOLD : KeyAction::PRESS);
   }
+  return false;
 }
 
 const bool GLFWKeyboardInput::IsKeyUp(const KeyCode code) {
@@ -56,6 +57,7 @@ const bool GLFWKeyboardInput::IsKeyUp(const KeyCode code) {
   if (key_iterator != key_actions_.end()) {
     return key_iterator->second == KeyAction::RELEASE;
   }
+  return false;
 }
 
 void GLFWKeyboardInput::AttachToWindow(GLFWwindow* window) {

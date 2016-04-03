@@ -35,7 +35,7 @@ void TestVector() {
   const double test[2] = {0, 1};
   ogle::Vector<double, 2> v7(test);
   double test2[2] = {0, 1};
-  ogle::Vector<double, 2> v8(test);
+  ogle::Vector<double, 2> v8(test2);
 
   Vector3f p1{0.0f, 1.0f, 0.0f};
   Vector3f p2{-1.0f, 0.0f, 0.0f};
@@ -133,7 +133,7 @@ void TestMatrixVector() {
   Vector3f v3;
   ogle::Matrix<float, 1, 3> m13;
   ogle::Matrix<float, 3, 1> m31 = ogle::Matrix<float, 3, 1>::AsMatrix(v3);
-  Vector3f vtest = m31.AsVector();
+  cout << m31.AsVector();
 }
 
 /**
@@ -159,7 +159,7 @@ std::experimental::optional<int> try_parse_int(ogle::stl_string s) {
  * @brief Test std::experimental::optional.
  */
 void TestOptional() {
-  const auto t = try_parse_int("1");
+  // const auto t = try_parse_int("1");
 }
 
 /**

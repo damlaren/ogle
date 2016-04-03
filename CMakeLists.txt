@@ -5,10 +5,13 @@ project(ogle)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Disable exceptions and RTTI.
+# Compiler-specific flags that can't be easily set in CMake.
 if(CMAKE_COMPILER_IS_GNUCC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+  # Disable exceptions and RTTI.
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
+
+  # Enable all warnings and treat them as errors.
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall")
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 add_subdirectory(3rdparty)
