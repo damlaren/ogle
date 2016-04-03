@@ -12,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Implementation of text_file.h.
  */
 
-#include "util/text_file.h"
+#include "file_system/text_file.h"
 #include <fstream>
 #include <sstream>
 #include "easylogging++.h"  // NOLINT

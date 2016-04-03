@@ -15,8 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "geometry/mesh_loader.h"
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
+#include "file_system/text_file.h"
 #include "util/string_utils.h"
-#include "util/text_file.h"
 
 namespace ogle {
 

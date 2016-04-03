@@ -9,14 +9,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Group header for util library.
+ * @file Group header for file_system library.
  */
 
-#ifndef LIBRARIES_UTIL_INCLUDES_UTIL_OGLE_UTIL_H_
-#define LIBRARIES_UTIL_INCLUDES_UTIL_OGLE_UTIL_H_
+#ifndef LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_OGLE_UTIL_H_
+#define LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_OGLE_UTIL_H_
 
 #include "std/ogle_std.inc"
-#include "util/blank.h"
-#include "util/string_utils.h"
+#include "file_system/text_file.h"
 
-#endif  // LIBRARIES_UTIL_INCLUDES_UTIL_OGLE_UTIL_H_
+#endif  // LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_OGLE_UTIL_H_
