@@ -17,12 +17,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "std/custom_allocator.h"
 
-#include <functional>  // NOLINT
-#include <map>  // NOLINT
-#include <string>  // NOLINT
-#include <unordered_map>  // NOLINT
-#include <utility>  // NOLINT
-#include <vector>  // NOLINT
+#include <functional>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace ogle {
 

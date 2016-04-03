@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_FP_COMPARISON_H_
 
 #include "std/ogle_std.inc"
-#include <math.h>  // NOLINT
-#include <type_traits>  // NOLINT
+#include <math.h>
+#include <type_traits>
 
 namespace ogle {
 

@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MEMORY_INCLUDES_MEMORY_BUFFER_H_
 
 #include "std/ogle_std.inc"
-#include <algorithm>  // NOLINT
-#include <iterator>  // NOLINT
+#include <algorithm>
+#include <iterator>
 #include "easylogging++.h"  // NOLINT
 
 namespace ogle {

@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_ANGLE_H_
 
 #include "std/ogle_std.inc"
-#include <math.h>  // NOLINT
-#include <iostream>  // NOLINT
+#include <math.h>
+#include <iostream>
 
 namespace ogle {
 

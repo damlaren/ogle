@@ -16,13 +16,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_MATH_INCLUDES_MATH_VECTOR_H_
 
 #include "std/ogle_std.inc"
-#include <algorithm>  // NOLINT
-#include <array>  // NOLINT
-#include <functional>  // NOLINT
-#include <iostream>  // NOLINT
-#include <iterator>  // NOLINT
-#include <numeric>  // NOLINT
-#include <type_traits>  // NOLINT
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <iostream>
+#include <iterator>
+#include <numeric>
+#include <type_traits>
 #include "easylogging++.h"  // NOLINT
 #include "math/fp_comparison.h"
 
