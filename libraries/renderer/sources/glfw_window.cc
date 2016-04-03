@@ -86,7 +86,7 @@ bool GLFWWindow::HandleWindowEvents() {
   glEnable(GL_CULL_FACE);
   glDepthFunc(GL_LESS);
   glCullFace(GL_BACK);
-  glFrontFace(GL_CCW);  // TODO(damlaren): Actually, should be CW... ?
+  glFrontFace(GL_CCW);
 
   if (glfwWindowShouldClose(window_) == 0) {
     return true;
