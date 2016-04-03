@@ -73,8 +73,7 @@ class MeshViewerApplication : public ogle::Application {
         &scene_graph_->root_->transform_, mesh_renderer_.get(), nullptr);
     render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
-        0.01f, 100.f, ogle::Angle::FromDegrees(67.f), window_->window_width(),
-        window_->window_height());
+        0.01f, 100.f, ogle::Angle::FromDegrees(67.f), window_->aspect_ratio());
     camera_entity_ = std::make_unique<ogle::Entity>(
         &scene_graph_->root_->transform_, nullptr, camera_.get());
     camera_entity_->transform_.set_world_position({-3.f, 0.f, 0.f});
@@ -89,8 +88,7 @@ class MeshViewerApplication : public ogle::Application {
     // Update camera aspect ratio.
     // TODO(damlaren): Should be done with an Update function on an Entity,
     // or some other interface.
-    camera_->set_aspect_ratio(window_->window_width(),
-                              window_->window_height());
+    camera_->set_aspect_ratio(window_->aspect_ratio());
 
     // Move camera on input.
     constexpr float kMoveDelta = 0.03f;

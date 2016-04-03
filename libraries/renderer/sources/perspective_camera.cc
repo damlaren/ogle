@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "renderer/perspective_camera.h"
+#include <cmath>
 #include "easylogging++.h"  // NOLINT
 #include "geometry/transformation_matrix.h"
 
@@ -21,8 +22,7 @@ namespace ogle {
 PerspectiveCamera::PerspectiveCamera(const float near_clip,
                                      const float far_clip,
                                      const Angle vertical_fov,
-                                     const int window_width,
-                                     const int window_height)
+                                     const float aspect_ratio)
   : Camera(), near_clip_(near_clip), far_clip_(far_clip),
     vertical_fov_(vertical_fov) {
   if (near_clip_ >= far_clip_) {
@@ -31,7 +31,7 @@ PerspectiveCamera::PerspectiveCamera(const float near_clip,
   if (near_clip_ < 0) {
     LOG(ERROR) << "Near clip plane must be at positive distance.";
   }
-  set_aspect_ratio(window_width, window_height);
+  set_aspect_ratio(aspect_ratio);
 }
 
 Matrix44f PerspectiveCamera::GetViewMatrix(const Transform &transform) const {
@@ -45,13 +45,11 @@ Matrix44f PerspectiveCamera::GetProjectionMatrix() const {
       near_clip_, far_clip_, vertical_fov_, aspect_ratio_);
 }
 
-void PerspectiveCamera::set_aspect_ratio(const int window_width,
-                                         const int window_height) {
-  if (window_width > 0 && window_height > 0) {
-    aspect_ratio_ = static_cast<float>(window_width) / window_height;
+void PerspectiveCamera::set_aspect_ratio(const float aspect_ratio) {
+  if (aspect_ratio_ <= 0 || std::isnan(aspect_ratio)) {
+    LOG(ERROR) << "Invalid aspect ratio set: " << aspect_ratio;
   } else {
-    LOG(ERROR) << "Failed to set aspect ratio; window WxH = "
-               << window_width << " x " << window_height;
+    aspect_ratio_ = aspect_ratio;
   }
 }
 

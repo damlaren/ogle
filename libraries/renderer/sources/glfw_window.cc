@@ -97,8 +97,17 @@ void GLFWWindow::AttachKeyboard(GLFWKeyboardInput* keyboard) {
   keyboard->AttachToWindow(window_);
 }
 
+const float GLFWWindow::aspect_ratio() const {
+  int width = window_width();
+  int height = window_height();
+  if (width < 0 || height < 0) {
+    LOG(ERROR) << "Computing invalid aspect ratio for window of size "
+               << width << "x" << height;
+  }
+  return static_cast<float>(width) / height;
+}
+
 const int GLFWWindow::window_width() const {
-  // TODO(damlaren): Can only be called from main thread.
   int width, height;
   glfwGetWindowSize(window_, &width, &height);
   return width;

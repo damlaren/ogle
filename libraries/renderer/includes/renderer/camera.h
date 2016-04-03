@@ -36,11 +36,9 @@ class Camera {
 
   /**
    * @brief Setter.
-   * @param window_width Window width, pixels. Must be > 0.
-   * @param window_height Window height, pixels. Must be > 0.
+   * @param aspect_ratio Camera aspect ratio (width / height).
    */
-  virtual void set_aspect_ratio(const int window_width,
-                                const int window_height) = 0;
+  virtual void set_aspect_ratio(const float aspect_ratio) = 0;
 
   /**
    * @brief Computes view matrix.

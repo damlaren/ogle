@@ -34,15 +34,12 @@ class PerspectiveCamera : public Camera {
      * @param near_clip Distance to near clip plane. Must be >= 0, < far_clip.
      * @param far_clip Distance to far clip plane.
      * @param vertical_fov Vertical field of view. Must be > 0.
-     * @param window_width Window width, pixels. Must be > 0.
-     * @param window_height Window height, pixels. Must be > 0.
+     * @param aspect_ratio Window aspect ratio.
      */
   PerspectiveCamera(const float near_clip, const float far_clip,
-                    const Angle vertical_fov, const int window_width,
-                    const int window_height);
+                    const Angle vertical_fov, const float aspect_ratio);
 
-  void set_aspect_ratio(const int window_width,
-                        const int window_height) override;
+  void set_aspect_ratio(const float aspect_ratio) override;
 
   Matrix44f GetViewMatrix(const Transform &transform) const override;
 

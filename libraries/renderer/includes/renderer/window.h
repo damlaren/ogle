@@ -51,6 +51,12 @@ class Window {
 
   /**
    * @brief Accessor.
+   * @return Window's aspect ratio.
+   */
+  virtual const float aspect_ratio() const = 0;
+
+  /**
+   * @brief Accessor.
    * @return Window width [pixels].
    */
   virtual const int window_width() const = 0;

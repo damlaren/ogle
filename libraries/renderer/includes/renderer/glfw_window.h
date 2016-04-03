@@ -66,14 +66,16 @@ class GLFWWindow : public Window {
    */
   void AttachKeyboard(GLFWKeyboardInput* keyboard);
 
+  const float aspect_ratio() const override;
+
   /**
-   * @brief Accessor.
+   * @brief Accessor. Can only be called from main thread.
    * @return Window width [pixels].
    */
   const int window_width() const override;
 
   /**
-   * @brief Accessor.
+   * @brief Accessor. Can only be called from main thread.
    * @return Window height [pixels].
    */
   const int window_height() const override;
