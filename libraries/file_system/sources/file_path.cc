@@ -9,28 +9,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Convenience functions for I/O on text files.
+ * @file Implementation of file_path.h.
  */
 
-#ifndef LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
-#define LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
-
-#include "std/ogle_std.inc"
+#include "file_system/file_path.h"
 
 namespace ogle {
 
 namespace file_system {
 
-/**
- * @brief Read all contents of a file.
- * @param file_path Path to file to read.
- * @param[out] text Contents read from file.
- * @return Whether the operation was completed successfully.
- */
-const bool ReadTextFile(const stl_string& file_path, stl_string* text);
+const stl_string JoinPaths(const stl_string &file_path_1,
+                           const stl_string &file_path_2) {
+  if (file_path_1.empty()) {
+    return file_path_2;
+  } else if (file_path_2.empty()) {
+    return file_path_1;
+  } else {
+    return file_path_1 + "/" + file_path_2;
+  }
+}
 
 }  // namespace file_system
 
 }  // namespace ogle
-
-#endif  // LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_

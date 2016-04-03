@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.3)
 
 set(INC_LIST
+  includes/file_system/file_path.h
   includes/file_system/ogle_file_system.h
   includes/file_system/text_file.h
 )
 add_custom_target(ogle_file_system_headers SOURCES ${INC_LIST})
 
 set(SRC_LIST
+  sources/file_path.cc
   sources/text_file.cc
 )
 add_library(ogle_file_system "${SRC_LIST}")

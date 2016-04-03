@@ -16,10 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
 
 #include "std/ogle_std.inc"
-#include "renderer/glfw_buffered_mesh.h"
-#include "renderer/mesh_renderer.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "renderer/glfw_buffered_mesh.h"
+#include "renderer/mesh_renderer.h"
 
 namespace ogle {
 

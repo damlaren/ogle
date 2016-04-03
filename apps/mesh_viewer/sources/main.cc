@@ -29,19 +29,22 @@ class MeshViewerApplication : public ogle::Application {
 
   bool Create() override {
     const ogle::stl_string kMeshDir =
-        resource_manager_->resource_dir() + "/meshes";
-    if (!ogle::Mesh::LoadMesh(kMeshDir + "/cube.obj", &mesh_)) {
+        ogle::file_system::JoinPaths(resource_manager_->resource_dir(),
+                                     "meshes");
+    if (!ogle::Mesh::LoadMesh(
+             ogle::file_system::JoinPaths(kMeshDir, "cube.obj"), &mesh_)) {
       LOG(ERROR) << "Failed to load Mesh.";
       return false;
     }
 
     const ogle::stl_string kShaderDir =
-        resource_manager_->resource_dir() + "/shaders";
+        ogle::file_system::JoinPaths(resource_manager_->resource_dir(),
+                                     "shaders");
     ogle::stl_string vertex_shader_text, fragment_shader_text;
-    if (!(ogle::TextFile::ReadFile(kShaderDir + "/vertex/basic_vs.glsl",
-                                   &vertex_shader_text) &&
-          ogle::TextFile::ReadFile(kShaderDir + "/fragment/flat_fs.glsl",
-                                   &fragment_shader_text))) {
+    if (!(ogle::file_system::ReadTextFile(ogle::file_system::JoinPaths(
+              kShaderDir, "/vertex/basic_vs.glsl"), &vertex_shader_text) &&
+          ogle::file_system::ReadTextFile(ogle::file_system::JoinPaths(
+              kShaderDir, "fragment/flat_fs.glsl"), &fragment_shader_text))) {
       LOG(ERROR) << "Failed to read shader text files.";
       return false;
     }

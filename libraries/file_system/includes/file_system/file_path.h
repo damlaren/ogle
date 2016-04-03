@@ -9,11 +9,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Convenience functions for I/O on text files.
+ * @file Functions for creating file paths.
  */
 
-#ifndef LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
-#define LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
+#ifndef LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_FILE_PATH_H_
+#define LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_FILE_PATH_H_
 
 #include "std/ogle_std.inc"
 
@@ -22,15 +22,16 @@ namespace ogle {
 namespace file_system {
 
 /**
- * @brief Read all contents of a file.
- * @param file_path Path to file to read.
- * @param[out] text Contents read from file.
- * @return Whether the operation was completed successfully.
+ * @brief Joins two file paths with a path separator.
+ * @param file_path_1 First part of path.
+ * @param file_path_2 Second part of path.
+ * @return Joined file paths.
  */
-const bool ReadTextFile(const stl_string& file_path, stl_string* text);
+const stl_string JoinPaths(const stl_string& file_path_1,
+                           const stl_string& file_path_2);
 
 }  // namespace file_system
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
+#endif  // LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_FILE_PATH_H_

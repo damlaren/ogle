@@ -58,7 +58,7 @@ const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
 
 const bool MeshLoader::LoadOBJ(const stl_string& file_path, Mesh *mesh) {
   stl_string text;
-  if (!TextFile::ReadFile(file_path, &text)) {
+  if (!file_system::ReadTextFile(file_path, &text)) {
     return false;
   }
   stl_vector<stl_string> lines = StringUtils::Split(text, '\n');

@@ -19,8 +19,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-bool TextFile::ReadFile(const stl_string& file_path,
-                        stl_string* text) {
+namespace file_system {
+
+const bool ReadTextFile(const stl_string& file_path, stl_string* text) {
   std::ifstream in_file(file_path);
   if (!in_file.is_open()) {
     LOG(ERROR) << "Failed to open file: " << file_path;
@@ -30,5 +31,7 @@ bool TextFile::ReadFile(const stl_string& file_path,
                      std::istreambuf_iterator<char>());
   return true;
 }
+
+}  // namespace file_system
 
 }  // namespace ogle
