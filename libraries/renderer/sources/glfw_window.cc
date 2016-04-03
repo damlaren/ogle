@@ -81,8 +81,7 @@ void GLFWWindow::SwapBuffers() {
 bool GLFWWindow::HandleWindowEvents() {
   glfwPollEvents();
 
-  // TODO(damlaren): Doesn't belong here. Make configurable.
-  // Or at least, need consistent behavior across implementations.
+  // TODO(damlaren): Configure in effect files.
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glDepthFunc(GL_LESS);
