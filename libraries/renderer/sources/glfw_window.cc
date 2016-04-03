@@ -64,6 +64,9 @@ bool GLFWWindow::Create(
   }
 
   glfwSetInputMode(window_, GLFW_STICKY_KEYS, GL_TRUE);
+
+  glfwSetFramebufferSizeCallback(window_, GLFWWindow::FramebufferSizeCallback);
+
   return true;
 }
 
@@ -98,10 +101,10 @@ void GLFWWindow::AttachKeyboard(GLFWKeyboardInput* keyboard) {
 }
 
 const float GLFWWindow::aspect_ratio() const {
-  int width = window_width();
-  int height = window_height();
+  int width, height;
+  glfwGetFramebufferSize(window_, &width, &height);
   if (width < 0 || height < 0) {
-    LOG(ERROR) << "Computing invalid aspect ratio for window of size "
+    LOG(ERROR) << "Computing invalid aspect ratio for window with FB size "
                << width << "x" << height;
   }
   return static_cast<float>(width) / height;
@@ -121,6 +124,13 @@ const int GLFWWindow::window_height() const {
 
 void GLFWWindow::LogGLFWError(int error, const char *description) {
   LOG(ERROR) << "GLFW error code=" << error << ": " << description;
+}
+
+void GLFWWindow::FramebufferSizeCallback(GLFWwindow *window,
+                                         int width, int height) {
+  glViewport(0, 0, width, height);
+
+  // TODO(damlaren): Send event that Camera can receive to update aspect ratio.
 }
 
 }  // namespace ogle

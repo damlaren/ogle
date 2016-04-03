@@ -89,6 +89,15 @@ class GLFWWindow : public Window {
   static void LogGLFWError(int error, const char *description);
 
   /**
+   * @brief Callback that's run when framebuffer changes size.
+   * @param window GLFW window.
+   * @param width New framebuffer size.
+   * @param height New framebuffer height.
+   */
+  static void FramebufferSizeCallback(GLFWwindow* window,
+                                      int width, int height);
+
+  /**
    * GLFW's window implementation.
    * An opaque type which can't be stored in a smart pointer.
    */
