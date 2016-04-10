@@ -9,27 +9,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Top-level header for ogle.
+ * @file Implementation of configuration.h.
  */
 
-#ifndef LIBRARIES_OGLE_INCLUDES_OGLE_OGLE_H_
-#define LIBRARIES_OGLE_INCLUDES_OGLE_OGLE_H_
+#include "config/configuration.h"
 
-#include "std/ogle_std.inc"
-#include "application/ogle_application.h"
-#include "config/ogle_config.h"
-#include "engine/ogle_engine.h"
-#include "entity/ogle_entity.h"
-#include "file_system/ogle_file_system.h"
-#include "geometry/ogle_geometry.h"
-#include "input/ogle_input.h"
-#include "math/ogle_math.h"
-#include "renderer/ogle_renderer.h"
-#include "resource/ogle_resource.h"
-#include "util/ogle_util.h"
+namespace ogle {
 
-#include "easylogging++.h"  // NOLINT
-
-INITIALIZE_EASYLOGGINGPP
-
-#endif  // LIBRARIES_OGLE_INCLUDES_OGLE_OGLE_H_
+}  // namespace ogle

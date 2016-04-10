@@ -12,6 +12,7 @@ set(SRC_LIST
 add_library(ogle sources/ogle.cc)
 target_link_libraries(ogle
   ogle_application
+  ogle_config
   ogle_engine
   ogle_entity
   ogle_geometry
