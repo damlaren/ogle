@@ -19,20 +19,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 class MeshViewerApplication : public ogle::Application {
  public:
-  // TODO(damlaren): The engine should have all the components available.
-  // It should itself create implementations using specific APIs
-  // like GLFW without being married to one (or inheriting from anything).
-  explicit MeshViewerApplication(
-    std::unique_ptr<ogle::ResourceManager> resource_manager,
-    std::unique_ptr<ogle::Window> window,
-    std::unique_ptr<ogle::KeyboardInput> keyboard)
-      : Application(std::move(resource_manager), std::move(window),
-                    std::move(keyboard)) {
+  explicit MeshViewerApplication(std::unique_ptr<ogle::Engine> engine)
+    : Application(std::move(engine)) {
   }
 
   bool Create() override {
     const ogle::stl_string kMeshDir =
-        ogle::file_system::JoinPaths(resource_manager_->resource_dir(),
+        ogle::file_system::JoinPaths(engine_->resource_manager_->resource_dir(),
                                      "meshes");
     if (!ogle::Mesh::LoadMesh(
              ogle::file_system::JoinPaths(kMeshDir, "cube.obj"), &mesh_)) {
@@ -41,7 +34,7 @@ class MeshViewerApplication : public ogle::Application {
     }
 
     const ogle::stl_string kShaderDir =
-        ogle::file_system::JoinPaths(resource_manager_->resource_dir(),
+        ogle::file_system::JoinPaths(engine_->resource_manager_->resource_dir(),
                                      "shaders");
     ogle::stl_string vertex_shader_text, fragment_shader_text;
     if (!(ogle::file_system::ReadTextFile(ogle::file_system::JoinPaths(
@@ -79,7 +72,8 @@ class MeshViewerApplication : public ogle::Application {
         &scene_graph_->root_->transform_, mesh_renderer_.get(), nullptr);
     render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
-        0.01f, 100.f, ogle::Angle::FromDegrees(67.f), window_->aspect_ratio());
+        0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
+        engine_->window_->aspect_ratio());
     camera_entity_ = std::make_unique<ogle::Entity>(
         &scene_graph_->root_->transform_, nullptr, camera_.get());
     camera_entity_->transform_.set_world_position({-3.f, 0.f, 0.f});
@@ -87,53 +81,54 @@ class MeshViewerApplication : public ogle::Application {
   }
 
   bool ApplicationBody() {
-    if (keyboard_->IsKeyDown(ogle::KeyCode::ESCAPE, false)) {
+    if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::ESCAPE, false)) {
       return false;
     }
 
     // Update camera aspect ratio.
     // TODO(damlaren): Should be done with an Update function on an Entity,
     // or some other interface.
-    camera_->set_aspect_ratio(window_->aspect_ratio());
+    camera_->set_aspect_ratio(engine_->window_->aspect_ratio());
 
     // Move camera on input.
     constexpr float kMoveDelta = 0.03f;
     const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(2.0f);
-    if (keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
+    if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
       camera_entity_->transform_.TranslateForward(kMoveDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
       camera_entity_->transform_.TranslateForward(-kMoveDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
       camera_entity_->transform_.TranslateRight(-kMoveDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
       camera_entity_->transform_.TranslateRight(kMoveDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::Z, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::Z, true)) {
       camera_entity_->transform_.TranslateUp(-kMoveDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::C, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::C, true)) {
       camera_entity_->transform_.TranslateUp(kMoveDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
       camera_entity_->transform_.RotateRoll(-kAngleDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::E, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::E, true)) {
       camera_entity_->transform_.RotateRoll(kAngleDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
       camera_entity_->transform_.RotateRoll(-kAngleDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::UP_ARROW, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::UP_ARROW, true)) {
       camera_entity_->transform_.RotatePitch(kAngleDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::DOWN_ARROW, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::DOWN_ARROW, true)) {
       camera_entity_->transform_.RotatePitch(-kAngleDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::LEFT_ARROW, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::LEFT_ARROW, true)) {
       camera_entity_->transform_.RotateYaw(kAngleDelta);
-    } else if (keyboard_->IsKeyDown(ogle::KeyCode::RIGHT_ARROW, true)) {
+    } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::RIGHT_ARROW,
+                                             true)) {
       camera_entity_->transform_.RotateYaw(-kAngleDelta);
     }
-    keyboard_->Clear();
+    engine_->keyboard_->Clear();
 
     render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
 
     // TODO(damlaren): Move rendering code out.
-    window_->ClearWindow();
+    engine_->window_->ClearWindow();
     scene_renderer_->RenderScene(camera_entity_.get(), scene_graph_.get());
-    window_->SwapBuffers();
+    engine_->window_->SwapBuffers();
 
     return true;
   }
@@ -192,8 +187,9 @@ int main(const int argc, const char* argv[]) {
   // is "packed up."
   window->AttachKeyboard(keyboard.get());
 
-  auto app = std::make_unique<MeshViewerApplication>(
+  auto engine = std::make_unique<ogle::Engine>(
       std::move(resource_manager), std::move(window), std::move(keyboard));
+  auto app = std::make_unique<MeshViewerApplication>(std::move(engine));
   if (!app->Create()) {
     LOG(FATAL) << "Application failed to start.";
   }

@@ -16,6 +16,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_ENGINE_INCLUDES_ENGINE_ENGINE_H_
 
 #include "std/ogle_std.inc"
+#include "input/keyboard_input.h"
+#include "renderer/window.h"
+#include "resource/resource_manager.h"
 
 namespace ogle {
 
@@ -27,6 +30,40 @@ namespace ogle {
  * and is the container by which applications access ogle.
  */
 class Engine {
+ public:
+  /**
+   * @brief Constructor. Takes over passed objects.
+   *
+   * All unique_ptr parameters are moved and invalid after calling this
+   * constructor.
+   *
+   * TODO(damlaren): This is a temporary interface. Soon, the Engine itself
+   * will take over constructing these objects.
+   *
+   * @param resource_manager ResourceManager implementation.
+   * @param window Window implementation.
+   * @param keyboard Keyboard implementation.
+   */
+  Engine(std::unique_ptr<ResourceManager> resource_manager,
+         std::unique_ptr<Window> window,
+         std::unique_ptr<KeyboardInput> keyboard);
+
+  /**
+   * @brief Destructor.
+   */
+  virtual ~Engine() = default;
+
+  // For now, all members are public to be accessed by applications.
+
+  /// ResourceManager handle.
+  std::unique_ptr<ResourceManager> resource_manager_;
+
+  /// Window handle. (Later, will be replaced by a Window Manager class,
+  /// because apps might want multiple windows.)
+  std::unique_ptr<Window> window_;
+
+  /// Keyboard handle.
+  std::unique_ptr<KeyboardInput> keyboard_;
 };
 
 }  // namespace ogle

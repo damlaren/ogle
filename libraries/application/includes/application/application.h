@@ -12,9 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_APPLICATION_INCLUDES_APPLICATION_APPLICATION_H_
 
 #include "std/ogle_std.inc"
-#include "input/keyboard_input.h"
-#include "renderer/window.h"
-#include "resource/resource_manager.h"
+#include "engine/engine.h"
 
 /**
  * @file Defines Application.
@@ -49,13 +47,9 @@ class Application {
    * unique_ptr parameters refer to objects the Application will take ownership
    * over. They are invalid after constructing the Application.
    *
-   * @param resource_manager ResourceManager implementation.
-   * @param window Window implementation.
-   * @param keyboard KeyboardInput implementation.
+   * @param engine ogle Engine object.
    */
-  explicit Application(std::unique_ptr<ResourceManager> resource_manager,
-                       std::unique_ptr<Window> window,
-                       std::unique_ptr<KeyboardInput> keyboard);
+  explicit Application(std::unique_ptr<Engine> engine);
 
   /**
    * @brief Destructor.
@@ -76,16 +70,8 @@ class Application {
    */
   virtual bool ApplicationBody() = 0;
 
-  /// Application's ResourceManager.
-  std::unique_ptr<ResourceManager> resource_manager_;
-
-  /// Application's Window.
-  std::unique_ptr<ogle::Window> window_;
-
-  /// Application's KeyboardInput.
-  std::unique_ptr<ogle::KeyboardInput> keyboard_;
-
-  // TODO(damlaren) RenderManager, InputManager passed instead.
+  /// ogle Engine object.
+  std::unique_ptr<Engine> engine_;
 
   /// How many times the body has completed.
   std::uint64_t loop_count_ = 0;

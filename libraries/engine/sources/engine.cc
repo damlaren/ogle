@@ -16,4 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+Engine::Engine(std::unique_ptr<ResourceManager> resource_manager,
+               std::unique_ptr<Window> window,
+               std::unique_ptr<KeyboardInput> keyboard)
+  : resource_manager_(std::move(resource_manager)), window_(std::move(window)),
+    keyboard_(std::move(keyboard)) {
+}
+
 }  // namespace ogle
