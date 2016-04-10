@@ -16,4 +16,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+bool Configuration::Load(const stl_string& file_name) {
+  root_node_ = YAML::LoadFile(file_name);
+  if (!root_node_) {
+    LOG(ERROR) << "Failed to load Configuration: " << file_name;
+    return false;
+  }
+  return true;
+}
+
 }  // namespace ogle
