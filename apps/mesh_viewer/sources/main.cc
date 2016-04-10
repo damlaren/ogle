@@ -19,6 +19,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 class MeshViewerApplication : public ogle::Application {
  public:
+  // TODO(damlaren): The engine should have all the components available.
+  // It should itself create implementations using specific APIs
+  // like GLFW without being married to one (or inheriting from anything).
   explicit MeshViewerApplication(
     std::unique_ptr<ogle::ResourceManager> resource_manager,
     std::unique_ptr<ogle::Window> window,
