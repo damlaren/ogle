@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_ENGINE_INCLUDES_ENGINE_ENGINE_H_
 
 #include "std/ogle_std.inc"
+#include "config/configuration.h"
 #include "input/keyboard_input.h"
 #include "renderer/window.h"
 #include "renderer/scene_graph.h"
@@ -36,26 +37,21 @@ class Entity;
 class Engine {
  public:
   /**
-   * @brief Constructor. Takes over passed objects.
-   *
-   * All unique_ptr parameters are moved and invalid after calling this
-   * constructor.
-   *
-   * TODO(damlaren): This is a temporary interface. Soon, the Engine itself
-   * will take over constructing these objects.
-   *
-   * @param resource_manager ResourceManager implementation.
-   * @param window Window implementation.
-   * @param keyboard Keyboard implementation.
+   * @brief Constructor.
+   * @param configuration_file_name Path to YAML configuration file.
    */
-  Engine(std::unique_ptr<ResourceManager> resource_manager,
-         std::unique_ptr<Window> window,
-         std::unique_ptr<KeyboardInput> keyboard);
+  explicit Engine(const stl_string& configuration_file_name);
 
   /**
    * @brief Destructor.
    */
   virtual ~Engine() = default;
+
+  /**
+   * @brief Creates engine from configuration.
+   * @return Success/failure.
+   */
+  virtual bool Create();
 
   /**
    * @brief Renders all objects in scene.
@@ -64,6 +60,12 @@ class Engine {
   virtual void Render(Entity* camera_entity);
 
   // For now, all members are public to be accessed by applications.
+
+  /// Path to configuration file.
+  stl_string configuration_file_name_;
+
+  /// Engine configuration.
+  Configuration configuration_;
 
   /// ResourceManager handle.
   std::unique_ptr<ResourceManager> resource_manager_;

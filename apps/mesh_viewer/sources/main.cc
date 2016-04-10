@@ -24,6 +24,10 @@ class MeshViewerApplication : public ogle::Application {
   }
 
   bool Create() override {
+    if (!engine_->Create()) {
+      LOG(ERROR) << "Engine creation failed.";
+    }
+
     const ogle::stl_string kMeshDir =
         ogle::file_system::JoinPaths(engine_->resource_manager_->resource_dir(),
                                      "meshes");
@@ -162,21 +166,7 @@ int main(const int argc, const char* argv[]) {
     LOG(FATAL) << "usage: mesh_viewer <resource_dir>";
   }
 
-  static constexpr int kWindowWidth = 1024;
-  static constexpr int kWindowHeight = 768;
-  auto resource_manager = std::make_unique<ogle::ResourceManager>(argv[1]);
-  auto window = std::make_unique<ogle::GLFWWindow>();
-  if (!window->Create(kWindowWidth, kWindowHeight, "Mesh Viewer", 4, 0, 4)) {
-    LOG(FATAL) << "Failed to create window.";
-  }
-  auto keyboard = std::make_unique<ogle::GLFWKeyboardInput>();
-
-  // TODO(damlaren): This is a quirk specific to GLFW, can move it once engine
-  // is "packed up."
-  window->AttachKeyboard(keyboard.get());
-
-  auto engine = std::make_unique<ogle::Engine>(
-      std::move(resource_manager), std::move(window), std::move(keyboard));
+  auto engine = std::make_unique<ogle::Engine>(argv[1]);
   auto app = std::make_unique<MeshViewerApplication>(std::move(engine));
   if (!app->Create()) {
     LOG(FATAL) << "Application failed to start.";
