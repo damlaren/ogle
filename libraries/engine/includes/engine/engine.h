@@ -18,9 +18,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/ogle_std.inc"
 #include "input/keyboard_input.h"
 #include "renderer/window.h"
+#include "renderer/scene_graph.h"
+#include "renderer/scene_renderer.h"
 #include "resource/resource_manager.h"
 
 namespace ogle {
+
+class Entity;
 
 /**
  * @brief The core object tieing together everything in ogle.
@@ -53,6 +57,12 @@ class Engine {
    */
   virtual ~Engine() = default;
 
+  /**
+   * @brief Renders all objects in scene.
+   * @param camera_entity Entity with attached Camera.
+   */
+  virtual void Render(Entity* camera_entity);
+
   // For now, all members are public to be accessed by applications.
 
   /// ResourceManager handle.
@@ -64,6 +74,12 @@ class Engine {
 
   /// Keyboard handle.
   std::unique_ptr<KeyboardInput> keyboard_;
+
+  /// Scene graph.
+  std::unique_ptr<ogle::SceneGraph> scene_graph_;
+
+  /// Scene renderer.
+  std::unique_ptr<ogle::SceneRenderer> scene_renderer_;
 };
 
 }  // namespace ogle

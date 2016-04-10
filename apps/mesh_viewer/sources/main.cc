@@ -66,16 +66,15 @@ class MeshViewerApplication : public ogle::Application {
       LOG(ERROR) << "MeshRenderer Create() failed.";
     }
 
-    scene_graph_ = std::make_unique<ogle::SceneGraph>();
-    scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
     render_object_ = std::make_unique<ogle::Entity>(
-        &scene_graph_->root_->transform_, mesh_renderer_.get(), nullptr);
+        &engine_->scene_graph_->root_->transform_, mesh_renderer_.get(),
+        nullptr);
     render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         engine_->window_->aspect_ratio());
     camera_entity_ = std::make_unique<ogle::Entity>(
-        &scene_graph_->root_->transform_, nullptr, camera_.get());
+        &engine_->scene_graph_->root_->transform_, nullptr, camera_.get());
     camera_entity_->transform_.set_world_position({-3.f, 0.f, 0.f});
     return true;
   }
@@ -123,12 +122,7 @@ class MeshViewerApplication : public ogle::Application {
     }
     engine_->keyboard_->Clear();
 
-    render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
-
-    // TODO(damlaren): Move rendering code out.
-    engine_->window_->ClearWindow();
-    scene_renderer_->RenderScene(camera_entity_.get(), scene_graph_.get());
-    engine_->window_->SwapBuffers();
+    engine_->Render(camera_entity_.get());
 
     return true;
   }
@@ -136,12 +130,6 @@ class MeshViewerApplication : public ogle::Application {
  private:
   /// Camera Entity.
   std::unique_ptr<ogle::Entity> camera_entity_;
-
-  /// Scene graph.
-  std::unique_ptr<ogle::SceneGraph> scene_graph_;
-
-  /// Scene renderer.
-  std::unique_ptr<ogle::SceneRenderer> scene_renderer_;
 
   /// Object instantiated to render the mesh.
   std::unique_ptr<ogle::Entity> render_object_;

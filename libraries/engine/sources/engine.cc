@@ -20,7 +20,15 @@ Engine::Engine(std::unique_ptr<ResourceManager> resource_manager,
                std::unique_ptr<Window> window,
                std::unique_ptr<KeyboardInput> keyboard)
   : resource_manager_(std::move(resource_manager)), window_(std::move(window)),
-    keyboard_(std::move(keyboard)) {
+    keyboard_(std::move(keyboard)),
+    scene_graph_(std::make_unique<ogle::SceneGraph>()),
+    scene_renderer_(std::make_unique<ogle::SceneRenderer>()) {
+}
+
+void Engine::Render(Entity* camera_entity) {
+  window_->ClearWindow();
+  scene_renderer_->RenderScene(camera_entity, scene_graph_.get());
+  window_->SwapBuffers();
 }
 
 }  // namespace ogle
