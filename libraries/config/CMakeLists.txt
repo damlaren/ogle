@@ -10,7 +10,7 @@ set(SRC_LIST
   sources/configuration.cc
 )
 add_library(ogle_config "${SRC_LIST}")
-target_link_libraries(ogle_config ogle_std)
+target_link_libraries(ogle_config yaml-cpp ogle_std)
 target_include_directories(ogle_config PRIVATE
   ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
 target_include_directories(ogle_config PUBLIC includes)
