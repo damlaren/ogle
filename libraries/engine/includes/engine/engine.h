@@ -36,6 +36,9 @@ class Entity;
  */
 class Engine {
  public:
+  /// Indicates a feature implemented using GLFW.
+  static const stl_string kGLFWImpl;
+
   /**
    * @brief Constructor.
    * @param configuration_file_name Path to YAML configuration file.

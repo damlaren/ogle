@@ -81,7 +81,6 @@ void GLFWWindow::SwapBuffers() {
 bool GLFWWindow::HandleWindowEvents() {
   glfwPollEvents();
 
-  // TODO(damlaren): Configure in effect files.
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glDepthFunc(GL_LESS);

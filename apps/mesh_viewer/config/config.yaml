@@ -1,0 +1,13 @@
+input:
+  implementation: "glfw"
+resources:
+  resource_dir: "C:/Projects/ogle/resources"
+windows:
+  implementation: "glfw"
+  width: 1024
+  height: 768
+  title: "Mesh Viewer"
+  opengl_major_version: 4
+  opengl_minor_version: 0
+  msaa_samples: 4
+  

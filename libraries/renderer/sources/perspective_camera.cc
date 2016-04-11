@@ -46,7 +46,7 @@ Matrix44f PerspectiveCamera::GetProjectionMatrix() const {
 }
 
 void PerspectiveCamera::set_aspect_ratio(const float aspect_ratio) {
-  if (aspect_ratio_ <= 0 || std::isnan(aspect_ratio)) {
+  if (aspect_ratio <= 0 || std::isnan(aspect_ratio)) {
     LOG(ERROR) << "Invalid aspect ratio set: " << aspect_ratio;
   } else {
     aspect_ratio_ = aspect_ratio;

@@ -16,7 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_CONFIG_INCLUDES_CONFIG_CONFIGURATION_H_
 
 #include "std/ogle_std.inc"
-#include "easylogging++.h"
+#include "easylogging++.h"  // NOLINT
 #include "yaml-cpp/yaml.h"
 
 namespace ogle {
@@ -40,26 +40,28 @@ class Configuration {
 
   /**
    * @brief Gets value of attribute configuration for a module.
+   *
+   * Fatal error if attribute is not found.
+   *
    * @param module_name Name of subsystem for which to look up attribute.
    * @param attribute_name Name of attribute to look up.
-   * @param[out] value Retrieved value.
+   * @return Retrieved value.
    */
   template <typename T>
-  const bool Get(const stl_string& module_name,
-                 const stl_string& attribute_name, T* value) const {
+  const T Get(const stl_string& module_name,
+              const stl_string& attribute_name) const {
     if (root_node_) {
       const auto& module_node = root_node_[module_name];
       if (module_node) {
         const auto& attribute_node = module_node[attribute_name];
         if (attribute_node) {
-          *value = attribute_node.as<T>();
-          return true;
+          return attribute_node.as<T>();
         }
       }
     }
-    LOG(ERROR) << "Configuration not found: " << module_name << "/"
+    LOG(FATAL) << "Configuration not found: " << module_name << "/"
                << attribute_name;
-    return false;
+    return T{};
   }
 
  private:
