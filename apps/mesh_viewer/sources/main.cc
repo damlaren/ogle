@@ -26,6 +26,7 @@ class MeshViewerApplication : public ogle::Application {
   bool Create() override {
     if (!engine_->Create()) {
       LOG(ERROR) << "Engine creation failed.";
+      return false;
     }
 
     const ogle::stl_string kMeshDir =
