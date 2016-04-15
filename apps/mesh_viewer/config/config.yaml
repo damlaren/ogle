@@ -1,8 +1,11 @@
 input:
   implementation: "glfw"
-resources:
+render:
+  implementation: "glfw"
+  shader_implementation: "glsl"
+resource:
   resource_dir: "C:/Projects/ogle/resources"
-windows:
+window:
   implementation: "glfw"
   width: 1024
   height: 768
@@ -10,4 +13,3 @@ windows:
   opengl_major_version: 4
   opengl_minor_version: 0
   msaa_samples: 4
-  
