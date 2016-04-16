@@ -59,7 +59,7 @@ class Configuration {
         }
       }
     }
-    LOG(FATAL) << "Configuration not found: " << module_name << "/"
+    LOG(ERROR) << "Configuration not found: " << module_name << "/"
                << attribute_name;
     return T{};
   }
