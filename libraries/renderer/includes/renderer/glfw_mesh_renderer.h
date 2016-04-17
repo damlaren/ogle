@@ -30,8 +30,11 @@ class ShaderProgram;
  */
 class GLFWMeshRenderer : public MeshRenderer {
  public:
+  /// String to specify use of this implementation in configuration file.
+  static const stl_string kConfigImplementationName;
+
   /**
-   * @brief Constructor. Allocates OpenGL objects used for rendering.
+   * @brief Constructor. Call Create() to complete object construction.
    *
    * @param mesh Mesh to render.
    * @param shader_program Shader program to use in render pass.
@@ -43,13 +46,16 @@ class GLFWMeshRenderer : public MeshRenderer {
    */
   ~GLFWMeshRenderer() override;
 
-  bool Create() override;
+  /**
+   * @brief Allocates OpenGL objects used for rendering.
+   * @return success/failure.
+   */
+  bool Create();
 
   void Render(const Transform& transform, Entity *camera) override;
 
  private:
   // TODO(damlaren): Don't duplicate this for each MeshRenderer.
-
   /// Mesh prepared for rendering.
   std::unique_ptr<GLFWBufferedMesh> buffered_mesh_;
 

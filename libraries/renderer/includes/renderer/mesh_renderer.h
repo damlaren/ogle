@@ -20,7 +20,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class Configuration;
 class Mesh;
+class ShaderProgram;
 
 /**
  * @brief Base class for all MeshRenderers.
@@ -30,12 +32,25 @@ class Mesh;
 class MeshRenderer : public Renderer {
  public:
   /**
+   * @brief Creates a new MeshRenderer.
+   *
+   * TODO(damlaren): Prevent duplication?
+   *
+   * @param configuration Renderer configuration.
+   * @param mesh
+   * @param shader_program
+   * @return
+   */
+  static MeshRenderer* Load(const Configuration& configuration,
+                            const Mesh& mesh, ShaderProgram *shader_program);
+
+ protected:
+  /**
    * @brief Constructor.
    * @param mesh Mesh to render.
    */
   explicit MeshRenderer(const Mesh& mesh);
 
- protected:
   /// Mesh to render.
   const Mesh& mesh_;
 };

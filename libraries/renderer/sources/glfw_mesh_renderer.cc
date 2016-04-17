@@ -33,17 +33,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace ogle {
 
+const stl_string GLFWMeshRenderer::kConfigImplementationName = "glfw";
+
 GLFWMeshRenderer::GLFWMeshRenderer(
     const Mesh &mesh, ShaderProgram* shader_program)
-  : MeshRenderer(mesh), shader_program_(shader_program) {
+  : MeshRenderer(mesh), shader_program_(shader_program), vertex_buffer_id_(0),
+    vertex_array_id_(0), index_buffer_id_(0) {
 }
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
-  if (created_) {
-    glDeleteBuffers(1, &vertex_buffer_id_);
-    glDeleteBuffers(1, &index_buffer_id_);
-    glDeleteVertexArrays(1, &vertex_array_id_);
-  }
+  glDeleteBuffers(1, &vertex_buffer_id_);
+  glDeleteBuffers(1, &index_buffer_id_);
+  glDeleteVertexArrays(1, &vertex_array_id_);
 }
 
 bool GLFWMeshRenderer::Create() {
@@ -76,7 +77,6 @@ bool GLFWMeshRenderer::Create() {
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffered_mesh_->indices().SizeInBytes(),
                buffered_mesh_->indices().data(), GL_STATIC_DRAW);
 
-  created_ = true;
   return true;
 }
 

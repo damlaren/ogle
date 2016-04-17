@@ -9,14 +9,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implements renderer.h.
+ * @file Implementation of renderer.h.
  */
 
 #include "renderer/renderer.h"
 
 namespace ogle {
 
-Renderer::Renderer() : created_{false} {
-}
+const stl_string Renderer::kConfigModule = "render";
+
+const stl_string Renderer::kConfigAttributeImplementation = "implementation";
 
 }  // namespace ogle

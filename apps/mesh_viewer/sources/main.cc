@@ -61,7 +61,7 @@ class MeshViewerApplication : public ogle::Application {
         ogle::Shader::Load(engine_->configuration_, ogle::ShaderType::Fragment,
                            fragment_shader_text));
     if (!(vertex_shader_ && fragment_shader_)) {
-      LOG(ERROR) << "Shader compilation failed.";
+      LOG(ERROR) << "Shader Load failed.";
       return false;
     }
     shader_program_ = std::unique_ptr<ogle::ShaderProgram>(
@@ -69,15 +69,16 @@ class MeshViewerApplication : public ogle::Application {
             engine_->configuration_, vertex_shader_.get(),
             fragment_shader_.get()));
     if (!shader_program_) {
-      LOG(ERROR) << "Shader program link failed.";
+      LOG(ERROR) << "ShaderProgram Link failed.";
       return false;
     }
 
-    // TODO(damlaren): factory for MeshRenderer.
-    mesh_renderer_ =
-        std::make_unique<ogle::GLFWMeshRenderer>(mesh_, shader_program_.get());
-    if (!mesh_renderer_->Create()) {
-      LOG(ERROR) << "MeshRenderer Create() failed.";
+    mesh_renderer_ = std::unique_ptr<ogle::MeshRenderer>(
+        ogle::MeshRenderer::Load(engine_->configuration_, mesh_,
+                                 shader_program_.get()));
+    if (!mesh_renderer_) {
+      LOG(ERROR) << "MeshRenderer Load failed.";
+      return false;
     }
 
     render_object_ = std::make_unique<ogle::Entity>(

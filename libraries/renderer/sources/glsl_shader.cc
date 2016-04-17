@@ -17,16 +17,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const stl_string GLSLShader::kConfigImplementation = "glsl";
+const stl_string GLSLShader::kConfigImplementationName = "glsl";
 
 GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type)
   : Shader(shader_text, type), shader_id_(0) {
 }
 
 GLSLShader::~GLSLShader() {
-  if (shader_id_ != 0) {
-    glDeleteShader(shader_id_);
-  }
+  glDeleteShader(shader_id_);
 }
 
 bool GLSLShader::Create() {

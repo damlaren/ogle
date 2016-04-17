@@ -38,11 +38,11 @@ enum class ShaderType {
  */
 class Shader {
  public:
-  /// Configuration module in which shaders are specified.
+  /// Configuration module describing shaders.
   static const stl_string kConfigModule;
 
-  /// Configuration variable in which shader implementation is set.
-  static const stl_string kConfigImplementationAttribute;
+  /// Configuration attribute defining shader implementation.
+  static const stl_string kConfigAttributeImplementation;
 
   /**
    * @brief Default destructor.
@@ -82,12 +82,6 @@ class Shader {
    * @param type Type of this Shader.
    */
   Shader(const stl_string &shader_text, ShaderType type);
-
-  /**
-   * @brief Builds Shader from loaded text.
-   * @return Success/failure.
-   */
-  virtual bool Create() = 0;
 
   /// Shader text.
   stl_string shader_text_;
@@ -156,12 +150,6 @@ class ShaderProgram {
    * @brief Default constructor. Not used.
    */
   ShaderProgram() = default;
-
-  /**
-   * @brief Links program from Shaders.
-   * @return Success/failure.
-   */
-  virtual bool Create() = 0;
 };
 
 }  // namespace ogle

@@ -34,6 +34,17 @@ class Transform;
  */
 class Renderer {
  public:
+  /// Configuration module describing renderers.
+  static const stl_string kConfigModule;
+
+  /// Configuration attribute defining implementation to use.
+  static const stl_string kConfigAttributeImplementation;
+
+  /**
+   * @brief Default destructor.
+   */
+  virtual ~Renderer() = default;
+
   /**
    * @brief Render object.
    * @param transform Position and orientation at which to render.
@@ -41,25 +52,11 @@ class Renderer {
    */
   virtual void Render(const Transform& transform, Entity *camera) = 0;
 
-  /**
-   * @brief Performs post-Constructor setup to render object.
-   * @return Success or failure.
-   */
-  virtual bool Create() = 0;
-
  protected:
   /**
    * @brief Default constructor.
    */
-  Renderer();
-
-  /**
-   * @brief Default destructor.
-   */
-  virtual ~Renderer() = default;
-
-  /// True if preparation took place.
-  bool created_;
+  Renderer() = default;
 };
 
 }  // namespace ogle

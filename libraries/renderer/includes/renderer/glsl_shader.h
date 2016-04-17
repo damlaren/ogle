@@ -31,13 +31,17 @@ class GLSLShader : public Shader {
   friend class GLSLShaderProgram;
 
   /// String to specify use of this implementation in configuration file.
-  static const stl_string kConfigImplementation;
+  static const stl_string kConfigImplementationName;
 
   GLSLShader(const stl_string& shader_text, ShaderType type);
 
   ~GLSLShader() override;
 
-  bool Create() override;
+  /**
+   * @brief Builds Shader from loaded text.
+   * @return Success/failure.
+   */
+  bool Create();
 
  protected:
   /// OpenGL-generated shader ID.
@@ -56,7 +60,11 @@ class GLSLShaderProgram : public ShaderProgram {
    */
   GLSLShaderProgram(GLSLShader* vertex_shader, GLSLShader* fragment_shader);
 
-  bool Create() override;
+  /**
+   * @brief Links program from Shaders.
+   * @return Success/failure.
+   */
+  bool Create();
 
   void UseProgram() override;
 

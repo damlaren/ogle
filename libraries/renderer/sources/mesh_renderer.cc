@@ -13,8 +13,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "renderer/mesh_renderer.h"
+#include "config/configuration.h"
+#include "renderer/glfw_mesh_renderer.h"
 
 namespace ogle {
+
+MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
+                                 const Mesh& mesh,
+                                 ShaderProgram *shader_program) {
+  const stl_string implementation = configuration.Get<stl_string>(
+      kConfigModule, kConfigAttributeImplementation);
+  if (implementation == GLFWMeshRenderer::kConfigImplementationName) {
+    auto new_glfw_mesh_renderer = new GLFWMeshRenderer(mesh, shader_program);
+    if (new_glfw_mesh_renderer->Create()) {
+      return new_glfw_mesh_renderer;
+    } else {
+      delete new_glfw_mesh_renderer;
+      LOG(ERROR) << "MeshRenderer Create() failed.";
+    }
+  }
+  LOG(ERROR) << "Unable to create MeshRenderer for implementation: "
+             << implementation;
+  return nullptr;
+}
 
 MeshRenderer::MeshRenderer(const Mesh& mesh)
   : Renderer(), mesh_(mesh) {
