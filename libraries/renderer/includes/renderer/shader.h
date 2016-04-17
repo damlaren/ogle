@@ -20,6 +20,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class Configuration;
+
 /**
  * @brief The type of a Shader.
  */
@@ -35,6 +37,44 @@ enum class ShaderType {
  * Subclassed Shaders are based on specific APIs.
  */
 class Shader {
+ public:
+  /// Configuration module in which shaders are specified.
+  static const stl_string kConfigModule;
+
+  /// Configuration variable in which shader implementation is set.
+  static const stl_string kConfigImplementationAttribute;
+
+  /**
+   * @brief Default destructor.
+   */
+  virtual ~Shader() = default;
+
+  /**
+   * @brief Loads a shader from text.
+   *
+   * TODO(damlaren): Prevent duplication.
+   *
+   * @param configuration Rendering system configuration.
+   * @param shader_type Type of shader to create.
+   * @param shader_text Text of shader.
+   * @return Loaded shader, or null if loading failed.
+   */
+  static Shader* Load(const Configuration& configuration,
+                      const ShaderType shader_type,
+                      const stl_string& shader_text);
+
+  /**
+   * @brief Accessor.
+   * @return Shader text.
+   */
+  const stl_string& shader_text() const;
+
+  /**
+   * @brief Accessor.
+   * @return Shader type.
+   */
+  const ShaderType shader_type() const;
+
  protected:
   /**
    * @brief Constructor.
@@ -44,9 +84,10 @@ class Shader {
   Shader(const stl_string &shader_text, ShaderType type);
 
   /**
-   * @brief Default destructor.
+   * @brief Builds Shader from loaded text.
+   * @return Success/failure.
    */
-  virtual ~Shader() = default;
+  virtual bool Create() = 0;
 
   /// Shader text.
   stl_string shader_text_;
@@ -69,6 +110,24 @@ class ShaderProgram {
   static const stl_string kViewMatrixArg;
   static const stl_string kProjectionMatrixArg;
   //@}
+
+  /**
+   * @brief Default destructor.
+   */
+  virtual ~ShaderProgram() = default;
+
+  /**
+   * @brief Links shaders into a program.
+   *
+   * TODO(damlaren): Prevent duplication.
+   *
+   * @param configuration Shader configuration.
+   * @param[in, out] vertex_shader Vertex shader.
+   * @param[in, out] fragment_shader Fragment shader.
+   * @return Linked ShaderProgram, or nullptr if linking failed.
+   */
+  static ShaderProgram* Link(const Configuration& configuration,
+                             Shader* vertex_shader, Shader* fragment_shader);
 
   /**
    * @brief Sets this shader program up to be used in rendering pass.
@@ -99,9 +158,10 @@ class ShaderProgram {
   ShaderProgram() = default;
 
   /**
-   * @brief Default destructor.
+   * @brief Links program from Shaders.
+   * @return Success/failure.
    */
-  virtual ~ShaderProgram() = default;
+  virtual bool Create() = 0;
 };
 
 }  // namespace ogle

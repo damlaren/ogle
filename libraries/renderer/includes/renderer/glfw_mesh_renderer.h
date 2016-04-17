@@ -23,7 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-class GLSLShaderProgram;
+class ShaderProgram;
 
 /**
  * @brief MeshRenderer implemented with GLFW & OpenGL.
@@ -36,7 +36,7 @@ class GLFWMeshRenderer : public MeshRenderer {
    * @param mesh Mesh to render.
    * @param shader_program Shader program to use in render pass.
    */
-  GLFWMeshRenderer(const Mesh& mesh, GLSLShaderProgram *shader_program);
+  GLFWMeshRenderer(const Mesh& mesh, ShaderProgram *shader_program);
 
   /**
    * @brief Destructor. Deallocates OpenGL objects.
@@ -54,7 +54,7 @@ class GLFWMeshRenderer : public MeshRenderer {
   std::unique_ptr<GLFWBufferedMesh> buffered_mesh_;
 
   /// Shader program to use in rendering pass.
-  GLSLShaderProgram* shader_program_;
+  ShaderProgram* shader_program_;
 
   /// OpenGL ID for vertex buffer.
   GLuint vertex_buffer_id_;

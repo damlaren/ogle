@@ -13,8 +13,43 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "renderer/shader.h"
+#include "config/configuration.h"
+#include "file_system/text_file.h"
+#include "renderer/glsl_shader.h"
 
 namespace ogle {
+
+const stl_string Shader::kConfigModule = "render";
+
+const stl_string Shader::kConfigImplementationAttribute =
+    "shader_implementation";
+
+Shader* Shader::Load(const Configuration& configuration,
+                     const ShaderType shader_type,
+                     const stl_string& shader_text) {
+  const stl_string shader_implementation = configuration.Get<stl_string>(
+      kConfigModule, kConfigImplementationAttribute);
+  Shader* new_shader = nullptr;
+  if (shader_implementation == GLSLShader::kConfigImplementation) {
+    new_shader = new GLSLShader(shader_text, shader_type);
+    if (new_shader->Create()) {
+      return new_shader;
+    } else {
+      LOG(ERROR) << "Shader Create() failed.";
+    }
+  }
+  LOG(ERROR) << "Unable to create shader for implementation: "
+             << shader_implementation;
+  return new_shader;
+}
+
+const stl_string& Shader::shader_text() const {
+  return shader_text_;
+}
+
+const ShaderType Shader::shader_type() const {
+  return shader_type_;
+}
 
 Shader::Shader(const stl_string &shader_text, ShaderType type)
   : shader_text_{shader_text}, shader_type_{type} {
@@ -23,5 +58,26 @@ Shader::Shader(const stl_string &shader_text, ShaderType type)
 const stl_string ShaderProgram::kModelMatrixArg = "model_matrix";
 const stl_string ShaderProgram::kViewMatrixArg = "view_matrix";
 const stl_string ShaderProgram::kProjectionMatrixArg = "projection_matrix";
+
+ShaderProgram* ShaderProgram::Link(const Configuration &configuration,
+                                   Shader *vertex_shader,
+                                   Shader *fragment_shader) {
+  const stl_string shader_implementation = configuration.Get<stl_string>(
+      Shader::kConfigModule, Shader::kConfigImplementationAttribute);
+  ShaderProgram* new_program = nullptr;
+  if (shader_implementation == GLSLShader::kConfigImplementation) {
+    new_program = new GLSLShaderProgram(
+        static_cast<GLSLShader*>(vertex_shader),
+        static_cast<GLSLShader*>(fragment_shader));
+    if (new_program->Create()) {
+      return new_program;
+    } else {
+      LOG(ERROR) << "ShaderProgram Create() failed.";
+    }
+  }
+  LOG(ERROR) << "Unable to create shader program for implementation: "
+             << shader_implementation;
+  return new_program;
+}
 
 }  // namespace ogle

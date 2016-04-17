@@ -29,12 +29,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "geometry/transform.h"
 #include "geometry/transformation_matrix.h"
 #include "renderer/camera.h"
-#include "renderer/glsl_shader.h"
+#include "renderer/shader.h"
 
 namespace ogle {
 
 GLFWMeshRenderer::GLFWMeshRenderer(
-    const Mesh &mesh, GLSLShaderProgram* shader_program)
+    const Mesh &mesh, ShaderProgram* shader_program)
   : MeshRenderer(mesh), shader_program_(shader_program) {
 }
 

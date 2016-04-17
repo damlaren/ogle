@@ -17,6 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+const stl_string GLSLShader::kConfigImplementation = "glsl";
+
 GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type)
   : Shader(shader_text, type), shader_id_(0) {
 }
@@ -65,11 +67,11 @@ GLSLShaderProgram::GLSLShaderProgram(
 }
 
 bool GLSLShaderProgram::Create() {
-  if (vertex_shader_->shader_type_ != ShaderType::Vertex) {
+  if (vertex_shader_->shader_type() != ShaderType::Vertex) {
     LOG(ERROR) << "Shader is not a vertex shader.";
     return false;
   }
-  if (fragment_shader_->shader_type_ != ShaderType::Fragment) {
+  if (fragment_shader_->shader_type() != ShaderType::Fragment) {
     LOG(ERROR) << "Shader is not a fragment shader.";
     return false;
   }
@@ -79,6 +81,7 @@ bool GLSLShaderProgram::Create() {
     LOG(ERROR) << "glCreateProgram() failed.";
     return false;
   }
+
   glAttachShader(program_id_, fragment_shader_->shader_id_);
   glAttachShader(program_id_, vertex_shader_->shader_id_);
   glLinkProgram(program_id_);

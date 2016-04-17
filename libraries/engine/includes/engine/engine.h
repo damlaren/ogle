@@ -41,9 +41,9 @@ class Engine {
 
   /**
    * @brief Constructor.
-   * @param configuration_file_name Path to YAML configuration file.
+   * @param configuration Engine configuration.
    */
-  explicit Engine(const stl_string& configuration_file_name);
+  explicit Engine(const Configuration& configuration);
 
   /**
    * @brief Destructor.
@@ -63,9 +63,6 @@ class Engine {
   virtual void Render(Entity* camera_entity);
 
   // For now, all members are public to be accessed by applications.
-
-  /// Path to configuration file.
-  stl_string configuration_file_name_;
 
   /// Engine configuration.
   Configuration configuration_;

@@ -34,8 +34,8 @@ set(SRC_LIST
 add_library(ogle_renderer "${SRC_LIST}")
 
 add_definitions(-DGLEW_STATIC)
-target_link_libraries (ogle_renderer ogle_entity ogle_geometry ogle_input
-  ogle_math ogle_std
+target_link_libraries (ogle_renderer ogle_config ogle_entity ogle_file_system
+  ogle_geometry ogle_input ogle_math ogle_std
   glfw ${GLFW_LIBRARIES} glew glu32 opengl32)
 
 target_include_directories(ogle_renderer PRIVATE

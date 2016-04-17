@@ -20,30 +20,30 @@ namespace ogle {
 
 const stl_string Engine::kGLFWImpl = "glfw";
 
-Engine::Engine(const stl_string& configuration_file_name)
-  : configuration_file_name_(configuration_file_name) {
+Engine::Engine(const Configuration& configuration)
+  : configuration_(configuration) {
 }
 
 bool Engine::Create() {
-  configuration_.Load(configuration_file_name_);
-
   resource_manager_ = std::make_unique<ogle::ResourceManager>(
-      configuration_.Get<stl_string>("resources", "resource_dir"));
+      configuration_.Get<stl_string>("resource", "resource_dir"));
+
+  // TODO(damlaren): factories
   auto glfw_window = std::make_unique<GLFWWindow>();
   if (!glfw_window->Create(
-           configuration_.Get<int>("windows", "width"),
-           configuration_.Get<int>("windows", "height"),
-           configuration_.Get<stl_string>("windows", "title"),
-           configuration_.Get<int>("windows", "opengl_major_version"),
-           configuration_.Get<int>("windows", "opengl_minor_version"),
-           configuration_.Get<int>("windows", "msaa_samples"))) {
+           configuration_.Get<int>("window", "width"),
+           configuration_.Get<int>("window", "height"),
+           configuration_.Get<stl_string>("window", "title"),
+           configuration_.Get<int>("window", "opengl_major_version"),
+           configuration_.Get<int>("window", "opengl_minor_version"),
+           configuration_.Get<int>("window", "msaa_samples"))) {
     LOG(ERROR) << "Failed to create window.";
     return false;
   }
   auto glfw_keyboard = std::make_unique<GLFWKeyboardInput>();
 
   // GLFW tangles its keyboard and window together.
-  if (configuration_.Get<stl_string>("windows",
+  if (configuration_.Get<stl_string>("window",
                                      "implementation") == kGLFWImpl &&
       configuration_.Get<stl_string>("input", "implementation") == kGLFWImpl) {
     glfw_window->AttachKeyboard(glfw_keyboard.get());

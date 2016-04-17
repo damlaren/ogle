@@ -30,15 +30,14 @@ class GLSLShader : public Shader {
  public:
   friend class GLSLShaderProgram;
 
+  /// String to specify use of this implementation in configuration file.
+  static const stl_string kConfigImplementation;
+
   GLSLShader(const stl_string& shader_text, ShaderType type);
 
   ~GLSLShader() override;
 
-  /**
-   * @brief Creates usable Shader.
-   * @return Success or failure.
-   */
-  bool Create();
+  bool Create() override;
 
  protected:
   /// OpenGL-generated shader ID.
@@ -51,18 +50,13 @@ class GLSLShader : public Shader {
 class GLSLShaderProgram : public ShaderProgram {
  public:
   /**
-   * @brief Constructor. Links shaders into a program.
-   * @param vertex_shader Precompiled vertex Shader.
-   * @param fragment_shader Precompiled fragment Shader.
+   * @brief Constructor.
+   * @param vertex_shader Precompiled GLSL vertex Shader.
+   * @param fragment_shader Precompiled GLSL fragment Shader.
    */
   GLSLShaderProgram(GLSLShader* vertex_shader, GLSLShader* fragment_shader);
-  ~GLSLShaderProgram() override = default;
 
-  /**
-   * @brief Creates usable ShaderProgram compiled from Shaders.
-   * @return Success or failure.
-   */
-  bool Create();
+  bool Create() override;
 
   void UseProgram() override;
 
@@ -88,7 +82,7 @@ class GLSLShaderProgram : public ShaderProgram {
   void SetUniformMatrix(const stl_string& variable,
                         const Matrix<float, M, N>& mat, GLFunc gl_func) {
     // TODO(damlaren): Getting location is best done outside of a loop.
-    //     I've read that querying it is slow.
+    // Querying it is slow.
     GLint uniform_location = glGetUniformLocation(program_id_,
                                                   variable.c_str());
     if (uniform_location == -1) {
