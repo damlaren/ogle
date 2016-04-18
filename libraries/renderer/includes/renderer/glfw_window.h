@@ -32,6 +32,9 @@ class GLFWKeyboardInput;
  */
 class GLFWWindow : public Window {
  public:
+  /// String to specify use of this implementation in configuration file.
+  static const stl_string kConfigImplementationName;
+
   /**
    * @brief Constructor. #Create() must be called to build a usable Window.
    */

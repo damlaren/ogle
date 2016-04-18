@@ -24,11 +24,11 @@ MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
   const stl_string implementation = configuration.Get<stl_string>(
       kConfigModule, kConfigAttributeImplementation);
   if (implementation == GLFWMeshRenderer::kConfigImplementationName) {
-    auto new_glfw_mesh_renderer = new GLFWMeshRenderer(mesh, shader_program);
-    if (new_glfw_mesh_renderer->Create()) {
-      return new_glfw_mesh_renderer;
+    auto new_object = new GLFWMeshRenderer(mesh, shader_program);
+    if (new_object->Create()) {
+      return new_object;
     } else {
-      delete new_glfw_mesh_renderer;
+      delete new_object;
       LOG(ERROR) << "MeshRenderer Create() failed.";
     }
   }

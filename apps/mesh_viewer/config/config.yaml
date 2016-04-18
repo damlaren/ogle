@@ -1,5 +1,5 @@
 input:
-  implementation: "glfw"
+  keyboard_implementation: "glfw"
 render:
   implementation: "glfw"
   shader_implementation: "glsl"

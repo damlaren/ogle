@@ -16,8 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_WINDOW_H_
 
 #include "std/ogle_std.inc"
+#include <memory>
 
 namespace ogle {
+
+class Configuration;
 
 /**
  * @brief A window that provides a rendering context.
@@ -28,10 +31,30 @@ namespace ogle {
  */
 class Window {
  public:
+  /// Configuration module for windows.
+  static const stl_string kConfigModule;
+
+  /// Configuration attribute defining implementation to use.
+  static const stl_string kConfigAttributeImplementation;
+
+  //@{
+  /// Configuration attribute defining a common window property.
+  static const stl_string kConfigAttributeWidth;
+  static const stl_string kConfigAttributeHeight;
+  static const stl_string kConfigAttributeTitle;
+  //@}
+
   /**
    * @brief Default destructor.
    */
   virtual ~Window() = default;
+
+  /**
+   * @brief Creates a new Window.
+   * @param configuration Window configuration.
+   * @return New window.
+   */
+  static std::unique_ptr<Window> Build(const Configuration& configuration);
 
   /**
    * @brief Clear all window contents.

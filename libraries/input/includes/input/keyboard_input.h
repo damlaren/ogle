@@ -17,8 +17,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "std/ogle_std.inc"
 #include <functional>
+#include <memory>
 
 namespace ogle {
+
+class Configuration;
+class Window;
 
 /**
  * @brief Actions for which to report keyboard input.
@@ -72,10 +76,25 @@ struct KeyCodeHash {
  */
 class KeyboardInput {
  public:
+  /// Configuration module for input.
+  static const stl_string kConfigModule;
+
+  /// Configuration attribute defining implementation to use.
+  static const stl_string kConfigAttributeImplementation;
+
   /**
    * @brief Default destructor.
    */
   virtual ~KeyboardInput() = default;
+
+  /**
+   * @brief Builds keyboard input handler.
+   * @param configuration Configuration for keyboard input.
+   * @param[in,out] window Window to associate with keyboard, if needed.
+   * @return New KeyboardInput.
+   */
+  static std::unique_ptr<KeyboardInput> Build(
+      const Configuration& configuration, Window* window);
 
   /**
    * @brief Clears internal state.

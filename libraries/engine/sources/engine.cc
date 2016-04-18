@@ -18,8 +18,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const stl_string Engine::kGLFWImpl = "glfw";
-
 Engine::Engine(const Configuration& configuration)
   : configuration_(configuration) {
 }
@@ -28,28 +26,12 @@ bool Engine::Create() {
   resource_manager_ = std::make_unique<ogle::ResourceManager>(
       configuration_.Get<stl_string>("resource", "resource_dir"));
 
-  // TODO(damlaren): factories
-  auto glfw_window = std::make_unique<GLFWWindow>();
-  if (!glfw_window->Create(
-           configuration_.Get<int>("window", "width"),
-           configuration_.Get<int>("window", "height"),
-           configuration_.Get<stl_string>("window", "title"),
-           configuration_.Get<int>("window", "opengl_major_version"),
-           configuration_.Get<int>("window", "opengl_minor_version"),
-           configuration_.Get<int>("window", "msaa_samples"))) {
+  window_ = Window::Build(configuration_);
+  if (!window_) {
     LOG(ERROR) << "Failed to create window.";
     return false;
   }
-  auto glfw_keyboard = std::make_unique<GLFWKeyboardInput>();
-
-  // GLFW tangles its keyboard and window together.
-  if (configuration_.Get<stl_string>("window",
-                                     "implementation") == kGLFWImpl &&
-      configuration_.Get<stl_string>("input", "implementation") == kGLFWImpl) {
-    glfw_window->AttachKeyboard(glfw_keyboard.get());
-  }
-  window_ = std::move(glfw_window);
-  keyboard_ = std::move(glfw_keyboard);
+  keyboard_ = KeyboardInput::Build(configuration_, window_.get());
 
   scene_graph_ = std::make_unique<ogle::SceneGraph>();
   scene_renderer_ = std::make_unique<ogle::SceneRenderer>();

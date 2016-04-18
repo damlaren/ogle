@@ -13,11 +13,44 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "input/keyboard_input.h"
+#include "config/configuration.h"
+#include "input/glfw_keyboard_input.h"
+#include "renderer/glfw_window.h"
+#include "renderer/window.h"
 
 namespace ogle {
 
 std::size_t KeyCodeHash::operator()(const KeyCode code) const {
   return std::hash<int>()(static_cast<int>(code));
+}
+
+const stl_string KeyboardInput::kConfigModule = "input";
+
+const stl_string KeyboardInput::kConfigAttributeImplementation =
+    "keyboard_implementation";
+
+std::unique_ptr<KeyboardInput> KeyboardInput::Build(
+    const Configuration& configuration, Window* window) {
+  const stl_string implementation = configuration.Get<stl_string>(
+      kConfigModule, kConfigAttributeImplementation);
+  if (implementation == GLFWKeyboardInput::kConfigImplementationName) {
+    auto new_object = std::make_unique<GLFWKeyboardInput>();
+
+    // GLFW tangles its keyboard and window together.
+    if (window != nullptr) {
+      if (configuration.Get<stl_string>(
+              Window::kConfigModule, Window::kConfigAttributeImplementation) ==
+          GLFWWindow::kConfigImplementationName) {
+        static_cast<GLFWWindow*>(window)->AttachKeyboard(new_object.get());
+        return std::move(new_object);
+      }
+    } else {
+      LOG(ERROR) << "Window must be provided to craete GLFWKeyboardInput.";
+    }
+  }
+  LOG(ERROR) << "Unable to create KeyboardInput for implementation: "
+             << implementation;
+  return nullptr;
 }
 
 const bool KeyboardInput::IsShiftDown(const bool repeat) {

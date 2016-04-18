@@ -20,6 +20,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+const stl_string GLFWWindow::kConfigImplementationName = "glfw";
+
 GLFWWindow::GLFWWindow()
   : Window(), window_(nullptr) {
 }

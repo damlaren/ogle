@@ -28,6 +28,9 @@ namespace ogle {
  */
 class GLFWKeyboardInput : public KeyboardInput {
  public:
+  /// String to specify use of this implementation in configuration file.
+  static const stl_string kConfigImplementationName;
+
   void Clear() override;
 
   const bool IsKeyDown(const KeyCode code, const bool repeat) override;

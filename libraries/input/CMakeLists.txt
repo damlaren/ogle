@@ -13,7 +13,8 @@ set(SRC_LIST
 )
 add_library(ogle_input "${SRC_LIST}")
 target_link_libraries(ogle_input
-  ogle_std glfw ${GLFW_LIBRARIES} glew glu32 opengl32)
+  ogle_config ogle_renderer ogle_std
+  glfw ${GLFW_LIBRARIES} glew glu32 opengl32)
 
 target_include_directories(ogle_input PRIVATE
   ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src

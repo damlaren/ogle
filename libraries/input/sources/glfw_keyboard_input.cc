@@ -39,6 +39,8 @@ const stl_unordered_map<int, KeyCode> GLFWKeyboardInput::key_mapping_ = {
   {GLFW_KEY_ESCAPE, KeyCode::ESCAPE},
 };
 
+const stl_string GLFWKeyboardInput::kConfigImplementationName = "glfw";
+
 void GLFWKeyboardInput::Clear() {
   key_actions_.clear();
 }
