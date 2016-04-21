@@ -9,20 +9,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of configuration.h.
+ * @file Implementation of resource_metadata.h.
  */
 
-#include "config/configuration.h"
+#include "resource/resource_metadata.h"
 
 namespace ogle {
 
-bool Configuration::Load(const stl_string& file_name) {
-  root_node_ = YAML::LoadFile(file_name);
-  if (!root_node_) {
-    LOG(ERROR) << "Failed to load configuration from: " << file_name;
-    return false;
+ResourceMetadata ResourceMetadata::Load(const stl_string& file_name) {
+  ResourceMetadata new_metadata;
+  new_metadata.root_node_ = YAML::LoadFile(file_name);
+  if (!new_metadata.root_node_) {
+    LOG(ERROR) << "Failed to load resource metadata from: " << file_name;
   }
-  return true;
+  return new_metadata;
+}
+
+const bool ResourceMetadata::loaded() const {
+  return root_node_;
 }
 
 }  // namespace ogle

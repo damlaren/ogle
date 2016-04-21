@@ -9,11 +9,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Configuration.
+ * @file Defines ResourceMetadata.
  */
 
-#ifndef LIBRARIES_CONFIG_INCLUDES_CONFIG_CONFIGURATION_H_
-#define LIBRARIES_CONFIG_INCLUDES_CONFIG_CONFIGURATION_H_
+#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
+#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
 
 #include "std/ogle_std.inc"
 #include "easylogging++.h"  // NOLINT
@@ -22,51 +22,51 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 /**
- * @brief Configuration for all ogle modules.
- *
- * Used by Engine to instantiate objects.
- *
- * There is one YAML configuration file for ogle. It is organized by the module
- * name and then key-value attribute pairs.
+ * @brief Metadata stored with each resource on the file system.
  */
-class Configuration {
+class ResourceMetadata {
  public:
   /**
-   * @brief Loads configuration from file.
-   * @param file_name Name of file from which to load.
-   * @return success/failure.
+   * @brief Loads metadata from file.
+   * @param file_name Name of file from which to load metadata.
+   * @return new ResourceMetadata object.
    */
-  bool Load(const stl_string& file_name);
+  static ResourceMetadata Load(const stl_string& file_name);
 
   /**
-   * @brief Gets value of attribute configuration for a module.
+   * @brief Accessor.
+   * @return true if metadata was successfully loaded from file.
+   */
+  const bool loaded() const;
+
+  /**
+   * @brief Gets value of attribute from metadata.
    *
-   * @param module_name Name of subsystem for which to look up attribute.
    * @param attribute_name Name of attribute to look up.
    * @return Retrieved value, or default-constructed object if nothing.
    */
   template <typename T>
-  const T Get(const stl_string& module_name,
-              const stl_string& attribute_name) const {
+  const T Get(const stl_string& attribute_name) const {
     if (root_node_) {
-      const auto& module_node = root_node_[module_name];
-      if (module_node) {
-        const auto& attribute_node = module_node[attribute_name];
-        if (attribute_node) {
-          return attribute_node.as<T>();
-        }
+      const auto& attribute_node = root_node_[attribute_name];
+      if (attribute_node) {
+        return attribute_node.as<T>();
       }
     }
-    LOG(ERROR) << "Configuration not found: " << module_name << "/"
-               << attribute_name;
+    LOG(ERROR) << "Resource attribute not found: " << attribute_name;
     return T{};
   }
 
  private:
+  /**
+   * @brief Hidden default constructor.
+   */
+  ResourceMetadata() = default;
+
   /// Root of loaded YAML file.
   YAML::Node root_node_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_CONFIG_INCLUDES_CONFIG_CONFIGURATION_H_
+#endif // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_

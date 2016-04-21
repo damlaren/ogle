@@ -9,20 +9,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of configuration.h.
+ * @file Defines Resource.
  */
 
-#include "config/configuration.h"
+#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_H_
+#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_H_
+
+#include "std/ogle_std.inc"
 
 namespace ogle {
 
-bool Configuration::Load(const stl_string& file_name) {
-  root_node_ = YAML::LoadFile(file_name);
-  if (!root_node_) {
-    LOG(ERROR) << "Failed to load configuration from: " << file_name;
-    return false;
-  }
-  return true;
-}
+/**
+ * @brief A static resource loaded from the file system.
+ *
+ * A Resource is distinguished by these traits:
+ *
+ * 1. Only one copy of it is needed in memory.
+ * 2. It is typically loaded from the file system, but it could come from
+ *    other sources as well.
+ * 3. It is unchanging.
+ */
+class Resource {
+};
 
 }  // namespace ogle
+
+#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_H_
