@@ -1,0 +1,5 @@
+--- 
+implementation: glsl
+name: flat_fs.glsl
+type: shader
+subtype: fragment
