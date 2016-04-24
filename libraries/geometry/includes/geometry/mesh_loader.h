@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class FilePath;
 class Mesh;
 
 /**
@@ -33,7 +34,7 @@ class MeshLoader {
    * @param[out] mesh Storage for Mesh built from file contents.
    * @return success or failure.
    */
-  static const bool LoadMesh(const stl_string& file_path, Mesh* mesh);
+  static const bool LoadMesh(const FilePath& file_path, Mesh* mesh);
 
  private:
   /**
@@ -59,7 +60,7 @@ class MeshLoader {
    * @param file_path Path to file to inspect.
    * @return File format enum.
    */
-  static const MeshFileFormat DetermineMeshFormat(const stl_string& file_path);
+  static const MeshFileFormat DetermineMeshFormat(const FilePath& file_path);
 
   /**
    * @brief Loads a MeshGraph from an OBJ file.
@@ -67,8 +68,7 @@ class MeshLoader {
    * @param[out] mesh Storage for Mesh built from file contents.
    * @return true if loading succeeded.
    */
-  static const bool LoadOBJ(const stl_string& file_path,
-                            Mesh* mesh);
+  static const bool LoadOBJ(const FilePath& file_path, Mesh* mesh);
 };
 
 }  // namespace ogle

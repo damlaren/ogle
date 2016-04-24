@@ -16,22 +16,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <fstream>
 #include <sstream>
 #include "easylogging++.h"  // NOLINT
+#include "file_system/file_path.h"
 
 namespace ogle {
 
-namespace file_system {
-
-const bool ReadTextFile(const stl_string& file_path, stl_string* text) {
-  std::ifstream in_file(file_path);
+const bool TextFile::ReadTextFile(const FilePath& file_path,
+                                  stl_string* text) {
+  std::ifstream in_file(file_path.str());
   if (!in_file.is_open()) {
-    LOG(ERROR) << "Failed to open file: " << file_path;
+    LOG(ERROR) << "Failed to open file: " << file_path.str();
     return false;
   }
   *text = stl_string(std::istreambuf_iterator<char>(in_file),
                      std::istreambuf_iterator<char>());
   return true;
 }
-
-}  // namespace file_system
 
 }  // namespace ogle

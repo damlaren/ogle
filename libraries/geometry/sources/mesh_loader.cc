@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const bool MeshLoader::LoadMesh(const stl_string& file_path, Mesh* mesh) {
+const bool MeshLoader::LoadMesh(const FilePath& file_path, Mesh* mesh) {
   const MeshFileFormat mesh_format = DetermineMeshFormat(file_path);
   bool success = false;
 
@@ -31,7 +31,8 @@ const bool MeshLoader::LoadMesh(const stl_string& file_path, Mesh* mesh) {
     }
     case MeshFileFormat::UNKNOWN:  // Fall through.
     default: {
-      LOG(ERROR) << "Unable to determine format of Mesh at: " << file_path;
+      LOG(ERROR) << "Unable to determine format of Mesh at: "
+                 << file_path.str();
       break;
     }
   }
@@ -45,20 +46,17 @@ const bool MeshLoader::LoadMesh(const stl_string& file_path, Mesh* mesh) {
 }
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
-    const stl_string& file_path) {
-  const stl_string::size_type separatorIndex = file_path.find_last_of(".");
-  if (separatorIndex != stl_string::npos) {
-    const stl_string extension = file_path.substr(separatorIndex);
-    if (extension == ".obj") {
-      return MeshFileFormat::OBJ;
-    }
+    const FilePath& file_path) {
+  const stl_string& extension = file_path.extension();
+  if (extension == ".obj") {
+    return MeshFileFormat::OBJ;
   }
   return MeshFileFormat::UNKNOWN;
 }
 
-const bool MeshLoader::LoadOBJ(const stl_string& file_path, Mesh *mesh) {
+const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
   stl_string text;
-  if (!file_system::ReadTextFile(file_path, &text)) {
+  if (!TextFile::ReadTextFile(file_path, &text)) {
     return false;
   }
   stl_vector<stl_string> lines = StringUtils::Split(text, '\n');

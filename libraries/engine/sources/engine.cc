@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "engine/engine.h"
+#include "file_system/file_path.h"
 #include "input/glfw_keyboard_input.h"
 #include "renderer/glfw_window.h"
 
@@ -24,7 +25,7 @@ Engine::Engine(const Configuration& configuration)
 
 bool Engine::Create() {
   resource_manager_ = std::make_unique<ogle::ResourceManager>(
-      configuration_.Get<stl_string>("resource", "resource_dir"));
+      FilePath(configuration_.Get<stl_string>("resource", "resource_dir")));
 
   window_ = Window::Build(configuration_);
   if (!window_) {

@@ -10,9 +10,9 @@ set(SRC_LIST
   sources/engine.cc
 )
 add_library(ogle_engine "${SRC_LIST}")
-target_link_libraries(
-  ogle_engine
+target_link_libraries(ogle_engine
   ogle_config
+  ogle_file_system
   ogle_input
   ogle_renderer
   ogle_resource

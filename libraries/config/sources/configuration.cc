@@ -13,13 +13,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "config/configuration.h"
+#include "file_system/file_path.h"
 
 namespace ogle {
 
-bool Configuration::Load(const stl_string& file_name) {
-  root_node_ = YAML::LoadFile(file_name);
+bool Configuration::Load(const FilePath& file_path) {
+  root_node_ = YAML::LoadFile(file_path.str());
   if (!root_node_) {
-    LOG(ERROR) << "Failed to load configuration from: " << file_name;
+    LOG(ERROR) << "Failed to load configuration from: " << file_path.str();
     return false;
   }
   return true;

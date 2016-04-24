@@ -19,18 +19,42 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-namespace file_system {
-
 /**
- * @brief Joins two file paths with a path separator.
- * @param file_path_1 First part of path.
- * @param file_path_2 Second part of path.
- * @return Joined file paths.
+ * @brief A class encapsulating a file or directory path.
  */
-const stl_string JoinPaths(const stl_string& file_path_1,
-                           const stl_string& file_path_2);
+class FilePath {
+ public:
+  /**
+   * @brief Constructor.
+   * @param file_path String declaring path.
+   */
+  explicit FilePath(const stl_string& path);
 
-}  // namespace file_system
+  /**
+   * @brief Joins two file paths with a path separator.
+   * @param file_path_1 First part of path.
+   * @param file_path_2 Second part of path.
+   * @return Joined file paths.
+   */
+  friend const FilePath operator+(const FilePath& file_path_1,
+                                  const FilePath& file_path_2);
+
+  /**
+   * @brief Accessor.
+   * @return Reference to path string.
+   */
+  const stl_string& str() const;
+
+  /**
+   * @brief Accessor.
+   * @return Returns file extension.
+   */
+  const stl_string extension() const;
+
+ private:
+  /// File path as string.
+  stl_string path_string_;
+};
 
 }  // namespace ogle
 

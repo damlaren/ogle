@@ -21,6 +21,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class FilePath;
+
 /**
  * @brief A mesh representation with face-vertex connectivity information.
  *
@@ -69,11 +71,11 @@ class Mesh {
 
   /**
    * @brief Loads a Mesh from a file.
-   * @param file_path File to load from.
+   * @param file_path Path to file to load from.
    * @param[out] mesh Storage for Mesh to load.
    * @return true if Mesh was loaded.
    */
-  static const bool LoadMesh(const ogle::stl_string& file_path, Mesh* mesh);
+  static const bool LoadMesh(const FilePath& file_path, Mesh* mesh);
 
   /**
    * @brief Adds a new face to this Mesh.

@@ -16,19 +16,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-namespace file_system {
+FilePath::FilePath(const stl_string &path)
+  : path_string_(path) {
+}
 
-const stl_string JoinPaths(const stl_string &file_path_1,
-                           const stl_string &file_path_2) {
-  if (file_path_1.empty()) {
+const FilePath operator+(const FilePath& file_path_1,
+                         const FilePath& file_path_2) {
+  if (file_path_1.path_string_.empty()) {
     return file_path_2;
-  } else if (file_path_2.empty()) {
+  } else if (file_path_2.path_string_.empty()) {
     return file_path_1;
   } else {
-    return file_path_1 + "/" + file_path_2;
+    return FilePath(file_path_1.path_string_ + "/" +
+                    file_path_2.path_string_);
   }
 }
 
-}  // namespace file_system
+const stl_string& FilePath::str() const {
+  return path_string_;
+}
+
+const stl_string FilePath::extension() const {
+  const stl_string::size_type separatorIndex = path_string_.find_last_of(".");
+  if (separatorIndex != stl_string::npos) {
+    return path_string_.substr(separatorIndex);
+  }
+  return "";
+}
 
 }  // namespace ogle

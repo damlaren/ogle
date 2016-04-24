@@ -13,7 +13,7 @@ set(SRC_LIST
   sources/resource_metadata.cc
 )
 add_library(ogle_resource "${SRC_LIST}")
-target_link_libraries(ogle_resource PUBLIC yaml-cpp ogle_std)
+target_link_libraries(ogle_resource PUBLIC yaml-cpp ogle_file_system ogle_std)
 target_include_directories(ogle_resource PRIVATE
   ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
 target_include_directories(ogle_resource PUBLIC includes)

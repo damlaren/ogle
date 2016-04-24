@@ -21,6 +21,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class FilePath;
+
 /**
  * @brief Configuration for all ogle modules.
  *
@@ -33,10 +35,10 @@ class Configuration {
  public:
   /**
    * @brief Loads configuration from file.
-   * @param file_name Name of file from which to load.
+   * @param file_path Name of file from which to load.
    * @return success/failure.
    */
-  bool Load(const stl_string& file_name);
+  bool Load(const FilePath& file_path);
 
   /**
    * @brief Gets value of attribute configuration for a module.

@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
 
 #include "std/ogle_std.inc"
+#include "file_system/file_path.h"
 
 namespace ogle {
 
@@ -26,20 +27,30 @@ namespace ogle {
  */
 class ResourceManager {
  public:
+  // TODO(damlaren): remove root resource dir
   /**
    * @brief Constructor.
    * @param resource_dir Location of resources directory.
    */
-  explicit ResourceManager(const stl_string& resource_dir);
+  explicit ResourceManager(const FilePath& resource_dir);
 
   /**
+   * @brief Accessor.
    * @return Top-level resource directory.
    */
-  const stl_string resource_dir() const;
+  const FilePath& resource_dir() const;
+
+  /**
+   * @brief Find all resources under a directory. Optionally, load them.
+   * @param root_directory Directory under which to search.
+   * @param load_all Load all resources as they are found.
+   * @return success/failure.
+   */
+  bool FindResources(const FilePath& root_directory);
 
  private:
   /// Location of resource directory.
-  stl_string resource_dir_;
+  FilePath resource_dir_;
 };
 
 }  // namespace ogle
