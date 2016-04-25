@@ -9,49 +9,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines Resource.
+ * @file Defines ResourceRegistrar.
  */
 
-#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_H_
-#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_H_
+#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_REGISTRAR_H_
+#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_REGISTRAR_H_
 
 #include "std/ogle_std.inc"
-#include <memory>
-#include "resource/resource_metadata.h"
+#include "resource/resource.h"
 
 namespace ogle {
 
 /**
- * @brief A static resource loaded from the file system.
- *
- * A Resource is distinguished by these traits:
- *
- * 1. Only one copy of it is needed in memory.
- * 2. It is typically loaded from the file system, but it could come from other
- *    sources as well.
- * 3. It doesn't change after being loaded.
+ * @brief Registers a Resource type for construction.
  */
-class Resource {
+class ResourceRegistrar {
  public:
-  /// Function pointer type for a function to load a Resource from metadata.
-  using LoadFunction = std::unique_ptr<Resource> *(const ResourceMetadata&);
-
   /**
-   * @brief Constructor.
-   * @param Metadata for Resource.
+   * @brief Constructor. Invoke to register loader function.
+   * @param type Type of resource to create.
+   * @param implementation Resource implementation created by loader.
+   * @param loader Factory function to load resource from metadata.
    */
-  explicit Resource(const ResourceMetadata& metadata);
-
-  /**
-   * @brief Destructor.
-   */
-  virtual ~Resource() = default;
-
- protected:
-  /// Metadata attached to Resource.
-  ResourceMetadata metadata_;
+  ResourceRegistrar(const stl_string& type, const stl_string& implementation,
+                    Resource::LoadFunction loader);
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_H_
+#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_REGISTRAR_H_

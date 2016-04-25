@@ -20,8 +20,18 @@ ResourceManager::ResourceManager(const FilePath& resource_dir)
   : resource_dir_(resource_dir) {
 }
 
+void ResourceManager::RegisterLoader(
+    const stl_string& type, const stl_string& implementation,
+    Resource::LoadFunction loader) {
+}
+
 const FilePath& ResourceManager::resource_dir() const {
   return resource_dir_;
+}
+
+const bool ResourceManager::LoadResources(const FilePath& root_directory) {
+  // TODO(damlaren): find resources
+  return false;
 }
 
 }  // namespace ogle

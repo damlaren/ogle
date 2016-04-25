@@ -1,5 +1,4 @@
 --- 
 implementation: glsl
 name: passthru_vs.glsl
-type: shader
-subtype: vertex
+type: shader/vertex

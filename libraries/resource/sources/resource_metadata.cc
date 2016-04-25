@@ -13,14 +13,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "resource/resource_metadata.h"
+#include "file_system/file_path.h"
 
 namespace ogle {
 
-ResourceMetadata ResourceMetadata::Load(const stl_string& file_name) {
-  ResourceMetadata new_metadata;
-  new_metadata.root_node_ = YAML::LoadFile(file_name);
+ResourceMetadata::ResourceMetadata(const ResourceID& id)
+  : id_(id) {
+}
+
+ResourceMetadata ResourceMetadata::Load(const FilePath& file_path) {
+  ResourceMetadata new_metadata(file_path.str());
+  new_metadata.root_node_ = YAML::LoadFile(file_path.str());
   if (!new_metadata.root_node_) {
-    LOG(ERROR) << "Failed to load resource metadata from: " << file_name;
+    LOG(ERROR) << "Failed to load resource metadata from: " << file_path.str();
   }
   return new_metadata;
 }

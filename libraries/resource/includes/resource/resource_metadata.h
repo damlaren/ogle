@@ -21,17 +21,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class FilePath;
+
 /**
- * @brief Metadata stored with each resource on the file system.
+ * @brief Metadata associated with each Resource.
+ *
+ * The metadata contains enough information to construct the resource.
  */
 class ResourceMetadata {
  public:
+  /// Type for ID of a resource.
+  using ResourceID = stl_string;
+
   /**
    * @brief Loads metadata from file.
-   * @param file_name Name of file from which to load metadata.
+   * @param file_path Name of file from which to load metadata.
    * @return new ResourceMetadata object.
    */
-  static ResourceMetadata Load(const stl_string& file_name);
+  static ResourceMetadata Load(const FilePath& file_path);
 
   /**
    * @brief Accessor.
@@ -59,14 +66,18 @@ class ResourceMetadata {
 
  private:
   /**
-   * @brief Hidden default constructor.
+   * @brief Hidden constructor.
+   * @param id Unique ID for Resource.
    */
-  ResourceMetadata() = default;
+  explicit ResourceMetadata(const ResourceID& id);
 
   /// Root of loaded YAML file.
   YAML::Node root_node_;
+
+  /// Unique ID associated with Resource.
+  ResourceID id_;
 };
 
 }  // namespace ogle
 
-#endif // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
+#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_

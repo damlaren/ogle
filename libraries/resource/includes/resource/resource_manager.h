@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "std/ogle_std.inc"
 #include "file_system/file_path.h"
+#include "resource/resource.h"
 
 namespace ogle {
 
@@ -35,18 +36,30 @@ class ResourceManager {
   explicit ResourceManager(const FilePath& resource_dir);
 
   /**
+   * @brief Registers a loader function to construct resource.
+   * @param type Type of resource to construct.
+   * @param implementation Implementation created by loader.
+   * @param loader Factory function.
+   */
+  static void RegisterLoader(
+      const stl_string& type, const stl_string& implementation,
+      Resource::LoadFunction loader);
+
+  /**
    * @brief Accessor.
    * @return Top-level resource directory.
    */
   const FilePath& resource_dir() const;
 
   /**
-   * @brief Find all resources under a directory. Optionally, load them.
+   * @brief Load resources under a directory.
+   *
+   * TODO(damlaren): This is a temporary solution that wouldn't scale well.
+   *
    * @param root_directory Directory under which to search.
-   * @param load_all Load all resources as they are found.
    * @return success/failure.
    */
-  bool FindResources(const FilePath& root_directory);
+  const bool LoadResources(const FilePath& root_directory);
 
  private:
   /// Location of resource directory.
