@@ -47,7 +47,7 @@ class ResourceManager {
   /**
    * @brief Load resources under a directory.
    *
-   * TODO(damlaren): This is a temporary solution that wouldn't scale well.
+   * TODO(damlaren): This is a temporary solution that won't scale well.
    *
    * @param root_directory Directory under which to search.
    * @return success/failure.
