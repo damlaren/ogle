@@ -29,8 +29,12 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
-    const auto kMeshDir = engine_->resource_manager_->resource_dir() +
-        ogle::FilePath("meshes");
+    // TODO(damlaren): temporary variable, will be obsolete soon.
+    const auto kResourceDir = ogle::FilePath(
+        engine_->configuration_.Get<ogle::stl_string>("resource",
+                                                      "resource_dir"));
+
+    const auto kMeshDir = kResourceDir + ogle::FilePath("meshes");
     if (!ogle::Mesh::LoadMesh(kMeshDir + ogle::FilePath("cube.obj"), &mesh_)) {
       LOG(ERROR) << "Failed to load Mesh.";
       return false;
@@ -39,8 +43,7 @@ class MeshViewerApplication : public ogle::Application {
     // TODO(damlaren): This wall of code is a good reason to define Effect files
     // and use a Resource Manager to track content.
     ogle::stl_string vertex_shader_text, fragment_shader_text;
-    const auto shader_dir =
-        engine_->resource_manager_->resource_dir() + ogle::FilePath("shaders");
+    const auto shader_dir = kResourceDir + ogle::FilePath("shaders");
     const auto vertex_shader_path =
         shader_dir + ogle::FilePath("vertex") + ogle::FilePath("basic_vs.glsl");
     const auto fragment_shader_path =

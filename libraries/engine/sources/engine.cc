@@ -24,7 +24,8 @@ Engine::Engine(const Configuration& configuration)
 }
 
 bool Engine::Create() {
-  resource_manager_ = std::make_unique<ogle::ResourceManager>(
+  resource_manager_ = std::make_unique<ogle::ResourceManager>();
+  resource_manager_->AddResourceDirectory(
       FilePath(configuration_.Get<stl_string>("resource", "resource_dir")));
 
   window_ = Window::Build(configuration_);

@@ -28,13 +28,6 @@ namespace ogle {
  */
 class ResourceManager {
  public:
-  // TODO(damlaren): remove root resource dir
-  /**
-   * @brief Constructor.
-   * @param resource_dir Location of resources directory.
-   */
-  explicit ResourceManager(const FilePath& resource_dir);
-
   /**
    * @brief Registers a loader function to construct resource.
    * @param type Type of resource to construct.
@@ -46,10 +39,10 @@ class ResourceManager {
       Resource::LoadFunction loader);
 
   /**
-   * @brief Accessor.
-   * @return Top-level resource directory.
+   * @brief Add directory to list to search for Resources.
+   * @param directory_path Path to add.
    */
-  const FilePath& resource_dir() const;
+  void AddResourceDirectory(const FilePath& directory_path);
 
   /**
    * @brief Load resources under a directory.
@@ -62,8 +55,8 @@ class ResourceManager {
   const bool LoadResources(const FilePath& root_directory);
 
  private:
-  /// Location of resource directory.
-  FilePath resource_dir_;
+  /// Directories under which to search for resources.
+  stl_vector<FilePath> resource_dirs_;
 };
 
 }  // namespace ogle
