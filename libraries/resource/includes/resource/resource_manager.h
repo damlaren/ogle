@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
 
 #include "std/ogle_std.inc"
+#include <utility>
 #include "file_system/file_path.h"
 #include "resource/resource.h"
 
@@ -28,16 +29,6 @@ namespace ogle {
  */
 class ResourceManager {
  public:
-  /**
-   * @brief Registers a loader function to construct resource.
-   * @param type Type of resource to construct.
-   * @param implementation Implementation created by loader.
-   * @param loader Factory function.
-   */
-  static void RegisterLoader(
-      const stl_string& type, const stl_string& implementation,
-      Resource::LoadFunction loader);
-
   /**
    * @brief Add directory to list to search for Resources.
    * @param directory_path Path to add.

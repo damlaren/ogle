@@ -16,13 +16,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-void ResourceManager::RegisterLoader(
-    const stl_string& type, const stl_string& implementation,
-    Resource::LoadFunction loader) {
-}
-
 void ResourceManager::AddResourceDirectory(const FilePath& directory_path) {
   resource_dirs_.emplace_back(directory_path);
+  // TODO(damlaren): do it.
 }
 
 const bool ResourceManager::LoadResources(const FilePath& root_directory) {
