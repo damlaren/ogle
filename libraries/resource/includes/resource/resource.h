@@ -17,7 +17,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "std/ogle_std.inc"
 #include <memory>
-#include "resource/resource_metadata.h"
 
 namespace ogle {
 
@@ -27,29 +26,24 @@ namespace ogle {
  * A Resource is distinguished by these traits:
  *
  * 1. Only one copy of it is needed in memory.
- * 2. It is typically loaded from the file system, but it could come from other
- *    sources as well.
+ * 2. It is an asset usually loaded from the file system.
  * 3. It doesn't change after being loaded.
  */
 class Resource {
  public:
-  /// Function pointer type for a function to load a Resource from metadata.
-  using LoadFunction = std::unique_ptr<Resource> *(const ResourceMetadata&);
+  /// Field identifying resource type.
+  static const stl_string kTypeField;
 
-  /**
-   * @brief Constructor.
-   * @param Metadata for Resource.
-   */
-  explicit Resource(const ResourceMetadata& metadata);
+  /// String separating resource subtypes.
+  static constexpr char kTypeSeparator = '/';
+
+  /// Field identifying implementation of resource to use.
+  static const stl_string kImplementationField;
 
   /**
    * @brief Destructor.
    */
   virtual ~Resource() = default;
-
- protected:
-  /// Metadata attached to Resource.
-  ResourceMetadata metadata_;
 };
 
 }  // namespace ogle

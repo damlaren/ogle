@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Resource::Resource(const ResourceMetadata& metadata)
-  : metadata_(metadata) {
-}
+const stl_string Resource::kTypeField = "type";
+
+const stl_string Resource::kImplementationField = "implementation";
 
 }  // namespace ogle

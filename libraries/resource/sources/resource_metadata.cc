@@ -21,6 +21,11 @@ ResourceMetadata::ResourceMetadata(const ResourceID& id)
   : id_(id) {
 }
 
+std::ostream& operator<<(std::ostream& os, const ResourceMetadata& metadata) {
+  os << metadata.root_node_;
+  return os;
+}
+
 ResourceMetadata ResourceMetadata::Load(const FilePath& file_path) {
   ResourceMetadata new_metadata(file_path.str());
   new_metadata.root_node_ = YAML::LoadFile(file_path.str());
@@ -32,6 +37,10 @@ ResourceMetadata ResourceMetadata::Load(const FilePath& file_path) {
 
 const bool ResourceMetadata::loaded() const {
   return root_node_;
+}
+
+const ResourceID ResourceMetadata::id() const {
+  return id_;
 }
 
 }  // namespace ogle

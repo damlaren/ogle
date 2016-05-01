@@ -13,6 +13,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "resource/resource_manager.h"
+#include "easylogging++.h"  // NOLINT
+#include "renderer/shader.h"
+#include "util/string_utils.h"
 
 namespace ogle {
 
@@ -21,8 +24,26 @@ void ResourceManager::AddResourceDirectory(const FilePath& directory_path) {
   // TODO(damlaren): do it.
 }
 
-const bool ResourceManager::LoadResources(const FilePath& root_directory) {
-  // TODO(damlaren): find resources
+const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
+  if (resources_.find(metadata.id()) != resources_.end()) {
+    LOG(WARNING) << "Resource has already been loaded.";
+    return true;
+  }
+
+  const auto& type = metadata.Get<stl_string>(Resource::kTypeField);
+  if (type.empty()) {
+    LOG(ERROR) << "Resource type not found: " << metadata;
+    return false;
+  }
+
+  if (type == Shader::kResourceType) {
+    auto resource = std::move(Shader::Load(metadata));
+    if (resource != nullptr) {
+      resources_[metadata.id()] = std::move(resource);
+    }
+  }
+
+  LOG(ERROR) << "Failed to load resource: " << metadata;
   return false;
 }
 

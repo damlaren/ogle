@@ -16,12 +16,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
 
 #include "std/ogle_std.inc"
+#include <iostream>
 #include "easylogging++.h"  // NOLINT
 #include "yaml-cpp/yaml.h"
 
 namespace ogle {
 
 class FilePath;
+
+/// Type for ID of a resource.
+using ResourceID = stl_string;
 
 /**
  * @brief Metadata associated with each Resource.
@@ -30,9 +34,6 @@ class FilePath;
  */
 class ResourceMetadata {
  public:
-  /// Type for ID of a resource.
-  using ResourceID = stl_string;
-
   /**
    * @brief Loads metadata from file.
    * @param file_path Name of file from which to load metadata.
@@ -41,10 +42,25 @@ class ResourceMetadata {
   static ResourceMetadata Load(const FilePath& file_path);
 
   /**
+   * @brief Output stream operator.
+   * @param[in,out] os Output stream.
+   * @param[in] metadata Object to print.
+   * @return Reference to #os.
+   */
+  friend std::ostream& operator<<(std::ostream& os,  // NOLINT
+                                  const ResourceMetadata& metadata);
+
+  /**
    * @brief Accessor.
    * @return true if metadata was successfully loaded from file.
    */
   const bool loaded() const;
+
+  /**
+   * @brief Accessor.
+   * @return Resource ID.
+   */
+  const ResourceID id() const;
 
   /**
    * @brief Gets value of attribute from metadata.

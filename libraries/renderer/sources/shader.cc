@@ -16,26 +16,43 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "config/configuration.h"
 #include "file_system/text_file.h"
 #include "renderer/glsl_shader.h"
+#include "util/string_utils.h"
 
 namespace ogle {
 
-const stl_string Shader::kConfigModule = "render";
+const stl_string Shader::kResourceType = "shader";
+const stl_string Shader::kVertexShaderSubType = "vertex";
+const stl_string Shader::kFragmentShaderSubType = "fragment";
 
-const stl_string Shader::kConfigAttributeImplementation =
-    "shader_implementation";
+std::unique_ptr<Shader> Shader::Load(const ResourceMetadata& metadata) {
+  const auto& implementation =
+      metadata.Get<stl_string>(Resource::kImplementationField);
+  const auto& type = metadata.Get<stl_string>(Resource::kTypeField);
+  const auto& split_type = StringUtils::Split(type, Resource::kTypeSeparator);
+  CHECK(split_type[0] == Shader::kResourceType);  // Shouldn't fail.
+  if (split_type.size() < 2) {
+    LOG(ERROR) << "Cannot find shader subtype: " << split_type;
+    return nullptr;
+  }
 
-Shader* Shader::Load(const Configuration& configuration,
-                     const ShaderType shader_type,
-                     const stl_string& shader_text) {
-  const stl_string implementation = configuration.Get<stl_string>(
-      kConfigModule, kConfigAttributeImplementation);
-  if (implementation == GLSLShader::kConfigImplementationName) {
-    auto new_object = new GLSLShader(shader_text, shader_type);
+  const auto& shader_type_string = split_type[1];
+  ShaderType shader_type;
+  if (shader_type_string == kVertexShaderSubType) {
+    shader_type = ShaderType::Vertex;
+  } else if (shader_type_string == kFragmentShaderSubType) {
+    shader_type = ShaderType::Fragment;
+  } else {
+    LOG(ERROR) << "Unrecognized shader type: " << shader_type_string;
+    return nullptr;
+  }
+
+  if (implementation == GLSLShader::kImplementationName) {
+    auto new_object = std::make_unique<GLSLShader>(shader_text, shader_type);
     if (new_object->Create()) {
-      return new_object;
+      return std::move(new_object);
     } else {
-      delete new_object;
       LOG(ERROR) << "Shader Create() failed.";
+      return nullptr;
     }
   }
   LOG(ERROR) << "Unable to create Shader for implementation: "
@@ -64,7 +81,7 @@ ShaderProgram* ShaderProgram::Link(const Configuration &configuration,
                                    Shader *fragment_shader) {
   const stl_string implementation = configuration.Get<stl_string>(
       Shader::kConfigModule, Shader::kConfigAttributeImplementation);
-  if (implementation == GLSLShader::kConfigImplementationName) {
+  if (implementation == GLSLShader::kImplementationName) {
     auto new_program = new GLSLShaderProgram(
         static_cast<GLSLShader*>(vertex_shader),
         static_cast<GLSLShader*>(fragment_shader));

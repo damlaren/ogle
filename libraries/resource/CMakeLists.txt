@@ -19,7 +19,9 @@ target_link_libraries(
   PUBLIC
   yaml-cpp
   ogle_file_system
-  ogle_std)
+  ogle_renderer
+  ogle_std
+  ogle_util)
 target_include_directories(
   ogle_resource
   PRIVATE

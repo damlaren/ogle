@@ -30,8 +30,8 @@ class GLSLShader : public Shader {
  public:
   friend class GLSLShaderProgram;
 
-  /// String to specify use of this implementation in configuration file.
-  static const stl_string kConfigImplementationName;
+  /// String indicating that this implementation should be used.
+  static const stl_string kImplementationName;
 
   GLSLShader(const stl_string& shader_text, ShaderType type);
 

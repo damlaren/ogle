@@ -16,11 +16,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RENDERER_INCLUDES_RENDERER_SHADER_H_
 
 #include "std/ogle_std.inc"
+#include <memory>
 #include "math/matrix.h"
+#include "resource/resource.h"
 
 namespace ogle {
 
 class Configuration;
+class ResourceMetadata;
 
 /**
  * @brief The type of a Shader.
@@ -36,13 +39,16 @@ enum class ShaderType {
  * Handles shader operations in an API-independent manner.
  * Subclassed Shaders are based on specific APIs.
  */
-class Shader {
+class Shader : public Resource {
  public:
-  /// Configuration module describing shaders.
-  static const stl_string kConfigModule;
+  /// Metadata type.
+  static const stl_string kResourceType;
 
-  /// Configuration attribute defining shader implementation.
-  static const stl_string kConfigAttributeImplementation;
+  ///@{
+  /// Shader subtype specifications in metadata.
+  static const stl_string kVertexShaderSubType;
+  static const stl_string kFragmentShaderSubType;
+  ///@}
 
   /**
    * @brief Default destructor.
@@ -51,17 +57,10 @@ class Shader {
 
   /**
    * @brief Loads a shader from text.
-   *
-   * TODO(damlaren): Prevent duplication.
-   *
-   * @param configuration Rendering system configuration.
-   * @param shader_type Type of shader to create.
-   * @param shader_text Text of shader.
-   * @return Loaded shader, or null if loading failed.
+   * @param metadata Metadata for shader file.
+   * @return New shader.
    */
-  static Shader* Load(const Configuration& configuration,
-                      const ShaderType shader_type,
-                      const stl_string& shader_text);
+  static std::unique_ptr<Shader> Load(const ResourceMetadata& metadata);
 
   /**
    * @brief Accessor.
