@@ -43,10 +43,14 @@ class ResourceManager {
    */
   const bool LoadResource(const ResourceMetadata& metadata);
 
+  /**
+   * @brief Load all resources from configured directories.
+   */
+  void LoadResources();
+
  private:
   /// All tracked resources.
-  // stl_map<ResourceMetadata, std::unique_ptr<Resource>,
-  // TODO(damlaren) write comparator> resources_;
+  stl_map<ResourceID, std::unique_ptr<Resource>> resources_;
 
   /// Directories under which to search for resources.
   stl_vector<FilePath> resource_dirs_;

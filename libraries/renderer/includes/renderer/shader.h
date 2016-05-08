@@ -41,7 +41,7 @@ enum class ShaderType {
  */
 class Shader : public Resource {
  public:
-  /// Metadata type.
+  /// Type identifying Shader resources.
   static const stl_string kResourceType;
 
   ///@{
@@ -77,10 +77,12 @@ class Shader : public Resource {
  protected:
   /**
    * @brief Constructor.
-   * @param shader_text Shader text to copy.
-   * @param type Type of this Shader.
+   * @param metadata Metadata to use to infer Shader type and location.
+   * @param shader_text Program text to copy.
+   * @param type Type of this shader.
    */
-  Shader(const stl_string &shader_text, ShaderType type);
+  Shader(const ResourceMetadata& metadata, const stl_string &shader_text,
+         const ShaderType type);
 
   /// Shader text.
   stl_string shader_text_;
@@ -112,7 +114,7 @@ class ShaderProgram {
   /**
    * @brief Links shaders into a program.
    *
-   * TODO(damlaren): Prevent duplication.
+   * TODO(damlaren): Should be specified by a Resource defining type, impl.
    *
    * @param configuration Shader configuration.
    * @param[in, out] vertex_shader Vertex shader.

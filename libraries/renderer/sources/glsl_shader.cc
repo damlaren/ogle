@@ -19,8 +19,9 @@ namespace ogle {
 
 const stl_string GLSLShader::kImplementationName = "glsl";
 
-GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type)
-  : Shader(shader_text, type), shader_id_(0) {
+GLSLShader::GLSLShader(const ResourceMetadata& metadata,
+                       const stl_string& shader_text, const ShaderType type)
+  : Shader(metadata, shader_text, type), shader_id_(0) {
 }
 
 GLSLShader::~GLSLShader() {

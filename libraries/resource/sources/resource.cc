@@ -20,4 +20,10 @@ const stl_string Resource::kTypeField = "type";
 
 const stl_string Resource::kImplementationField = "implementation";
 
+const stl_string Resource::kNameField = "name";
+
+Resource::Resource(const ResourceMetadata& metadata)
+  : metadata_(metadata) {
+}
+
 }  // namespace ogle

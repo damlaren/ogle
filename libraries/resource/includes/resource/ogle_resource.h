@@ -16,6 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_OGLE_RESOURCE_H_
 
 #include "std/ogle_std.inc"
+#include "resource/resource.h"
 #include "resource/resource_manager.h"
+#include "resource/resource_metadata.h"
 
 #endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_OGLE_RESOURCE_H_

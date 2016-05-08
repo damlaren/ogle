@@ -13,13 +13,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "resource/resource_metadata.h"
-#include "file_system/file_path.h"
+#include "resource/resource.h"
 
 namespace ogle {
-
-ResourceMetadata::ResourceMetadata(const ResourceID& id)
-  : id_(id) {
-}
 
 std::ostream& operator<<(std::ostream& os, const ResourceMetadata& metadata) {
   os << metadata.root_node_;
@@ -27,11 +23,23 @@ std::ostream& operator<<(std::ostream& os, const ResourceMetadata& metadata) {
 }
 
 ResourceMetadata ResourceMetadata::Load(const FilePath& file_path) {
-  ResourceMetadata new_metadata(file_path.str());
+  ResourceMetadata new_metadata;
   new_metadata.root_node_ = YAML::LoadFile(file_path.str());
   if (!new_metadata.root_node_) {
     LOG(ERROR) << "Failed to load resource metadata from: " << file_path.str();
   }
+
+  // Set path to resource.
+  const auto dirname = file_path.Dirname();
+  if (!new_metadata.root_node_[Resource::kNameField]) {
+    LOG(ERROR) << "Failed to identify path name of resource from metadata: "
+               << file_path.str();
+  } else {
+    new_metadata.resource_path_ =
+        dirname + FilePath(
+            new_metadata.root_node_[Resource::kNameField].as<stl_string>());
+  }
+
   return new_metadata;
 }
 
@@ -39,8 +47,12 @@ const bool ResourceMetadata::loaded() const {
   return root_node_;
 }
 
-const ResourceID ResourceMetadata::id() const {
-  return id_;
+const ResourceID& ResourceMetadata::id() const {
+  return resource_path_.str();
+}
+
+const FilePath& ResourceMetadata::resource_path() const {
+  return resource_path_;
 }
 
 }  // namespace ogle

@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "std/ogle_std.inc"
 #include <memory>
+#include "resource/resource_metadata.h"
 
 namespace ogle {
 
@@ -40,10 +41,23 @@ class Resource {
   /// Field identifying implementation of resource to use.
   static const stl_string kImplementationField;
 
+  /// Field identifying file basename of resource.
+  static const stl_string kNameField;
+
+  /**
+   * @brief Constructor.
+   * @param metadata Resource metadata.
+   */
+  explicit Resource(const ResourceMetadata& metadata);
+
   /**
    * @brief Destructor.
    */
   virtual ~Resource() = default;
+
+ protected:
+  /// Metadata describing resource.
+  ResourceMetadata metadata_;
 };
 
 }  // namespace ogle

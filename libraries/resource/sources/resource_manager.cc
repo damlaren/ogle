@@ -21,7 +21,6 @@ namespace ogle {
 
 void ResourceManager::AddResourceDirectory(const FilePath& directory_path) {
   resource_dirs_.emplace_back(directory_path);
-  // TODO(damlaren): do it.
 }
 
 const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
@@ -45,6 +44,9 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
 
   LOG(ERROR) << "Failed to load resource: " << metadata;
   return false;
+}
+
+void ResourceManager::LoadResources() {
 }
 
 }  // namespace ogle

@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "renderer/shader.h"
+#include "resource/resource_metadata.h"
 
 namespace ogle {
 
@@ -33,7 +34,8 @@ class GLSLShader : public Shader {
   /// String indicating that this implementation should be used.
   static const stl_string kImplementationName;
 
-  GLSLShader(const stl_string& shader_text, ShaderType type);
+  GLSLShader(const ResourceMetadata& metadata, const stl_string& shader_text,
+             const ShaderType type);
 
   ~GLSLShader() override;
 

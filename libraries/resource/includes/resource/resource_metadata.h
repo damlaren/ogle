@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/ogle_std.inc"
 #include <iostream>
 #include "easylogging++.h"  // NOLINT
+#include "file_system/file_path.h"
 #include "yaml-cpp/yaml.h"
 
 namespace ogle {
@@ -58,9 +59,15 @@ class ResourceMetadata {
 
   /**
    * @brief Accessor.
-   * @return Resource ID.
+   * @return Unique ID associated with Resource.
    */
-  const ResourceID id() const;
+  const ResourceID& id() const;
+
+  /**
+   * @brief Accessor.
+   * @return Path to resource on file system.
+   */
+  const FilePath& resource_path() const;
 
   /**
    * @brief Gets value of attribute from metadata.
@@ -83,15 +90,14 @@ class ResourceMetadata {
  private:
   /**
    * @brief Hidden constructor.
-   * @param id Unique ID for Resource.
    */
-  explicit ResourceMetadata(const ResourceID& id);
+  ResourceMetadata() = default;
 
   /// Root of loaded YAML file.
   YAML::Node root_node_;
 
-  /// Unique ID associated with Resource.
-  ResourceID id_;
+  /// Path to resource on file system.
+  FilePath resource_path_;
 };
 
 }  // namespace ogle

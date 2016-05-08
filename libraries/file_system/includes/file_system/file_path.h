@@ -24,6 +24,14 @@ namespace ogle {
  */
 class FilePath {
  public:
+  /// Separator between path elements.
+  static constexpr char kPathSeparator = '/';
+
+  /**
+   * @brief Default constructor. Sets empty file path.
+   */
+  FilePath() = default;
+
   /**
    * @brief Constructor.
    * @param file_path String declaring path.
@@ -40,16 +48,34 @@ class FilePath {
                                   const FilePath& file_path_2);
 
   /**
+   * @brief Output stream operator.
+   * @param[in,out] os Output stream.
+   * @param[in] file_path Object to print.
+   * @return Reference to #os.
+   */
+  friend std::ostream& operator<<(std::ostream& os,  // NOLINT
+                                  const FilePath& file_path);
+
+  /**
    * @brief Accessor.
    * @return Reference to path string.
    */
   const stl_string& str() const;
 
   /**
-   * @brief Accessor.
-   * @return Returns file extension.
+   * @brief Gets filename extension.
+   * @return Extension. Empty string if none found.
    */
-  const stl_string extension() const;
+  const stl_string Extension() const;
+
+  /**
+   * @brief Gets directory part of filename.
+   *
+   * Directories are not converted to absolute paths.
+   *
+   * @return Directory path. Empty string if no directory part.
+   */
+  const FilePath Dirname() const;
 
  private:
   /// File path as string.
