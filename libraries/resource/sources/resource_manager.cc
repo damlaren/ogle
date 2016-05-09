@@ -14,7 +14,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "resource/resource_manager.h"
 #include "easylogging++.h"  // NOLINT
+#include "file_system/directory.h"
 #include "renderer/shader.h"
+#include "resource/resource_metadata.h"
 #include "util/string_utils.h"
 
 namespace ogle {
@@ -47,6 +49,42 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
 }
 
 void ResourceManager::LoadResources() {
+  stl_list<FilePath> directories_to_search;
+  for (const auto& resource_dir : resource_dirs_) {
+    directories_to_search.emplace_back(resource_dir);
+  }
+
+  while (!directories_to_search.empty()) {
+    const auto& search_dir = directories_to_search.front();
+    directories_to_search.pop_front();
+
+    const auto contents = DirectoryEntry::ListContents(search_dir);
+    if (!contents.second) {
+      LOG(ERROR) << "Failed to read contents from: " << search_dir;
+      continue;
+    }
+
+    for (const auto& directory_entry : contents.first) {
+      const auto& entry_path = directory_entry.path();
+      if (directory_entry.is_directory()) {
+        directories_to_search.emplace_back(entry_path);
+        continue;
+      }
+
+      if (entry_path.Extension() == ResourceMetadata::kFileExtension) {
+        const auto metadata = ResourceMetadata::Load(entry_path);
+        if (!metadata.loaded()) {
+          LOG(ERROR) << "Failed to load metadata from: " << entry_path;
+          continue;
+        }
+
+        if (!LoadResource(metadata)) {
+          LOG(ERROR) << "Failed to load resource from metadata in: "
+                     << entry_path;
+        }
+      }
+    }
+  }
 }
 
 }  // namespace ogle

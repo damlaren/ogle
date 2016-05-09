@@ -1,4 +1,4 @@
 --- 
 implementation: glsl
-name: passthru_vs.glsl
+filename: passthru_vs.glsl
 type: shader/vertex

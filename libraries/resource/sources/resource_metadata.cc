@@ -17,8 +17,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+const stl_string ResourceMetadata::kFileExtension = "meta";
+
 std::ostream& operator<<(std::ostream& os, const ResourceMetadata& metadata) {
-  os << metadata.root_node_;
+  os << "Resource path: " << metadata.resource_path_ << std::endl
+     << metadata.root_node_;
   return os;
 }
 
@@ -31,13 +34,13 @@ ResourceMetadata ResourceMetadata::Load(const FilePath& file_path) {
 
   // Set path to resource.
   const auto dirname = file_path.Dirname();
-  if (!new_metadata.root_node_[Resource::kNameField]) {
+  if (!new_metadata.root_node_[Resource::kFilenameField]) {
     LOG(ERROR) << "Failed to identify path name of resource from metadata: "
                << file_path.str();
   } else {
     new_metadata.resource_path_ =
         dirname + FilePath(
-            new_metadata.root_node_[Resource::kNameField].as<stl_string>());
+            new_metadata.root_node_[Resource::kFilenameField].as<stl_string>());
   }
 
   return new_metadata;

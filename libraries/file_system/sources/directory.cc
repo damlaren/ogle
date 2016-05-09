@@ -9,21 +9,41 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of resource.h.
+ * @file Implementation of directory.h.
  */
 
-#include "resource/resource.h"
+#include "file_system/directory.h"
+#include "easylogging++.h"  // NOLINT
+#include "tinydir.h"  // NOLINT
 
 namespace ogle {
 
-const stl_string Resource::kTypeField = "type";
+std::pair<stl_vector<DirectoryEntry>, bool> DirectoryEntry::ListContents(
+    const FilePath& directory_path) {
+  stl_vector<DirectoryEntry> found_entries;
+  tinydir_dir dir;
+  if (tinydir_open(&dir, directory_path.str().c_str()) == -1) {
+    LOG(ERROR) << "Failed to open directory path: " << directory_path;
+    return {{}, false};
+  }
 
-const stl_string Resource::kImplementationField = "implementation";
+  while (dir.has_next) {
+    tinydir_file file;
+    if (tinydir_readfile(&dir, &file) == -1) {
+      LOG(ERROR) << "Failed to read directory entry in: " << directory_path;
+      return {{}, false};
+    }
+    found_entries.emplace_back(
+        DirectoryEntry(FilePath(file.name), file.is_dir));
+    tinydir_next(&dir);
+  }
 
-const stl_string Resource::kFilenameField = "filename";
+  tinydir_close(&dir);
+  return {found_entries, true};
+}
 
-Resource::Resource(const ResourceMetadata& metadata)
-  : metadata_(metadata) {
+DirectoryEntry::DirectoryEntry(const FilePath& path, const bool is_directory)
+  : path_(path), is_directory_(is_directory) {
 }
 
 }  // namespace ogle

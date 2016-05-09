@@ -35,6 +35,9 @@ using ResourceID = stl_string;
  */
 class ResourceMetadata {
  public:
+  /// File extension expected for metadata files.
+  static const stl_string kFileExtension;
+
   /**
    * @brief Loads metadata from file.
    * @param file_path Name of file from which to load metadata.

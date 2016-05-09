@@ -9,54 +9,58 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Defines ResourceManager.
+ * @file Defines Directory.
  */
 
-#ifndef LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
-#define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
+#ifndef LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_DIRECTORY_H_
+#define LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_DIRECTORY_H_
 
 #include "std/ogle_std.inc"
 #include <utility>
 #include "file_system/file_path.h"
-#include "resource/resource.h"
 
 namespace ogle {
 
-class ResourceMetadata;
-
 /**
- * @brief Class to manage and load resources.
- *
- * Right now it just provides the location of the resource directory.
+ * @brief A single entry (file or subdirectory) found within a directory.
  */
-class ResourceManager {
+class DirectoryEntry {
  public:
   /**
-   * @brief Add directory to list to search for Resources.
-   * @param directory_path Path to add.
+   * @brief List contents under a directory path.
+   * @param directory_path Path to list contents of.
+   * @return Directory entries found, and success/failure flag.
    */
-  void AddResourceDirectory(const FilePath& directory_path);
+  static std::pair<stl_vector<DirectoryEntry>, bool> ListContents(
+      const FilePath& directory_path);
 
   /**
-   * @brief Load a single resource from metadata.
-   * @param metadata Resource metadata.
-   * @return true if resource is available.
+   * @brief Accessor.
+   * @return Path to directory entry.
    */
-  const bool LoadResource(const ResourceMetadata& metadata);
+  const FilePath& path() const;
 
   /**
-   * @brief Load all resources from configured directories.
+   * @brief Accessor.
+   * @return true if entry is a directory.
    */
-  void LoadResources();
+  const bool is_directory() const;
 
  private:
-  /// All tracked resources.
-  stl_map<ResourceID, std::unique_ptr<Resource>> resources_;
+  /**
+   * @brief Constructor.
+   * @param path Entry path.
+   * @param is_directory true if this is a directory.
+   */
+  DirectoryEntry(const FilePath& path, const bool is_directory);
 
-  /// Directories under which to search for resources.
-  stl_vector<FilePath> resource_dirs_;
+  /// Path to directory entry.
+  FilePath path_;
+
+  /// true if this entry is a directory.
+  bool is_directory_;
 };
 
 }  // namespace ogle
 
-#endif  // LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
+#endif  // LIBRARIES_FILE_SYSTEM_INCLUDES_FILE_SYSTEM_DIRECTORY_H_

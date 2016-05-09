@@ -44,17 +44,6 @@ class MeshViewerApplication : public ogle::Application {
 
     // TODO(damlaren): This wall of code is a good reason to define Effect files
     // and use a Resource Manager to track content.
-
-    vertex_shader_ = std::unique_ptr<ogle::Shader>(
-        ogle::Shader::Load(engine_->configuration_, ogle::ShaderType::Vertex,
-                           vertex_shader_text));
-    fragment_shader_ = std::unique_ptr<ogle::Shader>(
-        ogle::Shader::Load(engine_->configuration_, ogle::ShaderType::Fragment,
-                           fragment_shader_text));
-    if (!(vertex_shader_ && fragment_shader_)) {
-      LOG(ERROR) << "Shader Load failed.";
-      return false;
-    }
     shader_program_ = std::unique_ptr<ogle::ShaderProgram>(
         ogle::ShaderProgram::Link(
             engine_->configuration_, vertex_shader_.get(),

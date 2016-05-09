@@ -42,7 +42,7 @@ class Resource {
   static const stl_string kImplementationField;
 
   /// Field identifying file basename of resource.
-  static const stl_string kNameField;
+  static const stl_string kFilenameField;
 
   /**
    * @brief Constructor.
