@@ -42,6 +42,14 @@ std::pair<stl_vector<DirectoryEntry>, bool> DirectoryEntry::ListContents(
   return {found_entries, true};
 }
 
+const FilePath& DirectoryEntry::path() const {
+  return path_;
+}
+
+const bool DirectoryEntry::is_directory() const {
+  return is_directory_;
+}
+
 DirectoryEntry::DirectoryEntry(const FilePath& path, const bool is_directory)
   : path_(path), is_directory_(is_directory) {
 }
