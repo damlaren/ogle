@@ -29,9 +29,14 @@ namespace ogle {
  * 1. Only one copy of it is needed in memory.
  * 2. It is an asset usually loaded from the file system.
  * 3. It doesn't change after being loaded.
+ *
+ * Each resource must have a globally unique ID loaded from metadata.
  */
 class Resource {
  public:
+  /// Field for globally unique resource ID.
+  static const stl_string kIdField;
+
   /// Field identifying resource type.
   static const stl_string kTypeField;
 
@@ -45,17 +50,42 @@ class Resource {
   static const stl_string kFilenameField;
 
   /**
+   * @brief Destructor.
+   */
+  virtual ~Resource() = default;
+
+  /**
+   * @brief Accessor.
+   * @return Metadata.
+   */
+  const ResourceMetadata& metadata() const;
+
+  /**
+   * @brief Accessor.
+   * @return Unique ID of resource.
+   */
+  const ResourceID id() const;
+
+  /**
+   * @brief Accessor.
+   * @return Implementation used for resource. May be empty.
+   */
+  const stl_string implementation() const;
+
+  /**
+   * @brief Accessor.
+   * @param level Level at which to get subtype.
+   * @return Resource subtype. Empty string if not found.
+   */
+  const stl_string subtype(const size_t level) const;
+
+ protected:
+  /**
    * @brief Constructor.
    * @param metadata Resource metadata.
    */
   explicit Resource(const ResourceMetadata& metadata);
 
-  /**
-   * @brief Destructor.
-   */
-  virtual ~Resource() = default;
-
- protected:
   /// Metadata describing resource.
   ResourceMetadata metadata_;
 };

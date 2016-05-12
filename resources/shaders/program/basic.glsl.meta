@@ -1,0 +1,7 @@
+--- 
+id: basic.glsl
+implementation: glsl
+filename: basic.glsl
+type: shader_program
+vertex_shader: basic_vs.glsl
+fragment_shader: flat_fs.glsl

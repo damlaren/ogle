@@ -55,12 +55,17 @@ class GLSLShader : public Shader {
  */
 class GLSLShaderProgram : public ShaderProgram {
  public:
+  /// String indicating that this implementation should be used.
+  static const stl_string kImplementationName;
+
   /**
    * @brief Constructor.
-   * @param vertex_shader Precompiled GLSL vertex Shader.
-   * @param fragment_shader Precompiled GLSL fragment Shader.
+   * @param metadata Metadata for resource.
+   * @param[in] vertex_shader Precompiled GLSL vertex Shader.
+   * @param[in] fragment_shader Precompiled GLSL fragment Shader.
    */
-  GLSLShaderProgram(GLSLShader* vertex_shader, GLSLShader* fragment_shader);
+  GLSLShaderProgram(const ResourceMetadata& metadata,
+                    GLSLShader* vertex_shader, GLSLShader* fragment_shader);
 
   /**
    * @brief Links program from Shaders.

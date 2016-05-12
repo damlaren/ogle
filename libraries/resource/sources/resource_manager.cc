@@ -27,7 +27,7 @@ void ResourceManager::AddResourceDirectory(const FilePath& directory_path) {
 
 const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
   if (resources_.find(metadata.id()) != resources_.end()) {
-    LOG(WARNING) << "Resource has already been loaded.";
+    LOG(ERROR) << "Resource has already been loaded: " << metadata.id();
     return true;
   }
 
@@ -37,11 +37,15 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
     return false;
   }
 
+  std::unique_ptr<Resource> resource = nullptr;
   if (type == Shader::kResourceType) {
-    auto resource = std::move(Shader::Load(metadata));
-    if (resource != nullptr) {
-      resources_[metadata.id()] = std::move(resource);
-    }
+    resource = std::move(Shader::Load(metadata));
+  } else if (type == ShaderProgram::kResourceType) {
+    resource = std::move(ShaderProgram::Load(metadata, this));
+  }
+  if (resource != nullptr) {
+    resources_[metadata.id()] = std::move(resource);
+    return true;
   }
 
   LOG(ERROR) << "Failed to load resource: " << metadata;
@@ -68,23 +72,26 @@ void ResourceManager::LoadResources() {
       const auto& entry_path = directory_entry.path();
       if (directory_entry.is_directory()) {
         directories_to_search.emplace_back(entry_path);
-        continue;
-      }
-
-      if (entry_path.Extension() == ResourceMetadata::kFileExtension) {
-        const auto metadata = ResourceMetadata::Load(entry_path);
-        if (!metadata.loaded()) {
+      } else if (entry_path.Extension() == ResourceMetadata::kFileExtension) {
+        auto metadata_result = ResourceMetadata::Load(entry_path);
+        if (!metadata_result.second) {
           LOG(ERROR) << "Failed to load metadata from: " << entry_path;
-          continue;
-        }
-
-        if (!LoadResource(metadata)) {
+        } else if (!LoadResource(metadata_result.first)) {
           LOG(ERROR) << "Failed to load resource from metadata in: "
                      << entry_path;
         }
       }
     }
   }
+}
+
+Resource* ResourceManager::GetResource(const ResourceID& id) {
+  const auto it = resources_.find(id);
+  if (it == resources_.end()) {
+    LOG(ERROR) << "Cannot find resource: " << id;
+    return nullptr;
+  }
+  return it->second.get();
 }
 
 }  // namespace ogle

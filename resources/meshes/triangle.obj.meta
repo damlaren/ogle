@@ -1,4 +1,5 @@
 --- 
+id: triangle.obj
 implementation: obj
 filename: triangle.obj
 type: mesh

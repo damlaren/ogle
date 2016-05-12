@@ -32,22 +32,29 @@ class ResourceMetadata;
 class ResourceManager {
  public:
   /**
-   * @brief Add directory to list to search for Resources.
+   * @brief Adds directory to list to search for Resources.
    * @param directory_path Path to add.
    */
   void AddResourceDirectory(const FilePath& directory_path);
 
   /**
-   * @brief Load a single resource from metadata.
+   * @brief Loads a single resource from metadata.
    * @param metadata Resource metadata.
    * @return true if resource is available.
    */
   const bool LoadResource(const ResourceMetadata& metadata);
 
   /**
-   * @brief Load all resources from configured directories.
+   * @brief Loads all resources from configured directories.
    */
   void LoadResources();
+
+  /**
+   * @brief Finds a resource.
+   * @param id Unique ID of resource to retrieve.
+   * @return Pointer to resource, or null if not found.
+   */
+  Resource* GetResource(const ResourceID& id);
 
  private:
   /// All tracked resources.

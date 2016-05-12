@@ -43,6 +43,7 @@ target_link_libraries (ogle_renderer
   ogle_input
   ogle_math
   ogle_resource
+  ogle_util
   ogle_std
   glfw
   ${GLFW_LIBRARIES}

@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "std/ogle_std.inc"
 #include <iostream>
+#include <utility>
 #include "easylogging++.h"  // NOLINT
 #include "file_system/file_path.h"
 #include "yaml-cpp/yaml.h"
@@ -41,9 +42,10 @@ class ResourceMetadata {
   /**
    * @brief Loads metadata from file.
    * @param file_path Name of file from which to load metadata.
-   * @return new ResourceMetadata object.
+   * @return Pair containing: (1) new metadata, and
+   *         (2) whether it was loaded successfully.
    */
-  static ResourceMetadata Load(const FilePath& file_path);
+  static std::pair<ResourceMetadata, bool> Load(const FilePath& file_path);
 
   /**
    * @brief Output stream operator.
@@ -56,21 +58,28 @@ class ResourceMetadata {
 
   /**
    * @brief Accessor.
-   * @return true if metadata was successfully loaded from file.
-   */
-  const bool loaded() const;
-
-  /**
-   * @brief Accessor.
    * @return Unique ID associated with Resource.
    */
-  const ResourceID& id() const;
+  const ResourceID id() const;
 
   /**
    * @brief Accessor.
    * @return Path to resource on file system.
    */
   const FilePath& resource_path() const;
+
+  /**
+   * @brief Accessor.
+   * @return Implementation used for resource. May be empty.
+   */
+  const stl_string implementation() const;
+
+  /**
+   * @brief subtype
+   * @param level
+   * @return
+   */
+  const stl_string subtype(const size_t level) const;
 
   /**
    * @brief Gets value of attribute from metadata.

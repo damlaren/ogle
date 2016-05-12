@@ -23,6 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 class Configuration;
+class ResourceManager;
 class ResourceMetadata;
 
 /**
@@ -97,14 +98,23 @@ class Shader : public Resource {
  * Shader programs link multiple shaders together and are the objects
  * used in rendering.
  */
-class ShaderProgram {
+class ShaderProgram : public Resource {
  public:
-  //@{
+  ///@{
   /// Standardized names for common shader arguments.
   static const stl_string kModelMatrixArg;
   static const stl_string kViewMatrixArg;
   static const stl_string kProjectionMatrixArg;
-  //@}
+  ///@}
+
+  /// Type identifying shader program resources.
+  static const stl_string kResourceType;
+
+  ///@{
+  /// Fields identifying shader types to link together.
+  static const stl_string kVertexShaderField;
+  static const stl_string kFragmentShaderField;
+  ///@}
 
   /**
    * @brief Default destructor.
@@ -112,17 +122,24 @@ class ShaderProgram {
   virtual ~ShaderProgram() = default;
 
   /**
+   * @brief Load shader program.
+   * @param metadata Metadata for program.
+   * @param[in] resource_manager Resource manager for application.
+   * @return Linked shader program.
+   */
+  static std::unique_ptr<ShaderProgram> Load(
+      const ResourceMetadata& metadata, ResourceManager* resource_manager);
+
+  /**
    * @brief Links shaders into a program.
-   *
-   * TODO(damlaren): Should be specified by a Resource defining type, impl.
-   *
-   * @param configuration Shader configuration.
+   * @param metadata Metadata for shader program resource.
    * @param[in, out] vertex_shader Vertex shader.
    * @param[in, out] fragment_shader Fragment shader.
    * @return Linked ShaderProgram, or nullptr if linking failed.
    */
-  static ShaderProgram* Link(const Configuration& configuration,
-                             Shader* vertex_shader, Shader* fragment_shader);
+  static ShaderProgram* Link(
+      const ResourceMetadata& metadata, Shader* vertex_shader,
+      Shader* fragment_shader);
 
   /**
    * @brief Sets this shader program up to be used in rendering pass.
@@ -132,7 +149,7 @@ class ShaderProgram {
   // TODO(damlaren): API with having to call all these different uniform
   //     functions kind of sucks.
 
-  //@{
+  ///@{
   /**
    * @brief Sets a uniform matrix value in shader program.
    * @param variable Name of uniform variable.
@@ -144,13 +161,14 @@ class ShaderProgram {
                                    const Matrix33f& mat) = 0;
   virtual void SetUniformMatrix44f(const stl_string& variable,
                                    const Matrix44f& mat) = 0;
-  //@}
+  ///@}
 
  protected:
   /**
-   * @brief Default constructor. Not used.
+   * @brief Constructor.
+   * @param metadata Resource metadata.
    */
-  ShaderProgram() = default;
+  explicit ShaderProgram(const ResourceMetadata& metadata);
 };
 
 }  // namespace ogle

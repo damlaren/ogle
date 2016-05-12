@@ -1,4 +1,5 @@
 --- 
+id: flat_fs.glsl
 implementation: glsl
 filename: flat_fs.glsl
 type: shader/fragment

@@ -59,9 +59,12 @@ bool GLSLShader::Create() {
   return true;
 }
 
+const stl_string GLSLShaderProgram::kImplementationName = "glsl";
+
 GLSLShaderProgram::GLSLShaderProgram(
-    GLSLShader* vertex_shader, GLSLShader* fragment_shader)
-  : ShaderProgram(), program_id_(0), vertex_shader_(vertex_shader),
+    const ResourceMetadata& metadata, GLSLShader* vertex_shader,
+    GLSLShader* fragment_shader)
+  : ShaderProgram(metadata), program_id_(0), vertex_shader_(vertex_shader),
     fragment_shader_(fragment_shader) {
 }
 
