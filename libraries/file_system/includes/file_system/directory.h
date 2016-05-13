@@ -26,6 +26,12 @@ namespace ogle {
  */
 class DirectoryEntry {
  public:
+  /// Name of shortcut to current directory.
+  static const stl_string kSameDirectoryName;
+
+  /// Name of shortcut to parent directory.
+  static const stl_string kParentDirectoryName;
+
   /**
    * @brief List contents under a directory path.
    * @param directory_path Path to list contents of.
@@ -45,6 +51,18 @@ class DirectoryEntry {
    * @return true if entry is a directory.
    */
   const bool is_directory() const;
+
+  /**
+   * @brief Tells if this is a link to same directory (e.g. ".")
+   * @return As above.
+   */
+  const bool IsSameDirectoryLink() const;
+
+  /**
+   * @brief Tells if this is a link to parent directory (e.g. "..")
+   * @return As above.
+   */
+  const bool IsParentDirectoryLink() const;
 
  private:
   /**

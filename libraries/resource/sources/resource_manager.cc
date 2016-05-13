@@ -59,7 +59,7 @@ void ResourceManager::LoadResources() {
   }
 
   while (!directories_to_search.empty()) {
-    const auto& search_dir = directories_to_search.front();
+    const auto search_dir = directories_to_search.front();
     directories_to_search.pop_front();
 
     const auto contents = DirectoryEntry::ListContents(search_dir);

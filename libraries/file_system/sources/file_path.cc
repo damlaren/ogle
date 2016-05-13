@@ -47,8 +47,9 @@ const stl_string& FilePath::str() const {
 
 const stl_string FilePath::Extension() const {
   const auto typeSeparatorIndex = path_string_.find_last_of(".");
-  if (typeSeparatorIndex != stl_string::npos) {
-    return path_string_.substr(typeSeparatorIndex);
+  if (typeSeparatorIndex != stl_string::npos &&
+      typeSeparatorIndex != path_string_.size() - 1) {
+    return path_string_.substr(typeSeparatorIndex + 1);
   }
   return "";
 }

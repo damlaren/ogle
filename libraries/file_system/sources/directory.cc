@@ -18,6 +18,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+const stl_string DirectoryEntry::kSameDirectoryName = ".";
+
+const stl_string DirectoryEntry::kParentDirectoryName = "..";
+
 std::pair<stl_vector<DirectoryEntry>, bool> DirectoryEntry::ListContents(
     const FilePath& directory_path) {
   stl_vector<DirectoryEntry> found_entries;
@@ -33,8 +37,13 @@ std::pair<stl_vector<DirectoryEntry>, bool> DirectoryEntry::ListContents(
       LOG(ERROR) << "Failed to read directory entry in: " << directory_path;
       return {{}, false};
     }
-    found_entries.emplace_back(
-        DirectoryEntry(FilePath(file.name), file.is_dir));
+    auto local_file_path = FilePath(file.name);
+    auto directory_entry = DirectoryEntry(local_file_path, file.is_dir);
+    if (!directory_entry.IsParentDirectoryLink() &&
+        !directory_entry.IsSameDirectoryLink()) {
+      found_entries.emplace_back(
+          DirectoryEntry(directory_path + local_file_path, file.is_dir));
+    }
     tinydir_next(&dir);
   }
 
@@ -48,6 +57,14 @@ const FilePath& DirectoryEntry::path() const {
 
 const bool DirectoryEntry::is_directory() const {
   return is_directory_;
+}
+
+const bool DirectoryEntry::IsSameDirectoryLink() const {
+  return path_.str() == kSameDirectoryName && is_directory_;
+}
+
+const bool DirectoryEntry::IsParentDirectoryLink() const {
+  return path_.str() == kParentDirectoryName && is_directory_;
 }
 
 DirectoryEntry::DirectoryEntry(const FilePath& path, const bool is_directory)

@@ -32,7 +32,6 @@ class MeshViewerApplication : public ogle::Application {
     const auto kResourceDir = ogle::FilePath(
         engine_->configuration_.Get<ogle::stl_string>("resource",
                                                       "resource_dir"));
-    engine_->resource_manager_->AddResourceDirectory(kResourceDir);
     engine_->resource_manager_->LoadResources();
 
     // TODO(damlaren): use Resource loader.
@@ -42,19 +41,20 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
-    CHECK(false) << "TODO: need to get shader program, specify in MeshRenderer";
+    auto shader_program = static_cast<ogle::ShaderProgram*>(
+        engine_->resource_manager_->GetResource("basic.glsl"));
     mesh_renderer_ = std::unique_ptr<ogle::MeshRenderer>(
         ogle::MeshRenderer::Load(engine_->configuration_, mesh_,
-                                 shader_program_.get()));
+                                 shader_program));
     if (!mesh_renderer_) {
       LOG(ERROR) << "MeshRenderer Load failed.";
       return false;
     }
 
-    render_object_ = std::make_unique<ogle::Entity>(
+    rendered_entity_ = std::make_unique<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_, mesh_renderer_.get(),
         nullptr);
-    render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
+    rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         engine_->window_->aspect_ratio());
@@ -117,13 +117,10 @@ class MeshViewerApplication : public ogle::Application {
   std::unique_ptr<ogle::Entity> camera_entity_;
 
   /// Object instantiated to render the mesh.
-  std::unique_ptr<ogle::Entity> render_object_;
+  std::unique_ptr<ogle::Entity> rendered_entity_;
 
   /// Mesh storage.
   ogle::Mesh mesh_;
-
-  /// GLSL shader program.
-  std::unique_ptr<ogle::ShaderProgram> shader_program_;
 
   /// Mesh renderer.
   std::unique_ptr<ogle::MeshRenderer> mesh_renderer_;
