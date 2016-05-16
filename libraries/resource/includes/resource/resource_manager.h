@@ -22,6 +22,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class ResourceMetadata;
+
 /**
  * @brief Class to manage and load resources.
  *
@@ -30,22 +32,34 @@ namespace ogle {
 class ResourceManager {
  public:
   /**
-   * @brief Add directory to list to search for Resources.
+   * @brief Adds directory to list to search for Resources.
    * @param directory_path Path to add.
    */
   void AddResourceDirectory(const FilePath& directory_path);
 
   /**
-   * @brief Load resources under a directory.
-   *
-   * TODO(damlaren): This is a temporary solution that won't scale well.
-   *
-   * @param root_directory Directory under which to search.
-   * @return success/failure.
+   * @brief Loads a single resource from metadata.
+   * @param metadata Resource metadata.
+   * @return true if resource is available.
    */
-  const bool LoadResources(const FilePath& root_directory);
+  const bool LoadResource(const ResourceMetadata& metadata);
+
+  /**
+   * @brief Loads all resources from configured directories.
+   */
+  void LoadResources();
+
+  /**
+   * @brief Finds a resource.
+   * @param id Unique ID of resource to retrieve.
+   * @return Pointer to resource, or null if not found.
+   */
+  Resource* GetResource(const ResourceID& id);
 
  private:
+  /// All tracked resources.
+  stl_map<ResourceID, std::unique_ptr<Resource>> resources_;
+
   /// Directories under which to search for resources.
   stl_vector<FilePath> resource_dirs_;
 };

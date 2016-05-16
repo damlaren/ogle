@@ -51,6 +51,20 @@ class StringUtils {
    */
   static const stl_string Trim(const stl_string& input,
                                const stl_string& chars);
+
+  /**
+   * @brief Creates lowercase string.
+   * @param input String to downcase.
+   * @return New string.
+   */
+  static const stl_string Lower(const stl_string& input);
+
+  /**
+   * @brief Creates uppercase string.
+   * @param input String to upcase.
+   * @return New string.
+   */
+  static const stl_string Upper(const stl_string& input);
 };
 
 }  // namespace ogle

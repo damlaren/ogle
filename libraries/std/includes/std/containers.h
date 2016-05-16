@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/custom_allocator.h"
 
 #include <functional>
+#include <list>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -25,6 +26,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <vector>
 
 namespace ogle {
+
+template <typename T>
+using stl_list = std::list<T, STLAllocator<T>>;
 
 template <typename K, typename V, typename C = std::less<K>>
 using stl_map = std::map<K, V, C, STLAllocator<std::pair<const K, V>>>;

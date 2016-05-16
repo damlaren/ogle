@@ -1,4 +1,5 @@
 --- 
+id: basic_vs.glsl
 implementation: glsl
-name: passthru_vs.glsl
+filename: basic_vs.glsl
 type: shader/vertex

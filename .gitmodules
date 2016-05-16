@@ -10,3 +10,6 @@
 [submodule "3rdparty/yaml-cpp"]
 	path = 3rdparty/yaml-cpp
 	url = https://github.com/damlaren/yaml-cpp.git
+[submodule "3rdparty/tinydir"]
+	path = 3rdparty/tinydir
+	url = https://github.com/cxong/tinydir.git

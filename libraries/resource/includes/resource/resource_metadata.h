@@ -16,12 +16,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_RESOURCE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
 
 #include "std/ogle_std.inc"
+#include <iostream>
+#include <utility>
 #include "easylogging++.h"  // NOLINT
+#include "file_system/file_path.h"
 #include "yaml-cpp/yaml.h"
 
 namespace ogle {
 
 class FilePath;
+
+/// Type for ID of a resource.
+using ResourceID = stl_string;
 
 /**
  * @brief Metadata associated with each Resource.
@@ -30,21 +36,50 @@ class FilePath;
  */
 class ResourceMetadata {
  public:
-  /// Type for ID of a resource.
-  using ResourceID = stl_string;
+  /// File extension expected for metadata files.
+  static const stl_string kFileExtension;
 
   /**
    * @brief Loads metadata from file.
    * @param file_path Name of file from which to load metadata.
-   * @return new ResourceMetadata object.
+   * @return Pair containing: (1) new metadata, and
+   *         (2) whether it was loaded successfully.
    */
-  static ResourceMetadata Load(const FilePath& file_path);
+  static std::pair<ResourceMetadata, bool> Load(const FilePath& file_path);
+
+  /**
+   * @brief Output stream operator.
+   * @param[in,out] os Output stream.
+   * @param[in] metadata Object to print.
+   * @return Reference to #os.
+   */
+  friend std::ostream& operator<<(std::ostream& os,  // NOLINT
+                                  const ResourceMetadata& metadata);
 
   /**
    * @brief Accessor.
-   * @return true if metadata was successfully loaded from file.
+   * @return Unique ID associated with Resource.
    */
-  const bool loaded() const;
+  const ResourceID id() const;
+
+  /**
+   * @brief Accessor.
+   * @return Path to resource on file system.
+   */
+  const FilePath& resource_path() const;
+
+  /**
+   * @brief Accessor.
+   * @return Implementation used for resource. May be empty.
+   */
+  const stl_string implementation() const;
+
+  /**
+   * @brief Accessor
+   * @param level Type sublevel.
+   * @return Subtype at level. Empty string if not found.
+   */
+  const stl_string subtype(const size_t level) const;
 
   /**
    * @brief Gets value of attribute from metadata.
@@ -67,15 +102,14 @@ class ResourceMetadata {
  private:
   /**
    * @brief Hidden constructor.
-   * @param id Unique ID for Resource.
    */
-  explicit ResourceMetadata(const ResourceID& id);
+  ResourceMetadata() = default;
 
   /// Root of loaded YAML file.
   YAML::Node root_node_;
 
-  /// Unique ID associated with Resource.
-  ResourceID id_;
+  /// Path to resource on file system.
+  FilePath resource_path_;
 };
 
 }  // namespace ogle

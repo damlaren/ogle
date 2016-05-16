@@ -47,8 +47,8 @@ const bool MeshLoader::LoadMesh(const FilePath& file_path, Mesh* mesh) {
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
     const FilePath& file_path) {
-  const stl_string& extension = file_path.extension();
-  if (extension == ".obj") {
+  const stl_string& extension = StringUtils::Lower(file_path.Extension());
+  if (extension == "obj") {
     return MeshFileFormat::OBJ;
   }
   return MeshFileFormat::UNKNOWN;

@@ -18,6 +18,10 @@ namespace ogle {
 
 FilePath::FilePath(const stl_string &path)
   : path_string_(path) {
+  size_t index = 0;
+  while ((index = path_string_.find('\\', index)) != stl_string::npos) {
+    path_string_[index] = kPathSeparator;
+  }
 }
 
 const FilePath operator+(const FilePath& file_path_1,
@@ -32,16 +36,30 @@ const FilePath operator+(const FilePath& file_path_1,
   }
 }
 
+std::ostream& operator<<(std::ostream& os, const FilePath& file_path) {
+  os << file_path.str();
+  return os;
+}
+
 const stl_string& FilePath::str() const {
   return path_string_;
 }
 
-const stl_string FilePath::extension() const {
-  const stl_string::size_type separatorIndex = path_string_.find_last_of(".");
-  if (separatorIndex != stl_string::npos) {
-    return path_string_.substr(separatorIndex);
+const stl_string FilePath::Extension() const {
+  const auto typeSeparatorIndex = path_string_.find_last_of(".");
+  if (typeSeparatorIndex != stl_string::npos &&
+      typeSeparatorIndex != path_string_.size() - 1) {
+    return path_string_.substr(typeSeparatorIndex + 1);
   }
   return "";
+}
+
+const FilePath FilePath::Dirname() const {
+  const auto lastSeparatorIndex = path_string_.find_last_of(kPathSeparator);
+  if (lastSeparatorIndex != stl_string::npos) {
+    return FilePath(path_string_.substr(0, lastSeparatorIndex));
+  }
+  return FilePath("");
 }
 
 }  // namespace ogle

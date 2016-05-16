@@ -35,12 +35,32 @@ set(SRC_LIST
 add_library(ogle_renderer "${SRC_LIST}")
 
 add_definitions(-DGLEW_STATIC)
-target_link_libraries (ogle_renderer ogle_config ogle_entity ogle_file_system
-  ogle_geometry ogle_input ogle_math ogle_std
-  glfw ${GLFW_LIBRARIES} glew glu32 opengl32)
+target_link_libraries (ogle_renderer
+  ogle_config
+  ogle_entity
+  ogle_file_system
+  ogle_geometry
+  ogle_input
+  ogle_math
+  ogle_resource
+  ogle_util
+  ogle_std
+  glfw
+  ${GLFW_LIBRARIES}
+  glew
+  glu32
+  opengl32
+)
 
-target_include_directories(ogle_renderer PRIVATE
-  ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src)
-target_include_directories(ogle_renderer PUBLIC includes
+target_include_directories(
+  ogle_renderer
+  PRIVATE
+  ${PROJECT_SOURCE_DIR}/3rdparty/easyloggingpp/src
+)
+target_include_directories(
+  ogle_renderer
+  PUBLIC
+  includes
   ${PROJECT_SOURCE_DIR}/3rdparty/glew-1.13.0/include
-  ${PROJECT_SOURCE_DIR}/3rdparty/glfw/include)
+  ${PROJECT_SOURCE_DIR}/3rdparty/glfw/include
+)

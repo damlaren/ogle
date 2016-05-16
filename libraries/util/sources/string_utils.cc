@@ -55,4 +55,18 @@ const stl_string StringUtils::Trim(const stl_string& input,
   return trimmed;
 }
 
+const stl_string StringUtils::Lower(const stl_string& input) {
+  stl_string result = input;
+  std::transform(input.begin(), input.end(), result.begin(),
+                 [](const char c) { return std::tolower(c); });
+  return result;
+}
+
+const stl_string StringUtils::Upper(const stl_string& input) {
+  stl_string result = input;
+  std::transform(input.begin(), input.end(), result.begin(),
+                 [](const char c) { return std::toupper(c); });
+  return result;
+}
+
 }  // namespace ogle

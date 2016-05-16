@@ -1,4 +1,5 @@
 --- 
+id: cube.obj
 implementation: obj
-name: cube.obj
+filename: cube.obj
 type: mesh

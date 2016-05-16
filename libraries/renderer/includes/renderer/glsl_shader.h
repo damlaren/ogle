@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "renderer/shader.h"
+#include "resource/resource_metadata.h"
 
 namespace ogle {
 
@@ -30,10 +31,11 @@ class GLSLShader : public Shader {
  public:
   friend class GLSLShaderProgram;
 
-  /// String to specify use of this implementation in configuration file.
-  static const stl_string kConfigImplementationName;
+  /// String indicating that this implementation should be used.
+  static const stl_string kImplementationName;
 
-  GLSLShader(const stl_string& shader_text, ShaderType type);
+  GLSLShader(const ResourceMetadata& metadata, const stl_string& shader_text,
+             const ShaderType type);
 
   ~GLSLShader() override;
 
@@ -53,12 +55,17 @@ class GLSLShader : public Shader {
  */
 class GLSLShaderProgram : public ShaderProgram {
  public:
+  /// String indicating that this implementation should be used.
+  static const stl_string kImplementationName;
+
   /**
    * @brief Constructor.
-   * @param vertex_shader Precompiled GLSL vertex Shader.
-   * @param fragment_shader Precompiled GLSL fragment Shader.
+   * @param metadata Metadata for resource.
+   * @param[in] vertex_shader Precompiled GLSL vertex Shader.
+   * @param[in] fragment_shader Precompiled GLSL fragment Shader.
    */
-  GLSLShaderProgram(GLSLShader* vertex_shader, GLSLShader* fragment_shader);
+  GLSLShaderProgram(const ResourceMetadata& metadata,
+                    GLSLShader* vertex_shader, GLSLShader* fragment_shader);
 
   /**
    * @brief Links program from Shaders.

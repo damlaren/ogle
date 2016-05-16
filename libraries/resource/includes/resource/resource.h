@@ -27,28 +27,66 @@ namespace ogle {
  * A Resource is distinguished by these traits:
  *
  * 1. Only one copy of it is needed in memory.
- * 2. It is typically loaded from the file system, but it could come from other
- *    sources as well.
+ * 2. It is an asset usually loaded from the file system.
  * 3. It doesn't change after being loaded.
+ *
+ * Each resource must have a globally unique ID loaded from metadata.
  */
 class Resource {
  public:
-  /// Function pointer type for a function to load a Resource from metadata.
-  using LoadFunction = std::unique_ptr<Resource> *(const ResourceMetadata&);
+  /// Field for globally unique resource ID.
+  static const stl_string kIdField;
 
-  /**
-   * @brief Constructor.
-   * @param Metadata for Resource.
-   */
-  explicit Resource(const ResourceMetadata& metadata);
+  /// Field identifying resource type.
+  static const stl_string kTypeField;
+
+  /// String separating resource subtypes.
+  static constexpr char kTypeSeparator = '/';
+
+  /// Field identifying implementation of resource to use.
+  static const stl_string kImplementationField;
+
+  /// Field identifying file basename of resource.
+  static const stl_string kFilenameField;
 
   /**
    * @brief Destructor.
    */
   virtual ~Resource() = default;
 
+  /**
+   * @brief Accessor.
+   * @return Metadata.
+   */
+  const ResourceMetadata& metadata() const;
+
+  /**
+   * @brief Accessor.
+   * @return Unique ID of resource.
+   */
+  const ResourceID id() const;
+
+  /**
+   * @brief Accessor.
+   * @return Implementation used for resource. May be empty.
+   */
+  const stl_string implementation() const;
+
+  /**
+   * @brief Accessor.
+   * @param level Level at which to get subtype.
+   * @return Resource subtype. Empty string if not found.
+   */
+  const stl_string subtype(const size_t level) const;
+
  protected:
-  /// Metadata attached to Resource.
+  /**
+   * @brief Constructor.
+   * @param metadata Resource metadata.
+   */
+  explicit Resource(const ResourceMetadata& metadata);
+
+  /// Metadata describing resource.
   ResourceMetadata metadata_;
 };
 

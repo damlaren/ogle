@@ -13,25 +13,69 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "resource/resource_metadata.h"
-#include "file_system/file_path.h"
+#include "resource/resource.h"
+#include "util/string_utils.h"
 
 namespace ogle {
 
-ResourceMetadata::ResourceMetadata(const ResourceID& id)
-  : id_(id) {
+const stl_string ResourceMetadata::kFileExtension = "meta";
+
+std::ostream& operator<<(std::ostream& os, const ResourceMetadata& metadata) {
+  os << "Resource path: " << metadata.resource_path_ << std::endl
+     << metadata.root_node_;
+  return os;
 }
 
-ResourceMetadata ResourceMetadata::Load(const FilePath& file_path) {
-  ResourceMetadata new_metadata(file_path.str());
+std::pair<ResourceMetadata, bool> ResourceMetadata::Load(
+    const FilePath& file_path) {
+  ResourceMetadata new_metadata;
+
   new_metadata.root_node_ = YAML::LoadFile(file_path.str());
   if (!new_metadata.root_node_) {
     LOG(ERROR) << "Failed to load resource metadata from: " << file_path.str();
+    return {new_metadata, false};
   }
-  return new_metadata;
+
+  if (!new_metadata.root_node_[Resource::kIdField]) {
+    LOG(ERROR) << "Metadata must have an ID.";
+    return {new_metadata, false};
+  }
+
+  // Set path to resource.
+  const auto dirname = file_path.Dirname();
+  if (!new_metadata.root_node_[Resource::kFilenameField]) {
+    LOG(ERROR) << "Failed to identify path name of resource from metadata: "
+               << file_path.str();
+    return {new_metadata, false};
+  } else {
+    new_metadata.resource_path_ =
+        dirname + FilePath(new_metadata.root_node_[
+            Resource::kFilenameField].as<stl_string>());
+  }
+
+  return {new_metadata, true};
 }
 
-const bool ResourceMetadata::loaded() const {
-  return root_node_;
+const ResourceID ResourceMetadata::id() const {
+  CHECK(root_node_[Resource::kIdField]) << "ResourceMetadata must have id.";
+  return root_node_[Resource::kIdField].as<ResourceID>();
+}
+
+const FilePath& ResourceMetadata::resource_path() const {
+  return resource_path_;
+}
+
+const stl_string ResourceMetadata::implementation() const {
+  return Get<stl_string>(Resource::kImplementationField);
+}
+
+const stl_string ResourceMetadata::subtype(const size_t level) const {
+  const auto split_type = StringUtils::Split(
+      Get<stl_string>(Resource::kTypeField), Resource::kTypeSeparator);
+  if (split_type.size() <= level) {
+    return "";
+  }
+  return split_type[level];
 }
 
 }  // namespace ogle

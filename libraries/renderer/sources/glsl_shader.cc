@@ -17,10 +17,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const stl_string GLSLShader::kConfigImplementationName = "glsl";
+const stl_string GLSLShader::kImplementationName = "glsl";
 
-GLSLShader::GLSLShader(const stl_string& shader_text, ShaderType type)
-  : Shader(shader_text, type), shader_id_(0) {
+GLSLShader::GLSLShader(const ResourceMetadata& metadata,
+                       const stl_string& shader_text, const ShaderType type)
+  : Shader(metadata, shader_text, type), shader_id_(0) {
 }
 
 GLSLShader::~GLSLShader() {
@@ -58,9 +59,12 @@ bool GLSLShader::Create() {
   return true;
 }
 
+const stl_string GLSLShaderProgram::kImplementationName = "glsl";
+
 GLSLShaderProgram::GLSLShaderProgram(
-    GLSLShader* vertex_shader, GLSLShader* fragment_shader)
-  : ShaderProgram(), program_id_(0), vertex_shader_(vertex_shader),
+    const ResourceMetadata& metadata, GLSLShader* vertex_shader,
+    GLSLShader* fragment_shader)
+  : ShaderProgram(metadata), program_id_(0), vertex_shader_(vertex_shader),
     fragment_shader_(fragment_shader) {
 }
 

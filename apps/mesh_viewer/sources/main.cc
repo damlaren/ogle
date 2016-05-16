@@ -29,64 +29,32 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
-    // TODO(damlaren): temporary variable, will be obsolete soon.
     const auto kResourceDir = ogle::FilePath(
         engine_->configuration_.Get<ogle::stl_string>("resource",
                                                       "resource_dir"));
+    engine_->resource_manager_->LoadResources();
 
+    // TODO(damlaren): use Resource loader.
     const auto kMeshDir = kResourceDir + ogle::FilePath("meshes");
     if (!ogle::Mesh::LoadMesh(kMeshDir + ogle::FilePath("cube.obj"), &mesh_)) {
       LOG(ERROR) << "Failed to load Mesh.";
       return false;
     }
 
-    // TODO(damlaren): This wall of code is a good reason to define Effect files
-    // and use a Resource Manager to track content.
-    ogle::stl_string vertex_shader_text, fragment_shader_text;
-    const auto shader_dir = kResourceDir + ogle::FilePath("shaders");
-    const auto vertex_shader_path =
-        shader_dir + ogle::FilePath("vertex") + ogle::FilePath("basic_vs.glsl");
-    const auto fragment_shader_path =
-        shader_dir + ogle::FilePath("fragment") +
-        ogle::FilePath("flat_fs.glsl");
-    if (!(ogle::TextFile::ReadTextFile(vertex_shader_path,
-                                       &vertex_shader_text) &&
-          ogle::TextFile::ReadTextFile(fragment_shader_path,
-                                       &fragment_shader_text))) {
-      LOG(ERROR) << "Failed to read shader files.";
-      return false;
-    }
-    vertex_shader_ = std::unique_ptr<ogle::Shader>(
-        ogle::Shader::Load(engine_->configuration_, ogle::ShaderType::Vertex,
-                           vertex_shader_text));
-    fragment_shader_ = std::unique_ptr<ogle::Shader>(
-        ogle::Shader::Load(engine_->configuration_, ogle::ShaderType::Fragment,
-                           fragment_shader_text));
-    if (!(vertex_shader_ && fragment_shader_)) {
-      LOG(ERROR) << "Shader Load failed.";
-      return false;
-    }
-    shader_program_ = std::unique_ptr<ogle::ShaderProgram>(
-        ogle::ShaderProgram::Link(
-            engine_->configuration_, vertex_shader_.get(),
-            fragment_shader_.get()));
-    if (!shader_program_) {
-      LOG(ERROR) << "ShaderProgram Link failed.";
-      return false;
-    }
-
+    auto shader_program = static_cast<ogle::ShaderProgram*>(
+        engine_->resource_manager_->GetResource("basic.glsl"));
     mesh_renderer_ = std::unique_ptr<ogle::MeshRenderer>(
         ogle::MeshRenderer::Load(engine_->configuration_, mesh_,
-                                 shader_program_.get()));
+                                 shader_program));
     if (!mesh_renderer_) {
       LOG(ERROR) << "MeshRenderer Load failed.";
       return false;
     }
 
-    render_object_ = std::make_unique<ogle::Entity>(
+    rendered_entity_ = std::make_unique<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_, mesh_renderer_.get(),
         nullptr);
-    render_object_->transform_.set_world_position({0.f, 0.f, 0.f});
+    rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
     camera_ = std::make_unique<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         engine_->window_->aspect_ratio());
@@ -149,19 +117,10 @@ class MeshViewerApplication : public ogle::Application {
   std::unique_ptr<ogle::Entity> camera_entity_;
 
   /// Object instantiated to render the mesh.
-  std::unique_ptr<ogle::Entity> render_object_;
+  std::unique_ptr<ogle::Entity> rendered_entity_;
 
   /// Mesh storage.
   ogle::Mesh mesh_;
-
-  /// GLSL vertex shader.
-  std::unique_ptr<ogle::Shader> vertex_shader_;
-
-  /// GLSL fragment shader.
-  std::unique_ptr<ogle::Shader> fragment_shader_;
-
-  /// GLSL shader program.
-  std::unique_ptr<ogle::ShaderProgram> shader_program_;
 
   /// Mesh renderer.
   std::unique_ptr<ogle::MeshRenderer> mesh_renderer_;
