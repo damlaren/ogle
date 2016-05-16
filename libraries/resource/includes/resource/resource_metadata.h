@@ -75,9 +75,9 @@ class ResourceMetadata {
   const stl_string implementation() const;
 
   /**
-   * @brief subtype
-   * @param level
-   * @return
+   * @brief Accessor
+   * @param level Type sublevel.
+   * @return Subtype at level. Empty string if not found.
    */
   const stl_string subtype(const size_t level) const;
 

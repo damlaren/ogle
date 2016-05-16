@@ -31,7 +31,7 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
     return true;
   }
 
-  const auto& type = metadata.Get<stl_string>(Resource::kTypeField);
+  const auto& type = metadata.subtype(0);
   if (type.empty()) {
     LOG(ERROR) << "Resource type not found: " << metadata;
     return false;
@@ -72,7 +72,8 @@ void ResourceManager::LoadResources() {
       const auto& entry_path = directory_entry.path();
       if (directory_entry.is_directory()) {
         directories_to_search.emplace_back(entry_path);
-      } else if (entry_path.Extension() == ResourceMetadata::kFileExtension) {
+      } else if (StringUtils::Lower(entry_path.Extension()) ==
+                 ResourceMetadata::kFileExtension) {
         auto metadata_result = ResourceMetadata::Load(entry_path);
         if (!metadata_result.second) {
           LOG(ERROR) << "Failed to load metadata from: " << entry_path;
