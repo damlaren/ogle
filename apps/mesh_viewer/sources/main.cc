@@ -34,18 +34,17 @@ class MeshViewerApplication : public ogle::Application {
                                                       "resource_dir"));
     engine_->resource_manager_->LoadResources();
 
-    // TODO(damlaren): use Resource loader.
-    const auto kMeshDir = kResourceDir + ogle::FilePath("meshes");
-    if (!ogle::Mesh::LoadMesh(kMeshDir + ogle::FilePath("cube.obj"), &mesh_)) {
-      LOG(ERROR) << "Failed to load Mesh.";
+    auto mesh = static_cast<ogle::Mesh*>(
+        engine_->resource_manager_->GetResource("cube.obj"));
+    if (!mesh) {
+      LOG(ERROR) << "Failed to load mesh in viewer.";
       return false;
     }
-
     auto shader_program = static_cast<ogle::ShaderProgram*>(
         engine_->resource_manager_->GetResource("basic.glsl"));
     mesh_renderer_ = std::unique_ptr<ogle::MeshRenderer>(
-        ogle::MeshRenderer::Load(engine_->configuration_, mesh_,
-                                 shader_program));
+        ogle::MeshRenderer::Load(
+            engine_->configuration_, *mesh, shader_program));
     if (!mesh_renderer_) {
       LOG(ERROR) << "MeshRenderer Load failed.";
       return false;
@@ -118,9 +117,6 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Object instantiated to render the mesh.
   std::unique_ptr<ogle::Entity> rendered_entity_;
-
-  /// Mesh storage.
-  ogle::Mesh mesh_;
 
   /// Mesh renderer.
   std::unique_ptr<ogle::MeshRenderer> mesh_renderer_;

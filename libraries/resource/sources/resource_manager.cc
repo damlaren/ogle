@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "resource/resource_manager.h"
 #include "easylogging++.h"  // NOLINT
 #include "file_system/directory.h"
+#include "geometry/mesh.h"
 #include "renderer/shader.h"
 #include "resource/resource_metadata.h"
 #include "util/string_utils.h"
@@ -42,6 +43,8 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
     resource = std::move(Shader::Load(metadata));
   } else if (type == ShaderProgram::kResourceType) {
     resource = std::move(ShaderProgram::Load(metadata, this));
+  } else if (type == Mesh::kResourceType) {
+    resource = std::move(Mesh::Load(metadata));
   }
   if (resource != nullptr) {
     resources_[metadata.id()] = std::move(resource);

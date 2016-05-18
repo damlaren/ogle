@@ -16,12 +16,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_H_
 
 #include "std/ogle_std.inc"
+#include <memory>
 #include "math/vector.h"
 #include "memory/buffer.h"
+#include "resource/resource.h"
 
 namespace ogle {
-
-class FilePath;
 
 /**
  * @brief A mesh representation with face-vertex connectivity information.
@@ -30,7 +30,7 @@ class FilePath;
  * operations and algorithms. They are prepared for use on a rendering device by
  * constructing a BufferedMesh.
  */
-class Mesh {
+class Mesh : public Resource {
  public:
   struct MeshFace;
 
@@ -69,13 +69,17 @@ class Mesh {
   /// Number of vertices per face. Only triangles are stored.
   static constexpr int kVerticesPerFace = 3;
 
+  /// Type identifying mesh resources.
+  static const stl_string kResourceType;
+
+  explicit Mesh(const ResourceMetadata& metadata);
+
   /**
-   * @brief Loads a Mesh from a file.
-   * @param file_path Path to file to load from.
-   * @param[out] mesh Storage for Mesh to load.
-   * @return true if Mesh was loaded.
+   * @brief Loads a new mesh from resource metadata.
+   * @param metadata Metadata for mesh.
+   * @return New mesh, or null on failure.
    */
-  static const bool LoadMesh(const FilePath& file_path, Mesh* mesh);
+  static std::unique_ptr<Mesh> Load(const ResourceMetadata& metadata);
 
   /**
    * @brief Adds a new face to this Mesh.

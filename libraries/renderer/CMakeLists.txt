@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 
-set(INC_LIST
+set(
+  INC_LIST
   includes/renderer/buffered_mesh.h
   includes/renderer/camera.h
   includes/renderer/glfw_buffered_mesh.h
@@ -16,9 +17,14 @@ set(INC_LIST
   includes/renderer/shader.h
   includes/renderer/window.h
 )
-add_custom_target(ogle_renderer_headers SOURCES ${INC_LIST})
+add_custom_target(
+  ogle_renderer_headers
+  SOURCES
+  ${INC_LIST}
+)
 
-set(SRC_LIST
+set(
+  SRC_LIST
   sources/buffered_mesh.cc
   sources/glfw_buffered_mesh.cc
   sources/glfw_mesh_renderer.cc
@@ -32,10 +38,14 @@ set(SRC_LIST
   sources/shader.cc
   sources/window.cc
 )
-add_library(ogle_renderer "${SRC_LIST}")
+add_library(
+  ogle_renderer
+  "${SRC_LIST}"
+)
 
 add_definitions(-DGLEW_STATIC)
-target_link_libraries (ogle_renderer
+target_link_libraries (
+  ogle_renderer
   ogle_config
   ogle_entity
   ogle_file_system

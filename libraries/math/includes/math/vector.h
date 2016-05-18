@@ -48,8 +48,7 @@ class Vector {
   /**
    * @brief Default constructor. Does not init values.
    */
-  Vector() {
-  }
+  Vector() = default;
 
   /**
    * @brief Copy constructor.

@@ -16,54 +16,50 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "easylogging++.h"  // NOLINT
 #include "geometry/mesh.h"
 #include "file_system/text_file.h"
+#include "resource/resource_metadata.h"
 #include "util/string_utils.h"
 
 namespace ogle {
 
-const bool MeshLoader::LoadMesh(const FilePath& file_path, Mesh* mesh) {
-  const MeshFileFormat mesh_format = DetermineMeshFormat(file_path);
-  bool success = false;
+std::unique_ptr<Mesh> MeshLoader::LoadMesh(const ResourceMetadata& metadata) {
+  const MeshFileFormat mesh_format = DetermineMeshFormat(metadata);
 
   switch (mesh_format) {
     case MeshFileFormat::OBJ: {
-      success = LoadOBJ(file_path, mesh);
-      break;
+      return std::move(LoadOBJ(metadata));
     }
+
     case MeshFileFormat::UNKNOWN:  // Fall through.
     default: {
-      LOG(ERROR) << "Unable to determine format of Mesh at: "
-                 << file_path.str();
+      LOG(ERROR) << "Unable to determine format of mesh from metadata: "
+                 << metadata;
       break;
     }
   }
 
-  if (!success) {
-    LOG(ERROR) << "Failed to load Mesh.";
-    return false;
-  }
-
-  return true;
+  LOG(ERROR) << "Failed to load Mesh.";
+  return nullptr;
 }
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
-    const FilePath& file_path) {
-  const stl_string& extension = StringUtils::Lower(file_path.Extension());
-  if (extension == "obj") {
+    const ResourceMetadata& metadata) {
+  const auto implementation = StringUtils::Lower(metadata.implementation());
+  if (implementation == "obj") {
     return MeshFileFormat::OBJ;
   }
   return MeshFileFormat::UNKNOWN;
 }
 
-const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
+std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
   stl_string text;
+  const auto& file_path = metadata.resource_path();
   if (!TextFile::ReadTextFile(file_path, &text)) {
-    return false;
+    return nullptr;
   }
   stl_vector<stl_string> lines = StringUtils::Split(text, '\n');
   text.clear();
 
-  mesh->Clear();
-
+  auto mesh = std::make_unique<Mesh>(metadata);
   MeshAttributes mesh_data;
   for (const auto& line : lines) {
     stl_string trimmed_line = StringUtils::Trim(line, " \t\r\n");
@@ -90,7 +86,7 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
                        line_floats[2] / w};
       } else {
         LOG(ERROR) << "Expected 3 or 4 floats for vertex.";
-        return false;
+        return nullptr;
       }
       mesh_data.vertices.emplace_back(line_vector);
     } else if (line_type == "vt") {
@@ -117,12 +113,12 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
                                                line_floats[2]}));
     } else if (line_type == "vp") {
       LOG(ERROR) << "LoadOBJ cannot load parameter space vertices.";
-      return false;
+      return nullptr;
     } else if (line_type == "f") {
       // Several different formats are possible, split by '/'.
       if (tokens.size() != 4) {  // 'f' + 3 vertices.
         LOG(ERROR) << "Non-triangular faces are not supported.";
-        return false;
+        return nullptr;
       }
 
       stl_vector<Vector3f> face_vertices;
@@ -143,7 +139,8 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
           tex_str = index_specifier.substr(first_slash_index + 1,
               last_slash_index - first_slash_index - 1);
           normal_str = index_specifier.substr(last_slash_index + 1);
-        } else if (first_slash_index == last_slash_index) {  // v/t
+        } else if (first_slash_index != stl_string::npos &&
+                   first_slash_index == last_slash_index) {  // v/t
           vertex_str = index_specifier.substr(0, first_slash_index);
           tex_str = index_specifier.substr(first_slash_index + 1);
         } else {  // v
@@ -169,7 +166,7 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
           const BufferIndex index = convert_obj_index(vertex_str);
           if (index > mesh_data.vertices.size()) {
             LOG(ERROR) << "Face vertex not found for index: " << index;
-            return false;
+            return nullptr;
           }
           face_vertices.emplace_back(mesh_data.vertices[index]);
         }
@@ -177,7 +174,7 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
           const BufferIndex index = convert_obj_index(tex_str);
           if (index > mesh_data.tex_coords_uv.size()) {
             LOG(ERROR) << "Face UV not found for index: " << index;
-            return false;
+            return nullptr;
           }
           face_vertex_uvs.emplace_back(mesh_data.tex_coords_uv[index]);
         }
@@ -185,7 +182,7 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
           const BufferIndex index = convert_obj_index(normal_str);
           if (index > mesh_data.normals.size()) {
             LOG(ERROR) << "Face normal not found for index: " << index;
-            return false;
+            return nullptr;
           }
           face_vertex_normals.emplace_back(mesh_data.normals[index]);
         }
@@ -193,12 +190,12 @@ const bool MeshLoader::LoadOBJ(const FilePath& file_path, Mesh *mesh) {
 
       if (!mesh->AddFace(face_vertices, face_vertex_uvs, face_vertex_normals)) {
         LOG(ERROR) << "Failed to add mesh face.";
-        return false;
+        return nullptr;
       }
     }
   }
 
-  return true;
+  return mesh;
 }
 
 }  // namespace ogle

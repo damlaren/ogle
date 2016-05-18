@@ -39,8 +39,14 @@ const bool operator<(const Mesh::MeshVertex& lhs, const Mesh::MeshVertex& rhs) {
   }
 }
 
-const bool Mesh::LoadMesh(const FilePath& file_path, Mesh* mesh) {
-  return MeshLoader::LoadMesh(file_path, mesh);
+const stl_string Mesh::kResourceType = "mesh";
+
+Mesh::Mesh(const ResourceMetadata& metadata)
+  : Resource(metadata) {
+}
+
+std::unique_ptr<Mesh> Mesh::Load(const ResourceMetadata& metadata) {
+  return std::move(MeshLoader::LoadMesh(metadata));
 }
 
 const bool Mesh::AddFace(const stl_vector<Vector3f>& vertices,

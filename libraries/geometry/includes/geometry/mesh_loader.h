@@ -16,12 +16,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define LIBRARIES_GEOMETRY_INCLUDES_GEOMETRY_MESH_LOADER_H_
 
 #include "std/ogle_std.inc"
+#include <memory>
+#include "geometry/mesh.h"
 #include "math/vector.h"
 
 namespace ogle {
 
 class FilePath;
-class Mesh;
+class ResourceMetadata;
 
 /**
  * @brief Contains functions for loading Meshes.
@@ -30,11 +32,10 @@ class MeshLoader {
  public:
   /**
    * @brief Creates a Mesh from parsing a file.
-   * @param file_path Path to file to load. Extension determines file format.
-   * @param[out] mesh Storage for Mesh built from file contents.
-   * @return success or failure.
+   * @param metadata Metadata for mesh to load.
+   * @return New mesh, or null on failure.
    */
-  static const bool LoadMesh(const FilePath& file_path, Mesh* mesh);
+  static std::unique_ptr<Mesh> LoadMesh(const ResourceMetadata& metadata);
 
  private:
   /**
@@ -57,18 +58,18 @@ class MeshLoader {
 
   /**
    * @brief Determines format of Mesh stored in file.
-   * @param file_path Path to file to inspect.
+   * @param metadata Metadata for mesh.
    * @return File format enum.
    */
-  static const MeshFileFormat DetermineMeshFormat(const FilePath& file_path);
+  static const MeshFileFormat DetermineMeshFormat(
+      const ResourceMetadata& metadata);
 
   /**
-   * @brief Loads a MeshGraph from an OBJ file.
-   * @param file_path Path to file to load.
-   * @param[out] mesh Storage for Mesh built from file contents.
-   * @return true if loading succeeded.
+   * @brief Loads a mesh from an OBJ file.
+   * @param metadata Metadata for mesh to load.
+   * @return New mesh, or null on failure.
    */
-  static const bool LoadOBJ(const FilePath& file_path, Mesh* mesh);
+  static std::unique_ptr<Mesh> LoadOBJ(const ResourceMetadata& metadata);
 };
 
 }  // namespace ogle

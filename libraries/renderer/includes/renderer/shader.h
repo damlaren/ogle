@@ -42,11 +42,11 @@ enum class ShaderType {
  */
 class Shader : public Resource {
  public:
-  /// Type identifying Shader resources.
+  /// Type identifying shader resources.
   static const stl_string kResourceType;
 
   ///@{
-  /// Shader subtype specifications in metadata.
+  /// A shader subtype specification in metadata.
   static const stl_string kVertexShaderSubType;
   static const stl_string kFragmentShaderSubType;
   ///@}

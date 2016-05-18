@@ -19,6 +19,7 @@ target_link_libraries(
   PUBLIC
   yaml-cpp
   ogle_file_system
+  ogle_geometry
   ogle_renderer
   ogle_std
   ogle_util
