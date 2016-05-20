@@ -102,7 +102,7 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
   const auto vertex_shader_id = metadata.Get<ResourceID>(kVertexShaderField);
   const auto fragment_shader_id =
       metadata.Get<ResourceID>(kFragmentShaderField);
-  Resource* vertex_shader_resource = resource_manager->GetResource(
+  Shader* vertex_shader_resource = resource_manager->GetResource<Shader>(
       vertex_shader_id);
   if (!vertex_shader_resource) {
     LOG(ERROR) << "Couldn't find vertex shader: " << vertex_shader_id;
@@ -113,7 +113,7 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
     return nullptr;
   }
 
-  Resource* fragment_shader_resource = resource_manager->GetResource(
+  Shader* fragment_shader_resource = resource_manager->GetResource<Shader>(
       fragment_shader_id);
   if (!fragment_shader_resource) {
     LOG(ERROR) << "Couldn't find fragment shader: " << fragment_shader_id;

@@ -89,7 +89,7 @@ void ResourceManager::LoadResources() {
   }
 }
 
-Resource* ResourceManager::GetResource(const ResourceID& id) {
+Resource* ResourceManager::FindResource(const ResourceID& id) {
   const auto it = resources_.find(id);
   if (it == resources_.end()) {
     LOG(ERROR) << "Cannot find resource: " << id;

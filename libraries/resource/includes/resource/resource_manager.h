@@ -18,6 +18,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/ogle_std.inc"
 #include <utility>
 #include "file_system/file_path.h"
+#include "geometry/mesh.h"
+#include "renderer/shader.h"
 #include "resource/resource.h"
 
 namespace ogle {
@@ -50,19 +52,61 @@ class ResourceManager {
   void LoadResources();
 
   /**
+   * @brief Gets a resource of requested type.
+   *
+   * Only types named in ResourceType can be retrieved.
+   *
+   * @param id Unique ID of resource to retrieve.
+   * @return Pointer to resource, or null if not found.
+   */
+  template<typename T>
+  T* GetResource(const ResourceID& id) {
+    LOG(ERROR) << "Cannot get resource for type.";
+    return nullptr;
+  }
+
+ private:
+  /**
    * @brief Finds a resource.
    * @param id Unique ID of resource to retrieve.
    * @return Pointer to resource, or null if not found.
    */
-  Resource* GetResource(const ResourceID& id);
+  Resource* FindResource(const ResourceID& id);
 
- private:
   /// All tracked resources.
   stl_map<ResourceID, std::unique_ptr<Resource>> resources_;
 
   /// Directories under which to search for resources.
   stl_vector<FilePath> resource_dirs_;
 };
+
+template<>
+inline Shader* ResourceManager::GetResource<Shader>(const ResourceID &id) {
+  auto resource = FindResource(id);
+  if (resource && resource->metadata().type() == ResourceType::SHADER) {
+    return static_cast<Shader*>(resource);
+  }
+  return nullptr;
+}
+
+template<>
+inline ShaderProgram* ResourceManager::GetResource<ShaderProgram>(
+    const ResourceID &id) {
+  auto resource = FindResource(id);
+  if (resource && resource->metadata().type() == ResourceType::SHADER_PROGRAM) {
+    return static_cast<ShaderProgram*>(resource);
+  }
+  return nullptr;
+}
+
+template<>
+inline Mesh* ResourceManager::GetResource<Mesh>(const ResourceID &id) {
+  auto resource = FindResource(id);
+  if (resource && resource->metadata().type() == ResourceType::MESH) {
+    return static_cast<Mesh*>(resource);
+  }
+  return nullptr;
+}
 
 }  // namespace ogle
 

@@ -29,6 +29,14 @@ class FilePath;
 /// Type for ID of a resource.
 using ResourceID = stl_string;
 
+/// Supported resource types.
+enum class ResourceType {
+  MESH,
+  SHADER,
+  SHADER_PROGRAM,
+  UNKNOWN
+};
+
 /**
  * @brief Metadata associated with each Resource.
  *
@@ -82,6 +90,12 @@ class ResourceMetadata {
   const stl_string subtype(const size_t level) const;
 
   /**
+   * @brief Accessor.
+   * @return Resource type.
+   */
+  const ResourceType type() const;
+
+  /**
    * @brief Gets value of attribute from metadata.
    *
    * @param attribute_name Name of attribute to look up.
@@ -110,6 +124,9 @@ class ResourceMetadata {
 
   /// Path to resource on file system.
   FilePath resource_path_;
+
+  /// Type of resource.
+  ResourceType type_;
 };
 
 }  // namespace ogle

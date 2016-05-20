@@ -34,14 +34,15 @@ class MeshViewerApplication : public ogle::Application {
                                                       "resource_dir"));
     engine_->resource_manager_->LoadResources();
 
-    auto mesh = static_cast<ogle::Mesh*>(
-        engine_->resource_manager_->GetResource("cube.obj"));
+    auto mesh = engine_->resource_manager_->GetResource<ogle::Mesh>(
+        "cube.obj");
     if (!mesh) {
       LOG(ERROR) << "Failed to load mesh in viewer.";
       return false;
     }
-    auto shader_program = static_cast<ogle::ShaderProgram*>(
-        engine_->resource_manager_->GetResource("basic.glsl"));
+    auto shader_program =
+        engine_->resource_manager_->GetResource<ogle::ShaderProgram>(
+            "basic.glsl");
     mesh_renderer_ = std::unique_ptr<ogle::MeshRenderer>(
         ogle::MeshRenderer::Load(
             engine_->configuration_, *mesh, shader_program));

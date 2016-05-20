@@ -13,6 +13,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "resource/resource_metadata.h"
+#include "geometry/mesh.h"
+#include "renderer/shader.h"
 #include "resource/resource.h"
 #include "util/string_utils.h"
 
@@ -53,6 +55,18 @@ std::pair<ResourceMetadata, bool> ResourceMetadata::Load(
             Resource::kFilenameField].as<stl_string>());
   }
 
+  // Set type.
+  const auto type_string = new_metadata.subtype(0);
+  if (type_string == Shader::kResourceType) {
+    new_metadata.type_ = ResourceType::SHADER;
+  } else if (type_string == ShaderProgram::kResourceType) {
+    new_metadata.type_ = ResourceType::SHADER_PROGRAM;
+  } else if (type_string == Mesh::kResourceType) {
+    new_metadata.type_ = ResourceType::MESH;
+  } else {
+    new_metadata.type_ = ResourceType::UNKNOWN;
+  }
+
   return {new_metadata, true};
 }
 
@@ -76,6 +90,10 @@ const stl_string ResourceMetadata::subtype(const size_t level) const {
     return "";
   }
   return split_type[level];
+}
+
+const ResourceType ResourceMetadata::type() const {
+  return type_;
 }
 
 }  // namespace ogle
