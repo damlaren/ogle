@@ -32,18 +32,13 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
     return true;
   }
 
-  const auto& type = metadata.subtype(0);
-  if (type.empty()) {
-    LOG(ERROR) << "Resource type not found: " << metadata;
-    return false;
-  }
-
+  const auto type = metadata.type();
   std::unique_ptr<Resource> resource = nullptr;
-  if (type == Shader::kResourceType) {
+  if (type == ResourceType::SHADER) {
     resource = std::move(Shader::Load(metadata));
-  } else if (type == ShaderProgram::kResourceType) {
+  } else if (type == ResourceType::SHADER_PROGRAM) {
     resource = std::move(ShaderProgram::Load(metadata, this));
-  } else if (type == Mesh::kResourceType) {
+  } else if (type == ResourceType::MESH) {
     resource = std::move(Mesh::Load(metadata));
   }
   if (resource != nullptr) {

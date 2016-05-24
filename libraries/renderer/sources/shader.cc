@@ -108,7 +108,7 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
     LOG(ERROR) << "Couldn't find vertex shader: " << vertex_shader_id;
     return nullptr;
   }
-  if (vertex_shader_resource->subtype(0) != Shader::kResourceType) {
+  if (vertex_shader_resource->type() != ResourceType::SHADER) {
     LOG(ERROR) << "Resource is not a shader: " << vertex_shader_id;
     return nullptr;
   }
@@ -119,7 +119,7 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
     LOG(ERROR) << "Couldn't find fragment shader: " << fragment_shader_id;
     return nullptr;
   }
-  if (fragment_shader_resource->subtype(0) != Shader::kResourceType) {
+  if (fragment_shader_resource->type() != ResourceType::SHADER) {
     LOG(ERROR) << "Resource is not a shader: " << fragment_shader_id;
     return nullptr;
   }

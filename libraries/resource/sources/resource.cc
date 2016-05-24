@@ -36,6 +36,10 @@ const stl_string Resource::implementation() const {
   return metadata_.implementation();
 }
 
+const ResourceType Resource::type() const {
+  return metadata_.type();
+}
+
 const stl_string Resource::subtype(const size_t level) const {
   return metadata_.subtype(level);
 }

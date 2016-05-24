@@ -83,6 +83,10 @@ const stl_string ResourceMetadata::implementation() const {
   return Get<stl_string>(Resource::kImplementationField);
 }
 
+const ResourceType ResourceMetadata::type() const {
+  return type_;
+}
+
 const stl_string ResourceMetadata::subtype(const size_t level) const {
   const auto split_type = StringUtils::Split(
       Get<stl_string>(Resource::kTypeField), Resource::kTypeSeparator);
@@ -90,10 +94,6 @@ const stl_string ResourceMetadata::subtype(const size_t level) const {
     return "";
   }
   return split_type[level];
-}
-
-const ResourceType ResourceMetadata::type() const {
-  return type_;
 }
 
 }  // namespace ogle

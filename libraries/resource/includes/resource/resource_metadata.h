@@ -83,17 +83,17 @@ class ResourceMetadata {
   const stl_string implementation() const;
 
   /**
+   * @brief Accessor.
+   * @return Resource type.
+   */
+  const ResourceType type() const;
+
+  /**
    * @brief Accessor
    * @param level Type sublevel.
    * @return Subtype at level. Empty string if not found.
    */
   const stl_string subtype(const size_t level) const;
-
-  /**
-   * @brief Accessor.
-   * @return Resource type.
-   */
-  const ResourceType type() const;
 
   /**
    * @brief Gets value of attribute from metadata.

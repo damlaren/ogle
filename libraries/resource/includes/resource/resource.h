@@ -74,6 +74,12 @@ class Resource {
 
   /**
    * @brief Accessor.
+   * @return Type of resource.
+   */
+  const ResourceType type() const;
+
+  /**
+   * @brief Accessor.
    * @param level Level at which to get subtype.
    * @return Resource subtype. Empty string if not found.
    */
