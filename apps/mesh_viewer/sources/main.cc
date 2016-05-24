@@ -51,14 +51,14 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
-    rendered_entity_ = std::make_unique<ogle::Entity>(
+    rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_, mesh_renderer_.get(),
         nullptr);
     rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
-    camera_ = std::make_unique<ogle::PerspectiveCamera>(
+    camera_ = AllocateUniqueObject<ogle::PerspectiveCamera>(
         0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
         engine_->window_->aspect_ratio());
-    camera_entity_ = std::make_unique<ogle::Entity>(
+    camera_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_, nullptr, camera_.get());
     camera_entity_->transform_.set_world_position({-3.f, 0.f, 0.f});
     return true;
@@ -141,8 +141,9 @@ int main(const int argc, const char* argv[]) {
     LOG(FATAL) << "Failed to load configuration.";
   }
 
-  auto engine = std::make_unique<ogle::Engine>(configuration);
-  auto app = std::make_unique<MeshViewerApplication>(std::move(engine));
+  auto engine = AllocateUniqueObject<ogle::Engine>(configuration);
+  auto app = std::move(
+      std::make_unique<MeshViewerApplication>(std::move(engine)));
   if (!app->Create()) {
     LOG(FATAL) << "Application failed to start.";
   }

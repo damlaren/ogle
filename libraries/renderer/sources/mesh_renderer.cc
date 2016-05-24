@@ -24,7 +24,7 @@ MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
   const stl_string implementation = configuration.Get<stl_string>(
       kConfigModule, kConfigAttributeImplementation);
   if (implementation == GLFWMeshRenderer::kConfigImplementationName) {
-    auto new_object = new GLFWMeshRenderer(mesh, shader_program);
+    auto new_object = AllocateObject<GLFWMeshRenderer>(mesh, shader_program);
     if (new_object->Create()) {
       return new_object;
     } else {

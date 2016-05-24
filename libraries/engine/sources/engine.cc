@@ -24,7 +24,7 @@ Engine::Engine(const Configuration& configuration)
 }
 
 bool Engine::Create() {
-  resource_manager_ = std::make_unique<ogle::ResourceManager>();
+  resource_manager_ = AllocateUniqueObject<ogle::ResourceManager>();
   resource_manager_->AddResourceDirectory(
       FilePath(configuration_.Get<stl_string>("resource", "resource_dir")));
 
@@ -35,8 +35,8 @@ bool Engine::Create() {
   }
   keyboard_ = KeyboardInput::Build(configuration_, window_.get());
 
-  scene_graph_ = std::make_unique<ogle::SceneGraph>();
-  scene_renderer_ = std::make_unique<ogle::SceneRenderer>();
+  scene_graph_ = AllocateUniqueObject<ogle::SceneGraph>();
+  scene_renderer_ = AllocateUniqueObject<ogle::SceneRenderer>();
 
   return true;
 }

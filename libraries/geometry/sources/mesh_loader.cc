@@ -59,7 +59,7 @@ std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
   stl_vector<stl_string> lines = StringUtils::Split(text, '\n');
   text.clear();
 
-  auto mesh = std::make_unique<Mesh>(metadata);
+  auto mesh = AllocateUniqueObject<Mesh>(metadata);
   MeshAttributes mesh_data;
   for (const auto& line : lines) {
     stl_string trimmed_line = StringUtils::Trim(line, " \t\r\n");

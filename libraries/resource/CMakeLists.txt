@@ -1,19 +1,28 @@
 cmake_minimum_required(VERSION 3.3)
 
-set(INC_LIST
+set(
+  INC_LIST
   includes/resource/ogle_resource.h
   includes/resource/resource.h
   includes/resource/resource_manager.h
   includes/resource/resource_metadata.h
 )
-add_custom_target(ogle_resource_headers SOURCES ${INC_LIST})
+add_custom_target(
+  ogle_resource_headers
+  SOURCES
+  ${INC_LIST}
+)
 
-set(SRC_LIST
+set(
+  SRC_LIST
   sources/resource.cc
   sources/resource_manager.cc
   sources/resource_metadata.cc
 )
-add_library(ogle_resource "${SRC_LIST}")
+add_library(
+  ogle_resource
+  "${SRC_LIST}"
+)
 target_link_libraries(
   ogle_resource
   PUBLIC

@@ -137,7 +137,7 @@ class ShaderProgram : public Resource {
    * @param[in, out] fragment_shader Fragment shader.
    * @return Linked ShaderProgram, or nullptr if linking failed.
    */
-  static ShaderProgram* Link(
+  static std::unique_ptr<ShaderProgram> Link(
       const ResourceMetadata& metadata, Shader* vertex_shader,
       Shader* fragment_shader);
 

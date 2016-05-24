@@ -33,13 +33,10 @@ class MeshRenderer : public Renderer {
  public:
   /**
    * @brief Creates a new MeshRenderer.
-   *
-   * TODO(damlaren): Prevent duplication?
-   *
    * @param configuration Renderer configuration.
-   * @param mesh
-   * @param shader_program
-   * @return
+   * @param mesh Mesh to create renderer for.
+   * @param shader_program Program to use for rendering.
+   * @return New renderer, or nullptr on failure.
    */
   static MeshRenderer* Load(const Configuration& configuration,
                             const Mesh& mesh, ShaderProgram *shader_program);

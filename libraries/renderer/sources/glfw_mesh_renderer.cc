@@ -49,7 +49,7 @@ GLFWMeshRenderer::~GLFWMeshRenderer() {
 
 bool GLFWMeshRenderer::Create() {
   // Create Mesh with renderable buffers.
-  buffered_mesh_ = std::move(std::make_unique<GLFWBufferedMesh>(mesh_));
+  buffered_mesh_ = std::move(AllocateUniqueObject<GLFWBufferedMesh>(mesh_));
   if (!buffered_mesh_->Create()) {
     return false;
   }

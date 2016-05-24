@@ -40,8 +40,7 @@ class Buffer {
    */
   explicit Buffer(BufferIndex num_elements = 0)
     : num_elements_(num_elements) {
-    data_ = new T[num_elements_];
-    CHECK(data_ != nullptr) << "Buffer allocation failed.";
+    data_ = AllocateBuffer<T>(num_elements_);
   }
 
   /**
@@ -50,8 +49,7 @@ class Buffer {
    */
   Buffer(std::initializer_list<T> init_list)
     : num_elements_(init_list.size()) {
-    data_ = new T[num_elements_];
-    CHECK(data_ != nullptr) << "Buffer allocation failed.";
+    data_ = AllocateBuffer<T>(num_elements_);
     if (num_elements_ > 0) {
       std::copy(std::begin(init_list), std::end(init_list), data_);
     }
@@ -75,8 +73,7 @@ class Buffer {
    */
   explicit Buffer(const stl_vector<T>& data_vector)
     : num_elements_(data_vector.size()) {
-    data_ = new T[num_elements_];
-    CHECK(data_ != nullptr) << "Buffer allocation failed.";
+    data_ = AllocateBuffer<T>(num_elements_);
     if (num_elements_ > 0) {
       std::copy(std::begin(data_vector), std::end(data_vector), data_);
     }
@@ -88,8 +85,7 @@ class Buffer {
    */
   Buffer(const Buffer& other)
     : num_elements_(other.num_elements_) {
-    data_ = new T[num_elements_];
-    CHECK(data_ != nullptr) << "Buffer allocation failed.";
+    data_ = AllocateBuffer<T>(num_elements_);
     if (num_elements_ > 0) {
       std::copy_n(std::begin(other.data_), num_elements_, data_);
     }
@@ -128,7 +124,7 @@ class Buffer {
     if (num_elements_ != other.num_elements_) {
       delete[] data_;
       num_elements_ = other.num_elements_;
-      data_ = new T[num_elements_];
+      data_ = AllocateBuffer<T>(num_elements_);
     }
     if (num_elements_ > 0) {
       CHECK(data_ != nullptr) << "Cannot copy to null data in Buffer.";

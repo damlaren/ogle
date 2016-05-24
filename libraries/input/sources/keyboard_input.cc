@@ -34,7 +34,7 @@ std::unique_ptr<KeyboardInput> KeyboardInput::Build(
   const stl_string implementation = configuration.Get<stl_string>(
       kConfigModule, kConfigAttributeImplementation);
   if (implementation == GLFWKeyboardInput::kConfigImplementationName) {
-    auto new_object = std::make_unique<GLFWKeyboardInput>();
+    auto new_object = AllocateUniqueObject<GLFWKeyboardInput>();
 
     // GLFW tangles its keyboard and window together.
     if (window != nullptr) {

@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 SceneGraph::SceneGraph() {
-  root_ = std::make_unique<Entity>(nullptr, nullptr, nullptr);
+  root_ = AllocateUniqueObject<Entity>(nullptr, nullptr, nullptr);
 }
 
 }  // namespace ogle

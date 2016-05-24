@@ -28,7 +28,7 @@ std::unique_ptr<Window> Window::Build(const Configuration& configuration) {
   const stl_string implementation = configuration.Get<stl_string>(
       kConfigModule, kConfigAttributeImplementation);
   if (implementation == GLFWWindow::kConfigImplementationName) {
-    auto new_object = std::make_unique<GLFWWindow>();
+    auto new_object = AllocateUniqueObject<GLFWWindow>();
     const int width = configuration.Get<int>(
         kConfigModule, kConfigAttributeWidth);
     const int height = configuration.Get<int>(

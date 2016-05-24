@@ -53,7 +53,7 @@ std::unique_ptr<Shader> Shader::Load(const ResourceMetadata& metadata) {
   const auto implementation =
       metadata.Get<stl_string>(Resource::kImplementationField);
   if (implementation == GLSLShader::kImplementationName) {
-    auto new_object = std::make_unique<GLSLShader>(metadata, text, type);
+    auto new_object = AllocateUniqueObject<GLSLShader>(metadata, text, type);
     if (new_object->Create()) {
       return std::move(new_object);
     } else {
@@ -130,7 +130,7 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
       Link(metadata, vertex_shader, fragment_shader));
 }
 
-ShaderProgram* ShaderProgram::Link(
+std::unique_ptr<ShaderProgram> ShaderProgram::Link(
     const ResourceMetadata& metadata, Shader *vertex_shader,
     Shader *fragment_shader) {
   const auto implementation = metadata.implementation();
@@ -145,13 +145,12 @@ ShaderProgram* ShaderProgram::Link(
                  << fragment_shader->id();
       return nullptr;
     }
-    auto new_program = new GLSLShaderProgram(
+    auto new_program = AllocateUniqueObject<GLSLShaderProgram>(
         metadata, static_cast<GLSLShader*>(vertex_shader),
         static_cast<GLSLShader*>(fragment_shader));
     if (new_program->Create()) {
-      return new_program;
+      return std::move(new_program);
     } else {
-      delete new_program;
       LOG(ERROR) << "ShaderProgram Create() failed.";
     }
   }
