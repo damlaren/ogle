@@ -27,7 +27,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 template<class T, class... Args>
 T* AllocateObject(Args&&... args) {
-  T* new_object = new T(args...);
+  T* new_object = new T(std::forward<Args>(args)...);
   CHECK(new_object != nullptr) << "Object allocation failed.";
   return new_object;
 }
@@ -57,7 +57,7 @@ T* AllocateBuffer(const std::size_t count) {
  */
 template<class T, class... Args>
 std::unique_ptr<T> AllocateUniqueObject(Args&&... args) {
-  auto new_object = std::make_unique<T>(args...);
+  auto new_object = std::make_unique<T>(std::forward<Args>(args)...);
   CHECK(new_object != nullptr) << "Unique object allocation failed.";
   return std::move(new_object);
 }

@@ -29,13 +29,8 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
-    const auto kResourceDir = ogle::FilePath(
-        engine_->configuration_.Get<ogle::stl_string>("resource",
-                                                      "resource_dir"));
     engine_->resource_manager_->LoadResources();
-
-    auto mesh = engine_->resource_manager_->GetResource<ogle::Mesh>(
-        "cube.obj");
+    auto mesh = engine_->resource_manager_->GetResource<ogle::Mesh>("cube.obj");
     if (!mesh) {
       LOG(ERROR) << "Failed to load mesh in viewer.";
       return false;
@@ -143,8 +138,7 @@ int main(const int argc, const char* argv[]) {
 
   // TODO(damlaren): not sure why allocation wrapper doesn't compile for app.
   auto engine = AllocateUniqueObject<ogle::Engine>(configuration);
-  auto app = std::move(
-      std::make_unique<MeshViewerApplication>(std::move(engine)));
+  auto app = AllocateUniqueObject<MeshViewerApplication>(std::move(engine));
   CHECK(app != nullptr) << "Failed to allocate app.";
   if (!app->Create()) {
     LOG(FATAL) << "Application failed to start.";
