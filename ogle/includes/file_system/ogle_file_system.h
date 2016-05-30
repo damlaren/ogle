@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define OGLE_INCLUDES_FILE_SYSTEM_OGLE_FILE_SYSTEM_H_
 
 #include "std/ogle_std.inc"
+#include "file_system/directory.h"
 #include "file_system/file_path.h"
 #include "file_system/text_file.h"
 #include "file_system/yaml_file.h"
