@@ -15,5 +15,5 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 add_subdirectory(3rdparty)
-add_subdirectory(libraries)
+add_subdirectory(ogle)
 add_subdirectory(apps)
