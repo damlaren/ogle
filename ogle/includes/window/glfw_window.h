@@ -12,11 +12,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines GLFWWindow class.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_GLFW_WINDOW_H_
-#define OGLE_INCLUDES_RENDERER_GLFW_WINDOW_H_
+#ifndef OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_
+#define OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_
 
 #include "std/ogle_std.inc"
-#include "renderer/window.h"
+#include "window/window.h"
 
 class GLFWwindow;  // From GLFW.
 
@@ -109,4 +109,4 @@ class GLFWWindow : public Window {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_GLFW_WINDOW_H_
+#endif  // OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_

@@ -12,9 +12,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Implementation of window.h.
  */
 
-#include "renderer/window.h"
+#include "window/window.h"
 #include "config/configuration.h"
-#include "renderer/glfw_window.h"
+#include "window/glfw_window.h"
 
 namespace ogle {
 

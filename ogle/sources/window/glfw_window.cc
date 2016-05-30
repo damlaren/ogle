@@ -12,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Implementation of glfw_window.h.
  */
 
-#include "renderer/glfw_window.h"
+#include "window/glfw_window.h"
 #include "easylogging++.h"  // NOLINT
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"

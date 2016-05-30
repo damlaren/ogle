@@ -9,42 +9,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Implementation of engine.h.
+ * @file Group header for window library.
  */
 
-#include "engine/engine.h"
-#include "file_system/file_path.h"
-#include "input/glfw_keyboard_input.h"
+#ifndef OGLE_INCLUDES_WINDOW_OGLE_WINDOW_H_
+#define OGLE_INCLUDES_WINDOW_OGLE_WINDOW_H_
+
+#include "std/ogle_std.inc"
 #include "window/glfw_window.h"
+#include "window/window.h"
 
-namespace ogle {
-
-Engine::Engine(const Configuration& configuration)
-  : configuration_(configuration) {
-}
-
-bool Engine::Create() {
-  resource_manager_ = AllocateUniqueObject<ogle::ResourceManager>();
-  resource_manager_->AddResourceDirectory(
-      FilePath(configuration_.Get<stl_string>("resource", "resource_dir")));
-
-  window_ = Window::Build(configuration_);
-  if (!window_) {
-    LOG(ERROR) << "Failed to create window.";
-    return false;
-  }
-  keyboard_ = KeyboardInput::Build(configuration_, window_.get());
-
-  scene_graph_ = AllocateUniqueObject<ogle::SceneGraph>();
-  scene_renderer_ = AllocateUniqueObject<ogle::SceneRenderer>();
-
-  return true;
-}
-
-void Engine::Render(Entity* camera_entity) {
-  window_->ClearWindow();
-  scene_renderer_->RenderScene(camera_entity, scene_graph_.get());
-  window_->SwapBuffers();
-}
-
-}  // namespace ogle
+#endif  // OGLE_INCLUDES_WINDOW_OGLE_WINDOW_H_

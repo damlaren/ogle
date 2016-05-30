@@ -15,8 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "input/keyboard_input.h"
 #include "config/configuration.h"
 #include "input/glfw_keyboard_input.h"
-#include "renderer/glfw_window.h"
-#include "renderer/window.h"
+#include "window/glfw_window.h"
+#include "window/window.h"
 
 namespace ogle {
 

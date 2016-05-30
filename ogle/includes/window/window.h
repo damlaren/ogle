@@ -12,8 +12,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  * @file Defines Window.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_WINDOW_H_
-#define OGLE_INCLUDES_RENDERER_WINDOW_H_
+#ifndef OGLE_INCLUDES_WINDOW_WINDOW_H_
+#define OGLE_INCLUDES_WINDOW_WINDOW_H_
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -93,4 +93,4 @@ class Window {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_WINDOW_H_
+#endif  // OGLE_INCLUDES_WINDOW_WINDOW_H_

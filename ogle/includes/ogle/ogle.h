@@ -27,6 +27,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "renderer/ogle_renderer.h"
 #include "resource/ogle_resource.h"
 #include "util/ogle_util.h"
+#include "window/ogle_window.h"
 
 #include "easylogging++.h"  // NOLINT
 

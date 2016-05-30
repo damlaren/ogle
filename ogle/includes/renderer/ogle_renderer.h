@@ -20,7 +20,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "renderer/camera.h"
 #include "renderer/glfw_buffered_mesh.h"
 #include "renderer/glfw_mesh_renderer.h"
-#include "renderer/glfw_window.h"
 #include "renderer/glsl_shader.h"
 #include "renderer/mesh_renderer.h"
 #include "renderer/opengl_primitive_types.h"
@@ -29,6 +28,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "renderer/scene_graph.h"
 #include "renderer/scene_renderer.h"
 #include "renderer/shader.h"
-#include "renderer/window.h"
 
 #endif  // OGLE_INCLUDES_RENDERER_OGLE_RENDERER_H_

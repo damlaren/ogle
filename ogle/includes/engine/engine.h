@@ -18,7 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/ogle_std.inc"
 #include "config/configuration.h"
 #include "input/keyboard_input.h"
-#include "renderer/window.h"
+#include "window/window.h"
 #include "renderer/scene_graph.h"
 #include "renderer/scene_renderer.h"
 #include "resource/resource_manager.h"
