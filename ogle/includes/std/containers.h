@@ -22,6 +22,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <map>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -40,6 +41,14 @@ template <typename K, typename V, typename H = std::hash<K>,
           typename E = std::equal_to<K>>
 using stl_unordered_map =
     std::unordered_map<K, V, H, E, STLAllocator<std::pair<const K, V>>>;
+
+template <typename K, typename V, typename H = std::hash<K>,
+          typename E = std::equal_to<K>>
+using stl_unordered_multimap =
+    std::unordered_multimap<K, V, H, E, STLAllocator<std::pair<const K, V>>>;
+
+template <typename K, typename H = std::hash<K>, typename E = std::equal_to<K>>
+using stl_unordered_set = std::unordered_set<K, H, E, STLAllocator<K>>;
 
 template <typename T>
 using stl_vector = std::vector<T, STLAllocator<T>>;

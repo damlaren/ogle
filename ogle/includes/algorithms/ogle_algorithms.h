@@ -9,29 +9,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 /**
- * @file Top-level header for ogle.
+ * @file Group header for algorithms library.
  */
 
-#ifndef OGLE_INCLUDES_OGLE_OGLE_H_
-#define OGLE_INCLUDES_OGLE_OGLE_H_
+#ifndef OGLE_INCLUDES_ALGORITHMS_OGLE_ALGORITHMS_H_
+#define OGLE_INCLUDES_ALGORITHMS_OGLE_ALGORITHMS_H_
 
 #include "std/ogle_std.inc"
-#include "algorithms/ogle_algorithms.h"
-#include "application/ogle_application.h"
-#include "config/ogle_config.h"
-#include "engine/ogle_engine.h"
-#include "entity/ogle_entity.h"
-#include "file_system/ogle_file_system.h"
-#include "geometry/ogle_geometry.h"
-#include "input/ogle_input.h"
-#include "math/ogle_math.h"
-#include "renderer/ogle_renderer.h"
-#include "resource/ogle_resource.h"
-#include "util/ogle_util.h"
-#include "window/ogle_window.h"
+#include "algorithms/directed_graph.h"
 
-#include "easylogging++.h"  // NOLINT
-
-INITIALIZE_EASYLOGGINGPP
-
-#endif  // OGLE_INCLUDES_OGLE_OGLE_H_
+#endif  // OGLE_INCLUDES_ALGORITHMS_OGLE_ALGORITHMS_H_
