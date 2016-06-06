@@ -29,7 +29,8 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
-    engine_->resource_manager_->LoadResources();
+    CHECK(engine_->resource_manager_->LoadResources())
+        << "Failed to load resources.";
     auto mesh = engine_->resource_manager_->GetResource<ogle::Mesh>("cube.obj");
     if (!mesh) {
       LOG(ERROR) << "Failed to load mesh in viewer.";

@@ -65,7 +65,6 @@ enum class KeyCode {
  * @brief Hash function object for KeyCode.
  */
 struct KeyCodeHash {
- public:
   std::size_t operator()(const KeyCode code) const;
 };
 

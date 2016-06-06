@@ -49,6 +49,9 @@ class Resource {
   /// Field identifying file basename of resource.
   static const stl_string kFilenameField;
 
+  /// Field identifying dependencies of this resource.
+  static const stl_string kDependenciesField;
+
   /**
    * @brief Destructor.
    */

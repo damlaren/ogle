@@ -5,3 +5,4 @@ filename: basic.glsl
 type: shader_program
 vertex_shader: basic_vs.glsl
 fragment_shader: flat_fs.glsl
+dependencies: [basic_vs.glsl, flat_fs.glsl]

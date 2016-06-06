@@ -18,7 +18,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "std/ogle_std.inc"
 #include <functional>
 #include <utility>
-#include <vector>
 #include "easylogging++.h"  // NOLINT
 
 namespace ogle {
@@ -31,15 +30,10 @@ class DirectedGraph {
  public:
   class Node {
    public:
-    friend class Graph;
+    friend class DirectedGraph;
 
-    Node(KeyType&& key, ValueType&& value)  // NOLINT
-      : key_(std::forward<KeyType>(key)),
-        value_(std::forward<ValueType>(value)) {
-    }
-
-    const KeyType& key() const {
-      return key_;
+    explicit Node(const ValueType& value)
+      : value_(value) {
     }
 
     const stl_vector<Node*>& neighbors() const {
@@ -53,19 +47,17 @@ class DirectedGraph {
     ValueType value_;
 
    private:
-    KeyType key_;
     stl_vector<Node*> neighbors_;
     stl_vector<Node*> back_pointers_;
   };
 
   using MatchFunction = bool(const Node* node);
 
-  const bool AddNode(KeyType&& key, ValueType&& value) {  // NOLINT
-    return nodes_.emplace(std::forward<KeyType>(key),
-                          std::forward<ValueType>(value)).second;
+  const bool AddNode(const KeyType& key, const ValueType& value) {
+    return nodes_.emplace(key, Node(value)).second;
   }
 
-  const bool AddEdge(KeyType&& src_key, KeyType&& dest_key) {  // NOLINT
+  const bool AddEdge(const KeyType& src_key, const KeyType& dest_key) {
     auto src_it = nodes_.find(src_key);
     if (src_it == nodes_.end()) {
       return false;
@@ -75,8 +67,8 @@ class DirectedGraph {
       return false;
     }
 
-    Node* src_node = *src_it;
-    Node* dest_node = *dest_it;
+    Node* src_node = &src_it->second;
+    Node* dest_node = &dest_it->second;
     CHECK(src_node != nullptr && dest_node != nullptr)
         << "Both nodes must exist if keys are found to add an edge.";
     auto back_it = std::find(dest_node->back_pointers_.begin(),
@@ -97,12 +89,12 @@ class DirectedGraph {
   const std::pair<const ValueType&, bool> GetValue(const KeyType& key) const {
     const auto it = nodes_.find(key);
     if (it != nodes_.end()) {
-      return {it->second, true};
+      return {it->second.value_, true};
     }
-    return {nullptr, false};
+    return {{}, false};
   }
 
-  const std::pair<std::vector<Node*>, bool> GetNeighbors(
+  const std::pair<stl_vector<Node*>, bool> GetNeighbors(
       const KeyType& key) const {
     const auto node_it = nodes_.find(key);
     if (node_it != nodes_.end()) {
@@ -114,7 +106,7 @@ class DirectedGraph {
   const bool Remove(const KeyType& key) {
     auto node_it = nodes_.find(key);
     if (node_it != nodes_.end()) {
-      Node* node = *node_it;
+      Node* node = &node_it->second;
       for (Node* dest_node : node->neighbors_) {
         dest_node->back_pointers_.erase(std::find(
             dest_node->back_pointers_.begin(), dest_node->back_pointers_.end(),
@@ -130,15 +122,33 @@ class DirectedGraph {
     return false;
   }
 
-  std::vector<Node*> GetMatchingNodes(MatchFunction match_function) const {
-    std::vector<Node*> results;
-    std::copy_if(nodes_.begin(), nodes_.end(), std::back_inserter(results),
-                 match_function);
+  /**
+   * @brief Simple query.
+   * @return true if graph has no nodes.
+   */
+  const bool Empty() const {
+    return nodes_.empty();
+  }
+
+  /**
+   * @brief Simple query.
+   * @return Number of nodes in this graph.
+   */
+  const std::size_t Size() const {
+    return nodes_.size();
+  }
+
+  stl_vector<std::pair<const KeyType&, ValueType*>> GetMatches(
+      MatchFunction match_function) {
+    stl_vector<std::pair<const KeyType&, ValueType*>> results;
+    for (auto it = nodes_.begin(); it != nodes_.end(); it++) {
+      results.emplace_back(it->first, &it->second.value_);
+    }
     return results;
   }
 
  private:
-  stl_unordered_set<Node, std::hash<KeyType>, std::equal_to<KeyType>> nodes_;
+  stl_unordered_map<KeyType, Node> nodes_;
 };
 
 }  // namespace ogle

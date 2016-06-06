@@ -80,6 +80,10 @@ const stl_string ResourceMetadata::implementation() const {
   return Get<stl_string>(Resource::kImplementationField);
 }
 
+const stl_vector<ResourceID> ResourceMetadata::dependencies() const {
+  return Get<stl_vector<ResourceID>>(Resource::kDependenciesField);
+}
+
 const ResourceType ResourceMetadata::type() const {
   return type_;
 }

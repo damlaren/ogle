@@ -44,6 +44,11 @@ enum class ResourceType {
  */
 class ResourceMetadata {
  public:
+  /**
+   * @brief Default constructor.
+   */
+  ResourceMetadata() = default;
+
   /// File extension expected for metadata files.
   static const stl_string kFileExtension;
 
@@ -84,6 +89,12 @@ class ResourceMetadata {
 
   /**
    * @brief Accessor.
+   * @return Other resources this resource depends on.
+   */
+  const stl_vector<ResourceID> dependencies() const;
+
+  /**
+   * @brief Accessor.
    * @return Resource type.
    */
   const ResourceType type() const;
@@ -107,11 +118,6 @@ class ResourceMetadata {
   }
 
  private:
-  /**
-   * @brief Hidden constructor.
-   */
-  ResourceMetadata() = default;
-
   /// Parsed YAML file with resource data.
   YAMLFile yaml_file_;
 

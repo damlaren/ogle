@@ -14,6 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "resource/resource_manager.h"
 #include "easylogging++.h"  // NOLINT
+#include "algorithms/directed_graph.h"
 #include "file_system/directory.h"
 #include "geometry/mesh.h"
 #include "renderer/shader.h"
@@ -50,12 +51,14 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
   return false;
 }
 
-void ResourceManager::LoadResources() {
+bool ResourceManager::LoadResources() {
   stl_list<FilePath> directories_to_search;
   for (const auto& resource_dir : resource_dirs_) {
     directories_to_search.emplace_back(resource_dir);
   }
 
+  using ResourceGraph = DirectedGraph<ResourceID, ResourceMetadata>;
+  ResourceGraph resource_graph;
   while (!directories_to_search.empty()) {
     const auto search_dir = directories_to_search.front();
     directories_to_search.pop_front();
@@ -66,6 +69,8 @@ void ResourceManager::LoadResources() {
       continue;
     }
 
+    // Load all resource metadata upfront, so resource dependencies can be
+    // tracked.
     for (const auto& directory_entry : contents.first) {
       const auto& entry_path = directory_entry.path();
       if (directory_entry.is_directory()) {
@@ -75,13 +80,51 @@ void ResourceManager::LoadResources() {
         auto metadata_result = ResourceMetadata::Load(entry_path);
         if (!metadata_result.second) {
           LOG(ERROR) << "Failed to load metadata from: " << entry_path;
-        } else if (!LoadResource(metadata_result.first)) {
-          LOG(ERROR) << "Failed to load resource from metadata in: "
-                     << entry_path;
+        } else {
+          const ResourceID& resource_id = metadata_result.first.id();
+          if (!resource_graph.AddNode(resource_id, metadata_result.first)) {
+            LOG(ERROR) << "Failed to track resource in dependency graph.";
+          } else {
+            const auto get_result = resource_graph.GetValue(resource_id);
+            CHECK(get_result.second == true)
+                << "Added resource not found in graph.";
+            for (const auto& dependency_id : get_result.first.dependencies()) {
+              if (!resource_graph.AddEdge(resource_id, dependency_id)) {
+                LOG(ERROR) << "Failed to add edge to resource graph: "
+                           << resource_id << " -> " << dependency_id;
+              }
+            }
+          }
         }
       }
     }
   }
+
+  // Load resources, being careful of dependencies.
+  auto last_size = resource_graph.Size();
+  while (!resource_graph.Empty()) {
+    auto undependent_resources = resource_graph.GetMatches(
+          [](const ResourceGraph::Node* node){
+              return node->neighbors().empty(); });
+    for (const auto& resource_data : undependent_resources) {
+      if (!LoadResource(*resource_data.second)) {
+        LOG(ERROR) << "Failed to load resource from metadata in: "
+                   << resource_data.second->resource_path();
+        return false;  // Can't load dependent resources.
+      }
+      CHECK(resource_graph.Remove(resource_data.first))
+          << "Expected to remove node that is known to exist.";
+    }
+
+    auto curr_size = resource_graph.Size();
+    if (last_size == curr_size) {
+      LOG(ERROR) << "Cyclic dependency found in resources; bailing out.";
+      return false;
+    }
+    last_size = curr_size;
+  }
+
+  return true;
 }
 
 Resource* ResourceManager::FindResource(const ResourceID& id) {

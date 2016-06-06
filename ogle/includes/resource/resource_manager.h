@@ -48,8 +48,9 @@ class ResourceManager {
 
   /**
    * @brief Loads all resources from configured directories.
+   * @return true if all resources were loaded, else false.
    */
-  void LoadResources();
+  bool LoadResources();
 
   /**
    * @brief Gets a resource of requested type.

@@ -24,6 +24,8 @@ const stl_string Resource::kImplementationField = "implementation";
 
 const stl_string Resource::kFilenameField = "filename";
 
+const stl_string Resource::kDependenciesField = "dependencies";
+
 const ResourceMetadata& Resource::metadata() const {
   return metadata_;
 }

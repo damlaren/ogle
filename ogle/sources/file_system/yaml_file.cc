@@ -96,5 +96,7 @@ template const stl_string YAMLFile::Get<stl_string>(
     const stl_vector<stl_string>& keys) const;
 template const int YAMLFile::Get<int>(
     const stl_vector<stl_string>& keys) const;
+template const stl_vector<stl_string> YAMLFile::Get<stl_vector<stl_string>>(
+    const stl_vector<stl_string>& keys) const;
 
 }  // namespace ogle
