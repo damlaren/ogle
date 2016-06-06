@@ -26,23 +26,45 @@ const stl_string Window::kConfigAttributeTitle = "title";
 
 std::unique_ptr<Window> Window::Build(const Configuration& configuration) {
   const stl_string implementation = configuration.Get<stl_string>(
-      kConfigModule, kConfigAttributeImplementation);
+      kConfigModule, kConfigAttributeImplementation).first;
   if (implementation == GLFWWindow::kConfigImplementationName) {
     auto new_object = AllocateUniqueObject<GLFWWindow>();
-    const int width = configuration.Get<int>(
+    const auto width_config = configuration.Get<int>(
         kConfigModule, kConfigAttributeWidth);
-    const int height = configuration.Get<int>(
+    if (!width_config.second) {
+      LOG(ERROR) << "Window width not found in config file.";
+      return nullptr;
+    }
+    const auto height_config = configuration.Get<int>(
         kConfigModule, kConfigAttributeHeight);
-    const stl_string& title = configuration.Get<stl_string>(
-        kConfigModule, kConfigAttributeTitle);
-    const int opengl_major_version = configuration.Get<int>(
+    if (!height_config.second) {
+      LOG(ERROR) << "Window height not found in config file.";
+      return nullptr;
+    }
+    const auto opengl_major_version_config = configuration.Get<int>(
         kConfigModule, "opengl_major_version");
-    const int opengl_minor_version = configuration.Get<int>(
+    const auto opengl_minor_version_config = configuration.Get<int>(
         kConfigModule, "opengl_minor_version");
-    const int msaa_samples = configuration.Get<int>(
+    if (!opengl_major_version_config.second ||
+        !opengl_minor_version_config.second) {
+      LOG(ERROR)
+          << "Window  opengl_major/minor_version not found in config file.";
+      return nullptr;
+    }
+    const auto msaa_samples_config = configuration.Get<int>(
         kConfigModule, "msaa_samples");
-    if (new_object->Create(width, height, title, opengl_major_version,
-                           opengl_minor_version, msaa_samples)) {
+    if (!msaa_samples_config.second) {
+      LOG(ERROR) << "Window msaa_samples not found in config file.";
+    }
+
+    // Not important.
+    const stl_string title = configuration.Get<stl_string>(
+        kConfigModule, kConfigAttributeTitle).first;
+
+    if (new_object->Create(width_config.first, height_config.first, title,
+                           opengl_major_version_config.first,
+                           opengl_minor_version_config.first,
+                           msaa_samples_config.first)) {
       return std::move(new_object);
     } else {
       LOG(ERROR) << "GLFWWindow Create() failed.";

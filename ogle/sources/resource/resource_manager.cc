@@ -101,11 +101,15 @@ bool ResourceManager::LoadResources() {
   }
 
   // Load resources, being careful of dependencies.
-  auto last_size = resource_graph.Size();
   while (!resource_graph.Empty()) {
     auto undependent_resources = resource_graph.GetMatches(
           [](const ResourceGraph::Node* node){
               return node->neighbors().empty(); });
+    if (undependent_resources.empty()) {
+      LOG(ERROR) << "Unable to load remaining resources because of cyclic "
+                 << "dependencies; bailing out.";
+      return false;
+    }
     for (const auto& resource_data : undependent_resources) {
       if (!LoadResource(*resource_data.second)) {
         LOG(ERROR) << "Failed to load resource from metadata in: "
@@ -115,13 +119,6 @@ bool ResourceManager::LoadResources() {
       CHECK(resource_graph.Remove(resource_data.first))
           << "Expected to remove node that is known to exist.";
     }
-
-    auto curr_size = resource_graph.Size();
-    if (last_size == curr_size) {
-      LOG(ERROR) << "Cyclic dependency found in resources; bailing out.";
-      return false;
-    }
-    last_size = curr_size;
   }
 
   return true;

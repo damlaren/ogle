@@ -51,7 +51,7 @@ std::unique_ptr<Shader> Shader::Load(const ResourceMetadata& metadata) {
   }
 
   const auto implementation =
-      metadata.Get<stl_string>(Resource::kImplementationField);
+      metadata.Get<stl_string>(Resource::kImplementationField).first;
   if (implementation == GLSLShader::kImplementationName) {
     auto new_object = AllocateUniqueObject<GLSLShader>(metadata, text, type);
     if (new_object->Create()) {
@@ -92,16 +92,18 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
     const ResourceMetadata& metadata, ResourceManager* resource_manager) {
   CHECK(resource_manager != nullptr) << "ResourceManager cannot be null.";
 
-  const auto resource_type = metadata.Get<stl_string>(Resource::kTypeField);
+  const auto resource_type =
+      metadata.Get<stl_string>(Resource::kTypeField).first;
   if (resource_type != kResourceType) {
     LOG(ERROR) << "Attempt to load ShaderProgram from bad metadata: "
                << metadata;
     return nullptr;
   }
 
-  const auto vertex_shader_id = metadata.Get<ResourceID>(kVertexShaderField);
+  const auto vertex_shader_id =
+      metadata.Get<ResourceID>(kVertexShaderField).first;
   const auto fragment_shader_id =
-      metadata.Get<ResourceID>(kFragmentShaderField);
+      metadata.Get<ResourceID>(kFragmentShaderField).first;
   Shader* vertex_shader_resource = resource_manager->GetResource<Shader>(
       vertex_shader_id);
   if (!vertex_shader_resource) {

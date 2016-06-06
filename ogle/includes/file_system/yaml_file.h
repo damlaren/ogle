@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define OGLE_INCLUDES_FILE_SYSTEM_YAML_FILE_H_
 
 #include "std/ogle_std.inc"
+#include <utility>
 
 namespace ogle {
 
@@ -65,10 +66,11 @@ class YAMLFile {
   /**
    * @brief Gets value from a YAML file.
    * @param keys Hierarchy of key names for which to look up a value.
-   * @return Retrieved value, or default-constructed object if nothing found.
+   * @return Pair containing: (1) Retrieved value, or default-constructed object
+   *         if nothing found; and (2) flag indicating whether value was found.
    */
   template <typename T>
-  const T Get(const stl_vector<stl_string>& keys) const;
+  const std::pair<T, bool> Get(const stl_vector<stl_string>& keys) const;
 
  private:
   struct Data;

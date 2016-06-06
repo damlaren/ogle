@@ -110,10 +110,11 @@ class ResourceMetadata {
    * @brief Gets value of attribute from metadata.
    *
    * @param attribute_name Name of attribute to look up.
-   * @return Retrieved value, or default-constructed object if nothing.
+   * @return Pair with: (1) Retrieved value, or default-constructed object if
+   *         nothing; and (2) flag indicating whether attribute was found.
    */
   template <typename T>
-  const T Get(const stl_string& attribute_name) const {
+  const std::pair<T, bool> Get(const stl_string& attribute_name) const {
     return yaml_file_.Get<T>({attribute_name});
   }
 

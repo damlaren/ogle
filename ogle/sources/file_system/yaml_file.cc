@@ -61,10 +61,11 @@ bool YAMLFile::Load(const FilePath& file_path) {
 }
 
 template <typename T>
-const T YAMLFile::Get(const stl_vector<stl_string>& keys) const {
+const std::pair<T, bool> YAMLFile::Get(
+    const stl_vector<stl_string>& keys) const {
   if (!data_) {
     LOG(ERROR) << "No data loaded for YAML file.";
-    return T{};
+    return {T{}, false};
   }
   if (data_->root_node_ && !keys.empty()) {
     // yaml-cpp resets data held by a node on assignment, which necessitates
@@ -80,23 +81,24 @@ const T YAMLFile::Get(const stl_vector<stl_string>& keys) const {
     }
     const auto& last_node = node_hierarchy.back();
     if (last_node) {
-      return last_node.as<T>();
+      return {last_node.as<T>(), true};
     }
   }
 
   std::ostringstream oss;
   std::copy(keys.begin(), keys.end(),
             std::ostream_iterator<stl_string>(oss, ","));
-  LOG(ERROR) << "Keys not found in YAML file: " << oss.str();
-  return T{};
+  return {T{}, false};
 }
 
 // Declarations of used Getters.
-template const stl_string YAMLFile::Get<stl_string>(
-    const stl_vector<stl_string>& keys) const;
-template const int YAMLFile::Get<int>(
-    const stl_vector<stl_string>& keys) const;
-template const stl_vector<stl_string> YAMLFile::Get<stl_vector<stl_string>>(
-    const stl_vector<stl_string>& keys) const;
+template const std::pair<stl_string, bool>
+YAMLFile::Get<stl_string>(const stl_vector<stl_string>& keys) const;
+
+template const std::pair<int, bool>
+YAMLFile::Get<int>(const stl_vector<stl_string>& keys) const;
+
+template const std::pair<stl_vector<stl_string>, bool>
+YAMLFile::Get<stl_vector<stl_string>>(const stl_vector<stl_string>& keys) const;
 
 }  // namespace ogle

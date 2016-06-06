@@ -36,21 +36,26 @@ std::pair<ResourceMetadata, bool> ResourceMetadata::Load(
     return {new_metadata, false};
   }
 
-  if (new_metadata.Get<stl_string>(Resource::kIdField).empty()) {
+  if (new_metadata.Get<stl_string>(Resource::kIdField).first.empty()) {
     LOG(ERROR) << "Metadata must have an ID.";
+    return {new_metadata, false};
+  }
+
+  if (new_metadata.Get<stl_string>(Resource::kTypeField).first.empty()) {
+    LOG(ERROR) << "Metadata must have a type.";
     return {new_metadata, false};
   }
 
   // Set path to resource.
   const auto dirname = file_path.Dirname();
-  if (new_metadata.Get<stl_string>(Resource::kFilenameField).empty()) {
+  const auto resource_filename =
+      new_metadata.Get<stl_string>(Resource::kFilenameField).first;
+  if (resource_filename.empty()) {
     LOG(ERROR) << "Failed to identify path name of resource from metadata: "
                << file_path.str();
     return {new_metadata, false};
   } else {
-    new_metadata.resource_path_ =
-        dirname + FilePath(new_metadata.Get<stl_string>(
-            Resource::kFilenameField));
+    new_metadata.resource_path_ = dirname + FilePath(resource_filename);
   }
 
   // Set type.
@@ -69,7 +74,7 @@ std::pair<ResourceMetadata, bool> ResourceMetadata::Load(
 }
 
 const ResourceID ResourceMetadata::id() const {
-  return Get<ResourceID>(Resource::kIdField);
+  return Get<ResourceID>(Resource::kIdField).first;
 }
 
 const FilePath& ResourceMetadata::resource_path() const {
@@ -77,11 +82,11 @@ const FilePath& ResourceMetadata::resource_path() const {
 }
 
 const stl_string ResourceMetadata::implementation() const {
-  return Get<stl_string>(Resource::kImplementationField);
+  return Get<stl_string>(Resource::kImplementationField).first;
 }
 
 const stl_vector<ResourceID> ResourceMetadata::dependencies() const {
-  return Get<stl_vector<ResourceID>>(Resource::kDependenciesField);
+  return Get<stl_vector<ResourceID>>(Resource::kDependenciesField).first;
 }
 
 const ResourceType ResourceMetadata::type() const {
@@ -90,7 +95,7 @@ const ResourceType ResourceMetadata::type() const {
 
 const stl_string ResourceMetadata::subtype(const size_t level) const {
   const auto split_type = StringUtils::Split(
-      Get<stl_string>(Resource::kTypeField), Resource::kTypeSeparator);
+      Get<stl_string>(Resource::kTypeField).first, Resource::kTypeSeparator);
   if (split_type.size() <= level) {
     return "";
   }

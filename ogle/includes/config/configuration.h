@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define OGLE_INCLUDES_CONFIG_CONFIGURATION_H_
 
 #include "std/ogle_std.inc"
+#include <utility>
 #include "easylogging++.h"  // NOLINT
 #include "file_system/yaml_file.h"
 
@@ -45,11 +46,12 @@ class Configuration {
    *
    * @param module_name Name of subsystem for which to look up attribute.
    * @param attribute_name Name of attribute to look up.
-   * @return Retrieved value, or default-constructed object if nothing.
+   * @return Pair with: (1) Retrieved value, or default-constructed object if
+   *         nothing; and (2) flag indicating whether value was found.
    */
   template <typename T>
-  const T Get(const stl_string& module_name,
-              const stl_string& attribute_name) const {
+  const std::pair<T, bool> Get(const stl_string& module_name,
+                               const stl_string& attribute_name) const {
     return yaml_file_.Get<T>({module_name, attribute_name});
   }
 

@@ -142,7 +142,9 @@ class DirectedGraph {
       MatchFunction match_function) {
     stl_vector<std::pair<const KeyType&, ValueType*>> results;
     for (auto it = nodes_.begin(); it != nodes_.end(); it++) {
-      results.emplace_back(it->first, &it->second.value_);
+      if (match_function(&it->second)) {
+        results.emplace_back(it->first, &it->second.value_);
+      }
     }
     return results;
   }

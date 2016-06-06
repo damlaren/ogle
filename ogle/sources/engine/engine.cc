@@ -25,8 +25,13 @@ Engine::Engine(const Configuration& configuration)
 
 bool Engine::Create() {
   resource_manager_ = AllocateUniqueObject<ogle::ResourceManager>();
-  resource_manager_->AddResourceDirectory(
-      FilePath(configuration_.Get<stl_string>("resource", "resource_dir")));
+  auto resource_dir_config = configuration_.Get<stl_string>(
+      "resource", "resource_dir");
+  if (!resource_dir_config.second) {
+    LOG(ERROR) << "resource_dir not found in config file.";
+    return false;
+  }
+  resource_manager_->AddResourceDirectory(FilePath(resource_dir_config.first));
 
   window_ = Window::Build(configuration_);
   if (!window_) {
