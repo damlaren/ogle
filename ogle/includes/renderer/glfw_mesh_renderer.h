@@ -57,6 +57,8 @@ class GLFWMeshRenderer : public MeshRenderer {
   struct Data;
 
   // TODO(damlaren): Don't duplicate this for each MeshRenderer.
+  // This can no longer be a unique pointer. Has to be a handle to a shared
+  // object. Maybe a resource, maybe not?
   /// Mesh prepared for rendering.
   std::unique_ptr<GLFWBufferedMesh> buffered_mesh_;
 
