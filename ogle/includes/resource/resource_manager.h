@@ -50,7 +50,7 @@ class ResourceManager {
    * @brief Loads all resources from configured directories.
    * @return true if all resources were loaded, else false.
    */
-  bool LoadResources();
+  const bool LoadResources();
 
   /**
    * @brief Gets a resource of requested type.
@@ -62,7 +62,10 @@ class ResourceManager {
    */
   template<typename T>
   T* GetResource(const ResourceID& id) {
-    LOG(ERROR) << "Cannot get resource for type.";
+    auto resource = FindResource(id);
+    if (resource && resource->metadata().type() == T::kResourceType) {
+      return static_cast<T*>(resource);
+    }
     return nullptr;
   }
 
@@ -80,34 +83,6 @@ class ResourceManager {
   /// Directories under which to search for resources.
   stl_vector<FilePath> resource_dirs_;
 };
-
-template<>
-inline Shader* ResourceManager::GetResource<Shader>(const ResourceID &id) {
-  auto resource = FindResource(id);
-  if (resource && resource->metadata().type() == ResourceType::SHADER) {
-    return static_cast<Shader*>(resource);
-  }
-  return nullptr;
-}
-
-template<>
-inline ShaderProgram* ResourceManager::GetResource<ShaderProgram>(
-    const ResourceID &id) {
-  auto resource = FindResource(id);
-  if (resource && resource->metadata().type() == ResourceType::SHADER_PROGRAM) {
-    return static_cast<ShaderProgram*>(resource);
-  }
-  return nullptr;
-}
-
-template<>
-inline Mesh* ResourceManager::GetResource<Mesh>(const ResourceID &id) {
-  auto resource = FindResource(id);
-  if (resource && resource->metadata().type() == ResourceType::MESH) {
-    return static_cast<Mesh*>(resource);
-  }
-  return nullptr;
-}
 
 }  // namespace ogle
 

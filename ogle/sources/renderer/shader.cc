@@ -21,14 +21,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-const stl_string Shader::kResourceType = "shader";
 const stl_string Shader::kVertexShaderSubType = "vertex";
 const stl_string Shader::kFragmentShaderSubType = "fragment";
 
 std::unique_ptr<Shader> Shader::Load(const ResourceMetadata& metadata) {
-  const auto resource_type = metadata.subtype(0);
-  if (resource_type != kResourceType) {
-    LOG(ERROR) << "Attempt to load Shader with wrong type: " << resource_type;
+  if (metadata.type() != ResourceType::SHADER) {
+    LOG(ERROR) << "Attempt to load Shader from incorrect metadata type: "
+               << metadata.type();
     return nullptr;
   }
 
@@ -84,7 +83,6 @@ const stl_string ShaderProgram::kModelMatrixArg = "model_matrix";
 const stl_string ShaderProgram::kViewMatrixArg = "view_matrix";
 const stl_string ShaderProgram::kProjectionMatrixArg = "projection_matrix";
 
-const stl_string ShaderProgram::kResourceType = "shader_program";
 const stl_string ShaderProgram::kVertexShaderField = "vertex_shader";
 const stl_string ShaderProgram::kFragmentShaderField = "fragment_shader";
 
@@ -92,11 +90,9 @@ std::unique_ptr<ShaderProgram> ShaderProgram::Load(
     const ResourceMetadata& metadata, ResourceManager* resource_manager) {
   CHECK(resource_manager != nullptr) << "ResourceManager cannot be null.";
 
-  const auto resource_type =
-      metadata.Get<stl_string>(Resource::kTypeField).first;
-  if (resource_type != kResourceType) {
-    LOG(ERROR) << "Attempt to load ShaderProgram from bad metadata: "
-               << metadata;
+  if (metadata.type() != kResourceType) {
+    LOG(ERROR) << "Attempt to load ShaderProgram from bad metadata type: "
+               << metadata.type();
     return nullptr;
   }
 

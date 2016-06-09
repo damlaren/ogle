@@ -70,7 +70,7 @@ class Mesh : public Resource {
   static constexpr int kVerticesPerFace = 3;
 
   /// Type identifying mesh resources.
-  static const stl_string kResourceType;
+  static constexpr ResourceType kResourceType = ResourceType::MESH;
 
   explicit Mesh(const ResourceMetadata& metadata);
 

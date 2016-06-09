@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "resource/resource_metadata.h"
+#include <type_traits>
 #include "geometry/mesh.h"
 #include "renderer/shader.h"
 #include "resource/resource.h"
@@ -22,9 +23,29 @@ namespace ogle {
 
 const stl_string ResourceMetadata::kFileExtension = "meta";
 
-std::ostream& operator<<(std::ostream& os, const ResourceMetadata& metadata) {
+std::ostream& operator<<(std::ostream& os,  // NOLINT
+                         const ResourceMetadata& metadata) {
   os << "Resource path: " << metadata.resource_path_ << std::endl
      << metadata.yaml_file_;
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os,  // NOLINT
+                         const ResourceType type) {
+  switch (type) {
+    case ResourceType::MESH:
+      os << "mesh";
+      break;
+    case ResourceType::SHADER:
+      os << "shader";
+      break;
+    case ResourceType::SHADER_PROGRAM:
+      os << "shader_program";
+      break;
+    default:
+      os << "unknown";
+      break;
+  }
   return os;
 }
 
@@ -60,15 +81,21 @@ std::pair<ResourceMetadata, bool> ResourceMetadata::Load(
 
   // Set type.
   const auto type_string = new_metadata.subtype(0);
-  if (type_string == Shader::kResourceType) {
-    new_metadata.type_ = ResourceType::SHADER;
-  } else if (type_string == ShaderProgram::kResourceType) {
-    new_metadata.type_ = ResourceType::SHADER_PROGRAM;
-  } else if (type_string == Mesh::kResourceType) {
-    new_metadata.type_ = ResourceType::MESH;
-  } else {
-    new_metadata.type_ = ResourceType::UNKNOWN;
+  new_metadata.type_ = ResourceType::UNKNOWN;
+  for (ResourceType type = ResourceType::BEGIN; type != ResourceType::END;
+       type = static_cast<ResourceType>(
+           std::underlying_type<ResourceType>::type(type) + 1)) {
+    std::stringstream ss;
+    ss << type;
+    if (type_string == ss.str()) {
+      new_metadata.type_ = type;
+      break;
+    }
   }
+  if (new_metadata.type_ == ResourceType::UNKNOWN) {
+    LOG(ERROR) << "Couldn't identify resource type: " << type_string;
+  }
+
 
   return {new_metadata, true};
 }

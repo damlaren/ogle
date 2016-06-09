@@ -33,15 +33,21 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
     return true;
   }
 
-  const auto type = metadata.type();
   std::unique_ptr<Resource> resource = nullptr;
-  if (type == ResourceType::SHADER) {
-    resource = std::move(Shader::Load(metadata));
-  } else if (type == ResourceType::SHADER_PROGRAM) {
-    resource = std::move(ShaderProgram::Load(metadata, this));
-  } else if (type == ResourceType::MESH) {
-    resource = std::move(Mesh::Load(metadata));
+  switch (metadata.type()) {
+    case ResourceType::SHADER:
+      resource = std::move(Shader::Load(metadata));
+      break;
+    case ResourceType::SHADER_PROGRAM:
+      resource = std::move(ShaderProgram::Load(metadata, this));
+      break;
+    case ResourceType::MESH:
+      resource = std::move(Mesh::Load(metadata));
+      break;
+    default:
+      break;
   }
+
   if (resource != nullptr) {
     resources_[metadata.id()] = std::move(resource);
     return true;
@@ -51,7 +57,7 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
   return false;
 }
 
-bool ResourceManager::LoadResources() {
+const bool ResourceManager::LoadResources() {
   stl_list<FilePath> directories_to_search;
   for (const auto& resource_dir : resource_dirs_) {
     directories_to_search.emplace_back(resource_dir);

@@ -34,8 +34,17 @@ enum class ResourceType {
   MESH,
   SHADER,
   SHADER_PROGRAM,
-  UNKNOWN
+  UNKNOWN,
+  BEGIN = MESH,
+  END = UNKNOWN
 };
+
+/**
+ * @brief Output stream operator for ResourceType.
+ * @param[in,out] os Output stream.
+ * @param type Type to print.
+ */
+std::ostream& operator<<(std::ostream& os, const ResourceType type);  // NOLINT
 
 /**
  * @brief Metadata associated with each Resource.

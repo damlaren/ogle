@@ -43,7 +43,7 @@ enum class ShaderType {
 class Shader : public Resource {
  public:
   /// Type identifying shader resources.
-  static const stl_string kResourceType;
+  static constexpr ResourceType kResourceType = ResourceType::SHADER;
 
   ///@{
   /// A shader subtype specification in metadata.
@@ -108,7 +108,7 @@ class ShaderProgram : public Resource {
   ///@}
 
   /// Type identifying shader program resources.
-  static const stl_string kResourceType;
+  static constexpr ResourceType kResourceType = ResourceType::SHADER_PROGRAM;
 
   ///@{
   /// Fields identifying shader types to link together.

@@ -22,6 +22,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 namespace ogle {
 
 std::unique_ptr<Mesh> MeshLoader::LoadMesh(const ResourceMetadata& metadata) {
+  if (metadata.type() != ResourceType::MESH) {
+    LOG(ERROR) << "Attempted to load Mesh from incorrect metadata type: "
+               << metadata.type();
+    return nullptr;
+  }
+
   const MeshFileFormat mesh_format = DetermineMeshFormat(metadata);
 
   switch (mesh_format) {

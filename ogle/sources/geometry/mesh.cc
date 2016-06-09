@@ -39,8 +39,6 @@ const bool operator<(const Mesh::MeshVertex& lhs, const Mesh::MeshVertex& rhs) {
   }
 }
 
-const stl_string Mesh::kResourceType = "mesh";
-
 Mesh::Mesh(const ResourceMetadata& metadata)
   : Resource(metadata) {
 }
