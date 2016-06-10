@@ -88,7 +88,7 @@ void GLFWMeshRenderer::Render(const Transform& transform,
 
   Matrix44f model_matrix = transform.TransformationMatrix3D();
 
-  auto camera_component = camera->camera();
+  Camera* camera_component = camera->GetComponent<Camera>();
   if (camera_component == nullptr) {
     LOG(ERROR) << "Camera Entity needs Camera component.";
     return;

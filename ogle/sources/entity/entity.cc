@@ -13,19 +13,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 #include "entity/entity.h"
+#include <algorithm>
 
 namespace ogle {
 
-Entity::Entity(Transform *parent, Renderer* renderer, Camera* camera)
-  : transform_(parent, this), renderer_(renderer), camera_(camera) {
+Entity::Entity(Transform *parent, Renderer* renderer)
+  : transform_(parent, this), renderer_(renderer) {
+}
+
+bool Entity::AddComponent(std::unique_ptr<Component> component) {
+  if (std::find_if(components_.begin(), components_.end(),
+                   [&](const std::unique_ptr<Component>& element)->bool {  // NOLINT
+                     return element->type() == component->type();
+                   }) == components_.end()) {
+    component->set_entity(this);
+    components_.emplace_back(std::move(component));
+    return true;
+  }
+  return false;
 }
 
 Renderer* Entity::renderer() {
   return renderer_;
-}
-
-Camera* Entity::camera() {
-  return camera_;
 }
 
 }  // namespace ogle

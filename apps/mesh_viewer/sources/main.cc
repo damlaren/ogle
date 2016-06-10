@@ -48,14 +48,17 @@ class MeshViewerApplication : public ogle::Application {
     }
 
     rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
-        &engine_->scene_graph_->root_->transform_, mesh_renderer_.get(),
-        nullptr);
+        &engine_->scene_graph_->root_->transform_, mesh_renderer_.get());
     rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
-    camera_ = AllocateUniqueObject<ogle::PerspectiveCamera>(
-        0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
-        engine_->window_->aspect_ratio());
     camera_entity_ = AllocateUniqueObject<ogle::Entity>(
-        &engine_->scene_graph_->root_->transform_, nullptr, camera_.get());
+        &engine_->scene_graph_->root_->transform_, nullptr);
+    if (!camera_entity_->AddComponent(
+            AllocateUniqueObject<ogle::PerspectiveCamera>(
+                0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
+                engine_->window_->aspect_ratio()))) {
+      LOG(ERROR) << "Failed to add camera component.";
+      return false;
+    }
     camera_entity_->transform_.set_world_position({-3.f, 0.f, 0.f});
     return true;
   }
@@ -68,7 +71,12 @@ class MeshViewerApplication : public ogle::Application {
     // Update camera aspect ratio.
     // TODO(damlaren): Should be done with an Update function on an Entity,
     // or some other interface.
-    camera_->set_aspect_ratio(engine_->window_->aspect_ratio());
+    ogle::Camera* camera = camera_entity_->GetComponent<ogle::Camera>();
+    if (camera == nullptr) {
+      LOG(ERROR) << "Failed to get camera.";
+      return false;
+    }
+    camera->set_aspect_ratio(engine_->window_->aspect_ratio());
 
     // Move camera on input.
     constexpr float kMoveDelta = 0.03f;
@@ -109,17 +117,14 @@ class MeshViewerApplication : public ogle::Application {
   }
 
  private:
-  /// Camera Entity.
+  /// Entity with camera in scene.
   std::unique_ptr<ogle::Entity> camera_entity_;
 
-  /// Object instantiated to render the mesh.
+  /// Entity instantiated to render the mesh.
   std::unique_ptr<ogle::Entity> rendered_entity_;
 
   /// Mesh renderer.
   std::unique_ptr<ogle::MeshRenderer> mesh_renderer_;
-
-  /// Camera to render from.
-  std::unique_ptr<ogle::Camera> camera_;
 };
 
 /**

@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define OGLE_INCLUDES_RENDERER_CAMERA_H_
 
 #include "std/ogle_std.inc"
+#include "entity/component.h"
 #include "math/matrix.h"
 
 namespace ogle {
@@ -24,15 +25,16 @@ class Transform;
 
 /**
  * @brief A camera positioned in the world.
- *
- * TODO(damlaren): Implement as component.
  */
-class Camera {
+class Camera : public Component {
  public:
+  /// Run-time type for all cameras.
+  static constexpr ComponentType kComponentType = ComponentType::CAMERA;
+
   /**
-   * @brief Virtual destructor.
+   * @brief Default constructor.
    */
-  virtual ~Camera() = default;
+  Camera();
 
   /**
    * @brief Setter.

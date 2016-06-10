@@ -31,6 +31,8 @@ namespace ogle {
  * 3. It doesn't change after being loaded.
  *
  * Each resource must have a globally unique ID loaded from metadata.
+ * Each type inheriting from resource must also define a kResourceType constant
+ * which takes on one of the values defined by ResourceType.
  */
 class Resource {
  public:

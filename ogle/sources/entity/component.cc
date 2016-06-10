@@ -1,4 +1,3 @@
-
 /*
 Copyright (c) 2015 damlaren
 
@@ -18,8 +17,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+Component::Component(const ComponentType type)
+  : type_(type), entity_(nullptr) {
+}
+
 Entity* Component::entity() const {
   return entity_;
+}
+
+void Component::set_entity(Entity* entity) {
+  entity_ = entity;
+}
+
+const ComponentType Component::type() const {
+  return type_;
 }
 
 }  // namespace ogle

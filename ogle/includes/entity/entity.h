@@ -16,11 +16,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define OGLE_INCLUDES_ENTITY_ENTITY_H_
 
 #include "std/ogle_std.inc"
+#include <memory>
+#include "entity/component.h"
 #include "geometry/transform.h"
 
 namespace ogle {
 
-class Camera;
 class Renderer;
 
 /**
@@ -39,10 +40,8 @@ class Entity {
    * @param parent Transform of parent Entity.
    * @param renderer Renderer to use to draw this Entity.  Rendering is
    *     skipped if one is not provided.
-   * @param camera Camera to attach to Entity. Can be null. Not used to render
-   *     this Entity.
    */
-  Entity(Transform *parent, Renderer* renderer, Camera* camera);
+  Entity(Transform *parent, Renderer* renderer);
 
   /**
    * @brief Renders this Entity.
@@ -56,27 +55,44 @@ class Entity {
   void Render(const Entity &camera);
 
   /**
+   * @brief Adds component to this entity.
+   *
+   * Only one component of a given type can be added at once.
+   *
+   * @param component Component to add. Will be owned by entity afterwards.
+   * @return success/failure.
+   */
+  bool AddComponent(std::unique_ptr<Component> component);
+
+  /**
    * @brief Accessor.
    * @return Renderer attached to this Entity.
    */
   Renderer* renderer();
 
   /**
-   * @brief Accessor.
-   * @return Camera attached to this Entity.
+   * @brief Search for a component of a specific type.
+   * @returns Pointer to component with matching type, or null if not found.
    */
-  Camera* camera();
+  template<typename T>
+  T* GetComponent() {
+    for (auto& component : components_) {
+      if (component->type() == T::kComponentType) {
+        return static_cast<T*>(component.get());
+      }
+    }
+    return nullptr;
+  }
 
   /// Entity location and orientation.
   Transform transform_;
 
  private:
-  // TODO(damlaren): These should be components.
-  /// Renderer used to display Entity.
-  Renderer* renderer_;
+  /// Components attached to (and owned by) this entity.
+  stl_vector<std::unique_ptr<Component>> components_;
 
-  /// Camera attached to this Entity, if there is one.
-  Camera* camera_;
+  /// Renderer used to display entity.
+  Renderer* renderer_;
 };
 
 }  // namespace ogle

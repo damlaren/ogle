@@ -15,6 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "renderer/scene_renderer.h"
 #include "easylogging++.h"  // NOLINT
 #include "entity/entity.h"
+#include "renderer/camera.h"
 #include "renderer/renderer.h"
 #include "renderer/scene_graph.h"
 
@@ -31,7 +32,7 @@ void SceneRenderer::RenderScene(Entity* camera_entity,
   // graph and draw objects in the order they are encountered.
   if (scene_graph->root_ == nullptr) {
     LOG(ERROR) << "Scene graph has no root.";
-  } else if (camera_entity->camera() == nullptr) {
+  } else if (camera_entity->GetComponent<Camera>() == nullptr) {
     LOG(ERROR) << "Camera Entity for RenderScene has no Camera attached.";
   } else {
     Render(camera_entity, scene_graph->root_.get());
