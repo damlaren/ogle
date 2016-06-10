@@ -44,7 +44,7 @@ void SceneRenderer::Render(Entity* camera_entity, Entity *entity) {
     return;
   }
 
-  Renderer* renderer = entity->renderer();
+  Renderer* renderer = entity->GetComponent<Renderer>();
   if (renderer != nullptr) {
     renderer->Render(entity->transform_, camera_entity);
   }

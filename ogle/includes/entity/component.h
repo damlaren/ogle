@@ -23,6 +23,7 @@ class Entity;
 
 enum class ComponentType {
   CAMERA,
+  RENDERER,
   UNKNOWN
 };
 

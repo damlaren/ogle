@@ -17,8 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-Entity::Entity(Transform *parent, Renderer* renderer)
-  : transform_(parent, this), renderer_(renderer) {
+Entity::Entity(Transform *parent)
+  : transform_(parent, this) {
 }
 
 bool Entity::AddComponent(std::unique_ptr<Component> component) {
@@ -31,10 +31,6 @@ bool Entity::AddComponent(std::unique_ptr<Component> component) {
     return true;
   }
   return false;
-}
-
-Renderer* Entity::renderer() {
-  return renderer_;
 }
 
 }  // namespace ogle

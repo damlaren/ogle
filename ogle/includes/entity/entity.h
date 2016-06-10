@@ -22,8 +22,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-class Renderer;
-
 /**
  * @brief An object that exists in the world of an application.
  *
@@ -38,10 +36,8 @@ class Entity {
   /**
    * @brief Constructor.
    * @param parent Transform of parent Entity.
-   * @param renderer Renderer to use to draw this Entity.  Rendering is
-   *     skipped if one is not provided.
    */
-  Entity(Transform *parent, Renderer* renderer);
+  explicit Entity(Transform *parent);
 
   /**
    * @brief Renders this Entity.
@@ -65,12 +61,6 @@ class Entity {
   bool AddComponent(std::unique_ptr<Component> component);
 
   /**
-   * @brief Accessor.
-   * @return Renderer attached to this Entity.
-   */
-  Renderer* renderer();
-
-  /**
    * @brief Search for a component of a specific type.
    * @returns Pointer to component with matching type, or null if not found.
    */
@@ -90,9 +80,6 @@ class Entity {
  private:
   /// Components attached to (and owned by) this entity.
   stl_vector<std::unique_ptr<Component>> components_;
-
-  /// Renderer used to display entity.
-  Renderer* renderer_;
 };
 
 }  // namespace ogle

@@ -39,19 +39,19 @@ class MeshViewerApplication : public ogle::Application {
     auto shader_program =
         engine_->resource_manager_->GetResource<ogle::ShaderProgram>(
             "basic.glsl");
-    mesh_renderer_ = std::unique_ptr<ogle::MeshRenderer>(
-        ogle::MeshRenderer::Load(
-            engine_->configuration_, *mesh, shader_program));
-    if (!mesh_renderer_) {
-      LOG(ERROR) << "MeshRenderer Load failed.";
+
+    rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
+        &engine_->scene_graph_->root_->transform_);
+    rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
+    if (!rendered_entity_->AddComponent(
+            std::unique_ptr<ogle::MeshRenderer>(ogle::MeshRenderer::Load(
+                engine_->configuration_, *mesh, shader_program)))) {
+      LOG(ERROR) << "Failed to add renderer component.";
       return false;
     }
 
-    rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
-        &engine_->scene_graph_->root_->transform_, mesh_renderer_.get());
-    rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
     camera_entity_ = AllocateUniqueObject<ogle::Entity>(
-        &engine_->scene_graph_->root_->transform_, nullptr);
+        &engine_->scene_graph_->root_->transform_);
     if (!camera_entity_->AddComponent(
             AllocateUniqueObject<ogle::PerspectiveCamera>(
                 0.01f, 100.f, ogle::Angle::FromDegrees(67.f),
@@ -122,9 +122,6 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Entity instantiated to render the mesh.
   std::unique_ptr<ogle::Entity> rendered_entity_;
-
-  /// Mesh renderer.
-  std::unique_ptr<ogle::MeshRenderer> mesh_renderer_;
 };
 
 /**

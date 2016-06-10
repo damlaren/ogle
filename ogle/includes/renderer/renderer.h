@@ -16,12 +16,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define OGLE_INCLUDES_RENDERER_RENDERER_H_
 
 #include "std/ogle_std.inc"
+#include "entity/component.h"
 #include "math/vector.h"
 
 namespace ogle {
 
 class Entity;
-class Mesh;
 class Transform;
 
 /**
@@ -32,7 +32,7 @@ class Transform;
  * specific types of objects. They are designed for reuse by
  * different Entities.
  */
-class Renderer {
+class Renderer : public Component {
  public:
   /// Configuration module describing renderers.
   static const stl_string kConfigModule;
@@ -40,10 +40,8 @@ class Renderer {
   /// Configuration attribute defining implementation to use.
   static const stl_string kConfigAttributeImplementation;
 
-  /**
-   * @brief Default destructor.
-   */
-  virtual ~Renderer() = default;
+  /// Run-time type for all renderers.
+  static constexpr ComponentType kComponentType = ComponentType::RENDERER;
 
   /**
    * @brief Render object.
@@ -56,7 +54,7 @@ class Renderer {
   /**
    * @brief Default constructor.
    */
-  Renderer() = default;
+  Renderer();
 };
 
 }  // namespace ogle
