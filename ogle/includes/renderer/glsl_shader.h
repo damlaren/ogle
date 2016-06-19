@@ -93,7 +93,6 @@ class GLSLShaderProgram : public ShaderProgram {
    * @brief Helper function for setting uniform variables.
    *
    * Most parameters are same as passed to @p SetUniformMatrix*f.
-   * OpenGL's API only supports setting float matrices.
    *
    * @param variable Name of uniform variable.
    * @param mat Matrix to set data from.
@@ -102,8 +101,6 @@ class GLSLShaderProgram : public ShaderProgram {
   template<MatrixIndex M, MatrixIndex N, typename GLFunc>
   void SetUniformMatrix(const stl_string& variable,
                         const Matrix<float, M, N>& mat, GLFunc gl_func) {
-    // TODO(damlaren): Getting location is best done outside of a loop.
-    // Querying it is slow.
     auto uniform_location = GetUniformLocation(variable);
     if (uniform_location == -1) {
       LOG(ERROR) << "Could not find uniform on program " << program_id_
@@ -116,6 +113,9 @@ class GLSLShaderProgram : public ShaderProgram {
 
   /// OpenGL-generated program ID.
   ogle::GLuint program_id_;
+
+  /// Caches IDs of shader variables.
+  stl_map<stl_string, ogle::GLint> variable_ids_;
 
   /// Precompiled vertex shader.
   GLSLShader* vertex_shader_;

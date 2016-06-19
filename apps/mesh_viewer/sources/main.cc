@@ -39,6 +39,10 @@ class MeshViewerApplication : public ogle::Application {
     auto shader_program =
         engine_->resource_manager_->GetResource<ogle::ShaderProgram>(
             "basic.glsl");
+    if (!shader_program) {
+      LOG(ERROR) << "Failed to load basic.glsl";
+      return false;
+    }
 
     rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_);
@@ -80,7 +84,7 @@ class MeshViewerApplication : public ogle::Application {
 
     // Move camera on input.
     constexpr float kMoveDelta = 1.0f;
-    const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(120.0f);
+    const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(60.0f);
     float translation = kMoveDelta * last_update_timestep_;
     ogle::Angle rotation = kAngleDelta * last_update_timestep_;
     if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {

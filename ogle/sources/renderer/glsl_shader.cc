@@ -125,7 +125,14 @@ void GLSLShaderProgram::SetUniformMatrix44f(const stl_string& variable,
 }
 
 ogle::GLint GLSLShaderProgram::GetUniformLocation(const stl_string& variable) {
-  return glGetUniformLocation(program_id_, variable.c_str());
+  // Getting uniform location is slow. Cache it.
+  auto it = variable_ids_.find(variable);
+  if (it != variable_ids_.end()) {
+    return it->second;
+  }
+  auto location = glGetUniformLocation(program_id_, variable.c_str());
+  variable_ids_[variable] = location;
+  return location;
 }
 
 }  // namespace ogle
