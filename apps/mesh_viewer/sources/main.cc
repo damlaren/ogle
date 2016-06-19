@@ -79,35 +79,37 @@ class MeshViewerApplication : public ogle::Application {
     camera->set_aspect_ratio(engine_->window_->aspect_ratio());
 
     // Move camera on input.
-    constexpr float kMoveDelta = 0.03f;
-    const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(2.0f);
+    constexpr float kMoveDelta = 1.0f;
+    const ogle::Angle kAngleDelta = ogle::Angle::FromDegrees(120.0f);
+    float translation = kMoveDelta * last_update_timestep_;
+    ogle::Angle rotation = kAngleDelta * last_update_timestep_;
     if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::W, true)) {
-      camera_entity_->transform_.TranslateForward(kMoveDelta);
+      camera_entity_->transform_.TranslateForward(translation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::S, true)) {
-      camera_entity_->transform_.TranslateForward(-kMoveDelta);
+      camera_entity_->transform_.TranslateForward(-translation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::A, true)) {
-      camera_entity_->transform_.TranslateRight(-kMoveDelta);
+      camera_entity_->transform_.TranslateRight(-translation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::D, true)) {
-      camera_entity_->transform_.TranslateRight(kMoveDelta);
+      camera_entity_->transform_.TranslateRight(translation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::Z, true)) {
-      camera_entity_->transform_.TranslateUp(-kMoveDelta);
+      camera_entity_->transform_.TranslateUp(-translation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::C, true)) {
-      camera_entity_->transform_.TranslateUp(kMoveDelta);
+      camera_entity_->transform_.TranslateUp(translation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
-      camera_entity_->transform_.RotateRoll(-kAngleDelta);
+      camera_entity_->transform_.RotateRoll(-rotation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::E, true)) {
-      camera_entity_->transform_.RotateRoll(kAngleDelta);
+      camera_entity_->transform_.RotateRoll(rotation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::Q, true)) {
-      camera_entity_->transform_.RotateRoll(-kAngleDelta);
+      camera_entity_->transform_.RotateRoll(-rotation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::UP_ARROW, true)) {
-      camera_entity_->transform_.RotatePitch(kAngleDelta);
+      camera_entity_->transform_.RotatePitch(rotation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::DOWN_ARROW, true)) {
-      camera_entity_->transform_.RotatePitch(-kAngleDelta);
+      camera_entity_->transform_.RotatePitch(-rotation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::LEFT_ARROW, true)) {
-      camera_entity_->transform_.RotateYaw(kAngleDelta);
+      camera_entity_->transform_.RotateYaw(rotation);
     } else if (engine_->keyboard_->IsKeyDown(ogle::KeyCode::RIGHT_ARROW,
                                              true)) {
-      camera_entity_->transform_.RotateYaw(-kAngleDelta);
+      camera_entity_->transform_.RotateYaw(-rotation);
     }
     engine_->keyboard_->Clear();
 
@@ -139,7 +141,6 @@ int main(const int argc, const char* argv[]) {
     LOG(FATAL) << "Failed to load configuration.";
   }
 
-  // TODO(damlaren): not sure why allocation wrapper doesn't compile for app.
   auto engine = AllocateUniqueObject<ogle::Engine>(configuration);
   auto app = AllocateUniqueObject<MeshViewerApplication>(std::move(engine));
   CHECK(app != nullptr) << "Failed to allocate app.";

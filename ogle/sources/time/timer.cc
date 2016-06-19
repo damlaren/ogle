@@ -30,8 +30,9 @@ namespace ogle {
 void Timer::Reset() { epoch_ = std::chrono::high_resolution_clock::now(); }
 
 double Timer::Measure() const {
-  return std::chrono::duration_cast<std::chrono::duration<double>>(
-             std::chrono::high_resolution_clock::now() - epoch_).count();
+  std::chrono::duration<double> seconds =
+      std::chrono::high_resolution_clock::now() - epoch_;
+  return seconds.count();
 }
 
 }  // namespace ogle

@@ -70,6 +70,22 @@ class Application {
    */
   virtual bool ApplicationBody() = 0;
 
+  // TODO(damlaren): All timer stuff should go into the engine, eventually.
+  // Probably once the app framework is scrapped altogether in favor of
+  // individual scripts.
+
+  /// Timer for application's main loop.
+  Timer main_timer_;
+
+  /// Target timestep at which to update frames.
+  double target_frame_timestep_;
+
+  /// Last timestep for updating object state.
+  double last_update_timestep_;
+
+  /// Total time elapsed while running application.
+  double elapsed_time_;
+
   /// ogle Engine object.
   std::unique_ptr<Engine> engine_;
 

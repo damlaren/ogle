@@ -98,6 +98,12 @@ YAMLFile::Get<stl_string>(const stl_vector<stl_string>& keys) const;
 template const std::pair<int, bool>
 YAMLFile::Get<int>(const stl_vector<stl_string>& keys) const;
 
+template const std::pair<float, bool>
+YAMLFile::Get<float>(const stl_vector<stl_string>& keys) const;
+
+template const std::pair<double, bool>
+YAMLFile::Get<double>(const stl_vector<stl_string>& keys) const;
+
 template const std::pair<stl_vector<stl_string>, bool>
 YAMLFile::Get<stl_vector<stl_string>>(const stl_vector<stl_string>& keys) const;
 

@@ -156,18 +156,21 @@ std::experimental::optional<int> try_parse_int(ogle::stl_string s) {
 }
 
 /**
- * @brief Test std::experimental::optional.
- */
-void TestOptional() {
-  // const auto t = try_parse_int("1");
-}
-
-/**
  * @brief Main entry point.
  * @return 0 on success, something else on failure.
  */
 int main() {
-  TestOptional();
+  std::chrono::high_resolution_clock::time_point epoch =
+      std::chrono::high_resolution_clock::now();
+  auto start_tick = GetTickCount();
+  while (true) {
+    std::chrono::duration<double> seconds =
+        std::chrono::high_resolution_clock::now() - epoch;
+    double tick_count_seconds = (GetTickCount() - start_tick) / 1000.0;
+    std::cout << "CH=" << seconds.count() << " GTC=" << tick_count_seconds
+              << std::endl;
+    Sleep(33);
+  }
 
   return 0;
 }

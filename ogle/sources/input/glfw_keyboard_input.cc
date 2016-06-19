@@ -49,7 +49,13 @@ const bool GLFWKeyboardInput::IsKeyDown(const KeyCode code,
                                         const bool repeat) {
   const auto key_iterator = key_actions_.find(code);
   if (key_iterator != key_actions_.end()) {
-    return key_iterator->second == (repeat? KeyAction::HOLD : KeyAction::PRESS);
+    bool pressed = key_iterator->second == KeyAction::PRESS;
+    bool held = key_iterator->second == KeyAction::HOLD;
+    if (repeat) {
+      return held || pressed;
+    } else {
+      return pressed;
+    }
   }
   return false;
 }

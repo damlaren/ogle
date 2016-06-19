@@ -1,6 +1,7 @@
 input:
   keyboard_implementation: "glfw"
 render:
+  target_frame_rate: 60.0
   implementation: "glfw"
   shader_implementation: "glsl"
 resource:
