@@ -21,6 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
+class Configuration;
 class Mesh;
 
 /// 3D vertex buffer type.
@@ -59,12 +60,32 @@ class BufferedMesh {
   virtual ~BufferedMesh() = default;
 
   /**
+   * @brief Creates a BufferedMesh.
+   * @param configuration Rendering configuration.
+   * @param mesh Mesh to create render buffers for.
+   * @return new mesh.
+   */
+  static std::unique_ptr<BufferedMesh> Load(const Configuration& configuration,
+                                            const Mesh& mesh);
+
+  //@{
+  /**
+   * @brief Mesh data buffer accessors.
+   * @return Reference to buffer.
+   */
+  virtual const VertexBuffer& vertices() const = 0;
+  virtual const TexCoordUVBuffer& uvs() const = 0;
+  virtual const NormalBuffer& normals() const = 0;
+  virtual const IndexBuffer& indices() const = 0;
+  //@}
+
+ protected:
+  /**
    * @brief Prepares buffers for rendering the Mesh.
    * @return success or failure.
    */
   virtual bool Create() = 0;
 
- protected:
   /// Reference to Mesh to prepare buffers for.
   const Mesh& mesh_;
 };

@@ -38,7 +38,7 @@ class GLFWMeshRenderer : public MeshRenderer {
    * @param mesh Mesh to render.
    * @param shader_program Shader program to use in render pass.
    */
-  GLFWMeshRenderer(const Mesh& mesh, ShaderProgram *shader_program);
+  GLFWMeshRenderer(const BufferedMesh& mesh, ShaderProgram *shader_program);
 
   /**
    * @brief Destructor. Deallocates OpenGL objects.
@@ -55,12 +55,6 @@ class GLFWMeshRenderer : public MeshRenderer {
 
  private:
   struct Data;
-
-  // TODO(damlaren): Don't duplicate this for each MeshRenderer.
-  // This can no longer be a unique pointer. Has to be a handle to a shared
-  // object. Maybe a resource, maybe not?
-  /// Mesh prepared for rendering.
-  std::unique_ptr<GLFWBufferedMesh> buffered_mesh_;
 
   /// Shader program to use in rendering pass.
   ShaderProgram* shader_program_;

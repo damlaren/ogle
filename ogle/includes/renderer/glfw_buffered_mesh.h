@@ -31,16 +31,10 @@ class GLFWBufferedMesh : public BufferedMesh {
    */
   explicit GLFWBufferedMesh(const Mesh& mesh);
 
-  //@{
-  /**
-   * @brief Mesh data buffer accessors.
-   * @return Reference to buffer.
-   */
-  const VertexBuffer& vertices() const;
-  const TexCoordUVBuffer& uvs() const;
-  const NormalBuffer& normals() const;
-  const IndexBuffer& indices() const;
-  //@}
+  const VertexBuffer& vertices() const override;
+  const TexCoordUVBuffer& uvs() const override;
+  const NormalBuffer& normals() const override;
+  const IndexBuffer& indices() const override;
 
   bool Create() override;
 

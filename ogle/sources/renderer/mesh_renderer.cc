@@ -18,9 +18,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 namespace ogle {
 
-MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
-                                 const Mesh& mesh,
-                                 ShaderProgram *shader_program) {
+MeshRenderer* MeshRenderer::Load(
+    const Configuration& configuration, const BufferedMesh& mesh,
+    ShaderProgram *shader_program) {
   const stl_string implementation = configuration.Get<stl_string>(
       kConfigModule, kConfigAttributeImplementation).first;
   if (implementation == GLFWMeshRenderer::kConfigImplementationName) {
@@ -29,7 +29,7 @@ MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
       return new_object;
     } else {
       delete new_object;
-      LOG(ERROR) << "MeshRenderer Create() failed.";
+      LOG(ERROR) << "GLFWMeshRenderer Create() failed.";
     }
   }
   LOG(ERROR) << "Unable to create MeshRenderer for implementation: "
@@ -37,8 +37,8 @@ MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
   return nullptr;
 }
 
-MeshRenderer::MeshRenderer(const Mesh& mesh)
-  : Renderer(), mesh_(mesh) {
+MeshRenderer::MeshRenderer(const BufferedMesh& mesh)
+  : Renderer(), buffered_mesh_(mesh) {
 }
 
 }  // namespace ogle

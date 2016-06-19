@@ -31,7 +31,8 @@ class MeshViewerApplication : public ogle::Application {
 
     CHECK(engine_->resource_manager_->LoadResources())
         << "Failed to load resources.";
-    auto mesh = engine_->resource_manager_->GetResource<ogle::Mesh>("cube.obj");
+    auto mesh =
+        engine_->resource_manager_->GetResource<ogle::Mesh>("cube.obj");
     if (!mesh) {
       LOG(ERROR) << "Failed to load mesh in viewer.";
       return false;
@@ -44,12 +45,16 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
+    // Create Mesh with renderable buffers.
+    buffered_mesh_ = ogle::BufferedMesh::Load(engine_->configuration_, *mesh);
+
+    // Create entity to render.
     rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_);
     rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
-    if (!rendered_entity_->AddComponent(
-            std::unique_ptr<ogle::MeshRenderer>(ogle::MeshRenderer::Load(
-                engine_->configuration_, *mesh, shader_program)))) {
+    if (!rendered_entity_->AddComponent(std::unique_ptr<ogle::MeshRenderer>(
+            ogle::MeshRenderer::Load(engine_->configuration_,
+                                     *buffered_mesh_.get(), shader_program)))) {
       LOG(ERROR) << "Failed to add renderer component.";
       return false;
     }
@@ -128,6 +133,9 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Entity instantiated to render the mesh.
   std::unique_ptr<ogle::Entity> rendered_entity_;
+
+  /// Mesh buffered for rendering.
+  std::unique_ptr<ogle::BufferedMesh> buffered_mesh_;
 };
 
 /**
