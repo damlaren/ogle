@@ -78,8 +78,7 @@ class MeshViewerApplication : public ogle::Application {
     }
 
     // Update camera aspect ratio.
-    // TODO(damlaren): Should be done with an Update function on an Entity,
-    // or some other interface.
+    // TODO(damlaren): Should be updated with an event system.
     ogle::Camera* camera = camera_entity_->GetComponent<ogle::Camera>();
     if (camera == nullptr) {
       LOG(ERROR) << "Failed to get camera.";
