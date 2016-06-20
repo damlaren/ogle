@@ -299,6 +299,14 @@ class Vector {
   }
 
   /**
+   * @brief Gives direct access to vector data.
+   * @return Pointer to start of data.
+   */
+  const T* data() const {
+    return data_.data();
+  }
+
+  /**
    * @brief Computes dot product of this Vector with @p rhs.
    * @param rhs Right operand.
    * @return The product.

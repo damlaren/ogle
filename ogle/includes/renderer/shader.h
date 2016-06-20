@@ -146,8 +146,19 @@ class ShaderProgram : public Resource {
    */
   virtual void UseProgram() = 0;
 
-  // TODO(damlaren): API with having to call all these different uniform
-  //     functions kind of sucks.
+  ///@{
+  /**
+   * @brief Sets a uniform vector value in shader program.
+   * @param variable Name of uniform variable.
+   * @param vec Vector to set values.
+   */
+  virtual void SetUniformVector2f(const stl_string& variable,
+                                  const Vector2f& vec) = 0;
+  virtual void SetUniformVector3f(const stl_string& variable,
+                                  const Vector3f& vec) = 0;
+  virtual void SetUniformVector4f(const stl_string& variable,
+                                  const Vector4f& vec) = 0;
+  ///@}
 
   ///@{
   /**

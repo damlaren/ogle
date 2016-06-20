@@ -124,6 +124,21 @@ void GLSLShaderProgram::SetUniformMatrix44f(const stl_string& variable,
   SetUniformMatrix(variable, mat, glUniformMatrix4fv);
 }
 
+void GLSLShaderProgram::SetUniformVector2f(const stl_string& variable,
+                                           const Vector2f& vec) {
+  SetUniformVector(variable, vec, glUniform2fv);
+}
+
+void GLSLShaderProgram::SetUniformVector3f(const stl_string& variable,
+                                           const Vector3f& vec) {
+  SetUniformVector(variable, vec, glUniform3fv);
+}
+
+void GLSLShaderProgram::SetUniformVector4f(const stl_string& variable,
+                                           const Vector4f& vec) {
+  SetUniformVector(variable, vec, glUniform4fv);
+}
+
 ogle::GLint GLSLShaderProgram::GetUniformLocation(const stl_string& variable) {
   // Getting uniform location is slow. Cache it.
   auto it = variable_ids_.find(variable);

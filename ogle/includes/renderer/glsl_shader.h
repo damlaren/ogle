@@ -74,6 +74,13 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
+  void SetUniformVector2f(const stl_string& variable,
+                          const Vector2f& vec) override;
+  void SetUniformVector3f(const stl_string& variable,
+                          const Vector3f& vec) override;
+  void SetUniformVector4f(const stl_string& variable,
+                          const Vector4f& vec) override;
+
   void SetUniformMatrix22f(const stl_string& variable,
                            const Matrix22f& mat) override;
   void SetUniformMatrix33f(const stl_string& variable,
@@ -90,24 +97,39 @@ class GLSLShaderProgram : public ShaderProgram {
   ogle::GLint GetUniformLocation(const stl_string& variable);
 
   /**
-   * @brief Helper function for setting uniform variables.
-   *
-   * Most parameters are same as passed to @p SetUniformMatrix*f.
-   *
+   * @brief Helper function for setting uniform matrix variables.
    * @param variable Name of uniform variable.
    * @param mat Matrix to set data from.
    * @param gl_func OpenGL function to use to set values.
    */
-  template<MatrixIndex M, MatrixIndex N, typename GLFunc>
+  template<typename T, MatrixIndex M, MatrixIndex N, typename GLFunc>
   void SetUniformMatrix(const stl_string& variable,
-                        const Matrix<float, M, N>& mat, GLFunc gl_func) {
+                        const Matrix<T, M, N>& mat, GLFunc gl_func) {
     auto uniform_location = GetUniformLocation(variable);
     if (uniform_location == -1) {
-      LOG(ERROR) << "Could not find uniform on program " << program_id_
-                 << ": " << variable;
+      LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
+                 << variable;
     } else {
       // Transpose matrix to column-major format used in OpenGL.
       gl_func(uniform_location, 1, 0, mat.Transpose().data());
+    }
+  }
+
+  /**
+   * @brief Helper function for setting uniform vector variables.
+   * @param variable Name of uniform variable.
+   * @param vec Vector to set data from.
+   * @param gl_func OpenGL function to use to set values.
+   */
+  template<typename T, VectorIndex N, typename GLFunc>
+  void SetUniformVector(const stl_string& variable,
+                        const Vector<T, N>& vec, GLFunc gl_func) {
+    auto uniform_location = GetUniformLocation(variable);
+    if (uniform_location == -1) {
+      LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
+                 << variable;
+    } else {
+      gl_func(uniform_location, 1, vec.data());
     }
   }
 
