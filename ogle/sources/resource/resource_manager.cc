@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "file_system/directory.h"
 #include "geometry/mesh.h"
 #include "renderer/shader.h"
+#include "renderer/shader_program.h"
 #include "resource/resource_metadata.h"
 #include "util/string_utils.h"
 

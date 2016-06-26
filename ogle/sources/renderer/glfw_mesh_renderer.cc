@@ -32,6 +32,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "geometry/transformation_matrix.h"
 #include "renderer/camera.h"
 #include "renderer/shader.h"
+#include "renderer/shader_program.h"
 
 namespace ogle {
 

@@ -19,6 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "easylogging++.h"  // NOLINT
 #include "renderer/opengl_primitive_types.h"
 #include "renderer/shader.h"
+#include "renderer/shader_program.h"
 #include "resource/resource_metadata.h"
 
 namespace ogle {

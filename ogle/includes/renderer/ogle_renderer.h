@@ -28,5 +28,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "renderer/scene_graph.h"
 #include "renderer/scene_renderer.h"
 #include "renderer/shader.h"
+#include "renderer/shader_program.h"
 
 #endif  // OGLE_INCLUDES_RENDERER_OGLE_RENDERER_H_
