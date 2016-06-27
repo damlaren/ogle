@@ -36,6 +36,7 @@ namespace ogle {
 class Configuration;
 class ResourceManager;
 class ResourceMetadata;
+class Shader;
 
 /**
  * @brief Base class for all ShaderPrograms.

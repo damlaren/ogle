@@ -23,10 +23,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * @file Implementation of shader_program.h.
  */
 
-#include "renderer/shader.h"
+#include "renderer/shader_program.h"
 #include "config/configuration.h"
 #include "file_system/text_file.h"
 #include "renderer/glsl_shader.h"
+#include "renderer/glsl_shader_program.h"
 #include "resource/resource_manager.h"
 #include "resource/resource_metadata.h"
 

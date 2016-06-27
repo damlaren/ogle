@@ -21,6 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "renderer/glfw_buffered_mesh.h"
 #include "renderer/glfw_mesh_renderer.h"
 #include "renderer/glsl_shader.h"
+#include "renderer/glsl_shader_program.h"
 #include "renderer/mesh_renderer.h"
 #include "renderer/opengl_primitive_types.h"
 #include "renderer/perspective_camera.h"
