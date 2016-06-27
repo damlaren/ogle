@@ -61,19 +61,33 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
+  ///@{
+  /**
+   * @brief Sets a uniform vector value in shader program.
+   * @param variable Name of uniform variable.
+   * @param vec Vector to set values.
+   */
   void SetUniformVector2f(const stl_string& variable,
-                          const Vector2f& vec) override;
+                          const Vector2f& vec);
   void SetUniformVector3f(const stl_string& variable,
-                          const Vector3f& vec) override;
+                          const Vector3f& vec);
   void SetUniformVector4f(const stl_string& variable,
-                          const Vector4f& vec) override;
+                          const Vector4f& vec);
+  ///@}
 
+  ///@{
+  /**
+   * @brief Sets a uniform matrix value in shader program.
+   * @param variable Name of uniform variable.
+   * @param mat Matrix to set values.
+   */
   void SetUniformMatrix22f(const stl_string& variable,
-                           const Matrix22f& mat) override;
+                           const Matrix22f& mat);
   void SetUniformMatrix33f(const stl_string& variable,
-                           const Matrix33f& mat) override;
+                           const Matrix33f& mat);
   void SetUniformMatrix44f(const stl_string& variable,
-                           const Matrix44f& mat) override;
+                           const Matrix44f& mat);
+  ///@}
 
  protected:
   /**

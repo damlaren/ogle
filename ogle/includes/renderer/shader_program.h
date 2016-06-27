@@ -92,34 +92,6 @@ class ShaderProgram : public Resource {
    */
   virtual void UseProgram() = 0;
 
-  ///@{
-  /**
-   * @brief Sets a uniform vector value in shader program.
-   * @param variable Name of uniform variable.
-   * @param vec Vector to set values.
-   */
-  virtual void SetUniformVector2f(const stl_string& variable,
-                                  const Vector2f& vec) = 0;
-  virtual void SetUniformVector3f(const stl_string& variable,
-                                  const Vector3f& vec) = 0;
-  virtual void SetUniformVector4f(const stl_string& variable,
-                                  const Vector4f& vec) = 0;
-  ///@}
-
-  ///@{
-  /**
-   * @brief Sets a uniform matrix value in shader program.
-   * @param variable Name of uniform variable.
-   * @param mat Matrix to set values.
-   */
-  virtual void SetUniformMatrix22f(const stl_string& variable,
-                                   const Matrix22f& mat) = 0;
-  virtual void SetUniformMatrix33f(const stl_string& variable,
-                                   const Matrix33f& mat) = 0;
-  virtual void SetUniformMatrix44f(const stl_string& variable,
-                                   const Matrix44f& mat) = 0;
-  ///@}
-
  protected:
   /**
    * @brief Constructor.
