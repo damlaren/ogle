@@ -45,7 +45,7 @@ enum class ShaderVariableType {
  * These types aren't just applied to scalars, but also vectors, matrices, and
  * arrays.
  */
-enum class ScalarType {
+enum class ShaderScalarType {
   BOOL,    // Boolean true/false value.
   INT32,   // 32-bit signed integer.
   UINT32,  // 32-bit unsigned integer.
@@ -61,11 +61,11 @@ typedef struct ShaderVariable {
   /// Special value for dims field denoting unspecified (unlimited) size.
   static constexpr int kUnspecifiedDim = -1;
 
-  stl_string name;  ///< Name of variable in program.
-  stl_vector<int> dims;  ///< Dimensions expected for variable.
+  stl_string name;                   ///< Name of variable in program.
+  stl_vector<int> dims;              ///< Dimensions expected for variable.
   ShaderVariableType variable_type;  ///< Variable type.
-  ScalarType scalar_type;  ///< Type of scalars within variable.
-  void* data;  ///< Pointer to variable value.
+  ShaderScalarType scalar_type;      ///< Type of scalars within variable.
+  void* data;                        ///< Pointer to variable value.
 } ScalarVariable;
 
 }  // namespace ogle

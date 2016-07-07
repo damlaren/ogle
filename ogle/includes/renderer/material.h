@@ -27,18 +27,35 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define OGLE_INCLUDES_RENDERER_MATERIAL_H_
 
 #include "std/ogle_std.inc"
+#include "renderer/shader_variable.h"
 
 namespace ogle {
 
+class ShaderProgram;
+
+/**
+ * @brief A material (shader program + variable bindings) to draw a surface.
+ */
 class Material {
  public:
-  Material();
+  /**
+   * @brief Constructor.
+   * @param Shader program to set. Must be non-null.
+   */
+  explicit Material(ShaderProgram* program);
+
+  /**
+   * @brief Add a variable to bind to this shader program.
+   * @param variable Variable binding to add.
+   */
+  void AddVariableBinding(ShaderVariable variable);
 
  private:
   /// Shader program to use for this material.
   ShaderProgram* shader_program_;
 
-  // TODO: Variable bindings?
+  /// Variable bindings.
+  stl_vector<ShaderVariable> shader_variables_;
 };
 
 }  // namespace ogle
