@@ -35,6 +35,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ogle {
 
 class GLSLShader;
+enum class ShaderScalarType;
 
 /**
  * @brief Linked GLSL shader program.
@@ -61,33 +62,7 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
-  ///@{
-  /**
-   * @brief Sets a uniform vector value in shader program.
-   * @param variable Name of uniform variable.
-   * @param vec Vector to set values.
-   */
-  void SetUniformVector2f(const stl_string& variable,
-                          const Vector2f& vec);
-  void SetUniformVector3f(const stl_string& variable,
-                          const Vector3f& vec);
-  void SetUniformVector4f(const stl_string& variable,
-                          const Vector4f& vec);
-  ///@}
-
-  ///@{
-  /**
-   * @brief Sets a uniform matrix value in shader program.
-   * @param variable Name of uniform variable.
-   * @param mat Matrix to set values.
-   */
-  void SetUniformMatrix22f(const stl_string& variable,
-                           const Matrix22f& mat);
-  void SetUniformMatrix33f(const stl_string& variable,
-                           const Matrix33f& mat);
-  void SetUniformMatrix44f(const stl_string& variable,
-                           const Matrix44f& mat);
-  ///@}
+  void SetVariable(const ShaderVariable& variable) override;
 
  protected:
   /**
@@ -99,43 +74,29 @@ class GLSLShaderProgram : public ShaderProgram {
 
   /**
    * @brief Helper function for setting uniform matrix variables.
-   * @param variable Name of uniform variable.
-   * @param mat Matrix to set data from.
-   * @param gl_func OpenGL function to use to set values.
+   * @param uniform_location ID for uniform variable.
+   * @param scalar_type Type for data in matrix.
+   * @param rows Number of rows in matrix.
+   * @param cols Number of columns in matrix.
+   * @param data Data constituting matrix elements.
    */
-  template <typename T, MatrixIndex M, MatrixIndex N, typename GLFunc>
-  void SetUniformMatrix(const stl_string& variable, const Matrix<T, M, N>& mat,
-                        GLFunc gl_func) {
-    auto uniform_location = GetUniformLocation(variable);
-    if (uniform_location == -1) {
-      LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
-                 << variable;
-    } else {
-      // Transpose matrix to column-major format used in OpenGL.
-      gl_func(uniform_location, 1, 0, mat.Transpose().data());
-    }
-  }
+  void SetUniformMatrix(const GLint uniform_location,
+                        const ShaderScalarType scalar_type, const int rows,
+                        const int cols, const void* data);
 
   /**
    * @brief Helper function for setting uniform vector variables.
-   * @param variable Name of uniform variable.
-   * @param vec Vector to set data from.
-   * @param gl_func OpenGL function to use to set values.
+   * @param uniform_location ID for uniform variable.
+   * @param scalar_type Type for data in vector.
+   * @param rows Number of elements in vector.
+   * @param data Data constituting vector elements.
    */
-  template <typename T, VectorIndex N, typename GLFunc>
-  void SetUniformVector(const stl_string& variable, const Vector<T, N>& vec,
-                        GLFunc gl_func) {
-    auto uniform_location = GetUniformLocation(variable);
-    if (uniform_location == -1) {
-      LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
-                 << variable;
-    } else {
-      gl_func(uniform_location, 1, vec.data());
-    }
-  }
+  void SetUniformVector(const GLint uniform_location,
+                        const ShaderScalarType scalar_type, const int rows,
+                        const void* data);
 
   /// OpenGL-generated program ID.
-  ogle::GLuint program_id_;
+  GLuint program_id_;
 
   /// Caches IDs of shader variables.
   stl_map<stl_string, ogle::GLint> variable_ids_;

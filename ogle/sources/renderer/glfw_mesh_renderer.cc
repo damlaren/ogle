@@ -32,15 +32,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "geometry/transformation_matrix.h"
 #include "renderer/camera.h"
 #include "renderer/glsl_shader_program.h"
+#include "renderer/material.h"
+#include "renderer/shader_variable.h"
 
 namespace ogle {
 
 const stl_string GLFWMeshRenderer::kConfigImplementationName = "glfw";
 
-GLFWMeshRenderer::GLFWMeshRenderer(const BufferedMesh& mesh,
-                                   GLSLShaderProgram* shader_program)
+GLFWMeshRenderer::GLFWMeshRenderer(const BufferedMesh& mesh, Material* material)
     : MeshRenderer(mesh),
-      shader_program_(shader_program),
+      material_(material),
       vertex_buffer_id_(0),
       vertex_array_id_(0),
       index_buffer_id_(0) {}
@@ -79,7 +80,7 @@ bool GLFWMeshRenderer::Create() {
 }
 
 void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
-  shader_program_->UseProgram();
+  material_->shader_program->UseProgram();
 
   Matrix44f model_matrix = transform.TransformationMatrix3D();
 
@@ -91,12 +92,24 @@ void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
   Matrix44f view_matrix = camera_component->GetViewMatrix(camera->transform_);
   Matrix44f projection_matrix = camera_component->GetProjectionMatrix();
 
-  shader_program_->SetUniformMatrix44f(ShaderProgram::kModelMatrixArg,
-                                       model_matrix);
-  shader_program_->SetUniformMatrix44f(ShaderProgram::kViewMatrixArg,
-                                       view_matrix);
-  shader_program_->SetUniformMatrix44f(ShaderProgram::kProjectionMatrixArg,
-                                       projection_matrix);
+  ShaderVariable variable = {ShaderProgram::kModelMatrixArg,
+                             {4, 4},
+                             ShaderVariableType::MATRIX,
+                             ShaderScalarType::FLOAT,
+                             model_matrix.data()};
+  material_->shader_program->SetVariable(variable);
+  variable = {ShaderProgram::kViewMatrixArg,
+              {4, 4},
+              ShaderVariableType::MATRIX,
+              ShaderScalarType::FLOAT,
+              view_matrix.data()};
+  material_->shader_program->SetVariable(variable);
+  variable = {ShaderProgram::kProjectionMatrixArg,
+              {4, 4},
+              ShaderVariableType::MATRIX,
+              ShaderScalarType::FLOAT,
+              projection_matrix.data()};
+  material_->shader_program->SetVariable(variable);
 
   // Enable vertex array attribute for rendering.
   glBindVertexArray(vertex_array_id_);

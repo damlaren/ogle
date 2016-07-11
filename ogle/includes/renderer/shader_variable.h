@@ -40,18 +40,27 @@ enum class ShaderVariableType {
 };
 
 /**
+ * @brief Output stream operator.
+ * @param os Output stream.
+ * @param type Variable type to write name of.
+ * @return Reference to output stream.
+ */
+std::ostream& operator<<(std::ostream& os,  // NOLINT
+                         const ShaderVariableType type);
+
+/**
  * @brief Possible scalar types for variables passed to shader programs.
  *
  * These types aren't just applied to scalars, but also vectors, matrices, and
  * arrays.
  */
 enum class ShaderScalarType {
-  BOOL,    // Boolean true/false value.
-  INT32,   // 32-bit signed integer.
-  UINT32,  // 32-bit unsigned integer.
-  HALF,    // Half-precision float.
-  FLOAT,   // Single-precision float.
-  DOUBLE   // Double-precision float.
+  BOOLEAN,    // Boolean true/false value.
+  INT32,      // 32-bit signed integer.
+  UINT32,     // 32-bit unsigned integer.
+  HALF,       // Half-precision float.
+  FLOAT,      // Single-precision float.
+  DOUBLE      // Double-precision float.
 };
 
 /**
@@ -61,11 +70,11 @@ typedef struct ShaderVariable {
   /// Special value for dims field denoting unspecified (unlimited) size.
   static constexpr int kUnspecifiedDim = -1;
 
-  stl_string name;                   ///< Name of variable in program.
+  stl_string name;                   ///< Name of variable.
   stl_vector<int> dims;              ///< Dimensions expected for variable.
   ShaderVariableType variable_type;  ///< Variable type.
   ShaderScalarType scalar_type;      ///< Type of scalars within variable.
-  void* data;                        ///< Pointer to variable value.
+  const void* data;                  ///< Pointer to variable value.
 } ScalarVariable;
 
 }  // namespace ogle

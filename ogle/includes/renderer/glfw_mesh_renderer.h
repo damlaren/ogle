@@ -47,9 +47,9 @@ class GLFWMeshRenderer : public MeshRenderer {
    * @brief Constructor. Call Create() to complete object construction.
    *
    * @param mesh Mesh to render.
-   * @param shader_program Shader program to use in render pass.
+   * @param material Material to use in render pass.
    */
-  GLFWMeshRenderer(const BufferedMesh& mesh, GLSLShaderProgram* shader_program);
+  GLFWMeshRenderer(const BufferedMesh& mesh, Material* material);
 
   /**
    * @brief Destructor. Deallocates OpenGL objects.
@@ -67,8 +67,8 @@ class GLFWMeshRenderer : public MeshRenderer {
  private:
   struct Data;
 
-  /// Shader program to use in rendering pass.
-  GLSLShaderProgram* shader_program_;
+  /// Material to use to render mesh.
+  Material* material_;
 
   /// OpenGL ID for vertex buffer.
   ogle::GLuint vertex_buffer_id_;

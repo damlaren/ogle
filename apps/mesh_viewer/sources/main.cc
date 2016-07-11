@@ -1,11 +1,22 @@
 /*
 Copyright (c) 2015 damlaren
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
@@ -20,8 +31,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 class MeshViewerApplication : public ogle::Application {
  public:
   explicit MeshViewerApplication(std::unique_ptr<ogle::Engine> engine)
-    : Application(std::move(engine)) {
-  }
+      : Application(std::move(engine)) {}
 
   bool Create() override {
     if (!engine_->Create()) {
@@ -31,8 +41,7 @@ class MeshViewerApplication : public ogle::Application {
 
     CHECK(engine_->resource_manager_->LoadResources())
         << "Failed to load resources.";
-    auto mesh =
-        engine_->resource_manager_->GetResource<ogle::Mesh>("cube.obj");
+    auto mesh = engine_->resource_manager_->GetResource<ogle::Mesh>("cube.obj");
     if (!mesh) {
       LOG(ERROR) << "Failed to load mesh in viewer.";
       return false;
@@ -44,6 +53,8 @@ class MeshViewerApplication : public ogle::Application {
       LOG(ERROR) << "Failed to load basic.glsl";
       return false;
     }
+    material_ = AllocateUniqueObject<ogle::Material>();
+    material_->shader_program = shader_program;
 
     // Create Mesh with renderable buffers.
     buffered_mesh_ = ogle::BufferedMesh::Load(engine_->configuration_, *mesh);
@@ -52,9 +63,10 @@ class MeshViewerApplication : public ogle::Application {
     rendered_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_);
     rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
-    if (!rendered_entity_->AddComponent(std::unique_ptr<ogle::MeshRenderer>(
-            ogle::MeshRenderer::Load(engine_->configuration_,
-                                     *buffered_mesh_.get(), shader_program)))) {
+    if (!rendered_entity_->AddComponent(
+            std::unique_ptr<ogle::MeshRenderer>(ogle::MeshRenderer::Load(
+                engine_->configuration_, *buffered_mesh_.get(),
+                material_.get())))) {
       LOG(ERROR) << "Failed to add renderer component.";
       return false;
     }
@@ -135,6 +147,9 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Mesh buffered for rendering.
   std::unique_ptr<ogle::BufferedMesh> buffered_mesh_;
+
+  /// Material for rendering mesh.
+  std::unique_ptr<ogle::Material> material_;
 };
 
 /**

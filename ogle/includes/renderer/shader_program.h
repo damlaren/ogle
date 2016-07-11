@@ -33,10 +33,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace ogle {
 
-class Configuration;
 class ResourceManager;
 class ResourceMetadata;
 class Shader;
+class ShaderVariable;
 
 /**
  * @brief Base class for all ShaderPrograms.
@@ -91,6 +91,12 @@ class ShaderProgram : public Resource {
    * @brief Sets this shader program up to be used in rendering pass.
    */
   virtual void UseProgram() = 0;
+
+  /**
+   * @brief Sets variable on shader program.
+   * @param variable Value to set.
+   */
+  virtual void SetVariable(const ShaderVariable& variable) = 0;
 
  protected:
   /**

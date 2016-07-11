@@ -31,9 +31,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace ogle {
 
-class Configuration;
 class BufferedMesh;
-class ShaderProgram;
+class Configuration;
+class Material;
 
 /**
  * @brief Base class for all MeshRenderers.
@@ -46,12 +46,11 @@ class MeshRenderer : public Renderer {
    * @brief Creates a new MeshRenderer.
    * @param configuration Renderer configuration.
    * @param mesh Mesh to create renderer for.
-   * @param shader_program Program to use for rendering.
+   * @param material Material to use for rendering.
    * @return New renderer, or nullptr on failure.
    */
   static MeshRenderer* Load(const Configuration& configuration,
-                            const BufferedMesh& mesh,
-                            ShaderProgram* shader_program);
+                            const BufferedMesh& mesh, Material* material);
 
  protected:
   /**

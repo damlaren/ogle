@@ -20,28 +20,34 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * @file Defines Material.
+ * @file Implementation of shader_variable.h.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_MATERIAL_H_
-#define OGLE_INCLUDES_RENDERER_MATERIAL_H_
-
-#include "std/ogle_std.inc"
+#include "renderer/shader_variable.h"
+#include "easylogging++.h"  // NOLINT
 
 namespace ogle {
 
-class ShaderProgram;
-
-/**
- * @brief A material (shader program + variable bindings) to draw a surface
- *
- * TODO(damlaren): This class is useless right now.
- */
-struct Material {
-  /// Shader program to use for this material.
-  ShaderProgram* shader_program;
-};
+std::ostream& operator<<(std::ostream& os, const ShaderVariableType type) {
+  switch (type) {
+    case ShaderVariableType::MATRIX: {
+      os << "matrix";
+      break;
+    }
+    case ShaderVariableType::VECTOR: {
+      os << "vector";
+      break;
+    }
+    case ShaderVariableType::SCALAR: {
+      os << "scalar";
+      break;
+    }
+    default: {
+      LOG(ERROR) << "Unknown ShaderVariableType: " << static_cast<int>(type);
+      break;
+    }
+  }
+  return os;
+}
 
 }  // namespace ogle
-
-#endif  // OGLE_INCLUDES_RENDERER_MATERIAL_H_
