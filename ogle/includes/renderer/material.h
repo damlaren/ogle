@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2016 damlaren
+Copyright (c) 201X damlaren
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -27,19 +27,61 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define OGLE_INCLUDES_RENDERER_MATERIAL_H_
 
 #include "std/ogle_std.inc"
+#include "math/vector.h"
+#include "renderer/shader_variable.h"
+#include "resource/resource.h"
 
 namespace ogle {
 
+class ResourceManager;
 class ShaderProgram;
 
 /**
  * @brief A material (shader program + variable bindings) to draw a surface
- *
- * TODO(damlaren): This class is useless right now.
  */
-struct Material {
+class Material : public Resource {
+ public:
+  /// Type identifying material resources.
+  static constexpr ResourceType kResourceType = ResourceType::MATERIAL;
+
+  /// Identifies Wavefront OBJ/MTL implementation.
+  static const stl_string kMTLImplementation;
+
+  /**
+   * @brief Constructor.
+   * @param metadata Metadata to use for loading material.
+   */
+  Material(const ResourceMetadata& metadata);
+
+  /**
+   * @brief Loads a material from metadata.
+   * @param metadata Metadata for loading.
+   * @param[in] resource_manager Resource manager for application.
+   * @return New material.
+   */
+  static std::unique_ptr<Material> Load(const ResourceMetadata& metadata,
+                                        ResourceManager* resource_manager);
+
+  /**
+   * @brief Parses material data from an MTL file.
+   * @param text Full text of MTL file to parse.
+   * @return Success/failure.
+   */
+  bool LoadMTL(const stl_string& text);
+
   /// Shader program to use for this material.
-  ShaderProgram* shader_program;
+  ShaderProgram* shader_program_;
+
+  // TODO(damlaren): More flexible way to create properties for materials and
+  // other objects. There are other kinds of materials (physically-based)
+  // and they shouldn't be constrained to the Phong lighting model.
+  Vector3f ambient_reflectivity_;  ///< Response to ambient light.
+  Vector3f diffuse_reflectivity_;  ///< Response to diffuse light.
+  Vector3f specular_reflectivity_;  ///< Response to specular light.
+  float specular_exponent_;  ///< Exponent for specular reflectivity.
+
+  /// Variables to set for the shader program.
+  stl_vector<ShaderVariable> variable_bindings_;
 };
 
 }  // namespace ogle

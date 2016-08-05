@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015 damlaren
+Copyright (c) 201X damlaren
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -53,8 +53,12 @@ class MeshViewerApplication : public ogle::Application {
       LOG(ERROR) << "Failed to load basic.glsl";
       return false;
     }
-    material_ = AllocateUniqueObject<ogle::Material>();
-    material_->shader_program = shader_program;
+    auto material =
+        engine_->resource_manager_->GetResource<ogle::Material>("default.mtl");
+    if (!material) {
+      LOG(ERROR) << "Failed to load default.mtl";
+      return false;
+    }
 
     // Create Mesh with renderable buffers.
     buffered_mesh_ = ogle::BufferedMesh::Load(engine_->configuration_, *mesh);
@@ -65,8 +69,7 @@ class MeshViewerApplication : public ogle::Application {
     rendered_entity_->transform_.set_world_position({0.f, 0.f, 0.f});
     if (!rendered_entity_->AddComponent(
             std::unique_ptr<ogle::MeshRenderer>(ogle::MeshRenderer::Load(
-                engine_->configuration_, *buffered_mesh_.get(),
-                material_.get())))) {
+                engine_->configuration_, *buffered_mesh_.get(), material)))) {
       LOG(ERROR) << "Failed to add renderer component.";
       return false;
     }
@@ -147,9 +150,6 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Mesh buffered for rendering.
   std::unique_ptr<ogle::BufferedMesh> buffered_mesh_;
-
-  /// Material for rendering mesh.
-  std::unique_ptr<ogle::Material> material_;
 };
 
 /**

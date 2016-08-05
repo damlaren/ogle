@@ -1,11 +1,22 @@
 /*
-Copyright (c) 2015 damlaren
+Copyright (c) 201X damlaren
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
@@ -17,6 +28,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "algorithms/directed_graph.h"
 #include "file_system/directory.h"
 #include "geometry/mesh.h"
+#include "renderer/material.h"
 #include "renderer/shader.h"
 #include "renderer/shader_program.h"
 #include "resource/resource_metadata.h"
@@ -36,14 +48,17 @@ const bool ResourceManager::LoadResource(const ResourceMetadata& metadata) {
 
   std::unique_ptr<Resource> resource = nullptr;
   switch (metadata.type()) {
+    case ResourceType::MATERIAL:
+      resource = std::move(Material::Load(metadata, this));
+      break;
+    case ResourceType::MESH:
+      resource = std::move(Mesh::Load(metadata));
+      break;
     case ResourceType::SHADER:
       resource = std::move(Shader::Load(metadata));
       break;
     case ResourceType::SHADER_PROGRAM:
       resource = std::move(ShaderProgram::Load(metadata, this));
-      break;
-    case ResourceType::MESH:
-      resource = std::move(Mesh::Load(metadata));
       break;
     default:
       break;
@@ -66,6 +81,7 @@ const bool ResourceManager::LoadResources() {
 
   using ResourceGraph = DirectedGraph<ResourceID, ResourceMetadata>;
   ResourceGraph resource_graph;
+  stl_unordered_multimap<ResourceID, ResourceID> dependencies;
   while (!directories_to_search.empty()) {
     const auto search_dir = directories_to_search.front();
     directories_to_search.pop_front();
@@ -96,10 +112,7 @@ const bool ResourceManager::LoadResources() {
             CHECK(get_result.second == true)
                 << "Added resource not found in graph.";
             for (const auto& dependency_id : get_result.first.dependencies()) {
-              if (!resource_graph.AddEdge(resource_id, dependency_id)) {
-                LOG(ERROR) << "Failed to add edge to resource graph: "
-                           << resource_id << " -> " << dependency_id;
-              }
+              dependencies.emplace(resource_id, dependency_id);
             }
           }
         }
@@ -107,11 +120,21 @@ const bool ResourceManager::LoadResources() {
     }
   }
 
+  // Add edges between dependencies.
+  for (const auto& dependency : dependencies) {
+    const ResourceID& resource_id = dependency.first;
+    const ResourceID& dependency_id = dependency.second;
+    if (!resource_graph.AddEdge(resource_id, dependency_id)) {
+      LOG(ERROR) << "Failed to add edge to resource graph: "
+                 << resource_id << " -> " << dependency_id;
+    }
+  }
+  dependencies.clear();
+
   // Load resources, being careful of dependencies.
   while (!resource_graph.Empty()) {
-    auto undependent_resources = resource_graph.GetMatches(
-          [](const ResourceGraph::Node* node){
-              return node->neighbors().empty(); });
+    auto undependent_resources = resource_graph.GetMatches([](
+        const ResourceGraph::Node* node) { return node->neighbors().empty(); });
     if (undependent_resources.empty()) {
       LOG(ERROR) << "Unable to load remaining resources because of cyclic "
                  << "dependencies; bailing out.";

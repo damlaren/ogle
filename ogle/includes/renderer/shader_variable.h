@@ -75,7 +75,7 @@ typedef struct ShaderVariable {
   ShaderVariableType variable_type;  ///< Variable type.
   ShaderScalarType scalar_type;      ///< Type of scalars within variable.
   const void* data;                  ///< Pointer to variable value.
-} ScalarVariable;
+} ShaderVariable;
 
 }  // namespace ogle
 

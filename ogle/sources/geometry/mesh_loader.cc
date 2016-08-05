@@ -1,11 +1,22 @@
 /*
-Copyright (c) 2015 damlaren
+Copyright (c) 201X damlaren
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
@@ -84,7 +95,7 @@ std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
       }
       Vector3f line_vector;
       if (line_floats.size() == 3) {
-          line_vector = {line_floats[0], line_floats[1], line_floats[2]};
+        line_vector = {line_floats[0], line_floats[1], line_floats[2]};
       } else if (line_floats.size() == 4) {
         // Have w coordinate, produce a 3-vector with w = 1.
         const float w = line_floats[3];
@@ -101,8 +112,8 @@ std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
         line_floats.emplace_back(std::stof(tokens[token_index]));
       }
       if (line_floats.size() == 2) {
-        mesh_data.tex_coords_uv.emplace_back(Vector2f({line_floats[0],
-                                                       line_floats[1]}));
+        mesh_data.tex_coords_uv.emplace_back(
+            Vector2f({line_floats[0], line_floats[1]}));
       } else if (line_floats.size() == 3) {
         mesh_data.tex_coords_uvw.emplace_back(
             Vector3f({line_floats[0], line_floats[1], line_floats[2]}));
@@ -115,8 +126,8 @@ std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
 
       // This does not check if the normal vector is actually normalized--
       // it leaves this possibility open on purpose.
-      mesh_data.normals.emplace_back(Vector3f({line_floats[0], line_floats[1],
-                                               line_floats[2]}));
+      mesh_data.normals.emplace_back(
+          Vector3f({line_floats[0], line_floats[1], line_floats[2]}));
     } else if (line_type == "vp") {
       LOG(ERROR) << "LoadOBJ cannot load parameter space vertices.";
       return nullptr;
@@ -142,8 +153,8 @@ std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
           normal_str = index_specifier.substr(last_slash_index + 1);
         } else if (first_slash_index != last_slash_index) {  // v/t/n
           vertex_str = index_specifier.substr(0, first_slash_index);
-          tex_str = index_specifier.substr(first_slash_index + 1,
-              last_slash_index - first_slash_index - 1);
+          tex_str = index_specifier.substr(
+              first_slash_index + 1, last_slash_index - first_slash_index - 1);
           normal_str = index_specifier.substr(last_slash_index + 1);
         } else if (first_slash_index != stl_string::npos &&
                    first_slash_index == last_slash_index) {  // v/t

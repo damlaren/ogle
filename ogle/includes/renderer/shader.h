@@ -61,11 +61,6 @@ class Shader : public Resource {
   ///@}
 
   /**
-   * @brief Default destructor.
-   */
-  virtual ~Shader() = default;
-
-  /**
    * @brief Loads a shader from text.
    * @param metadata Metadata for shader file.
    * @return New shader.

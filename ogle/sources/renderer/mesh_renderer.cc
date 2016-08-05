@@ -38,7 +38,7 @@ MeshRenderer* MeshRenderer::Load(const Configuration& configuration,
                                     kConfigAttributeImplementation)
           .first;
   if (implementation == GLFWMeshRenderer::kConfigImplementationName) {
-    if (material->shader_program->implementation() !=
+    if (material->shader_program_->implementation() !=
         GLSLShaderProgram::kImplementationName) {
       LOG(ERROR) << "GLFWMeshRenderer requires GLSLShaderProgram.";
       return nullptr;

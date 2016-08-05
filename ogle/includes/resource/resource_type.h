@@ -20,53 +20,35 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * @file Defines Camera.
+ * @file Defines ResourceType.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_CAMERA_H_
-#define OGLE_INCLUDES_RENDERER_CAMERA_H_
+#ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_
+#define OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_
 
 #include "std/ogle_std.inc"
-#include "entity/component.h"
-#include "math/matrix.h"
+#include <iostream>
 
 namespace ogle {
 
-class Transform;
+/// Supported resource types.
+enum class ResourceType {
+  MATERIAL,
+  MESH,
+  SHADER,
+  SHADER_PROGRAM,
+  UNKNOWN,
+  BEGIN = MATERIAL,
+  END = UNKNOWN
+};
 
 /**
- * @brief A camera positioned in the world.
+ * @brief Output stream operator for ResourceType.
+ * @param[in,out] os Output stream.
+ * @param type Type to print.
  */
-class Camera : public Component {
- public:
-  /// Run-time type for all cameras.
-  static constexpr ComponentType kComponentType = ComponentType::CAMERA;
-
-  /**
-   * @brief Default constructor.
-   */
-  Camera();
-
-  /**
-   * @brief Setter.
-   * @param aspect_ratio Camera aspect ratio (width / height).
-   */
-  virtual void set_aspect_ratio(const float aspect_ratio) = 0;
-
-  /**
-   * @brief Computes view matrix.
-   * @param transform Transform from which to view scene.
-   * @return Matrix.
-   */
-  virtual Matrix44f GetViewMatrix(const Transform &transform) const = 0;
-
-  /**
-   * @brief Computes projection matrix from current camera state.
-   * @return Matrix.
-   */
-  virtual Matrix44f GetProjectionMatrix() const = 0;
-};
+std::ostream& operator<<(std::ostream& os, const ResourceType type);  // NOLINT
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_CAMERA_H_
+#endif  // OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_
