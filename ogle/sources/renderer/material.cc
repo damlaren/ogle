@@ -15,6 +15,10 @@ const stl_string Material::kMTLImplementation = "mtl";
 Material::Material(const ResourceMetadata &metadata) : Resource(metadata) {
 }
 
+const stl_string Material::implementation() const {
+  return shader_program_->implementation();
+}
+
 std::unique_ptr<Material> Material::Load(const ResourceMetadata& metadata,
                                          ResourceManager* resource_manager) {
   if (metadata.type() != ResourceType::MATERIAL) {
@@ -97,6 +101,14 @@ bool Material::LoadMTL(const stl_string& text) {
     }
   }
   return true;
+}
+
+void Material::UseProgram() {
+  shader_program_->UseProgram();
+}
+
+void Material::SetVariable(const ShaderVariable& variable) {
+  shader_program_->SetVariable(variable);
 }
 
 }  // namespace ogle

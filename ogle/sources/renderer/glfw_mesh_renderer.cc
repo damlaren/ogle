@@ -59,7 +59,7 @@ bool GLFWMeshRenderer::Create() {
 }
 
 void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
-  material_->shader_program_->UseProgram();
+  material_->UseProgram();
 
   Matrix44f model_matrix = transform.TransformationMatrix3D();
 
@@ -76,19 +76,19 @@ void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
                              ShaderVariableType::MATRIX,
                              ShaderScalarType::FLOAT,
                              model_matrix.data()};
-  material_->shader_program_->SetVariable(variable);
+  material_->SetVariable(variable);
   variable = {ShaderProgram::kViewMatrixArg,
               {4, 4},
               ShaderVariableType::MATRIX,
               ShaderScalarType::FLOAT,
               view_matrix.data()};
-  material_->shader_program_->SetVariable(variable);
+  material_->SetVariable(variable);
   variable = {ShaderProgram::kProjectionMatrixArg,
               {4, 4},
               ShaderVariableType::MATRIX,
               ShaderScalarType::FLOAT,
               projection_matrix.data()};
-  material_->shader_program_->SetVariable(variable);
+  material_->SetVariable(variable);
 
   // TODO(damlaren): bind other variables for surface properties, etc.
 

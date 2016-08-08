@@ -14,6 +14,7 @@ namespace ogle {
 
 class ResourceManager;
 class ShaderProgram;
+class ShaderVariable;
 
 /**
  * @brief A material (shader program + variable bindings) to draw a surface
@@ -30,7 +31,13 @@ class Material : public Resource {
    * @brief Constructor.
    * @param metadata Metadata to use for loading material.
    */
-  Material(const ResourceMetadata& metadata);
+  explicit Material(const ResourceMetadata& metadata);
+
+  /**
+   * @brief Identifies underlying shader implementation used.
+   * @return Implementation string.
+   */
+  const stl_string implementation() const;
 
   /**
    * @brief Loads a material from metadata.
@@ -48,6 +55,18 @@ class Material : public Resource {
    */
   bool LoadMTL(const stl_string& text);
 
+  /**
+   * @brief Use shader program for rendering.
+   */
+  void UseProgram();
+
+  /**
+   * @brief Set variable on shader program.
+   * @param variable Value to set.
+   */
+  void SetVariable(const ShaderVariable& variable);
+
+ private:
   /// Shader program to use for this material.
   ShaderProgram* shader_program_;
 
