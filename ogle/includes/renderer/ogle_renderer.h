@@ -3,8 +3,7 @@
  * @brief Group header for renderer library.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_OGLE_RENDERER_H_
-#define OGLE_INCLUDES_RENDERER_OGLE_RENDERER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "renderer/buffered_mesh.h"
@@ -24,4 +23,3 @@
 #include "renderer/shader_program.h"
 #include "renderer/shader_variable.h"
 
-#endif  // OGLE_INCLUDES_RENDERER_OGLE_RENDERER_H_

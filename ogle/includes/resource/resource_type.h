@@ -3,8 +3,7 @@
  * @brief Defines ResourceType.
  */
 
-#ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_
-#define OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <iostream>
@@ -31,4 +30,3 @@ std::ostream& operator<<(std::ostream& os, const ResourceType type);  // NOLINT
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_

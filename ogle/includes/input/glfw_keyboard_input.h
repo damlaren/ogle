@@ -3,8 +3,7 @@
  * @brief Defines KeyboardInput.
  */
 
-#ifndef OGLE_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_
-#define OGLE_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "input/keyboard_input.h"
@@ -55,4 +54,3 @@ class GLFWKeyboardInput : public KeyboardInput {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_INPUT_GLFW_KEYBOARD_INPUT_H_

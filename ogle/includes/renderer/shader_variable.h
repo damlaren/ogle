@@ -3,8 +3,7 @@
  * @brief Defines ShaderVariable.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_SHADER_VARIABLE_H_
-#define OGLE_INCLUDES_RENDERER_SHADER_VARIABLE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 
@@ -59,4 +58,3 @@ typedef struct ShaderVariable {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_SHADER_VARIABLE_H_

@@ -3,8 +3,7 @@
  * @brief Defines GLFWWindow class.
  */
 
-#ifndef OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_
-#define OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "window/window.h"
@@ -100,4 +99,3 @@ class GLFWWindow : public Window {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_

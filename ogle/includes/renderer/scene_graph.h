@@ -3,8 +3,7 @@
  * @brief Defines SceneGraph.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_SCENE_GRAPH_H_
-#define OGLE_INCLUDES_RENDERER_SCENE_GRAPH_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "entity/entity.h"
@@ -29,4 +28,3 @@ class SceneGraph {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_SCENE_GRAPH_H_

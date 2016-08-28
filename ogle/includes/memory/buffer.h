@@ -3,8 +3,7 @@
  * @brief Defines Buffer.
  */
 
-#ifndef OGLE_INCLUDES_MEMORY_BUFFER_H_
-#define OGLE_INCLUDES_MEMORY_BUFFER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <algorithm>
@@ -189,4 +188,3 @@ class Buffer {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_MEMORY_BUFFER_H_

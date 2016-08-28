@@ -3,8 +3,7 @@
  * @brief Defines Transform.
  */
 
-#ifndef OGLE_INCLUDES_GEOMETRY_TRANSFORM_H_
-#define OGLE_INCLUDES_GEOMETRY_TRANSFORM_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "math/angle.h"
@@ -165,4 +164,3 @@ class Transform {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_GEOMETRY_TRANSFORM_H_

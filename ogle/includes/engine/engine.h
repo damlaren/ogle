@@ -3,8 +3,7 @@
  * @brief Defines Engine.
  */
 
-#ifndef OGLE_INCLUDES_ENGINE_ENGINE_H_
-#define OGLE_INCLUDES_ENGINE_ENGINE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "config/configuration.h"
@@ -78,4 +77,3 @@ class Engine {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_ENGINE_ENGINE_H_

@@ -3,8 +3,7 @@
  * @brief Defines STL containers with custom allocators.
  */
 
-#ifndef OGLE_INCLUDES_STD_CONTAINERS_H_
-#define OGLE_INCLUDES_STD_CONTAINERS_H_
+#pragma once
 
 #include "std/custom_allocator.h"
 
@@ -46,4 +45,3 @@ using stl_vector = std::vector<T, STLAllocator<T>>;
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_STD_CONTAINERS_H_

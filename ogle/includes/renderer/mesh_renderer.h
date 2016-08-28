@@ -3,8 +3,7 @@
  * @brief Defines MeshRenderer.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_MESH_RENDERER_H_
-#define OGLE_INCLUDES_RENDERER_MESH_RENDERER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "renderer/renderer.h"
@@ -45,4 +44,3 @@ class MeshRenderer : public Renderer {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_MESH_RENDERER_H_

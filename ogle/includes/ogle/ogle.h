@@ -3,8 +3,7 @@
  * @brief Top-level header for ogle.
  */
 
-#ifndef OGLE_INCLUDES_OGLE_OGLE_H_
-#define OGLE_INCLUDES_OGLE_OGLE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "algorithms/ogle_algorithms.h"
@@ -25,4 +24,3 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-#endif  // OGLE_INCLUDES_OGLE_OGLE_H_

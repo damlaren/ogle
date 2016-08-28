@@ -3,8 +3,7 @@
  * @brief Defines Matrix.
  */
 
-#ifndef OGLE_INCLUDES_MATH_MATRIX_H_
-#define OGLE_INCLUDES_MATH_MATRIX_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <algorithm>
@@ -643,4 +642,3 @@ using Matrix41f = Matrix<float, 4, 1>;
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_MATH_MATRIX_H_

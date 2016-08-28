@@ -3,8 +3,7 @@
  * @brief Defines Quaternion.
  */
 
-#ifndef OGLE_INCLUDES_MATH_QUATERNION_H_
-#define OGLE_INCLUDES_MATH_QUATERNION_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "easylogging++.h"  // NOLINT
@@ -389,6 +388,4 @@ class Quaternion {
 using Quaternionf = Quaternion<float>;
 
 }  // namespace ogle
-
-#endif  // OGLE_INCLUDES_MATH_QUATERNION_H_
 

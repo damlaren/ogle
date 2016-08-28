@@ -3,8 +3,7 @@
  * @brief Defines Component.
  */
 
-#ifndef OGLE_INCLUDES_ENTITY_COMPONENT_H_
-#define OGLE_INCLUDES_ENTITY_COMPONENT_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 
@@ -67,4 +66,3 @@ class Component {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_ENTITY_COMPONENT_H_

@@ -3,8 +3,7 @@
  * @brief Defines Renderer.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_RENDERER_H_
-#define OGLE_INCLUDES_RENDERER_RENDERER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "entity/component.h"
@@ -50,4 +49,3 @@ class Renderer : public Component {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_RENDERER_H_

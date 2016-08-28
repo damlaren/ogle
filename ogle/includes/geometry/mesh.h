@@ -3,8 +3,7 @@
  * @brief Defines Mesh.
  */
 
-#ifndef OGLE_INCLUDES_GEOMETRY_MESH_H_
-#define OGLE_INCLUDES_GEOMETRY_MESH_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -115,4 +114,3 @@ class Mesh : public Resource {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_GEOMETRY_MESH_H_

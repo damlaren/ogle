@@ -3,8 +3,7 @@
  * @brief Functions for creating file paths.
  */
 
-#ifndef OGLE_INCLUDES_FILE_SYSTEM_FILE_PATH_H_
-#define OGLE_INCLUDES_FILE_SYSTEM_FILE_PATH_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 
@@ -75,4 +74,3 @@ class FilePath {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_FILE_SYSTEM_FILE_PATH_H_

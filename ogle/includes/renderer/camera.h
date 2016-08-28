@@ -3,8 +3,7 @@
  * @brief Defines Camera.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_CAMERA_H_
-#define OGLE_INCLUDES_RENDERER_CAMERA_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "entity/component.h"
@@ -49,4 +48,3 @@ class Camera : public Component {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_CAMERA_H_

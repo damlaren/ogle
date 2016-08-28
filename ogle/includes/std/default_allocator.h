@@ -6,8 +6,7 @@
  * allocator and C++ new/delete operators.
  */
 
-#ifndef OGLE_INCLUDES_STD_DEFAULT_ALLOCATOR_H_
-#define OGLE_INCLUDES_STD_DEFAULT_ALLOCATOR_H_
+#pragma once
 
 #include <memory>
 
@@ -23,4 +22,3 @@ using STLAllocator = std::allocator<T>;
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_STD_DEFAULT_ALLOCATOR_H_

@@ -3,8 +3,7 @@
  * @brief Defines MeshLoader.
  */
 
-#ifndef OGLE_INCLUDES_GEOMETRY_MESH_LOADER_H_
-#define OGLE_INCLUDES_GEOMETRY_MESH_LOADER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -65,4 +64,3 @@ class MeshLoader {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_GEOMETRY_MESH_LOADER_H_

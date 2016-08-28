@@ -1,5 +1,4 @@
-#ifndef OGLE_INCLUDES_APPLICATION_APPLICATION_H_
-#define OGLE_INCLUDES_APPLICATION_APPLICATION_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "engine/engine.h"
@@ -86,4 +85,3 @@ class Application {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_APPLICATION_APPLICATION_H_

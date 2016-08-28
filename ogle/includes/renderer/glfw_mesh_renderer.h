@@ -3,8 +3,7 @@
  * @brief Defines GLFWMeshRenderer.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
-#define OGLE_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "renderer/glfw_buffered_mesh.h"
@@ -62,4 +61,3 @@ class GLFWMeshRenderer : public MeshRenderer {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_

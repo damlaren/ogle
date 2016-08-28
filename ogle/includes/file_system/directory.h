@@ -3,8 +3,7 @@
  * @brief Defines Directory.
  */
 
-#ifndef OGLE_INCLUDES_FILE_SYSTEM_DIRECTORY_H_
-#define OGLE_INCLUDES_FILE_SYSTEM_DIRECTORY_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <utility>
@@ -72,4 +71,3 @@ class DirectoryEntry {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_FILE_SYSTEM_DIRECTORY_H_

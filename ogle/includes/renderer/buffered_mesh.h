@@ -3,8 +3,7 @@
  * @brief Defines BufferedMesh.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_BUFFERED_MESH_H_
-#define OGLE_INCLUDES_RENDERER_BUFFERED_MESH_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "math/vector.h"
@@ -83,4 +82,3 @@ class BufferedMesh {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_BUFFERED_MESH_H_

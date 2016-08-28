@@ -3,8 +3,7 @@
  * @brief Defines Vector.
  */
 
-#ifndef OGLE_INCLUDES_MATH_VECTOR_H_
-#define OGLE_INCLUDES_MATH_VECTOR_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <algorithm>
@@ -494,4 +493,3 @@ using Vector4f = Vector<float, 4>;
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_MATH_VECTOR_H_

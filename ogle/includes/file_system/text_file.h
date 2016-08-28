@@ -3,8 +3,7 @@
  * @brief Defines TextFile.
  */
 
-#ifndef OGLE_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
-#define OGLE_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "file_system/file_path.h"
@@ -27,4 +26,3 @@ class TextFile {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_

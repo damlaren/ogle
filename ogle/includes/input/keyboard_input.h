@@ -3,8 +3,7 @@
  * @brief Defines KeyboardInput.
  */
 
-#ifndef OGLE_INCLUDES_INPUT_KEYBOARD_INPUT_H_
-#define OGLE_INCLUDES_INPUT_KEYBOARD_INPUT_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <functional>
@@ -116,4 +115,3 @@ class KeyboardInput {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_INPUT_KEYBOARD_INPUT_H_

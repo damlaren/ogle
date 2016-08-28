@@ -18,9 +18,7 @@
  *   http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2271.html
  */
 
-#ifndef OGLE_INCLUDES_STD_CUSTOM_ALLOCATOR_H_
-#define OGLE_INCLUDES_STD_CUSTOM_ALLOCATOR_H_
+#pragma once
 
 #include "std/default_allocator.h"
 
-#endif  // OGLE_INCLUDES_STD_CUSTOM_ALLOCATOR_H_

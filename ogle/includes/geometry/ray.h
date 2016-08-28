@@ -3,8 +3,7 @@
  * @brief Defines Ray.
  */
 
-#ifndef OGLE_INCLUDES_GEOMETRY_RAY_H_
-#define OGLE_INCLUDES_GEOMETRY_RAY_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "math/vector.h"
@@ -44,4 +43,3 @@ class Ray {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_GEOMETRY_RAY_H_

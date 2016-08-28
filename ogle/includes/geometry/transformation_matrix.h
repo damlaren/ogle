@@ -3,8 +3,7 @@
  * @brief Defines TransformationMatrix.
  */
 
-#ifndef OGLE_INCLUDES_GEOMETRY_TRANSFORMATION_MATRIX_H_
-#define OGLE_INCLUDES_GEOMETRY_TRANSFORMATION_MATRIX_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "math/angle.h"
@@ -98,4 +97,3 @@ class TransformationMatrix {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_GEOMETRY_TRANSFORMATION_MATRIX_H_

@@ -3,10 +3,8 @@
  * @brief Group header for time library.
  */
 
-#ifndef OGLE_INCLUDES_TIME_OGLE_TIME_H_
-#define OGLE_INCLUDES_TIME_OGLE_TIME_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "time/timer.h"
 
-#endif  // OGLE_INCLUDES_TIME_OGLE_TIME_H_

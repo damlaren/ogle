@@ -3,10 +3,8 @@
  * @brief Group header for util library.
  */
 
-#ifndef OGLE_INCLUDES_UTIL_OGLE_UTIL_H_
-#define OGLE_INCLUDES_UTIL_OGLE_UTIL_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "util/string_utils.h"
 
-#endif  // OGLE_INCLUDES_UTIL_OGLE_UTIL_H_

@@ -3,8 +3,7 @@
  * @brief Defines GLSLShaderProgram.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_GLSL_SHADER_PROGRAM_H_
-#define OGLE_INCLUDES_RENDERER_GLSL_SHADER_PROGRAM_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "easylogging++.h"  // NOLINT
@@ -90,4 +89,3 @@ class GLSLShaderProgram : public ShaderProgram {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_GLSL_SHADER_PROGRAM_H_

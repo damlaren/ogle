@@ -3,8 +3,7 @@
  * @brief Epsilon constant, and other numerical comparison utilities.
  */
 
-#ifndef OGLE_INCLUDES_MATH_FP_COMPARISON_H_
-#define OGLE_INCLUDES_MATH_FP_COMPARISON_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <math.h>
@@ -75,6 +74,4 @@ const bool FPGreater(const T left, const T right,
 }
 
 }  // namespace ogle
-
-#endif  // OGLE_INCLUDES_MATH_FP_COMPARISON_H_
 

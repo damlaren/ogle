@@ -3,8 +3,7 @@
  * @brief Defines ShaderProgram.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_SHADER_PROGRAM_H_
-#define OGLE_INCLUDES_RENDERER_SHADER_PROGRAM_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -88,4 +87,3 @@ class ShaderProgram : public Resource {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_SHADER_PROGRAM_H_

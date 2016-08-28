@@ -3,8 +3,7 @@
  * @brief Defines SceneRenderer.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_SCENE_RENDERER_H_
-#define OGLE_INCLUDES_RENDERER_SCENE_RENDERER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 
@@ -42,4 +41,3 @@ class SceneRenderer {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_SCENE_RENDERER_H_

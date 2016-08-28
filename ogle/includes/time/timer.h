@@ -3,8 +3,7 @@
  * @brief Defines Timer.
  */
 
-#ifndef OGLE_INCLUDES_TIME_TIMER_H_
-#define OGLE_INCLUDES_TIME_TIMER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <chrono>  // NOLINT
@@ -34,4 +33,3 @@ class Timer {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_TIME_TIMER_H_

@@ -5,8 +5,7 @@
  * Equivalents are chosen based on: https://www.opengl.org/wiki/OpenGL_Type
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_OPENGL_PRIMITIVE_TYPES_H_
-#define OGLE_INCLUDES_RENDERER_OPENGL_PRIMITIVE_TYPES_H_
+#pragma once
 
 #include <cstdint>
 
@@ -19,4 +18,3 @@ using GLdouble = double;
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_OPENGL_PRIMITIVE_TYPES_H_

@@ -3,8 +3,7 @@
  * @brief Defines GLFWBufferedMesh.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_
-#define OGLE_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "renderer/buffered_mesh.h"
@@ -45,4 +44,3 @@ class GLFWBufferedMesh : public BufferedMesh {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_

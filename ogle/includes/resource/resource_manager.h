@@ -3,8 +3,7 @@
  * @brief Defines ResourceManager.
  */
 
-#ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
-#define OGLE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <utility>
@@ -77,4 +76,3 @@ class ResourceManager {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_

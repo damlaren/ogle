@@ -3,8 +3,7 @@
  * @brief Defines Angle.
  */
 
-#ifndef OGLE_INCLUDES_MATH_ANGLE_H_
-#define OGLE_INCLUDES_MATH_ANGLE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <math.h>
@@ -163,4 +162,3 @@ class Angle {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_MATH_ANGLE_H_

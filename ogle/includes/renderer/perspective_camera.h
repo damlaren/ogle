@@ -3,8 +3,7 @@
  * @brief Defines PerspectiveCamera.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_
-#define OGLE_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "renderer/camera.h"
@@ -52,4 +51,3 @@ class PerspectiveCamera : public Camera {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_

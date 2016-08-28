@@ -3,8 +3,7 @@
  * @brief Defines Window.
  */
 
-#ifndef OGLE_INCLUDES_WINDOW_WINDOW_H_
-#define OGLE_INCLUDES_WINDOW_WINDOW_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -84,4 +83,3 @@ class Window {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_WINDOW_WINDOW_H_

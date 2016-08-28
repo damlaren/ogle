@@ -3,8 +3,7 @@
  * @brief Defines Entity.
  */
 
-#ifndef OGLE_INCLUDES_ENTITY_ENTITY_H_
-#define OGLE_INCLUDES_ENTITY_ENTITY_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -75,4 +74,3 @@ class Entity {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_ENTITY_ENTITY_H_

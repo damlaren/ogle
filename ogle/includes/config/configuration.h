@@ -3,8 +3,7 @@
  * @brief Defines Configuration.
  */
 
-#ifndef OGLE_INCLUDES_CONFIG_CONFIGURATION_H_
-#define OGLE_INCLUDES_CONFIG_CONFIGURATION_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <utility>
@@ -53,4 +52,3 @@ class Configuration {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_CONFIG_CONFIGURATION_H_

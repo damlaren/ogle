@@ -3,8 +3,7 @@
  * @brief Defines wrappers for allocation functions.
  */
 
-#ifndef OGLE_INCLUDES_STD_NEW_WRAPPERS_H_
-#define OGLE_INCLUDES_STD_NEW_WRAPPERS_H_
+#pragma once
 
 #include "easylogging++.h"  // NOLINT
 
@@ -52,6 +51,4 @@ std::unique_ptr<T> AllocateUniqueObject(Args&&... args) {
   CHECK(new_object != nullptr) << "Unique object allocation failed.";
   return std::move(new_object);
 }
-
-#endif  // OGLE_INCLUDES_STD_NEW_WRAPPERS_H_
 

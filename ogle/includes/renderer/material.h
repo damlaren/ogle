@@ -3,8 +3,7 @@
  * @brief Defines Material.
  */
 
-#ifndef OGLE_INCLUDES_RENDERER_MATERIAL_H_
-#define OGLE_INCLUDES_RENDERER_MATERIAL_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include "math/vector.h"
@@ -85,4 +84,3 @@ class Material : public Resource {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RENDERER_MATERIAL_H_

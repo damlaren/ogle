@@ -3,8 +3,7 @@
  * @brief Defines ResourceMetadata.
  */
 
-#ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
-#define OGLE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <iostream>
@@ -115,4 +114,3 @@ class ResourceMetadata {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_

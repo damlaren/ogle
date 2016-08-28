@@ -3,8 +3,7 @@
  * @brief Defines DirectedGraph.
  */
 
-#ifndef OGLE_INCLUDES_ALGORITHMS_DIRECTED_GRAPH_H_
-#define OGLE_INCLUDES_ALGORITHMS_DIRECTED_GRAPH_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <functional>
@@ -211,4 +210,3 @@ class DirectedGraph {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_ALGORITHMS_DIRECTED_GRAPH_H_

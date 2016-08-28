@@ -3,8 +3,7 @@
  * @brief Defines StringUtils.
  */
 
-#ifndef OGLE_INCLUDES_UTIL_STRING_UTILS_H_
-#define OGLE_INCLUDES_UTIL_STRING_UTILS_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 
@@ -60,4 +59,3 @@ class StringUtils {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_UTIL_STRING_UTILS_H_

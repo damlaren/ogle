@@ -3,8 +3,7 @@
  * @brief Defines Resource.
  */
 
-#ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_H_
-#define OGLE_INCLUDES_RESOURCE_RESOURCE_H_
+#pragma once
 
 #include "std/ogle_std.inc"
 #include <memory>
@@ -94,4 +93,3 @@ class Resource {
 
 }  // namespace ogle
 
-#endif  // OGLE_INCLUDES_RESOURCE_RESOURCE_H_
