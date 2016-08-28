@@ -1,5 +1,6 @@
 /**
- * @file Implementation of entity.h.
+ * @file entity.cc
+ * @brief Implementation of entity.h.
  */
 
 #include "entity/entity.h"

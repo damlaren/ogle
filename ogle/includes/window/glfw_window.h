@@ -1,5 +1,6 @@
 /**
- * @file Defines GLFWWindow class.
+ * @file glfw_window.h
+ * @brief Defines GLFWWindow class.
  */
 
 #ifndef OGLE_INCLUDES_WINDOW_GLFW_WINDOW_H_

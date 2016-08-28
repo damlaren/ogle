@@ -1,5 +1,6 @@
 /**
- * @file Defines GLFWBufferedMesh.
+ * @file glfw_buffered_mesh.h
+ * @brief Defines GLFWBufferedMesh.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_GLFW_BUFFERED_MESH_H_

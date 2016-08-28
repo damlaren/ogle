@@ -1,5 +1,6 @@
 /**
- * @file Implementation of resource_manager.h.
+ * @file resource_manager.cc
+ * @brief Implementation of resource_manager.h.
  */
 
 #include "resource/resource_manager.h"

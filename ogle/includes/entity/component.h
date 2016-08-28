@@ -1,5 +1,6 @@
 /**
- * @file Defines Entity.
+ * @file component.h
+ * @brief Defines Entity.
  */
 
 #ifndef OGLE_INCLUDES_ENTITY_COMPONENT_H_

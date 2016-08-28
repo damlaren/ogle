@@ -1,5 +1,6 @@
 /**
- * @file Group header for config library.
+ * @file ogle_config.h
+ * @brief Group header for config library.
  */
 
 #ifndef OGLE_INCLUDES_CONFIG_OGLE_CONFIG_H_

@@ -1,5 +1,6 @@
 /**
- * @file Defines ResourceManager.
+ * @file resource_manager.h
+ * @brief Defines ResourceManager.
  */
 
 #ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_MANAGER_H_

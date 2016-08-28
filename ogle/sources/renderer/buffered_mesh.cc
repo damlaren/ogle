@@ -1,5 +1,6 @@
 /**
- * @file Implements buffered_mesh.h.
+ * @file buffered_mesh.cc
+ * @brief Implements buffered_mesh.h.
  */
 
 #include "renderer/buffered_mesh.h"

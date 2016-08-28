@@ -1,5 +1,6 @@
 /**
- * @file Group header for math library.
+ * @file ogle_math.h
+ * @brief Group header for math library.
  */
 
 #ifndef OGLE_INCLUDES_MATH_OGLE_MATH_H_

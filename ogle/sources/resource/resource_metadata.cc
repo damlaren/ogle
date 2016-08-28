@@ -1,5 +1,6 @@
 /**
- * @file Implementation of resource_metadata.h.
+ * @file resource_metadata.cc
+ * @brief Implementation of resource_metadata.h.
  */
 
 #include "resource/resource_metadata.h"

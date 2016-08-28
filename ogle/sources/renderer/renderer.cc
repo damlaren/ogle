@@ -1,5 +1,6 @@
 /**
- * @file Implementation of renderer.h.
+ * @file renderer.cc
+ * @brief Implementation of renderer.h.
  */
 
 #include "renderer/renderer.h"

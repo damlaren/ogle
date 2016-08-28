@@ -1,5 +1,6 @@
 /**
- * @file Implementation of mesh_renderer.h.
+ * @file mesh_renderer.cc
+ * @brief Implementation of mesh_renderer.h.
  */
 
 #include "renderer/mesh_renderer.h"

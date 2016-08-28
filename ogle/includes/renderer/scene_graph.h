@@ -1,5 +1,6 @@
 /**
- * @file Defines SceneGraph.
+ * @file scene_graph.h
+ * @brief Defines SceneGraph.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_SCENE_GRAPH_H_

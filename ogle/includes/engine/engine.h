@@ -1,5 +1,6 @@
 /**
- * @file Defines Engine.
+ * @file engine.h
+ * @brief Defines Engine.
  */
 
 #ifndef OGLE_INCLUDES_ENGINE_ENGINE_H_

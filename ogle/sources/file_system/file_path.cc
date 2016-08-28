@@ -1,5 +1,6 @@
 /**
- * @file Implementation of file_path.h.
+ * @file file_path.cc
+ * @brief Implementation of file_path.h.
  */
 
 #include "file_system/file_path.h"

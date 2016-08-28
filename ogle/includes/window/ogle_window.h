@@ -1,5 +1,6 @@
 /**
- * @file Group header for window library.
+ * @file ogle_window.h
+ * @brief Group header for window library.
  */
 
 #ifndef OGLE_INCLUDES_WINDOW_OGLE_WINDOW_H_

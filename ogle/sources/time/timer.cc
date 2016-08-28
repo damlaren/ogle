@@ -1,5 +1,6 @@
 /**
- * @file Implementation of timer.h.
+ * @file timer.cc
+ * @brief Implementation of timer.h.
  */
 
 #include "time/timer.h"

@@ -1,5 +1,6 @@
 /**
- * @file Implements camera.h.
+ * @file camera.cc
+ * @brief Implements camera.h.
  */
 
 #include "renderer/camera.h"

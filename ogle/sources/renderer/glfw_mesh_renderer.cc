@@ -1,5 +1,6 @@
 /**
- * @file Implementation of glfw_mesh_renderer.h.
+ * @file glfw_mesh_renderer.cc
+ * @brief Implementation of glfw_mesh_renderer.h.
  */
 
 #include "renderer/glfw_mesh_renderer.h"

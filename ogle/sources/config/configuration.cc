@@ -1,5 +1,6 @@
 /**
- * @file Implementation of configuration.h.
+ * @file configuration.cc
+ * @brief Implementation of configuration.h.
  */
 
 #include "config/configuration.h"

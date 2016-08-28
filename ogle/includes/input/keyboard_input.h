@@ -1,5 +1,6 @@
 /**
- * @file Defines KeyboardInput.
+ * @file keyboard_input.h
+ * @brief Defines KeyboardInput.
  */
 
 #ifndef OGLE_INCLUDES_INPUT_KEYBOARD_INPUT_H_

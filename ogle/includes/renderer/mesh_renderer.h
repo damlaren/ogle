@@ -1,5 +1,6 @@
 /**
- * @file Defines MeshRenderer.
+ * @file mesh_renderer.h
+ * @brief Defines MeshRenderer.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_MESH_RENDERER_H_

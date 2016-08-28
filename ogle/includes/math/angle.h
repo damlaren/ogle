@@ -1,5 +1,6 @@
 /**
- * @file Defines Angle.
+ * @file angle.h
+ * @brief Defines Angle.
  */
 
 #ifndef OGLE_INCLUDES_MATH_ANGLE_H_

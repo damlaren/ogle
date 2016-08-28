@@ -1,5 +1,6 @@
 /**
- * @file Defines ResourceMetadata.
+ * @file resource_metadata.h
+ * @brief Defines ResourceMetadata.
  */
 
 #ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_METADATA_H_

@@ -1,5 +1,6 @@
 /**
- * @file Implementation of engine.h.
+ * @file engine.cc
+ * @brief Implementation of engine.h.
  */
 
 #include "engine/engine.h"

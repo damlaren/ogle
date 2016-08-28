@@ -1,5 +1,6 @@
 /**
- * @file Defines PerspectiveCamera.
+ * @file perspective_camera.h
+ * @brief Defines PerspectiveCamera.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_PERSPECTIVE_CAMERA_H_

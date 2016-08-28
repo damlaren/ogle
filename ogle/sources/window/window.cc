@@ -1,5 +1,6 @@
 /**
- * @file Implementation of window.h.
+ * @file window.cc
+ * @brief Implementation of window.h.
  */
 
 #include "window/window.h"

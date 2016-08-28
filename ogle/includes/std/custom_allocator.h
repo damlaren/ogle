@@ -1,5 +1,6 @@
 /**
- * @file Defines which custom memory allocators to use.
+ * @file custom_allocator.h
+ * @brief Defines which custom memory allocators to use.
  *
  * Redefines both STL allocators and global C++ new/delete operators.
  * This is done simply by including a header file for the desired allocation

@@ -1,5 +1,6 @@
 /**
- * @file Defines Transform.
+ * @file transform.h
+ * @brief Defines Transform.
  */
 
 #ifndef OGLE_INCLUDES_GEOMETRY_TRANSFORM_H_

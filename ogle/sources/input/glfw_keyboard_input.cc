@@ -1,5 +1,6 @@
 /**
- * @file Implementation of glfw_keyboard_input.h.
+ * @file glfw_keyboard_input.cc
+ * @brief Implementation of glfw_keyboard_input.h.
  */
 
 #include "input/glfw_keyboard_input.h"

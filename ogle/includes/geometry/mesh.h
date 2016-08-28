@@ -1,5 +1,6 @@
 /**
- * @file Defines Mesh.
+ * @file mesh.h
+ * @brief Defines Mesh.
  */
 
 #ifndef OGLE_INCLUDES_GEOMETRY_MESH_H_

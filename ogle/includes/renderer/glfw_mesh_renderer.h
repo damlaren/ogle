@@ -1,5 +1,6 @@
 /**
- * @file Defines GLFWMeshRenderer.
+ * @file glfw_mesh_renderer.h
+ * @brief Defines GLFWMeshRenderer.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_GLFW_MESH_RENDERER_H_

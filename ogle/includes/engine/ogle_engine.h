@@ -1,5 +1,6 @@
 /**
- * @file Group header for engine library.
+ * @file ogle_engine.h
+ * @brief Group header for engine library.
  */
 
 #ifndef OGLE_INCLUDES_ENGINE_OGLE_ENGINE_H_

@@ -1,5 +1,6 @@
 /**
- * @file Implementation of yaml_file.h.
+ * @file yaml_file.cc
+ * @brief Implementation of yaml_file.h.
  */
 
 #include "file_system/yaml_file.h"

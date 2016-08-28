@@ -1,5 +1,6 @@
 /**
- * @file Functions for creating file paths.
+ * @file file_path.h
+ * @brief Functions for creating file paths.
  */
 
 #ifndef OGLE_INCLUDES_FILE_SYSTEM_FILE_PATH_H_

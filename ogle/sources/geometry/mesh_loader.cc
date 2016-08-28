@@ -1,5 +1,6 @@
 /**
- * @file Implementation of mesh_loader.h.
+ * @file mesh_loader.cc
+ * @brief Implementation of mesh_loader.h.
  */
 
 #include "geometry/mesh_loader.h"

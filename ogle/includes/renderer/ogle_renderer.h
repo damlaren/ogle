@@ -1,5 +1,6 @@
 /**
- * @file Group header for renderer library.
+ * @file ogle_renderer.h
+ * @brief Group header for renderer library.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_OGLE_RENDERER_H_

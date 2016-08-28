@@ -1,5 +1,6 @@
 /**
- * @file Group header for entity library.
+ * @file ogle_entity.h
+ * @brief Group header for entity library.
  */
 
 #ifndef OGLE_INCLUDES_ENTITY_OGLE_ENTITY_H_

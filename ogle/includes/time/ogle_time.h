@@ -1,5 +1,6 @@
 /**
- * @file Group header for time library.
+ * @file ogle_time.h
+ * @brief Group header for time library.
  */
 
 #ifndef OGLE_INCLUDES_TIME_OGLE_TIME_H_

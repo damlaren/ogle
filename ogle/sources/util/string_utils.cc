@@ -1,5 +1,6 @@
 /**
- * @file Implements string_utils.h.
+ * @file string_utils.cc
+ * @brief Implements string_utils.h.
  */
 
 #include "util/string_utils.h"

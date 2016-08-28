@@ -1,5 +1,6 @@
 /**
- * @file Defines TransformationMatrix.
+ * @file transformation_matrix.h
+ * @brief Defines TransformationMatrix.
  */
 
 #ifndef OGLE_INCLUDES_GEOMETRY_TRANSFORMATION_MATRIX_H_

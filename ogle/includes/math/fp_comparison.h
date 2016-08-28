@@ -1,5 +1,6 @@
 /**
- * @file Epsilon constant, and other numerical comparison utilities.
+ * @file fp_comparison.h
+ * @brief Epsilon constant, and other numerical comparison utilities.
  */
 
 #ifndef OGLE_INCLUDES_MATH_FP_COMPARISON_H_

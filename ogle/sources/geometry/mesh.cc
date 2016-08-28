@@ -1,5 +1,6 @@
 /**
- * @file Implements MeshGraph.
+ * @file mesh.cc
+ * @brief Implements mesh.h.
  */
 
 #include "geometry/mesh.h"

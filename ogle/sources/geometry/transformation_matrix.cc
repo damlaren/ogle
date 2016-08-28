@@ -1,5 +1,6 @@
 /**
- * @file Implementation of transformation_matrix.h.
+ * @file transformation_matrix.cc
+ * @brief Implementation of transformation_matrix.h.
  */
 
 #include "geometry/transformation_matrix.h"

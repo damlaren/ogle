@@ -1,5 +1,6 @@
 /**
- * @file Group header for geometry library.
+ * @file ogle_geometry.h
+ * @brief Group header for geometry library.
  */
 
 #ifndef OGLE_INCLUDES_GEOMETRY_OGLE_GEOMETRY_H_

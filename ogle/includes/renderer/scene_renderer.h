@@ -1,5 +1,6 @@
 /**
- * @file Defines SceneRenderer.
+ * @file scene_renderer.h
+ * @brief Defines SceneRenderer.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_SCENE_RENDERER_H_

@@ -1,5 +1,6 @@
 /**
- * @file Implementation of text_file.h.
+ * @file text_file.cc
+ * @brief Implementation of text_file.h.
  */
 
 #include "file_system/text_file.h"

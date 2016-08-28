@@ -1,5 +1,6 @@
 /**
- * @file Implementation of angle.h.
+ * @file angle.cc
+ * @brief Implementation of angle.h.
  */
 
 #include "math/angle.h"

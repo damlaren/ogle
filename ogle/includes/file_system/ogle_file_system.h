@@ -1,5 +1,6 @@
 /**
- * @file Group header for file_system library.
+ * @file ogle_file_system.h
+ * @brief Group header for file_system library.
  */
 
 #ifndef OGLE_INCLUDES_FILE_SYSTEM_OGLE_FILE_SYSTEM_H_

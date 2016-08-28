@@ -1,5 +1,6 @@
 /**
- * @file Implementation of directory.h.
+ * @file directory.cc
+ * @brief Implementation of directory.h.
  */
 
 #include "file_system/directory.h"

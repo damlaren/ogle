@@ -1,5 +1,6 @@
 /**
- * @file Implements glfw_buffered_mesh.h.
+ * @file glfw_buffered_mesh.cc
+ * @brief Implements glfw_buffered_mesh.h.
  */
 
 #include "renderer/glfw_buffered_mesh.h"

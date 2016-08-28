@@ -1,5 +1,6 @@
 /**
- * @file Defines Quaternion.
+ * @file quaternion.h
+ * @brief Defines Quaternion.
  */
 
 #ifndef OGLE_INCLUDES_MATH_QUATERNION_H_

@@ -1,5 +1,6 @@
 /**
- * @file Top-level header for ogle.
+ * @file ogle.h
+ * @brief Top-level header for ogle.
  */
 
 #ifndef OGLE_INCLUDES_OGLE_OGLE_H_

@@ -1,5 +1,6 @@
 /**
- * @file Defines Camera.
+ * @file camera.h
+ * @brief Defines Camera.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_CAMERA_H_

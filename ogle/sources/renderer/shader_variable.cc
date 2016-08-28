@@ -1,5 +1,6 @@
 /**
- * @file Implementation of shader_variable.h.
+ * @file shader_variable.cc
+ * @brief Implementation of shader_variable.h.
  */
 
 #include "renderer/shader_variable.h"

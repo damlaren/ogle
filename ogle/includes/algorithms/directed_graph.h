@@ -1,5 +1,6 @@
 /**
- * @file Defines DirectedGraph.
+ * @file directed_graph.h
+ * @brief Defines DirectedGraph.
  */
 
 #ifndef OGLE_INCLUDES_ALGORITHMS_DIRECTED_GRAPH_H_

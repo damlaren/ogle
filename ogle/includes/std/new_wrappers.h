@@ -1,5 +1,6 @@
 /**
- * @file Defines wrappers for allocation functions.
+ * @file new_wrappers.h
+ * @brief Defines wrappers for allocation functions.
  */
 
 #ifndef OGLE_INCLUDES_STD_NEW_WRAPPERS_H_

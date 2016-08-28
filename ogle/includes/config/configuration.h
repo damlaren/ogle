@@ -1,5 +1,6 @@
 /**
- * @file Defines Configuration.
+ * @file configuration.h
+ * @brief Defines Configuration.
  */
 
 #ifndef OGLE_INCLUDES_CONFIG_CONFIGURATION_H_

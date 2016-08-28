@@ -1,5 +1,6 @@
 /**
- * @file Group header for algorithms library.
+ * @file ogle_algorithms.h
+ * @brief Group header for algorithms library.
  */
 
 #ifndef OGLE_INCLUDES_ALGORITHMS_OGLE_ALGORITHMS_H_

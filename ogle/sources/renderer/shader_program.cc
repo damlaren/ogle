@@ -1,5 +1,6 @@
 /**
- * @file Implementation of shader_program.h.
+ * @file shader_program.cc
+ * @brief Implementation of shader_program.h.
  */
 
 #include "renderer/shader_program.h"

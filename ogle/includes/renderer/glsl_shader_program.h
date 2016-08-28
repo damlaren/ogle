@@ -1,5 +1,6 @@
 /**
- * @file Defines GLSLShaderProgram.
+ * @file glsl_shader_program.h
+ * @brief Defines GLSLShaderProgram.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_GLSL_SHADER_PROGRAM_H_

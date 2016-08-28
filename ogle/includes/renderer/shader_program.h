@@ -1,5 +1,6 @@
 /**
- * @file Defines ShaderProgram.
+ * @file shader_program.h
+ * @brief Defines ShaderProgram.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_SHADER_PROGRAM_H_

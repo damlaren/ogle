@@ -1,5 +1,6 @@
 /**
- * @file Implements scene_renderer.h.
+ * @file scene_renderer.cc
+ * @brief Implements scene_renderer.h.
  */
 
 #include "renderer/scene_renderer.h"

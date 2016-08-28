@@ -1,5 +1,6 @@
 /**
- * @file Defines Window.
+ * @file window.h
+ * @brief Defines Window.
  */
 
 #ifndef OGLE_INCLUDES_WINDOW_WINDOW_H_

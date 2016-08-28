@@ -1,5 +1,6 @@
 /**
- * @file Defines Material.
+ * @file material.h
+ * @brief Defines Material.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_MATERIAL_H_

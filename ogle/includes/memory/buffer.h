@@ -1,5 +1,6 @@
 /**
- * @file Defines Buffer.
+ * @file buffer.h
+ * @brief Defines Buffer.
  */
 
 #ifndef OGLE_INCLUDES_MEMORY_BUFFER_H_

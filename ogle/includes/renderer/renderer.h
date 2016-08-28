@@ -1,5 +1,6 @@
 /**
- * @file Defines Renderer.
+ * @file renderer.h
+ * @brief Defines Renderer.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_RENDERER_H_

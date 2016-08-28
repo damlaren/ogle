@@ -1,5 +1,6 @@
 /**
- * @file Group header for application library.
+ * @file ogle_application.h
+ * @brief Group header for application library.
  */
 
 #ifndef OGLE_INCLUDES_APPLICATION_OGLE_APPLICATION_H_

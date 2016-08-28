@@ -1,5 +1,6 @@
 /**
- * @file Defines YAMLFile.
+ * @file yaml_file.h
+ * @brief Defines YAMLFile.
  */
 
 #ifndef OGLE_INCLUDES_FILE_SYSTEM_YAML_FILE_H_

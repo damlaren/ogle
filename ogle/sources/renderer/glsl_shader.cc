@@ -1,5 +1,6 @@
 /**
- * @file Implementation of glsl_shader.h.
+ * @file glsl_shader.cc
+ * @brief Implementation of glsl_shader.h.
  */
 
 #include "renderer/glsl_shader.h"

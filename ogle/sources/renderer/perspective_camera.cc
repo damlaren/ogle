@@ -1,5 +1,6 @@
 /**
- * @file Implementation of perspective_camera.h.
+ * @file perspective_camera.cc
+ * @brief Implementation of perspective_camera.h.
  */
 
 #include "renderer/perspective_camera.h"

@@ -1,5 +1,6 @@
 /**
- * @file Group header for memory library.
+ * @file ogle_memory.h
+ * @brief Group header for memory library.
  */
 
 #ifndef OGLE_INCLUDES_MEMORY_OGLE_MEMORY_H_

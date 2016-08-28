@@ -1,5 +1,6 @@
 /**
- * @file Implementation of resource_type.h.
+ * @file resource_type.cc
+ * @brief Implementation of resource_type.h.
  */
 
 #include "resource/resource_type.h"

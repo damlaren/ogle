@@ -1,5 +1,6 @@
 /**
- * @file Defines Timer.
+ * @file timer.h
+ * @brief Defines Timer.
  */
 
 #ifndef OGLE_INCLUDES_TIME_TIMER_H_

@@ -1,5 +1,6 @@
 /**
- * @file Defines Matrix.
+ * @file matrix.h
+ * @brief Defines Matrix.
  */
 
 #ifndef OGLE_INCLUDES_MATH_MATRIX_H_

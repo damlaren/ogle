@@ -1,5 +1,6 @@
 /**
- * @file Defines ResourceType.
+ * @file resource_type.h
+ * @brief Defines ResourceType.
  */
 
 #ifndef OGLE_INCLUDES_RESOURCE_RESOURCE_TYPE_H_

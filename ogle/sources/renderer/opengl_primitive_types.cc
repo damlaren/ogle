@@ -1,5 +1,6 @@
 /**
- * @file Implementation of opengl_primitive_types.h.
+ * @file opengl_primitive_types.cc
+ * @brief Implementation of opengl_primitive_types.h.
  */
 
 #include "renderer/opengl_primitive_types.h"

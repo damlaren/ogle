@@ -1,5 +1,6 @@
 /**
- * @file Implements material.h.
+ * @file material.cc
+ * @brief Implements material.h.
  */
 
 #include "renderer/material.h"

@@ -1,5 +1,6 @@
 /**
- * @file Defines Ray.
+ * @file ray.h
+ * @brief Defines Ray.
  */
 
 #ifndef OGLE_INCLUDES_GEOMETRY_RAY_H_

@@ -1,5 +1,6 @@
 /**
- * @file Defines Vector.
+ * @file vector.h
+ * @brief Defines Vector.
  */
 
 #ifndef OGLE_INCLUDES_MATH_VECTOR_H_

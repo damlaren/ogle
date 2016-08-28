@@ -1,5 +1,6 @@
 /**
- * @file Defines MeshLoader.
+ * @file mesh_loader.h
+ * @brief Defines MeshLoader.
  */
 
 #ifndef OGLE_INCLUDES_GEOMETRY_MESH_LOADER_H_

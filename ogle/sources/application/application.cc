@@ -1,5 +1,6 @@
 /**
- * @file Implementation of application.h.
+ * @file application.cc
+ * @brief Implementation of application.h.
  */
 
 #include "application/application.h"

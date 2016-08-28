@@ -1,5 +1,6 @@
 /**
- * @file Implements component.h.
+ * @file component.cc
+ * @brief Implements component.h.
  */
 
 #include "entity/component.h"

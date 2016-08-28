@@ -5,7 +5,8 @@
 #include "engine/engine.h"
 
 /**
- * @file Defines Application.
+ * @file application.h
+ * @brief Defines Application.
  */
 
 namespace ogle {

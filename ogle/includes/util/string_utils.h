@@ -1,5 +1,6 @@
 /**
- * @file Defines StringUtils.
+ * @file string_utils.h
+ * @brief Defines StringUtils.
  */
 
 #ifndef OGLE_INCLUDES_UTIL_STRING_UTILS_H_

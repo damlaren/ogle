@@ -1,5 +1,6 @@
 /**
- * @file Group header for util library.
+ * @file ogle_util.h
+ * @brief Group header for util library.
  */
 
 #ifndef OGLE_INCLUDES_UTIL_OGLE_UTIL_H_

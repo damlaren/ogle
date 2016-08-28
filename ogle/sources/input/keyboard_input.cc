@@ -1,5 +1,6 @@
 /**
- * @file Implementation of keyboard_input.h.
+ * @file keyboard_input.cc
+ * @brief Implementation of keyboard_input.h.
  */
 
 #include "input/keyboard_input.h"

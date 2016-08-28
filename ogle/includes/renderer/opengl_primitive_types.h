@@ -1,5 +1,6 @@
 /**
- * @file Defines replacements for OpenGL primitive types.
+ * @file opengl_primitive_types.h
+ * @brief Defines replacements for OpenGL primitive types.
  *
  * Equivalents are chosen based on: https://www.opengl.org/wiki/OpenGL_Type
  */

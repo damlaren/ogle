@@ -1,5 +1,6 @@
 /**
- * @file Group header for input library.
+ * @file ogle_input.h
+ * @brief Group header for input library.
  */
 
 #ifndef OGLE_INCLUDES_INPUT_OGLE_INPUT_H_

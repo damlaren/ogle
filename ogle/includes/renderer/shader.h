@@ -1,5 +1,6 @@
 /**
- * @file Defines Shader.
+ * @file shader.h
+ * @brief Defines Shader.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_SHADER_H_

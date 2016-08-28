@@ -1,5 +1,6 @@
 /**
- * @file Defines BufferedMesh.
+ * @file buffered_mesh.h
+ * @brief Defines BufferedMesh.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_BUFFERED_MESH_H_

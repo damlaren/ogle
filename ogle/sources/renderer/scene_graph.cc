@@ -1,4 +1,5 @@
-/// @file Implements scene_graph.h.
+/// @file scene_graph.cc
+ * @brief Implements scene_graph.h.
 
 #include "renderer/scene_graph.h"
 

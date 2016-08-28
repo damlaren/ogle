@@ -1,5 +1,6 @@
 /**
- * @file Defines ShaderVariable.
+ * @file shader_variable.h
+ * @brief Defines ShaderVariable.
  */
 
 #ifndef OGLE_INCLUDES_RENDERER_SHADER_VARIABLE_H_

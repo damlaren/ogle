@@ -1,5 +1,6 @@
 /**
- * @file Defines TextFile.
+ * @file text_file.h
+ * @brief Defines TextFile.
  */
 
 #ifndef OGLE_INCLUDES_FILE_SYSTEM_TEXT_FILE_H_

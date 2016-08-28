@@ -1,5 +1,6 @@
 /**
- * @file Implementation of glfw_window.h.
+ * @file glfw_window.cc
+ * @brief Implementation of glfw_window.h.
  */
 
 #include "window/glfw_window.h"

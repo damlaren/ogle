@@ -1,5 +1,6 @@
 /**
- * @file Defines Directory.
+ * @file directory.h
+ * @brief Defines Directory.
  */
 
 #ifndef OGLE_INCLUDES_FILE_SYSTEM_DIRECTORY_H_

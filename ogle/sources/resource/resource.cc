@@ -1,5 +1,6 @@
 /**
- * @file Implementation of resource.h.
+ * @file resource.cc
+ * @brief Implementation of resource.h.
  */
 
 #include "resource/resource.h"

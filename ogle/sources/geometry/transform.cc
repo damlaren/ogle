@@ -1,5 +1,6 @@
 /**
- * @file Implements transform.h.
+ * @file transform.cc
+ * @brief Implements transform.h.
  */
 
 #include "geometry/transform.h"

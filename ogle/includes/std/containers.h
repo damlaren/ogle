@@ -1,5 +1,6 @@
 /**
- * @file Defines STL containers with custom allocators.
+ * @file containers.h
+ * @brief Defines STL containers with custom allocators.
  */
 
 #ifndef OGLE_INCLUDES_STD_CONTAINERS_H_
