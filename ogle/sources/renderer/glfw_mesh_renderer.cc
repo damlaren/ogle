@@ -7,13 +7,13 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "entity/entity.h"
+#include "entity/property.h"
 #include "geometry/mesh.h"
 #include "geometry/transform.h"
 #include "geometry/transformation_matrix.h"
 #include "renderer/camera.h"
 #include "renderer/glsl_shader_program.h"
 #include "renderer/material.h"
-#include "renderer/shader_variable.h"
 
 namespace ogle {
 
@@ -72,24 +72,13 @@ void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
   Matrix44f view_matrix = camera_component->GetViewMatrix(camera->transform_);
   Matrix44f projection_matrix = camera_component->GetProjectionMatrix();
 
-  ShaderVariable variable = {ShaderProgram::kModelMatrixArg,
-                             {4, 4},
-                             ShaderVariableType::MATRIX,
-                             ShaderScalarType::FLOAT,
-                             model_matrix.data()};
-  material_->SetVariable(variable);
-  variable = {ShaderProgram::kViewMatrixArg,
-              {4, 4},
-              ShaderVariableType::MATRIX,
-              ShaderScalarType::FLOAT,
-              view_matrix.data()};
-  material_->SetVariable(variable);
-  variable = {ShaderProgram::kProjectionMatrixArg,
-              {4, 4},
-              ShaderVariableType::MATRIX,
-              ShaderScalarType::FLOAT,
-              projection_matrix.data()};
-  material_->SetVariable(variable);
+  material_->SetVariable(Property(ShaderProgram::kModelMatrixArg, {4, 4},
+                                  PropertyType::FLOAT, model_matrix.data()));
+  material_->SetVariable(Property(ShaderProgram::kViewMatrixArg, {4, 4},
+                                  PropertyType::FLOAT, view_matrix.data()));
+  material_->SetVariable(Property(ShaderProgram::kProjectionMatrixArg, {4, 4},
+                                  PropertyType::FLOAT,
+                                  projection_matrix.data()));
 
   // TODO(damlaren): bind other variables for surface properties, etc.
 

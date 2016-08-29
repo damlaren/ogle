@@ -7,6 +7,7 @@
 
 #include "std/ogle_std.inc"
 #include "easylogging++.h"  // NOLINT
+#include "entity/property.h"
 #include "renderer/opengl_primitive_types.h"
 #include "resource/resource_metadata.h"
 #include "renderer/shader_program.h"
@@ -14,7 +15,6 @@
 namespace ogle {
 
 class GLSLShader;
-enum class ShaderScalarType;
 
 /**
  * @brief Linked GLSL shader program.
@@ -41,7 +41,7 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
-  void SetVariable(const ShaderVariable& variable) override;
+  void SetVariable(const Property& variable) override;
 
  protected:
   /**
@@ -60,7 +60,7 @@ class GLSLShaderProgram : public ShaderProgram {
    * @param data Data constituting matrix elements.
    */
   void SetUniformMatrix(const GLint uniform_location,
-                        const ShaderScalarType scalar_type, const int rows,
+                        const PropertyType scalar_type, const int rows,
                         const int cols, const void* data);
 
   /**
@@ -71,7 +71,7 @@ class GLSLShaderProgram : public ShaderProgram {
    * @param data Data constituting vector elements.
    */
   void SetUniformVector(const GLint uniform_location,
-                        const ShaderScalarType scalar_type, const int rows,
+                        const PropertyType scalar_type, const int rows,
                         const void* data);
 
   /// OpenGL-generated program ID.

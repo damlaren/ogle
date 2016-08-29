@@ -8,4 +8,5 @@
 #include "std/ogle_std.inc"
 #include "entity/component.h"
 #include "entity/entity.h"
+#include "entity/property.h"
 

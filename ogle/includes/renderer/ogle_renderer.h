@@ -21,5 +21,4 @@
 #include "renderer/scene_renderer.h"
 #include "renderer/shader.h"
 #include "renderer/shader_program.h"
-#include "renderer/shader_variable.h"
 

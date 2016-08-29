@@ -6,15 +6,14 @@
 #pragma once
 
 #include "std/ogle_std.inc"
+#include "entity/property.h"
 #include "math/vector.h"
-#include "renderer/shader_variable.h"
 #include "resource/resource.h"
 
 namespace ogle {
 
 class ResourceManager;
 class ShaderProgram;
-class ShaderVariable;
 
 /**
  * @brief A material (shader program + variable bindings) to draw a surface
@@ -64,23 +63,20 @@ class Material : public Resource {
    * @brief Set variable on shader program.
    * @param variable Value to set.
    */
-  void SetVariable(const ShaderVariable& variable);
+  void SetVariable(const Property& variable);
 
  private:
   /// Shader program to use for this material.
   ShaderProgram* shader_program_;
 
-  // TODO(damlaren): More flexible way to create properties for materials and
-  // other objects. There are other kinds of materials (physically-based)
-  // and they shouldn't be constrained to the Phong lighting model.
+  // TODO(damlaren): Remove these in favor of loading properties instead.
   Vector3f ambient_reflectivity_;  ///< Response to ambient light.
   Vector3f diffuse_reflectivity_;  ///< Response to diffuse light.
   Vector3f specular_reflectivity_;  ///< Response to specular light.
   float specular_exponent_;  ///< Exponent for specular reflectivity.
 
   /// Variables to set for the shader program.
-  stl_vector<ShaderVariable> variable_bindings_;
+  stl_vector<Property> variable_bindings_;
 };
 
 }  // namespace ogle
-

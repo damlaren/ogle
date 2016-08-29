@@ -108,7 +108,7 @@ void Material::UseProgram() {
   shader_program_->UseProgram();
 }
 
-void Material::SetVariable(const ShaderVariable& variable) {
+void Material::SetVariable(const Property& variable) {
   shader_program_->SetVariable(variable);
 }
 

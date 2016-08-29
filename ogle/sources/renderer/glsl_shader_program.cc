@@ -7,8 +7,8 @@
 #include <memory>
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "entity/property.h"
 #include "renderer/glsl_shader.h"
-#include "renderer/shader_variable.h"
 #include "resource/resource_metadata.h"
 
 namespace ogle {
@@ -60,39 +60,33 @@ bool GLSLShaderProgram::Create() {
 
 void GLSLShaderProgram::UseProgram() { glUseProgram(program_id_); }
 
-void GLSLShaderProgram::SetVariable(const ShaderVariable& variable) {
+void GLSLShaderProgram::SetVariable(const Property& variable) {
   // TODO(damlaren): Only sets uniforms, how about per-vertex attributes?
-  auto uniform_location = GetUniformLocation(variable.name);
+  auto uniform_location = GetUniformLocation(variable.name_);
   if (uniform_location == -1) {
     LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
-               << variable.name;
+               << variable.name_;
     return;
   }
 
-  switch (variable.variable_type) {
-    case ShaderVariableType::VECTOR: {
-      if (variable.dims.size() != 1) {
-        LOG(ERROR) << "Expected 1-dimensional vector data.";
-        return;
-      }
-      SetUniformVector(uniform_location, variable.scalar_type, variable.dims[0],
-                       variable.data);
-      break;
-    }
-    case ShaderVariableType::MATRIX: {
-      if (variable.dims.size() != 2) {
-        LOG(ERROR) << "Expected 2-dimensional matrix data.";
-        return;
-      }
-      SetUniformMatrix(uniform_location, variable.scalar_type, variable.dims[0],
-                       variable.dims[1], variable.data);
-      break;
-    }
-    default: {
-      LOG(ERROR) << "Unsupported uniform variable type: "
-                 << variable.variable_type;
-      break;
-    }
+  if (!(variable.IsNumeric() ||
+        variable.variable_type_ == PropertyType::BOOLEAN)) {
+    LOG(ERROR) << "Unsupported shader variable type: "
+               << variable.variable_type_;
+    return;
+  }
+
+  if (variable.IsSingle()) {
+    LOG(ERROR) << "TODO: implement setting shader scalars.";
+  } else if (variable.IsVector()) {
+    SetUniformVector(uniform_location, variable.variable_type_,
+                     variable.dims_[0], variable.data_);
+  } else if (variable.IsMatrix()) {
+    SetUniformMatrix(uniform_location, variable.variable_type_,
+                     variable.dims_[0], variable.dims_[1], variable.data_);
+  } else {
+    LOG(ERROR) << "Unsupported shader property dimension: "
+               << variable.dims_.size();
   }
 }
 
@@ -108,10 +102,10 @@ GLint GLSLShaderProgram::GetUniformLocation(const stl_string& variable) {
 }
 
 void GLSLShaderProgram::SetUniformMatrix(const GLint uniform_location,
-                                         const ShaderScalarType scalar_type,
+                                         const PropertyType scalar_type,
                                          const int rows, const int cols,
                                          const void* data) {
-  if (scalar_type != ShaderScalarType::FLOAT) {
+  if (scalar_type != PropertyType::FLOAT) {
     LOG(ERROR) << "Only floats are currently supported in SetUniformMatrix.";
     return;
   }
@@ -149,9 +143,9 @@ void GLSLShaderProgram::SetUniformMatrix(const GLint uniform_location,
 }
 
 void GLSLShaderProgram::SetUniformVector(const GLint uniform_location,
-                                         const ShaderScalarType scalar_type,
+                                         const PropertyType scalar_type,
                                          const int rows, const void* data) {
-  if (scalar_type != ShaderScalarType::FLOAT) {
+  if (scalar_type != PropertyType::FLOAT) {
     LOG(ERROR) << "Only floats are currently supported in SetUniformVector.";
     return;
   }
