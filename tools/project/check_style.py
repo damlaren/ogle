@@ -11,7 +11,7 @@ for file_name in git_diff_lines:
 	print "Checking style for %s" %file_name
 	ret_value = subprocess.call(
 		"python 3rdparty/styleguide/cpplint/cpplint.py --filter="
-		"-build/include_order,-legal/copyright %s"
+		"-build/header_guard,-build/include_order,-legal/copyright, %s"
 		%file_name, stderr=subprocess.STDOUT)
 	if ret_value != 0:
 		sys.exit(ret_value)
