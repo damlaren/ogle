@@ -40,16 +40,24 @@ class Property {
    */
   Property(const stl_string& name, const stl_vector<PropertyDimIndex>& dims);
 
-  /// @brief Returns true if this is a single value (0-dimensional).
+  /**
+   * @brief Returns true if this is a single value (0-dimensional).
+   */
   const bool IsSingle() const;
 
-  /// @brief Returns true if this is a vector value (1-dim, length N).
+  /**
+   * @brief Returns true if this is a vector value (1-dim, length N).
+   */
   const bool IsVector() const;
 
-  /// @brief Returns true if this is a matrix value (2-dim, size M x N).
+  /**
+   * @brief Returns true if this is a matrix value (2-dim, size M x N).
+   */
   const bool IsMatrix() const;
 
-  /// @brief Number of values stored by this property.
+  /**
+   * @brief Number of values stored by this property.
+   */
   const PropertyDimIndex NumValues() const;
 
   /**
@@ -64,13 +72,19 @@ class Property {
    */
   virtual const void* data() const = 0;
 
-  /// @brief Returns type of field stored.
+  /**
+   * @brief Returns type of field stored.
+   */
   virtual const PropertyType Type() const = 0;
 
-  /// @brief Returns property name.
+  /**
+   * @brief Returns property name.
+   */
   const stl_string& name() const;
 
-  /// @brief Returns property dimensions.
+  /**
+   * @brief Returns property dimensions.
+   */
   const stl_vector<PropertyDimIndex> dims() const;
 
  protected:

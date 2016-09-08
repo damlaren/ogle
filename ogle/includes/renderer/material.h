@@ -65,6 +65,11 @@ class Material : public Resource {
    */
   void SetVariable(const Property& variable);
 
+  /**
+   * @brief Passes variables bound to material to shader program.
+   */
+  void SetBoundVariables();
+
  private:
   /// Shader program to use for this material.
   ShaderProgram* shader_program_;

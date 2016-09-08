@@ -79,7 +79,7 @@ void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
   material_->SetVariable(PropertyInstance<float>(
       ShaderProgram::kProjectionMatrixArg, {4, 4}, projection_matrix.data()));
 
-  // TODO(damlaren): bind other variables for surface properties, etc.
+  material_->SetBoundVariables();
 
   // Enable vertex array attribute for rendering.
   glBindVertexArray(vertex_array_id_);

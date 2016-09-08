@@ -114,4 +114,10 @@ void Material::SetVariable(const Property& variable) {
   shader_program_->SetVariable(variable);
 }
 
+void Material::SetBoundVariables() {
+  for (const auto& variable : variable_bindings_) {
+    SetVariable(*variable.get());
+  }
+}
+
 }  // namespace ogle
