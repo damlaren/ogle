@@ -69,13 +69,18 @@ void GLSLShaderProgram::SetVariable(const Property& variable) {
     return;
   }
 
+  if (!variable.data()) {
+    LOG(ERROR) << "Cannot set shader var from null data.";
+    return;
+  }
+
   if (!(variable.IsNumeric() || variable.Type() == PropertyType::BOOLEAN)) {
     LOG(ERROR) << "Unsupported shader variable type: " << variable.Type();
     return;
   }
 
   if (variable.IsSingle()) {
-    LOG(ERROR) << "TODO: implement setting shader scalars.";
+    SetUniformScalar(uniform_location, variable.Type(), variable.data());
   } else if (variable.IsVector()) {
     SetUniformVector(uniform_location, variable.Type(), variable.dims()[0],
         variable.data());
@@ -97,6 +102,17 @@ GLint GLSLShaderProgram::GetUniformLocation(const stl_string& variable) {
   auto location = glGetUniformLocation(program_id_, variable.c_str());
   variable_ids_[variable] = location;
   return location;
+}
+
+void GLSLShaderProgram::SetUniformScalar(const GLint uniform_location,
+                                         const PropertyType scalar_type,
+                                         const void* data) {
+  if (scalar_type != PropertyType::FLOAT) {
+    LOG(ERROR) << "Only floats are currently supported in SetUniformScalar.";
+    return;
+  }
+
+  glUniform1f(uniform_location, *static_cast<const float*>(data));
 }
 
 void GLSLShaderProgram::SetUniformMatrix(const GLint uniform_location,

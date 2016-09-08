@@ -52,6 +52,15 @@ class GLSLShaderProgram : public ShaderProgram {
   ogle::GLint GetUniformLocation(const stl_string& variable);
 
   /**
+   * @brief Helper function for setting uniform scalar variable.
+   * @param uniform_location ID for uniform variable.
+   * @param scalar_type Type of scalar data.
+   * @param data Pointer to value to set.
+   */
+  void SetUniformScalar(const GLint uniform_location,
+                        const PropertyType scalar_type, const void* data);
+
+  /**
    * @brief Helper function for setting uniform matrix variables.
    * @param uniform_location ID for uniform variable.
    * @param scalar_type Type for data in matrix.
