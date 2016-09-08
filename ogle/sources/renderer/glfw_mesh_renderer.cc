@@ -72,13 +72,12 @@ void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
   Matrix44f view_matrix = camera_component->GetViewMatrix(camera->transform_);
   Matrix44f projection_matrix = camera_component->GetProjectionMatrix();
 
-  material_->SetVariable(Property(ShaderProgram::kModelMatrixArg, {4, 4},
-                                  PropertyType::FLOAT, model_matrix.data()));
-  material_->SetVariable(Property(ShaderProgram::kViewMatrixArg, {4, 4},
-                                  PropertyType::FLOAT, view_matrix.data()));
-  material_->SetVariable(Property(ShaderProgram::kProjectionMatrixArg, {4, 4},
-                                  PropertyType::FLOAT,
-                                  projection_matrix.data()));
+  material_->SetVariable(PropertyInstance<float>(ShaderProgram::kModelMatrixArg,
+      {4, 4}, model_matrix.data()));
+  material_->SetVariable(PropertyInstance<float>(ShaderProgram::kViewMatrixArg,
+      {4, 4}, view_matrix.data()));
+  material_->SetVariable(PropertyInstance<float>(
+      ShaderProgram::kProjectionMatrixArg, {4, 4}, projection_matrix.data()));
 
   // TODO(damlaren): bind other variables for surface properties, etc.
 

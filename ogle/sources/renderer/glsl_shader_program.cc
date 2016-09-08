@@ -62,31 +62,29 @@ void GLSLShaderProgram::UseProgram() { glUseProgram(program_id_); }
 
 void GLSLShaderProgram::SetVariable(const Property& variable) {
   // TODO(damlaren): Only sets uniforms, how about per-vertex attributes?
-  auto uniform_location = GetUniformLocation(variable.name_);
+  auto uniform_location = GetUniformLocation(variable.name());
   if (uniform_location == -1) {
     LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
-               << variable.name_;
+               << variable.name();
     return;
   }
 
-  if (!(variable.IsNumeric() ||
-        variable.variable_type_ == PropertyType::BOOLEAN)) {
-    LOG(ERROR) << "Unsupported shader variable type: "
-               << variable.variable_type_;
+  if (!(variable.IsNumeric() || variable.Type() == PropertyType::BOOLEAN)) {
+    LOG(ERROR) << "Unsupported shader variable type: " << variable.Type();
     return;
   }
 
   if (variable.IsSingle()) {
     LOG(ERROR) << "TODO: implement setting shader scalars.";
   } else if (variable.IsVector()) {
-    SetUniformVector(uniform_location, variable.variable_type_,
-                     variable.dims_[0], variable.data_);
+    SetUniformVector(uniform_location, variable.Type(), variable.dims()[0],
+        variable.data());
   } else if (variable.IsMatrix()) {
-    SetUniformMatrix(uniform_location, variable.variable_type_,
-                     variable.dims_[0], variable.dims_[1], variable.data_);
+    SetUniformMatrix(uniform_location, variable.Type(), variable.dims()[0],
+        variable.dims()[1], variable.data());
   } else {
     LOG(ERROR) << "Unsupported shader property dimension: "
-               << variable.dims_.size();
+               << variable.dims().size();
   }
 }
 

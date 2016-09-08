@@ -69,14 +69,8 @@ class Material : public Resource {
   /// Shader program to use for this material.
   ShaderProgram* shader_program_;
 
-  // TODO(damlaren): Remove these in favor of loading properties instead.
-  Vector3f ambient_reflectivity_;  ///< Response to ambient light.
-  Vector3f diffuse_reflectivity_;  ///< Response to diffuse light.
-  Vector3f specular_reflectivity_;  ///< Response to specular light.
-  float specular_exponent_;  ///< Exponent for specular reflectivity.
-
   /// Variables to set for the shader program.
-  stl_vector<Property> variable_bindings_;
+  stl_vector<std::unique_ptr<Property>> variable_bindings_;
 };
 
 }  // namespace ogle

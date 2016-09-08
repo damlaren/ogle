@@ -13,8 +13,7 @@ namespace ogle {
 
 const stl_string Material::kMTLImplementation = "mtl";
 
-Material::Material(const ResourceMetadata &metadata) : Resource(metadata) {
-}
+Material::Material(const ResourceMetadata& metadata) : Resource(metadata) {}
 
 const stl_string Material::implementation() const {
   return shader_program_->implementation();
@@ -49,8 +48,8 @@ std::unique_ptr<Material> Material::Load(const ResourceMetadata& metadata,
     return nullptr;
   }
 
-  const auto shader_program_id = metadata.Get<stl_string>(
-      "shader_program").first;
+  const auto shader_program_id =
+      metadata.Get<stl_string>("shader_program").first;
   new_object->shader_program_ =
       resource_manager->GetResource<ShaderProgram>(shader_program_id);
   return std::move(new_object);
@@ -66,13 +65,16 @@ bool Material::LoadMTL(const stl_string& text) {
     }
     const auto line_type = tokens[0];
 
-    auto read_float3 = [&tokens](Vector3f* dest) {
+    auto read_float3 = [&](const stl_string& name) {
       if (tokens.size() < 4) {
         LOG(ERROR) << "Not enough tokens to read Vector3f.";
         return false;
       }
-      *dest = {std::stof(tokens[1]), std::stof(tokens[2]),
-               std::stof(tokens[3])};
+      std::vector<float> values = {std::stof(tokens[1]), std::stof(tokens[2]),
+                                   std::stof(tokens[3])};
+      variable_bindings_.emplace_back(
+          AllocateObject<PropertyInstance<float>>(
+              name, std::vector<PropertyDimIndex>({3}), values.data()));
       return true;
     };
 
@@ -84,16 +86,18 @@ bool Material::LoadMTL(const stl_string& text) {
       }
       newmtl_count++;
     } else if (line_type == "Ka") {
-      ok = read_float3(&ambient_reflectivity_);
+      ok = read_float3("Ka");
     } else if (line_type == "Kd") {
-      ok = read_float3(&diffuse_reflectivity_);
+      ok = read_float3("Kd");
     } else if (line_type == "Ks") {
-      ok = read_float3(&specular_reflectivity_);
+      ok = read_float3("Ks");
     } else if (line_type == "Ns") {
       if (tokens.size() != 2) {
         ok = false;
       } else {
-        specular_exponent_ = std::stof(tokens[1]);
+        float float_val = std::stof(tokens[1]);
+        variable_bindings_.emplace_back(AllocateObject<PropertyInstance<float>>(
+            stl_string("Ns"), std::vector<PropertyDimIndex>(), &float_val));
       }
     }
     if (!ok) {
@@ -104,9 +108,7 @@ bool Material::LoadMTL(const stl_string& text) {
   return true;
 }
 
-void Material::UseProgram() {
-  shader_program_->UseProgram();
-}
+void Material::UseProgram() { shader_program_->UseProgram(); }
 
 void Material::SetVariable(const Property& variable) {
   shader_program_->SetVariable(variable);

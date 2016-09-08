@@ -6,48 +6,39 @@
 #pragma once
 
 #include "std/ogle_std.inc"
+#include <type_traits>
+#include "memory/buffer.h"
 
 namespace ogle {
 
-/**
- * @brief Possible types for property variables.
- *
- * Note that the boolean type isn't named BOOL, to avoid using the WINBOOL type.
- */
+/// Type of each dimension.
+using PropertyDimIndex = std::uint32_t;
+
+/// Types which can be stored in properties.
 enum class PropertyType {
-  BOOLEAN,  // Boolean true/false value.
-  INT32,    // 32-bit signed integer.
-  UINT32,   // 32-bit unsigned integer.
-  FLOAT,    // Single-precision float.
-  DOUBLE,   // Double-precision float.
-  STRING    // Text string.
+  BOOLEAN,  // Boolean value.
+  FLOAT,  // 32-bit float.
+  DOUBLE,  // 64-bit float.
+  STRING,  // Text string.
+  UNKNOWN  // Unknown type (default).
 };
 
 /**
- * @brief Output stream operator.
- * @param os Output stream.
- * @param type Property type to write name of.
- * @return Reference to output stream.
+ * @brief Output stream operator for PropertyType.
  */
-std::ostream& operator<<(std::ostream& os,  // NOLINT
-                         const PropertyType type);
+std::ostream& operator<<(std::ostream& os, const PropertyType type);
 
 /**
  * @brief Describes a variable that can be set for an object.
  */
 class Property {
  public:
-  /// Special value for dims field denoting unspecified (unlimited) size.
-  static constexpr int kUnspecifiedDim = -1;
-
   /**
    * @brief Constructor.
-   *
-   * Parameters correspond to same-named fields. The data member is copied
-   * shallowly.
+   * @param name Name of property.
+   * @param dims Dimensions.
    */
-  Property(const stl_string& name, const stl_vector<int>& dims,
-           const PropertyType variable_type, const void* data);
+  Property(const stl_string& name, const stl_vector<PropertyDimIndex>& dims);
 
   /// @brief Returns true if this is a single value (0-dimensional).
   const bool IsSingle() const;
@@ -58,17 +49,91 @@ class Property {
   /// @brief Returns true if this is a matrix value (2-dim, size M x N).
   const bool IsMatrix() const;
 
+  /// @brief Number of values stored by this property.
+  const PropertyDimIndex NumValues() const;
+
   /**
    * @brief Returns true if this is a numeric value.
    *
    * Bools are not considered numeric.
    */
-  const bool IsNumeric() const;
+  virtual const bool IsNumeric() const = 0;
 
-  stl_string name_;             ///< Name of variable.
-  stl_vector<int> dims_;        ///< Dimensions expected for variable.
-  PropertyType variable_type_;  ///< Variable type.
-  const void* data_;            ///< Pointer to variable value.
+  /**
+   * @brief Returns generic pointer to raw data.
+   */
+  virtual const void* data() const = 0;
+
+  /// @brief Returns type of field stored.
+  virtual const PropertyType Type() const = 0;
+
+  /// @brief Returns property name.
+  const stl_string& name() const;
+
+  /// @brief Returns property dimensions.
+  const stl_vector<PropertyDimIndex> dims() const;
+
+ protected:
+  stl_string name_;                    ///< Name of variable.
+  stl_vector<PropertyDimIndex> dims_;  ///< Dimensions of variable.
 };
+
+template <typename T>
+class PropertyInstance : public Property {
+ public:
+  /**
+   * @brief Constructor.
+   * @param name Property name.
+   * @param dims Dimensions.
+   * @param data Data to copy into property storage. Number of elements must
+   *     match space specified by dims field.
+   */
+  PropertyInstance(const stl_string& name,
+                   const stl_vector<PropertyDimIndex>& dims, const T* data)
+    : Property(name, dims) {
+    const auto num = NumValues();
+    T* data_buf = AllocateBuffer<T>(num);
+    for (PropertyDimIndex i = 0; i < num; i++) {
+      data_buf[i] = data[i];
+    }
+    data_ = Buffer<T>(data_buf, num);
+  }
+
+  const bool IsNumeric() const override {
+    return std::is_arithmetic<T>::value;
+  }
+
+  const void* data() const override {
+    return static_cast<const void*>(data_.data());
+  }
+
+  const PropertyType Type() const override {
+    return PropertyType::UNKNOWN;
+  }
+
+ private:
+  /// Property data storage.
+  Buffer<T> data_;
+};
+
+template<>
+inline const PropertyType PropertyInstance<bool>::Type() const {
+  return PropertyType::BOOLEAN;
+}
+
+template<>
+inline const PropertyType PropertyInstance<float>::Type() const {
+  return PropertyType::FLOAT;
+}
+
+template<>
+inline const PropertyType PropertyInstance<double>::Type() const {
+  return PropertyType::DOUBLE;
+}
+
+template<>
+inline const PropertyType PropertyInstance<stl_string>::Type() const {
+  return PropertyType::STRING;
+}
 
 }  // namespace ogle
