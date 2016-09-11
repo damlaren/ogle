@@ -23,16 +23,22 @@ GLFWMeshRenderer::GLFWMeshRenderer(const BufferedMesh& mesh, Material* material)
     : MeshRenderer(mesh),
       material_(material),
       vertex_buffer_id_(0),
+      normal_buffer_id_(0),
       vertex_array_id_(0),
       index_buffer_id_(0) {}
 
 GLFWMeshRenderer::~GLFWMeshRenderer() {
   glDeleteBuffers(1, &vertex_buffer_id_);
+  glDeleteBuffers(1, &normal_buffer_id_);
   glDeleteBuffers(1, &index_buffer_id_);
   glDeleteVertexArrays(1, &vertex_array_id_);
 }
 
 bool GLFWMeshRenderer::Create() {
+  // Create vertex array and bind it to be currently active.
+  glGenVertexArrays(1, &vertex_array_id_);
+  glBindVertexArray(vertex_array_id_);
+
   // Create vertex buffer and make it active array buffer.
   glGenBuffers(1, &vertex_buffer_id_);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id_);
@@ -41,14 +47,14 @@ bool GLFWMeshRenderer::Create() {
   // that's up to the graphics driver.
   glBufferData(GL_ARRAY_BUFFER, buffered_mesh_.vertices().SizeInBytes(),
                buffered_mesh_.vertices().data(), GL_STATIC_DRAW);
-
-  // Create vertex array and bind it to be currently active.
-  glGenVertexArrays(1, &vertex_array_id_);
-  glBindVertexArray(vertex_array_id_);
-
-  // Define vertex attribute data format and location, using
-  // currently bound buffer & vertex array.
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+  // Do the same stuff again for normal buffer.
+  glGenBuffers(1, &normal_buffer_id_);
+  glBindBuffer(GL_ARRAY_BUFFER, normal_buffer_id_);
+  glBufferData(GL_ARRAY_BUFFER, buffered_mesh_.normals().SizeInBytes(),
+               buffered_mesh_.normals().data(), GL_STATIC_DRAW);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   // Do it all again for index buffer.
   glGenBuffers(1, &index_buffer_id_);
@@ -73,9 +79,9 @@ void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
   Matrix44f projection_matrix = camera_component->GetProjectionMatrix();
 
   material_->SetVariable(PropertyInstance<float>(ShaderProgram::kModelMatrixArg,
-      {4, 4}, model_matrix.data()));
+                                                 {4, 4}, model_matrix.data()));
   material_->SetVariable(PropertyInstance<float>(ShaderProgram::kViewMatrixArg,
-      {4, 4}, view_matrix.data()));
+                                                 {4, 4}, view_matrix.data()));
   material_->SetVariable(PropertyInstance<float>(
       ShaderProgram::kProjectionMatrixArg, {4, 4}, projection_matrix.data()));
 

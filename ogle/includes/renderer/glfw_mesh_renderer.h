@@ -52,6 +52,9 @@ class GLFWMeshRenderer : public MeshRenderer {
   /// OpenGL ID for vertex buffer.
   ogle::GLuint vertex_buffer_id_;
 
+  /// OpenGL ID for normal buffer.
+  ogle::GLuint normal_buffer_id_;
+
   /// OpenGL ID for vertex buffer array object.
   ogle::GLuint vertex_array_id_;
 
