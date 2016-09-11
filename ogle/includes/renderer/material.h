@@ -20,6 +20,24 @@ class ShaderProgram;
  */
 class Material : public Resource {
  public:
+  /**
+   * @brief Contains standardized names of common material properties.
+   */
+  class StandardPropertyName {
+   public:
+    /// Ambient response.
+    static const stl_string kAmbientReflectance;
+
+    /// Diffuse response.
+    static const stl_string kDiffuseReflectance;
+
+    /// Specular response.
+    static const stl_string kSpecularReflectance;
+
+    /// Specular fall-off exponent.
+    static const stl_string kSpecularExponent;
+  };
+
   /// Type identifying material resources.
   static constexpr ResourceType kResourceType = ResourceType::MATERIAL;
 

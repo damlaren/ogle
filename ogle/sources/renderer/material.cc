@@ -11,6 +11,15 @@
 
 namespace ogle {
 
+const stl_string Material::StandardPropertyName::kAmbientReflectance =
+    "ambient_reflectance";
+const stl_string Material::StandardPropertyName::kDiffuseReflectance =
+    "diffuse_reflectance";
+const stl_string Material::StandardPropertyName::kSpecularReflectance =
+    "specular_reflectance";
+const stl_string Material::StandardPropertyName::kSpecularExponent =
+    "specular_exponent";
+
 const stl_string Material::kMTLImplementation = "mtl";
 
 Material::Material(const ResourceMetadata& metadata) : Resource(metadata) {}
@@ -86,18 +95,19 @@ bool Material::LoadMTL(const stl_string& text) {
       }
       newmtl_count++;
     } else if (line_type == "Ka") {
-      ok = read_float3("Ka");
+      ok = read_float3(StandardPropertyName::kAmbientReflectance);
     } else if (line_type == "Kd") {
-      ok = read_float3("Kd");
+      ok = read_float3(StandardPropertyName::kDiffuseReflectance);
     } else if (line_type == "Ks") {
-      ok = read_float3("Ks");
+      ok = read_float3(StandardPropertyName::kSpecularReflectance);
     } else if (line_type == "Ns") {
       if (tokens.size() != 2) {
         ok = false;
       } else {
         float float_val = std::stof(tokens[1]);
         variable_bindings_.emplace_back(AllocateObject<PropertyInstance<float>>(
-            stl_string("Ns"), std::vector<PropertyDimIndex>(), &float_val));
+            stl_string(StandardPropertyName::kSpecularExponent),
+            std::vector<PropertyDimIndex>(), &float_val));
       }
     }
     if (!ok) {
