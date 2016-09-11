@@ -87,6 +87,11 @@ class Property {
    */
   const stl_vector<PropertyDimIndex> dims() const;
 
+  /**
+   * @brief Returns a copy of this property.
+   */
+  virtual std::unique_ptr<Property> Clone() const = 0;
+
  protected:
   stl_string name_;                    ///< Name of variable.
   stl_vector<PropertyDimIndex> dims_;  ///< Dimensions of variable.
@@ -123,6 +128,11 @@ class PropertyInstance : public Property {
 
   const PropertyType Type() const override {
     return PropertyType::UNKNOWN;
+  }
+
+  std::unique_ptr<Property> Clone() const override {
+    return AllocateUniqueObject<PropertyInstance<T>>(
+        name_, dims_, data_.data());
   }
 
  private:

@@ -12,6 +12,7 @@
 #include "renderer/glfw_mesh_renderer.h"
 #include "renderer/glsl_shader.h"
 #include "renderer/glsl_shader_program.h"
+#include "renderer/light.h"
 #include "renderer/material.h"
 #include "renderer/mesh_renderer.h"
 #include "renderer/opengl_primitive_types.h"
