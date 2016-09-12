@@ -55,7 +55,7 @@ class Entity {
    * @returns Pointer to component with matching type, or null if not found.
    */
   template<typename T>
-  T* GetComponent() {
+  T* GetComponent() const {
     for (auto& component : components_) {
       if (component->type() == T::kComponentType) {
         return static_cast<T*>(component.get());

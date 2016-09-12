@@ -53,6 +53,18 @@ class MeshViewerApplication : public ogle::Application {
       return false;
     }
 
+    // Create light.
+    light_entity_ = AllocateUniqueObject<ogle::Entity>(
+        &engine_->scene_graph_->root_->transform_);
+    auto light = AllocateUniqueObject<ogle::Light>();
+    light->SetPhongLightColors({.2f, .2f, .2f}, {.6f, .6f, .6f},
+                               {0.f, 0.f, 1.f});
+    if (!light_entity_->AddComponent(std::move(light))) {
+      LOG(ERROR) << "Failed to add light component.";
+      return false;
+    }
+
+    // Create camera.
     camera_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_);
     if (!camera_entity_->AddComponent(
@@ -115,7 +127,9 @@ class MeshViewerApplication : public ogle::Application {
     }
     engine_->keyboard_->Clear();
 
-    engine_->Render(camera_entity_.get());
+    ogle::stl_vector<const ogle::Entity*> light_entities = {
+        light_entity_.get()};
+    engine_->Render(*camera_entity_.get(), light_entities);
 
     return true;
   }
@@ -129,6 +143,9 @@ class MeshViewerApplication : public ogle::Application {
 
   /// Mesh buffered for rendering.
   std::unique_ptr<ogle::BufferedMesh> buffered_mesh_;
+
+  /// Entity for light.
+  std::unique_ptr<ogle::Entity> light_entity_;
 };
 
 /**

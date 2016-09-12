@@ -120,8 +120,12 @@ bool Material::LoadMTL(const stl_string& text) {
 
 void Material::UseProgram() { shader_program_->UseProgram(); }
 
-void Material::SetVariable(const Property& variable) {
-  shader_program_->SetVariable(variable);
+void Material::SetVariable(const Property &variable) {
+  shader_program_->SetVariable(variable.name(), variable);
+}
+
+void Material::SetVariable(const stl_string& name, const Property& variable) {
+  shader_program_->SetVariable(name, variable);
 }
 
 void Material::SetBoundVariables() {

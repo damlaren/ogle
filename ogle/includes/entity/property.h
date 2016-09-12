@@ -83,6 +83,11 @@ class Property {
   const stl_string& name() const;
 
   /**
+   * @brief Sets property name.
+   */
+  void set_name(const stl_string& name);
+
+  /**
    * @brief Returns property dimensions.
    */
   const stl_vector<PropertyDimIndex> dims() const;

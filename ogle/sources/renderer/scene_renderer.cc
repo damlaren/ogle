@@ -12,35 +12,29 @@
 
 namespace ogle {
 
-void SceneRenderer::RenderScene(Entity* camera_entity,
+void SceneRenderer::RenderScene(const Entity& camera_entity,
+                                const stl_vector<const Entity*>& light_entities,
                                 SceneGraph* scene_graph) {
-  if (camera_entity == nullptr) {
-    LOG(ERROR) << "Cannot render from null Camera Entity.";
-    return;
-  }
-
   // This is the dumbest possible solution: just iterate through the entire
   // graph and draw objects in the order they are encountered.
   if (scene_graph->root_ == nullptr) {
     LOG(ERROR) << "Scene graph has no root.";
-  } else if (camera_entity->GetComponent<Camera>() == nullptr) {
+  } else if (camera_entity.GetComponent<Camera>() == nullptr) {
     LOG(ERROR) << "Camera Entity for RenderScene has no Camera attached.";
   } else {
-    Render(camera_entity, scene_graph->root_.get());
+    Render(camera_entity, light_entities, scene_graph->root_.get());
   }
 }
 
-void SceneRenderer::Render(Entity* camera_entity, Entity *entity) {
-  if (entity == nullptr) {
-    return;
-  }
-
+void SceneRenderer::Render(const Entity& camera_entity,
+                           const stl_vector<const Entity*>& light_entities,
+                           Entity *entity) {
   Renderer* renderer = entity->GetComponent<Renderer>();
   if (renderer != nullptr) {
-    renderer->Render(entity->transform_, camera_entity);
+    renderer->Render(entity->transform_, camera_entity, light_entities);
   }
   for (Transform* child_transform : entity->transform_.children()) {
-    Render(camera_entity, child_transform->entity());
+    Render(camera_entity, light_entities, child_transform->entity());
   }
 }
 

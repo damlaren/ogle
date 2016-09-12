@@ -13,9 +13,25 @@
 
 namespace ogle {
 
-const stl_string ShaderProgram::kModelMatrixArg = "model_matrix";
-const stl_string ShaderProgram::kViewMatrixArg = "view_matrix";
-const stl_string ShaderProgram::kProjectionMatrixArg = "projection_matrix";
+const stl_string ShaderProgram::StandardShaderArgumentNames::kModelMatrixArg =
+    "model_matrix";
+const stl_string ShaderProgram::StandardShaderArgumentNames::kViewMatrixArg =
+    "view_matrix";
+const stl_string
+    ShaderProgram::StandardShaderArgumentNames::kProjectionMatrixArg =
+        "projection_matrix";
+
+const stl_string ShaderProgram::StandardShaderArgumentNames::kLightPosition =
+    "light_position";
+const stl_string
+    ShaderProgram::StandardShaderArgumentNames::kLightAmbientColor =
+        "light_ambient_color";
+const stl_string
+    ShaderProgram::StandardShaderArgumentNames::kLightDiffuseColor =
+        "light_diffuse_color";
+const stl_string
+    ShaderProgram::StandardShaderArgumentNames::kLightSpecularColor =
+        "light_specular_color";
 
 const stl_string ShaderProgram::kVertexShaderField = "vertex_shader";
 const stl_string ShaderProgram::kFragmentShaderField = "fragment_shader";

@@ -52,6 +52,10 @@ const stl_string& Property::name() const {
   return name_;
 }
 
+void Property::set_name(const stl_string& name) {
+  name_ = name;
+}
+
 const stl_vector<PropertyDimIndex> Property::dims() const {
   return dims_;
 }

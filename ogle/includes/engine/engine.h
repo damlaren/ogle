@@ -50,8 +50,10 @@ class Engine {
   /**
    * @brief Renders all objects in scene.
    * @param camera_entity Entity with attached Camera.
+   * @param light_entities Entities with attached lights.
    */
-  virtual void Render(Entity* camera_entity);
+  virtual void Render(const Entity& camera_entity,
+                      const stl_vector<const Entity*> light_entities);
 
   // For now, all members are public to be accessible by applications.
 

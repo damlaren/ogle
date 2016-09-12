@@ -25,12 +25,30 @@ class Shader;
  */
 class ShaderProgram : public Resource {
  public:
-  ///@{
-  /// Standardized names for common shader arguments.
-  static const stl_string kModelMatrixArg;
-  static const stl_string kViewMatrixArg;
-  static const stl_string kProjectionMatrixArg;
-  ///@}
+  /// @brief Standardized names for common shader arguments.
+  class StandardShaderArgumentNames {
+   public:
+    /// Model matrix.
+    static const stl_string kModelMatrixArg;
+
+    /// View matrix.
+    static const stl_string kViewMatrixArg;
+
+    /// Projection matrix.
+    static const stl_string kProjectionMatrixArg;
+
+    /// Light world position.
+    static const stl_string kLightPosition;
+
+    /// Light ambient color.
+    static const stl_string kLightAmbientColor;
+
+    /// Light diffuse color.
+    static const stl_string kLightDiffuseColor;
+
+    /// Light specular color.
+    static const stl_string kLightSpecularColor;
+  };
 
   /// Type identifying shader program resources.
   static constexpr ResourceType kResourceType = ResourceType::SHADER_PROGRAM;
@@ -73,9 +91,11 @@ class ShaderProgram : public Resource {
 
   /**
    * @brief Sets variable on shader program.
-   * @param variable Value to set.
+   * @param variable_name Name of variable to set in shader program.
+   * @param value Value to set.
    */
-  virtual void SetVariable(const Property& variable) = 0;
+  virtual void SetVariable(const stl_string& variable_name,
+                           const Property& value) = 0;
 
  protected:
   /**
@@ -86,4 +106,3 @@ class ShaderProgram : public Resource {
 };
 
 }  // namespace ogle
-

@@ -13,6 +13,7 @@
 #include "geometry/transformation_matrix.h"
 #include "renderer/camera.h"
 #include "renderer/glsl_shader_program.h"
+#include "renderer/light.h"
 #include "renderer/material.h"
 
 namespace ogle {
@@ -65,26 +66,73 @@ bool GLFWMeshRenderer::Create() {
   return true;
 }
 
-void GLFWMeshRenderer::Render(const Transform& transform, Entity* camera) {
+void GLFWMeshRenderer::Render(const Transform& transform, const Entity& camera,
+                              const stl_vector<const Entity*>& lights) {
   material_->UseProgram();
 
   Matrix44f model_matrix = transform.TransformationMatrix3D();
 
-  Camera* camera_component = camera->GetComponent<Camera>();
+  Camera* camera_component = camera.GetComponent<Camera>();
   if (camera_component == nullptr) {
     LOG(ERROR) << "Camera Entity needs Camera component.";
     return;
   }
-  Matrix44f view_matrix = camera_component->GetViewMatrix(camera->transform_);
+  Matrix44f view_matrix = camera_component->GetViewMatrix(camera.transform_);
   Matrix44f projection_matrix = camera_component->GetProjectionMatrix();
 
-  material_->SetVariable(PropertyInstance<float>(ShaderProgram::kModelMatrixArg,
-                                                 {4, 4}, model_matrix.data()));
-  material_->SetVariable(PropertyInstance<float>(ShaderProgram::kViewMatrixArg,
-                                                 {4, 4}, view_matrix.data()));
+  // Set camera uniforms in shader.
   material_->SetVariable(PropertyInstance<float>(
-      ShaderProgram::kProjectionMatrixArg, {4, 4}, projection_matrix.data()));
+      ShaderProgram::StandardShaderArgumentNames::kModelMatrixArg, {4, 4},
+      model_matrix.data()));
+  material_->SetVariable(PropertyInstance<float>(
+      ShaderProgram::StandardShaderArgumentNames::kViewMatrixArg, {4, 4},
+      view_matrix.data()));
+  material_->SetVariable(PropertyInstance<float>(
+      ShaderProgram::StandardShaderArgumentNames::kProjectionMatrixArg, {4, 4},
+      projection_matrix.data()));
 
+  // Set light uniforms in shader.
+  if (!lights.empty()) {
+    if (!lights[0]) {
+      LOG(ERROR) << "Attempted to compute lighting from null light";
+      goto end_lighting;
+    }
+    const Entity& light_entity_0 = *lights[0];
+    const auto light_position = light_entity_0.transform_.world_position();
+    material_->SetVariable(PropertyInstance<float>(
+        ShaderProgram::StandardShaderArgumentNames::kLightPosition, {3},
+        light_position.data()));
+
+    Light* light = light_entity_0.GetComponent<Light>();
+    if (!light) {
+      LOG(ERROR) << "Entity does not have light attached.";
+      goto end_lighting;
+    }
+    const Property* ambient_color_property =
+        light->GetProperty(Light::StandardPropertyName::kAmbientColor);
+    if (ambient_color_property) {
+      material_->SetVariable(
+          ShaderProgram::StandardShaderArgumentNames::kLightAmbientColor,
+          *ambient_color_property);
+    }
+    const Property* diffuse_color_property =
+        light->GetProperty(Light::StandardPropertyName::kDiffuseColor);
+    if (diffuse_color_property) {
+      material_->SetVariable(
+          ShaderProgram::StandardShaderArgumentNames::kLightDiffuseColor,
+          *diffuse_color_property);
+    }
+    const Property* specular_color_property =
+        light->GetProperty(Light::StandardPropertyName::kSpecularColor);
+    if (specular_color_property) {
+      material_->SetVariable(
+          ShaderProgram::StandardShaderArgumentNames::kLightSpecularColor,
+          *specular_color_property);
+    }
+  }
+end_lighting:
+
+  // Set material properties on shader.
   material_->SetBoundVariables();
 
   // Enable vertex array attribute for rendering.

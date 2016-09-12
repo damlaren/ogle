@@ -41,7 +41,8 @@ class GLFWMeshRenderer : public MeshRenderer {
    */
   bool Create();
 
-  void Render(const Transform& transform, Entity* camera) override;
+  void Render(const Transform& transform, const Entity& camera,
+              const stl_vector<const Entity*>& lights) override;
 
  private:
   struct Data;

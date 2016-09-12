@@ -60,12 +60,13 @@ bool GLSLShaderProgram::Create() {
 
 void GLSLShaderProgram::UseProgram() { glUseProgram(program_id_); }
 
-void GLSLShaderProgram::SetVariable(const Property& variable) {
+void GLSLShaderProgram::SetVariable(const stl_string& variable_name,
+                                    const Property& variable) {
   // TODO(damlaren): Only sets uniforms, how about per-vertex attributes?
-  auto uniform_location = GetUniformLocation(variable.name());
+  auto uniform_location = GetUniformLocation(variable_name);
   if (uniform_location == -1) {
     LOG(ERROR) << "Could not find uniform on program " << program_id_ << ": "
-               << variable.name();
+               << variable_name;
     return;
   }
 

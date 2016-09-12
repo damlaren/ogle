@@ -73,15 +73,25 @@ class Material : public Resource {
   bool LoadMTL(const stl_string& text);
 
   /**
-   * @brief Use shader program for rendering.
+   * @brief Uses shader program for rendering.
    */
   void UseProgram();
 
   /**
-   * @brief Set variable on shader program.
+   * @brief Sets variable on material's shader program.
+   *
+   * Uses same name as property.
+   *
    * @param variable Value to set.
    */
-  void SetVariable(const Property& variable);
+  void SetVariable(const Property &variable);
+
+  /**
+   * @brief Sets variable on material's shader program.
+   * @param name Shader variable name, which can differ from property name.
+   * @param variable Value to set.
+   */
+  void SetVariable(const stl_string& name, const Property& variable);
 
   /**
    * @brief Passes variables bound to material to shader program.

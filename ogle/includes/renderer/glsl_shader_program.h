@@ -41,7 +41,8 @@ class GLSLShaderProgram : public ShaderProgram {
 
   void UseProgram() override;
 
-  void SetVariable(const Property& variable) override;
+  void SetVariable(const stl_string& variable_name,
+                   const Property& value) override;
 
  protected:
   /**

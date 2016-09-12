@@ -8,6 +8,7 @@
 #include "std/ogle_std.inc"
 #include "entity/component.h"
 #include "entity/property.h"
+#include "math/vector.h"
 
 namespace ogle {
 
@@ -38,6 +39,16 @@ class Light : public Component {
    * @brief Constructor.
    */
   Light();
+
+  /**
+   * @brief Sets color properties used in the common Phong lighting model.
+   * @param ambient_color Ambient RGB, in range [0,1].
+   * @param diffuse_color Diffuse RGB, in [0,1].
+   * @param specular_color Specular RGB, in [0,1].
+   */
+  void SetPhongLightColors(const Vector3f& ambient_color,
+                           const Vector3f& diffuse_color,
+                           const Vector3f& specular_color);
 };
 
 }  // namespace ogle

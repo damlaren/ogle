@@ -6,9 +6,9 @@ in vec3 vertex_position;
 out vec3 color;
 
 uniform mat4 model_matrix, view_matrix, projection_matrix;
-uniform vec3 diffuse_reflectance;
+uniform vec3 ambient_reflectance;
 
 void main () {
   gl_Position = projection_matrix * view_matrix * model_matrix * vec4 (vertex_position, 1.0);
-  color = diffuse_reflectance;
+  color = ambient_reflectance;
 }

@@ -15,12 +15,12 @@ class Entity;
 class Transform;
 
 /**
- * @brief Base class for all Renderers.
+ * @brief Base class for all renderers.
  *
  * Handles all rendering operations in an API-independent manner.
- * Subclassed Renderers are based on specific APIs and render
+ * Subclassed renderers are based on specific APIs and render
  * specific types of objects. They are designed for reuse by
- * different Entities.
+ * different entities.
  */
 class Renderer : public Component {
  public:
@@ -36,9 +36,11 @@ class Renderer : public Component {
   /**
    * @brief Render object.
    * @param transform Position and orientation at which to render.
-   * @param camera Entity with attached Camera to render from.
+   * @param camera Entity with attached camera to render from.
+   * @param lights Entities with attached lights.
    */
-  virtual void Render(const Transform& transform, Entity *camera) = 0;
+  virtual void Render(const Transform& transform, const Entity& camera,
+                      const stl_vector<const Entity*>& lights) = 0;
 
  protected:
   /**
@@ -48,4 +50,3 @@ class Renderer : public Component {
 };
 
 }  // namespace ogle
-

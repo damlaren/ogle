@@ -37,9 +37,11 @@ bool Engine::Create() {
   return true;
 }
 
-void Engine::Render(Entity* camera_entity) {
+void Engine::Render(const Entity& camera_entity,
+                    const stl_vector<const Entity*> light_entities) {
   window_->ClearWindow();
-  scene_renderer_->RenderScene(camera_entity, scene_graph_.get());
+  scene_renderer_->RenderScene(camera_entity, light_entities,
+                               scene_graph_.get());
   window_->SwapBuffers();
 }
 
