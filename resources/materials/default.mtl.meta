@@ -3,5 +3,5 @@ id: default.mtl
 implementation: mtl
 filename: default.mtl
 type: material
-shader_program: basic.glsl
-dependencies: [basic.glsl]
+shader_program: phong.glsl
+dependencies: [phong.glsl]

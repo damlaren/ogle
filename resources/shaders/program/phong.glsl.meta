@@ -1,0 +1,8 @@
+--- 
+id: phong.glsl
+implementation: glsl
+filename: phong.glsl
+type: shader_program
+vertex_shader: phong_vs.glsl
+fragment_shader: phong_fs.glsl
+dependencies: [phong_vs.glsl, phong_fs.glsl]

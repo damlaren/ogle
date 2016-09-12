@@ -12,5 +12,6 @@ out vec4 frag_color;
 
 void main () {
   vec3 Ia = ambient_reflectance * light_ambient_color;
-  frag_color = vec4 (ambient_reflectance, 1.0);
+  vec3 I = Ia;
+  frag_color = vec4 (I, 1.0);
 }

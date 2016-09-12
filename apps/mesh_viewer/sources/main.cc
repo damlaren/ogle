@@ -25,17 +25,10 @@ class MeshViewerApplication : public ogle::Application {
       LOG(ERROR) << "Failed to load mesh in viewer.";
       return false;
     }
-    auto shader_program =
-        engine_->resource_manager_->GetResource<ogle::ShaderProgram>(
-            "basic.glsl");
-    if (!shader_program) {
-      LOG(ERROR) << "Failed to load basic.glsl";
-      return false;
-    }
     auto material =
         engine_->resource_manager_->GetResource<ogle::Material>("default.mtl");
     if (!material) {
-      LOG(ERROR) << "Failed to load default.mtl";
+      LOG(ERROR) << "Failed to load default.mtl.";
       return false;
     }
 
@@ -57,7 +50,7 @@ class MeshViewerApplication : public ogle::Application {
     light_entity_ = AllocateUniqueObject<ogle::Entity>(
         &engine_->scene_graph_->root_->transform_);
     auto light = AllocateUniqueObject<ogle::Light>();
-    light->SetPhongLightColors({.2f, .2f, .2f}, {.6f, .6f, .6f},
+    light->SetPhongLightColors({.2f, .0f, .0f}, {.6f, .6f, .6f},
                                {0.f, 0.f, 1.f});
     if (!light_entity_->AddComponent(std::move(light))) {
       LOG(ERROR) << "Failed to add light component.";
