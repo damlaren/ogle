@@ -56,7 +56,7 @@ class MeshViewerApplication : public ogle::Application {
       LOG(ERROR) << "Failed to add light component.";
       return false;
     }
-    light_entity_->transform_.set_world_position({-3.f, 1.f, 0.f});
+    light_entity_->transform_.set_world_position({-3.f, 3.f, 3.f});
 
     // Create camera.
     camera_entity_ = AllocateUniqueObject<ogle::Entity>(

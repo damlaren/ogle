@@ -10,9 +10,7 @@ in layout (location = 1) vec3 vertex_normal;
 out vec3 position_eye, normal_eye;
 
 void main () {
-  // TODO(damlaren): replace 'model' by inverse transpose(view * model)
-  // to fix scaling of normal vectors
   position_eye = vec3(view_matrix * model_matrix * vec4(vertex_position, 1.0));
-  normal_eye = vec3(view_matrix * model_matrix * vec4(vertex_normal, 1.0));
+  normal_eye = normalize(vec3(transpose(inverse(view_matrix * model_matrix)) * vec4(vertex_normal, 1.0)));
   gl_Position = projection_matrix * vec4(position_eye, 1.0);
 }

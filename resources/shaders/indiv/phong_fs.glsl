@@ -22,10 +22,10 @@ void main () {
 
   // Specular component.
   vec3 reflected_light_dir_eye = reflect(light_dir_eye, normal_eye);
-  vec3 surface_to_viewer_eye = -position_eye;
+  vec3 surface_to_viewer_eye = normalize(-position_eye);
   float specular_alignment = max(dot(reflected_light_dir_eye, surface_to_viewer_eye), 0);
   float specular_power = pow(specular_alignment, specular_exponent);
   vec3 Is = specular_reflectance * light_specular_color * specular_power;
 
-  frag_color = vec4 (Ia + Id + Is, 1.0);
+  frag_color = vec4(Ia + Id + Is, 1.0);
 }

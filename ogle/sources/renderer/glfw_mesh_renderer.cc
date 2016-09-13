@@ -48,6 +48,7 @@ bool GLFWMeshRenderer::Create() {
   // that's up to the graphics driver.
   glBufferData(GL_ARRAY_BUFFER, buffered_mesh_.vertices().SizeInBytes(),
                buffered_mesh_.vertices().data(), GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   // Do the same stuff again for normal buffer.
@@ -55,6 +56,7 @@ bool GLFWMeshRenderer::Create() {
   glBindBuffer(GL_ARRAY_BUFFER, normal_buffer_id_);
   glBufferData(GL_ARRAY_BUFFER, buffered_mesh_.normals().SizeInBytes(),
                buffered_mesh_.normals().data(), GL_STATIC_DRAW);
+  glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
   // Do it all again for index buffer.
