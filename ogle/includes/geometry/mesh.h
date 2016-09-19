@@ -16,12 +16,14 @@ namespace ogle {
 /**
  * @brief A mesh representation with face-vertex connectivity information.
  *
- * Meshes contain detailed information about the Mesh suitable for high-level
+ * Meshes contain detailed information about the mesh suitable for high-level
  * operations and algorithms. They are prepared for use on a rendering device by
  * constructing a BufferedMesh.
  */
 class Mesh : public Resource {
  public:
+  friend class MeshProcessing;
+
   struct MeshFace;
 
   /**
@@ -48,12 +50,14 @@ class Mesh : public Resource {
     friend const bool operator<(const MeshVertex& lhs, const MeshVertex& rhs);
   };
 
+  using VertexIndex = stl_vector<MeshVertex>::size_type;
+
   /**
-   * @brief A single face of a Mesh.
+   * @brief A single face of a mesh.
    */
   struct MeshFace {
-    /// Vertices making up this face.
-    stl_vector<const MeshVertex*> vertices;
+    /// Indices of vertices making up this face.
+    stl_vector<VertexIndex> vertex_indices;
   };
 
   /// Number of vertices per face. Only triangles are stored.
@@ -72,7 +76,7 @@ class Mesh : public Resource {
   static std::unique_ptr<Mesh> Load(const ResourceMetadata& metadata);
 
   /**
-   * @brief Adds a new face to this Mesh.
+   * @brief Adds a new face to this mesh.
    *
    * An empty argument is ignored; the corresponding vertex attribute is zeroed
    * out. All non-empty vectors passed to this function must be of equal
@@ -93,24 +97,21 @@ class Mesh : public Resource {
   void Clear();
 
   /**
-   * @brief Accessor.
-   * @return Mapping of unique mesh vertices to indices.
+   * @brief Returns vertices.
    */
-  const stl_map<MeshVertex, BufferIndex>& mesh_vertices() const;
+  const stl_vector<MeshVertex>& mesh_vertices() const;
 
   /**
-   * @brief Accessor.
-   * @return Vector of triangle faces making up Mesh.
+   * @brief Returns faces.
    */
   const stl_vector<MeshFace>& mesh_faces() const;
 
  protected:
-  /// Unique mesh vertices, mapped to indices in insertion order.
-  stl_map<MeshVertex, BufferIndex> mesh_vertices_;
+  /// Mesh vertices. Order determines indices for index buffers.
+  stl_vector<MeshVertex> mesh_vertices_;
 
   /// Mesh faces.
   stl_vector<MeshFace> mesh_faces_;
 };
 
 }  // namespace ogle
-

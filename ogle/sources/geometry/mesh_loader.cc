@@ -5,8 +5,8 @@
 
 #include "geometry/mesh_loader.h"
 #include "easylogging++.h"  // NOLINT
-#include "geometry/mesh.h"
 #include "file_system/text_file.h"
+#include "geometry/mesh.h"
 #include "resource/resource_metadata.h"
 #include "util/string_utils.h"
 

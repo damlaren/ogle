@@ -52,7 +52,7 @@ const bool Mesh::AddFace(const stl_vector<Vector3f>& vertices,
     return false;
   }
 
-  stl_vector<const MeshVertex*> face_vertices;
+  stl_vector<VertexIndex> face_vertices;
   for (stl_vector<Vector3f>::size_type index = 0; index < vertices.size();
        index++) {
     MeshVertex mesh_vertex;
@@ -61,14 +61,13 @@ const bool Mesh::AddFace(const stl_vector<Vector3f>& vertices,
     mesh_vertex.vertex_normal = (!vertex_normals.empty())?
         vertex_normals[index] : Vector3f::Zero();
 
-    auto insertion_result = mesh_vertices_.insert(
-        {std::move(mesh_vertex), mesh_vertices_.size()});
-    face_vertices.emplace_back(&insertion_result.first->first);
+    mesh_vertices_.emplace_back(std::move(mesh_vertex));
+    face_vertices.emplace_back(mesh_vertices_.size() - 1);
   }
   mesh_faces_.emplace_back(std::move(MeshFace{std::move(face_vertices)}));
   const MeshFace* new_mesh_face = &mesh_faces_.back();
-  for (const MeshVertex* vertex_pointer : new_mesh_face->vertices) {
-    vertex_pointer->adjoining_faces.emplace_back(new_mesh_face);
+  for (const VertexIndex index : new_mesh_face->vertex_indices) {
+    mesh_vertices_[index].adjoining_faces.emplace_back(new_mesh_face);
   }
 
   return true;
@@ -79,7 +78,7 @@ void Mesh::Clear() {
   mesh_faces_.clear();
 }
 
-const stl_map<Mesh::MeshVertex, BufferIndex>& Mesh::mesh_vertices() const {
+const stl_vector<Mesh::MeshVertex>& Mesh::mesh_vertices() const {
   return mesh_vertices_;
 }
 

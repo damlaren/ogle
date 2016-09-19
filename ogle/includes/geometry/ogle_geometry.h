@@ -8,6 +8,7 @@
 #include "std/ogle_std.inc"
 #include "geometry/mesh.h"
 #include "geometry/mesh_loader.h"
+#include "geometry/mesh_processing.h"
 #include "geometry/ray.h"
 #include "geometry/transform.h"
 #include "geometry/transformation_matrix.h"

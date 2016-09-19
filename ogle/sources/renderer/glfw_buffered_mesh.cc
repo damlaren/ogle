@@ -9,25 +9,15 @@
 
 namespace ogle {
 
-GLFWBufferedMesh::GLFWBufferedMesh(const Mesh& mesh)
-  : BufferedMesh(mesh) {
-}
+GLFWBufferedMesh::GLFWBufferedMesh(const Mesh& mesh) : BufferedMesh(mesh) {}
 
-const VertexBuffer& GLFWBufferedMesh::vertices() const {
-  return vertices_;
-}
+const VertexBuffer& GLFWBufferedMesh::vertices() const { return vertices_; }
 
-const TexCoordUVBuffer& GLFWBufferedMesh::uvs() const {
-  return uvs_;
-}
+const TexCoordUVBuffer& GLFWBufferedMesh::uvs() const { return uvs_; }
 
-const NormalBuffer& GLFWBufferedMesh::normals() const {
-  return normals_;
-}
+const NormalBuffer& GLFWBufferedMesh::normals() const { return normals_; }
 
-const IndexBuffer& GLFWBufferedMesh::indices() const {
-  return indices_;
-}
+const IndexBuffer& GLFWBufferedMesh::indices() const { return indices_; }
 
 bool GLFWBufferedMesh::Create() {
   const auto& mesh_vertices = mesh_.mesh_vertices();
@@ -41,9 +31,8 @@ bool GLFWBufferedMesh::Create() {
   // TODO(damlaren): Some data is not always available.
 
   // Build per-vertex buffers.
-  for (const auto& vertex_index_pair : mesh_vertices) {
-    const auto& mesh_vertex = vertex_index_pair.first;
-    const BufferIndex index = vertex_index_pair.second;
+  for (BufferIndex index = 0; index < mesh_vertices.size(); index++) {
+    const auto& mesh_vertex = mesh_vertices[index];
 
     if (index < 0 || index >= mesh_vertices.size()) {
       LOG(ERROR) << "Invalid index assigned to vertex: " << index;
@@ -58,19 +47,8 @@ bool GLFWBufferedMesh::Create() {
   // Build index buffer.
   BufferIndex num_indices_set = 0;
   for (const auto& mesh_face : mesh_faces) {
-    for (const auto mesh_vertex : mesh_face.vertices) {
-      const auto mesh_vertex_iterator = mesh_vertices.find(*mesh_vertex);
-      if (mesh_vertex_iterator != mesh_vertices.end()) {
-        const BufferIndex index = mesh_vertex_iterator->second;
-        if (index < 0 || index >= mesh_vertices.size()) {
-          LOG(ERROR) << "Vertex index out of bounds.";
-          return false;
-        }
-        indices_.SetDataValue(num_indices_set++, index);
-      } else {
-        LOG(ERROR) << "Unknown vertex on face.";
-        return false;
-      }
+    for (const auto index : mesh_face.vertex_indices) {
+      indices_.SetDataValue(num_indices_set++, index);
     }
   }
 
