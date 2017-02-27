@@ -22,6 +22,10 @@ class MeshLoader {
  public:
   /**
    * @brief Creates a Mesh from parsing a file.
+   *
+   * The resulting Meshes obey the following guarantees:
+   *   1) All faces are triangular.
+   *
    * @param metadata Metadata for mesh to load.
    * @return New mesh, or null on failure.
    */

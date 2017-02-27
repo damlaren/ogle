@@ -28,18 +28,14 @@ class Mesh : public Resource {
 
   /**
    * @brief Mesh vertex, associated attributes, and face connections.
-   *
-   * Vertices are ordered in a set. After storage their attributes should not
-   * be changed, with the exception of face adjacency information.
    */
   struct MeshVertex {
     Vector3f vertex;  ///< Vertex location.
     Vector2f uv;  ///< 2D texture coordinate.
     Vector3f vertex_normal;  ///< Vertex normal.
 
-    /// Faces connected to this Vertex. Can be altered without affecting
-    /// container order.
-    mutable ogle::stl_vector<const MeshFace*> adjoining_faces;
+    /// Faces connected to this Vertex.
+    ogle::stl_vector<const MeshFace*> adjoining_faces;
 
     /**
      * @brief Less than operator. Compares vertex attributes in order.

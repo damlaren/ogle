@@ -7,6 +7,7 @@
 #include "easylogging++.h"  // NOLINT
 #include "file_system/text_file.h"
 #include "geometry/mesh.h"
+#include "geometry/mesh_processing.h"
 #include "resource/resource_metadata.h"
 #include "util/string_utils.h"
 
@@ -21,21 +22,23 @@ std::unique_ptr<Mesh> MeshLoader::LoadMesh(const ResourceMetadata& metadata) {
 
   const MeshFileFormat mesh_format = DetermineMeshFormat(metadata);
 
+  std::unique_ptr<Mesh> new_mesh = nullptr;
   switch (mesh_format) {
     case MeshFileFormat::OBJ: {
-      return std::move(LoadOBJ(metadata));
+      new_mesh = std::move(LoadOBJ(metadata));
+      break;
     }
 
     case MeshFileFormat::UNKNOWN:  // Fall through.
     default: {
       LOG(ERROR) << "Unable to determine format of mesh from metadata: "
                  << metadata;
-      break;
+      return nullptr;
     }
   }
 
-  LOG(ERROR) << "Failed to load Mesh.";
-  return nullptr;
+  CHECK(new_mesh != nullptr) << "Mesh should have been created.";
+  return new_mesh;
 }
 
 const MeshLoader::MeshFileFormat MeshLoader::DetermineMeshFormat(
@@ -185,6 +188,10 @@ std::unique_ptr<Mesh> MeshLoader::LoadOBJ(const ResourceMetadata& metadata) {
         }
       }
 
+      if (face_vertices.size() != 3) {
+        LOG(ERROR) << "Faces must be triangular.";
+        return nullptr;
+      }
       if (!mesh->AddFace(face_vertices, face_vertex_uvs, face_vertex_normals)) {
         LOG(ERROR) << "Failed to add mesh face.";
         return nullptr;
