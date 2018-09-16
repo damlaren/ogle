@@ -7,11 +7,8 @@
  * self-contained, but must be included in specific places.
  */
 
-#ifndef OGLE_INCLUDES_STD_OGLE_STD_INC_
-#define OGLE_INCLUDES_STD_OGLE_STD_INC_
+#pragma once
 
 #include "std/containers.h"
 #include "std/custom_allocator.h"
 #include "std/new_wrappers.h"
-
-#endif  // OGLE_INCLUDES_STD_OGLE_STD_INC_
